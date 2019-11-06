@@ -1,6 +1,6 @@
 # avisblatt source code repository (non-public)
 
-This is the source code repository of the avisblatt group. This repository 
+This is the source code repository of the avisblatt group. 
 
 ## Structure of the Repository
 
@@ -14,6 +14,8 @@ This is the source code repository of the avisblatt group. This repository
 
 - [quanteda](https://quanteda.io)
 - [quanteda tutorials](https://tutorials.quanteda.io)
+- [quanteda cheatsheet](https://muellerstefan.net/files/quanteda-cheatsheet.pdf)
+
 - [SO: Clustering with a distance matrix](https://stats.stackexchange.com/questions/2717/clustering-with-a-distance-matrix)
 
 
