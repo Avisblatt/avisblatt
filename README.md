@@ -2,6 +2,8 @@
 
 This is the source code repository of the avisblatt group. 
 
+**Note**: Make sure you are familiar with the project's [developer wiki](https://github.com/mbannert/avisblatt/wiki/Avisblatt-Developer-Documentation) before you start working. Also make sure to document new workflows in the wiki when you introduce them. A current status documentation is important - even if the workflow is preliminary. 
+
 ## Structure of the Repository
 
 - R/ contains custom function definitions written by the group
