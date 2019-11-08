@@ -13,6 +13,8 @@ avis_stop <- function(){
                 "et","a","wird", "haben", "gegen",
                 "habe","dr","pr","le", "de","st",
                 "diese","kann", "fr","dazu", "seyn",
-                "mir","vor","u","da","la")
+                "mir","vor","u","da","la", "daß",
+                "d","v","welche","diesen",
+                "dieses","hat","n","aus")
 
 }
