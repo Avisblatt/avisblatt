@@ -30,6 +30,13 @@ corpus_1834_fr <- corpus_subset(corpus_1834,
                                 (docvars(corpus_1834,"id") %in%
                                     french_doc_ids))
 
+ids_by_lang <- list(de = docvars(corpus_1834_de,"id"),
+                    fr = docvars(corpus_1834_fr,"id"))
+
+write_json(ids_by_lang,
+           path =  "data/ids_by_lang.json")
+
+
 # Document ids by category
 dispatch <- list(work = dict_work(),
                  real_estate = dict_real_estate())
