@@ -15,6 +15,8 @@ avis_stop <- function(){
                 "diese","kann", "fr","dazu", "seyn",
                 "mir","vor","u","da","la", "daß",
                 "d","v","welche","diesen",
-                "dieses","hat","n","aus", "rthlr", "btz")
+                "dieses","hat","n","aus",
+                "rthlr", "btz")
+  bsl_stop
 
 }
