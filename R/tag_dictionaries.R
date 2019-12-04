@@ -1,4 +1,8 @@
 #' Regular Expressions to Identify Work Related Ads
+#'
+#' Dictionary for manual adcontent
+#' tag "arbeitsstelle".
+#'
 #' @export
 dict_work <- function(){
   dictionary(list(
@@ -10,6 +14,9 @@ dict_work <- function(){
 
 
 #' Regular Expressions to Identify Real Estate Related Ads
+#'
+#' Dictionary for manual adcontent tag "immo".
+#'
 #' @export
 dict_real_estate <- function(){
   dictionary(list(
