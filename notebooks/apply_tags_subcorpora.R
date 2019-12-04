@@ -25,7 +25,7 @@ textplot_wordcloud(dfm_corpus_1834,
 ids_by_manualcat <- fromJSON("data/ids_by_manualcat.json")
 ids_by_tag <- fromJSON("data/ids_by_tag.json")
 
-#ads wrongly not identified as work
+#ads wrongly not identified as work (false negatives = type II error)
 #PROBLEM: does the following really pick only those ids that are in manualcat$work but not in tag$work?
 corpus_1834_error_is_work <-
   corpus_subset(corpus_1834,
@@ -46,11 +46,13 @@ length(ids_by_manualcat$work)
 ndoc(corpus_1834_error_is_work)/length(ids_by_manualcat$work)
 
 
-#ads wrongly identified as work
+#ads wrongly identified as work (false positives = type I error)
 
 corpus_1834_error_aint_work <-
   corpus_subset(corpus_1834,
                 (!docvars(corpus_1834,"id") %in% c(ids_by_manualcat$work))
                 & (docvars(corpus_1834,"id") %in% c(ids_by_tag$work)))
+
+ndoc(corpus_1834_error_aint_work)
 
 summary(corpus_1834_error_aint_work)
