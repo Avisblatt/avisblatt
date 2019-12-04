@@ -16,5 +16,6 @@ avis_stop <- function(){
                 "mir","vor","u","da","la", "daß",
                 "d","v","welche","diesen",
                 "dieses","hat","n","aus")
+                "dieses","hat","n","aus", "rthlr", "btz")
 
 }
