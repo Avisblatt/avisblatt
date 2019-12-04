@@ -2,10 +2,14 @@
 #' @export
 dict_work <- function(){
   dictionary(list(
-    work = "Arbeit$|arbeiten$|Arbeiter$",
-    position ="Platz als|Anstellung|^Dienst$|^Dienste|einzutreten|unterzukommen|^Lohn|Verdienst",
-    apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld")
-  )
+    #work = "Arbeit$|arbeiten$|Arbeiter$",
+    work = "arbeiten$",
+    contract ="Platz als|Anstellung|^Dienst$|^Dienste|einzutreten|unterzukommen|unterkommen|^Lohn|Verdienst",
+    position ="als (Knecht|Magd|Köchin)",
+    apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
+    qualifications = "Zeugnisse"
+    #skills = "nähen|stricken|kochen"
+    ))
 }
 
 
