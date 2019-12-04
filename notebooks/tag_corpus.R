@@ -12,8 +12,8 @@ source("R/cleaners.R")
 
 # READ DOCUMENT ############
 # Creates German and French Corpora
-avis_1834 <- readtext("data/avis_1834.csv",
-                      text_field = "ad_content")
+avis_1834 <- readtext("data/avis_1834_rich.csv",
+                      text_field = "text")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
 
@@ -53,13 +53,22 @@ write_json(ids_by_tag,
 
 
 
+# Document ids by manual category ("adcontent")
+
+#!!! not sure how to do it - pick ids for different values possible in adcontent, i.e.
+#    01textilien,02hausrat,03lebensmittel,04schmuck,05drucksachen,06ding,07tier,08immo,09kirchenstuhl,10arbeitsstelle,11kost,12platzierung,13caritas,14finanz,15lotterie,16transport,17auskunft,18uneindeutig
+#   At least here an attempt to pick work ads - works fine except for ads that have adcontent like "06ding,10arbeitsstelle")
+
+corpus_1834_work <- corpus_subset(corpus_1834,
+                                  grepl("10arbeitsstelle",adcontent))
+
+grepl("10arbeitsstelle",avis_1834$adcontent)
 
 
+corpus_1834_work <- corpus_subset(corpus_1834,
+                                  adcontent %in% "10arbeitsstelle")
 
+ids_by_manualcat <- list(work = docvars(corpus_1834_work,"id"))
 
-
-
-
-
-
-
+write_json(ids_by_manualcat,
+           path =  "data/ids_by_manualcat.json")
