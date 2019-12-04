@@ -2,8 +2,9 @@
 #' @export
 dict_work <- function(){
   dictionary(list(
-    work = "Arbeit$|arbeiten$|Arbeiter$|Lehrling|Anstellung",
-    position ="Platz als")
+    work = "Arbeit$|arbeiten$|Arbeiter$",
+    position ="Platz als|Anstellung|^Dienst$|^Dienste|einzutreten|unterzukommen|^Lohn|Verdienst",
+    apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld")
   )
 }
 
