@@ -23,10 +23,10 @@ textplot_wordcloud(dfm_corpus_1834,
 #check "work ads by dict" against ground-truth
 
 ids_by_manualcat <- fromJSON("data/ids_by_manualcat.json")
-
+ids_by_tag <- fromJSON("data/ids_by_tag.json")
 
 #ads wrongly not identified as work
-#PROBLEM: does the folling really pick only those ids that are in manualcat$work but not in tag$work?
+#PROBLEM: does the following really pick only those ids that are in manualcat$work but not in tag$work?
 corpus_1834_error_is_work <-
   corpus_subset(corpus_1834,
                 (docvars(corpus_1834,"id") %in% c(ids_by_manualcat$work))
@@ -40,6 +40,10 @@ dfm_corpus_1834e2 <- corpus_1834_error_is_work %>%
 
 textplot_wordcloud(dfm_corpus_1834e2,
                    max_words = 100)
+
+ndoc(corpus_1834_error_is_work)
+length(ids_by_manualcat$work)
+ndoc(corpus_1834_error_is_work)/length(ids_by_manualcat$work)
 
 
 #ads wrongly identified as work
