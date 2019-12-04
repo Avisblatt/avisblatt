@@ -29,8 +29,23 @@ ids_by_tag <- fromJSON("data/ids_by_tag.json")
 #PROBLEM: does the following really pick only those ids that are in manualcat$work but not in tag$work?
 corpus_1834_error_is_work <-
   corpus_subset(corpus_1834,
-                (docvars(corpus_1834,"id") %in% c(ids_by_manualcat$work))
-                & (!docvars(corpus_1834,"id") %in% c(ids_by_tag$work)))
+                (docvars(corpus_1834,"id") %in% ids_by_manualcat$work)
+                & docvars(corpus_1834,"id") %in% ids_by_tag$work))
+
+fn_errors <- corpus_subset(corpus_1834,
+  (docvars(corpus_1834,"id") %in% ids_by_manualcat$work & !(docvars(corpus_1834,"id") %in% ids_by_tag$work)))
+
+fp_errors <- corpus_subset(corpus_1834,
+                           (docvars(corpus_1834,"id") %in% ids_by_tag$work) &
+                           !(docvars(corpus_1834,"id") %in% ids_by_manualcat$work))
+
+
+fp_errors
+
+
+fp_errors$documents$texts[15]
+
+
 
 dfm_corpus_1834e2 <- corpus_1834_error_is_work %>%
   tokens(remove_punct = TRUE,

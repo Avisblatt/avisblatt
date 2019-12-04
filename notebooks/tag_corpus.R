@@ -12,7 +12,7 @@ source("R/cleaners.R")
 
 # READ DOCUMENT ############
 # Creates German and French Corpora
-avis_1834 <- readtext("data/avis_1834_rich.csv",
+avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
