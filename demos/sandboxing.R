@@ -27,20 +27,21 @@ xx <- corpus_id_by_dict(corpus_1834, dict_work())
 
 head(docvars(corpus_1834))
 
-debug(filter_by_dict)
+
 ids_work <- filter_by_dict(corpus_1834, tag_dict_work())
 
 corpus_work <- corpus_subset(corpus_1834,
                              docvars(corpus_1834,"id") %in% ids_work)
 
 
-ids_beds <- filter_by_dict(corpus_1834, tag_dict_bed())
+debug(filter_by_dict)
+ids_bed <- filter_by_dict(corpus_1834, tag_dict_bed())
 corpus_bed <- corpus_subset(corpus_1834,
                              docvars(corpus_1834,"id") %in%
                               ids_bed)
 
 
-corpus_work$documents$texts[3]
+corpus_bed$documents$texts[20]
 
 
 
