@@ -3,6 +3,10 @@
 dict_work <- function(){
   dictionary(list(
     #work = "Arbeit$|arbeiten$|Arbeiter$",
+    #put the above expressions on hold, as they are not selective
+    #Arbeit$ correctly identified 128 ads, but also produced 71 false positives.
+    #Arbeiter$ correctly identified 20 ads, but also produced 18 false positives.
+    #Might change later if we combine them with negative keywords, though. So I don't delete them
     work = "arbeiten$",
     contract ="Platz als|Anstellung|^Dienst$|^Dienste|einzutreten|unterzukommen|unterkommen|^Lohn|Verdienst",
     position ="als (Knecht|Magd|Köchin)",
