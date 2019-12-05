@@ -61,6 +61,23 @@ tag_dict_real_estate <- function(){
   dict
 }
 
+
+#' Dictionary
+#' @export
+tag_dict_seats <- function(){
+  dict <- list()
+  dict$pos <- list(
+    basics = "[S|s]essel|[S|s]t[u|ü]hl|[F|f][au|ua]teil"
+  )
+  dict$neg <- list(
+    non_seats = "Webstuhl|Bandstuhl|Frauenstuhl|Weiberstuhl|Stuhlschreiner"
+  )
+  dict
+}
+
+
+
+
 #' Dictionary
 #' @export
 tag_dict_lotto <- function(){
