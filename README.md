@@ -19,5 +19,6 @@ This is the source code repository of the avisblatt group.
 - [quanteda cheatsheet](https://muellerstefan.net/files/quanteda-cheatsheet.pdf)
 
 - [SO: Clustering with a distance matrix](https://stats.stackexchange.com/questions/2717/clustering-with-a-distance-matrix)
+- [DiagrammeR](https://rich-iannone.github.io/DiagrammeR/#features)
 
 
