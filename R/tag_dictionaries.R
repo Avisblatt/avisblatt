@@ -35,18 +35,6 @@ tag_dict_work <- function(){
   dict
 }
 
-#' Dictionary Bed
-#' @export
-tag_dict_bed <- function(){
-  dict <- list()
-  dict$pos <- list(
-    bed = "[B|b]ett|[B|b]eth|[K|k]orbwag|[W|w]iege"
-  )
-  dict$neg <- list(
-    misc = "Elisabeth|Verschwiegenheit|bettel"
-  )
-  dict
-}
 
 #' Dictionary Real Estate
 #' @export
@@ -62,18 +50,19 @@ tag_dict_real_estate <- function(){
 }
 
 
-#' Dictionary
-#' @export
-tag_dict_seats <- function(){
+
+
+merge_dicts <- function(...){
+  l <- list(...)
   dict <- list()
-  dict$pos <- list(
-    basics = "[S|s]essel|[S|s]t[u|ü]hl|[F|f][au|ua]teil"
-  )
-  dict$neg <- list(
-    non_seats = "Webstuhl|Bandstuhl|Frauenstuhl|Weiberstuhl|Stuhlschreiner"
-  )
+  dict$pos <- unlist(sapply(l, "[[", "pos"), recursive = F)
+  dict$neg <- unlist(sapply(l, "[[", "neg"), recursive = F)
   dict
 }
+
+m <- merge_dicts(tag_dict_bed(),tag_dict_work())
+m$neg
+
 
 
 
