@@ -1,6 +1,6 @@
 #' Dictionary Bed
 #' @export
-tag_dict_bed <- function(){
+tagfilter_bed <- function(){
   dict <- list()
   dict$pos <- list(
     bed = "[B|b]ett|[B|b]eth|[K|k]orbwag|[W|w]iege"
@@ -26,14 +26,4 @@ tagfilter_seats <- function(){
   create_filter_output(dict)
 
 }
-
-
-
-
-
-
-seats <- tagfilter_seats()
-xx <- seats$filtrate(corpus_1834)
-
-
 

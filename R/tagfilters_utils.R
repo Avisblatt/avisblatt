@@ -16,7 +16,8 @@ create_filter <- function(dict){
       re_neg <- paste(unlist(dict$neg), collapse = "|")
       tf_neg <- !grepl(re_neg, corp$documents$texts,
                        ignore.case = ignore.case)
-      sel <- tf_pos == tf_neg
+
+      sel <- tf_pos & tf_neg
     } else{
       sel <- tf_pos
     }
@@ -29,8 +30,10 @@ create_filter <- function(dict){
 merge_filters <- function(...){
   l <- list(...)
   dict <- list()
-  dict$pos <- unlist(sapply(l$tagfilters, "[[", "pos"), recursive = F)
-  dict$neg <- unlist(sapply(l$tagfilters, "[[", "neg"), recursive = F)
+  dict$pos <- unlist(sapply(l$tagfilters, "[[", "pos"),
+                     recursive = F)
+  dict$neg <- unlist(sapply(l$tagfilters, "[[", "neg"),
+                     recursive = F)
 
   create_filter_output(dict)
 
