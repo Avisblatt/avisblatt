@@ -1,4 +1,3 @@
-# CAUTION THIS DOES NOT WORK CORRECTLY YET.
 validate_filter <- function(corp, filter_ids,
                             search_col, pattern,
                             docid = "id"){
@@ -13,7 +12,7 @@ validate_filter <- function(corp, filter_ids,
                              (doc_ids %in% human_class_ids)]
 
   hc_F_filter_F <- doc_ids[!(doc_ids %in% filter_ids) &
-                             (doc_ids %in% human_class_ids)]
+                             !(doc_ids %in% human_class_ids)]
 
   overview <- tibble(
     filter_T = c(length(filter_T_hc_T),
@@ -29,11 +28,17 @@ validate_filter <- function(corp, filter_ids,
   output$hc_F_filter_F <- hc_F_filter_F
   output$overview <- overview
   output
+
+  class(output) <- append("avis_confusion_matrix",
+                          class(output))
+
+  output
 }
 
-debug(validate_filter)
-o <- validate_filter(corpus_1834, labor_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
+print.avis_confusion_matrix <- function(x){
+  message("Showing overview. Use $filter_T_hc_T etc. to display document id vectors.")
+  print(x$overview)
+}
 
+#undebug(validate_filter)
 

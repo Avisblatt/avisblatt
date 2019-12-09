@@ -10,8 +10,8 @@ source("R/ocr_corrections.R")
 source("R/tagfilters_utils.R")
 source("R/tagfilters_household.R")
 source("R/tagfilters_main.R")
-
 source("R/cleaners.R")
+source("R/validate_filters.R")
 
 avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text")
@@ -44,6 +44,15 @@ tt <- corpus_subset(corpus_1834,
 # the other out of these 15 seem problems of
 # the filter.
 tt$documents$texts[1:5]
+
+## Added a more general solution
+o <- validate_filter(corpus_1834, labor_ids,
+                     search_col = "adcontent",
+                     pattern = "arbeit")
+
+o
+
+
 
 
 
