@@ -34,7 +34,7 @@ tagfilter_real_estate <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Lottery
 #' @export
 tagfilter_lotto <- function(){
   dict <- list()
@@ -48,9 +48,9 @@ tagfilter_lotto <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Other
 #' @export
-tagfilter_misc <- function(){
+tagfilter_other <- function(){
   dict <- list()
   dict$pos <- list(
 
@@ -63,7 +63,7 @@ tagfilter_misc <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Transport
 #' @export
 tagfilter_transport <- function(){
   dict <- list()
@@ -78,9 +78,9 @@ tagfilter_transport <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Charity
 #' @export
-tagfilter_caritas <- function(){
+tagfilter_charity <- function(){
   dict <- list()
   dict$pos <- list(
 
@@ -93,9 +93,9 @@ tagfilter_caritas <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Placement
 #' @export
-tagfilter_position <- function(){
+tagfilter_placement <- function(){
   dict <- list()
   dict$pos <- list(
 
@@ -108,9 +108,9 @@ tagfilter_position <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Board
 #' @export
-tagfilter_food <- function(){
+tagfilter_board <- function(){
   dict <- list()
   dict$pos <- list(
 
@@ -123,7 +123,7 @@ tagfilter_food <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Animal
 #' @export
 tagfilter_animal <- function(){
   dict <- list()
@@ -139,7 +139,7 @@ tagfilter_animal <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Information
 #' @export
 tagfilter_info <- function(){
   dict <- list()
@@ -153,7 +153,7 @@ tagfilter_info <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Jewellery
 #' @export
 tagfilter_bling <- function(){
   dict <- list()
@@ -167,7 +167,7 @@ tagfilter_bling <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Church Seat
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
@@ -182,7 +182,7 @@ tagfilter_churchseat <- function(){
 
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Textile
 #' @export
 tagfilter_textile <- function(){
   dict <- list()
@@ -196,7 +196,7 @@ tagfilter_textile <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Grocery
 #' @export
 tagfilter_grocery <- function(){
   dict <- list()
@@ -210,7 +210,7 @@ tagfilter_grocery <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Finance
 #' @export
 tagfilter_finance <- function(){
   dict <- list()
@@ -224,7 +224,7 @@ tagfilter_finance <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Print
 #' @export
 tagfilter_print <- function(){
   dict <- list()
@@ -238,7 +238,7 @@ tagfilter_print <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Household
 #' @export
 tagfilter_household_goods <- function(){
   dict <- list()
@@ -252,23 +252,9 @@ tagfilter_household_goods <- function(){
 }
 
 
-#' Filter Quanteda Corpus
+#' Filter Quanteda Corpus: Miscellaneous Things
 #' @export
 tagfilter_things <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  dict
-}
-
-
-#' Filter Quanteda Corpus
-#' @export
-tagfilter_ <- function(){
   dict <- list()
   dict$pos <- list(
 
