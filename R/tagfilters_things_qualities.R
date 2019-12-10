@@ -17,7 +17,7 @@ tagfilter_secondhand <- function(){
     used_phrase_12 = "sauber conditioniert",
     used_phrase_13 = "fast durchgehend neu",
     used_phrase_14 = "fast durchgehends neu",
-    used_phrase_14 = "beinahe gant[tz|z] neu"
+    used_phrase_15 = "beinahe gant[tz|z] neu"
   )
 
   dict$neg <- list(
