@@ -14,9 +14,9 @@ tagfilter_labor <- function(){
     position_phrase_2 = "Platz zu erhalten",
     position ="Anstellung|^Dienst$|^Dienste|einzutreten|unterzukommen|^Lohn|Verdienst"
   )
-
   dict$neg <- list(
     misc = "Ornement|Kundmachung"
+    # some of the ads recognized by the filter are public announcements, introduced as "Kundmachung"
   )
 
   create_filter_output(dict)
