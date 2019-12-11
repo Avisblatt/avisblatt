@@ -143,7 +143,7 @@ tt$documents$texts
 #Quality of dictionary if candidate(s) become actual entries
 tagfilter_new <- merge_filters(tagfilter_labor(), tagfilter_test())
 
-new <- tagfilter_test()
+new <- tagfilter_new()
 new_ids <- new$filtrate(corpus_1834)
 
 #and now repeating code again...
