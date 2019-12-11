@@ -16,7 +16,7 @@ tagfilter_labor <- function(){
   )
 
   dict$neg <- list(
-    misc = "Ornement"
+    misc = "Ornement|Kundmachung"
   )
 
   create_filter_output(dict)
