@@ -8,7 +8,7 @@ tagfilter_labor <- function(){
   # separately, see also ?kwic Note on patterns.
   dict <- list()
   dict$pos <- list(
-    work = "Arbeit$|arbeiten$|Arbeiter$",
+    work = "Arbeit$|arbeiten|Arbeiter$",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     position_phrase_1 = "Platz als",
     position_phrase_2 = "Platz zu erhalten",
