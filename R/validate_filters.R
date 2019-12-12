@@ -23,8 +23,7 @@ validate_filter <- function(corp, filter_ids,
   )
 
   # Relative Range and Precision
-  filter_range <- round(100 * length(filter_T_hc_T)/
-                          length(hc_T_filter_F), 1)
+  filter_range <- round(100 / (1+ length(hc_T_filter_F)/length(filter_T_hc_T)), 1)
 
   filter_precision <- round(100 / (1 + length(filter_T_hc_F) /
                                     length(filter_T_hc_T)), 1)
