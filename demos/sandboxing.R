@@ -26,7 +26,7 @@ corpus_1834 <- corpus(avis_1834,
 labor <- tagfilter_labor()
 
 
-labor_ids <- labor$filtrate(corpus_1834)
+labor_ids <- labor$filtrate(corpus_1834,ignore.case = F)
 # Validation of Filters ----
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
@@ -48,14 +48,15 @@ tt <- corpus_subset(corpus_1834,
 # the other seem problems of the filter.
 # !! HC seems to have trouble with looong ads
 # this clearly labor related (see end of the text)
-tt$documents$texts[34]
+tt$documents$texts[99]
+
+
+
 
 
 # FALSE negatives ----
 # Looking at the false negatives
 # ("What are we still missing?")
-
-
 missing_corpus <- corpus_subset(corpus_1834,
                            docvars(corpus_1834,"id") %in%
                              o$hc_T_filter_F)
@@ -87,7 +88,7 @@ tagfilter_test <- function(){
 
 
 test <- tagfilter_test()
-test_ids <- test$filtrate(corpus_1834)
+test_ids <- test$filtrate(corpus_1834,ignore.case = F)
 
 
 ## 2x2 Matrix containing number of ads
@@ -104,11 +105,12 @@ tt <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
                       o$filter_T_hc_F)
 tt$documents$texts
-
+tt$documents$texts[10]
 
 
 # Quality of dictionary if
 # candidate(s) become actual entries
+
 tagfilter_new <- merge_filters(tagfilter_labor(),
                                tagfilter_test())
 
@@ -121,6 +123,29 @@ n <- validate_filter(corpus_1834, new_ids,
                      search_col = "adcontent",
                      pattern = "arbeit")
 n
+
+missing_corpus <- corpus_subset(corpus_1834,
+                                docvars(corpus_1834,"id") %in%
+                                  n$hc_T_filter_F)
+
+# ??? how come this was classified
+missing_corpus$documents$texts[120]
+
+# but those seem to fit
+missing_corpus$documents$texts[121]
+missing_corpus$documents$texts[122]
+missing_corpus$documents$texts[123]
+missing_corpus$documents$texts[124]
+
+missing_corpus_clean <- missing_corpus %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(stopwords("de")) %>%
+  dfm()
+
+textplot_wordcloud(dfm(missing_corpus_clean),
+                   max_words = 100)
+
 
 # How encompassing, and how precise is the filter compared to the old?
 rangeold <- round(100*length(o$filter_T_hc_T)/length(o$hc_T_filter_F),1)
