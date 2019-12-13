@@ -27,11 +27,6 @@ create_filter <- function(dict){
   }
 }
 
-xx <- lapply(l, function(x){
-  x$tagfilters$pos
-})
-
-unlist(xx,recursive = F)
 
 merge_filters <- function(...){
   l <- list(...)
