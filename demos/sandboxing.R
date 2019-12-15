@@ -78,10 +78,10 @@ head(kwic(missing_corpus, pattern = "zeugnisse"))
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "Zeugnisse"
+    candidate = "\\bZeugnisse"
   )
   dict$neg <- list(
-    misc = "Taufscheine"
+    m = "Taufscheine"
   )
   create_filter_output(dict)
 }
@@ -148,8 +148,8 @@ textplot_wordcloud(dfm(missing_corpus_clean),
 
 
 # How encompassing, and how precise is the filter compared to the old?
-rangeold <- round(100*length(o$filter_T_hc_T)/length(o$hc_T_filter_F),1)
-rangenew <- round(100*length(n$filter_T_hc_T)/length(n$hc_T_filter_F),1)
+rangeold <- round(100/(1+length(o$hc_T_filter_F)/length(o$filter_T_hc_T)),1)
+rangenew <- round(100/(1+length(n$hc_T_filter_F)/length(n$filter_T_hc_T)),1)
 precisionold <- round(100/(1+length(o$filter_T_hc_F)/length(o$filter_T_hc_T)),1)
 precisionnew <- round(100/(1+length(n$filter_T_hc_F)/length(n$filter_T_hc_T)),1)
 print( paste("Range: ", rangeold, "% -> ", rangenew, "% (", rangenew-rangeold, "%)."))
