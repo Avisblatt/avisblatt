@@ -69,7 +69,8 @@ missing_corpus_clean <- missing_corpus %>%
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
 
-head(kwic(missing_corpus, pattern = "zeugnisse"))
+head(kwic(missing_corpus, pattern = "arbeiten"))
+
 
 
 # Testing the impact of new entries ---
@@ -78,10 +79,18 @@ head(kwic(missing_corpus, pattern = "zeugnisse"))
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "\\bZeugnisse"
+    candidate = "treue"
   )
   dict$neg <- list(
-    m = "Taufscheine"
+    #"zum kochen": describes cookware, not people
+    misc = "Ornement",
+    misc_phrase1 = "zum kochen",
+    othercategory = "verloren|gefunden|versteiger|Versteiger|beerdigt|ebendaselbst",
+    #othercategory: excluding lost&found, auction, funeral news  - which is never combined with job offers/requests
+    #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
+    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
+    proclamation_phrase_1 = "Publikation in Betreff"
+    #proclamation: some of the ads recognized by the filter are public announcements"
   )
   create_filter_output(dict)
 }
@@ -100,12 +109,12 @@ t <- validate_filter(corpus_1834, test_ids,
 t
 
 
-#- FALSE positives ("oops"-cases)
+#- FALSE positives ("oops"-cases) of test-dict
 tt <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
-                      o$filter_T_hc_F)
-tt$documents$texts
-tt$documents$texts[10]
+                      t$filter_T_hc_F)
+
+tt$documents$texts[1:10]
 
 
 # Quality of dictionary if
