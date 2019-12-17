@@ -8,20 +8,20 @@ tagfilter_labor <- function(){
   # separately, see also ?kwic Note on patterns.
   dict <- list()
   dict$pos <- list(
-    work = "\\bArbeit\\b|arbeiten|kochen",
+    work = "\\bArbeit\\b|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|nähen",
     #removed \\bArbeiter\\b for now, as it added only 10 ads while producing 10 false positives
-    qualification = "\\bZeugnisse|\\erfahrene",
-    position = "magd|Magd|knecht|Knecht",
+    qualification = "\\bZeugnisse|\\erfahrene|rekommandir",
+    position = "magd|Magd|knecht|Knecht|Köchin",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     employment_phrase_1 = "Platz als",
     employment_phrase_2 = "Platz zu erhalten",
-    employment ="Anstellung|\\bDienst\\b|\\bDienste\\b|einzutreten|unterzukommen|\\bLohn\\b|Verdienst"
+    employment ="Anstellung|Beschäftigung|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
   )
   dict$neg <- list(
     #"zum kochen": describes pottery, not people
     misc = "Ornement",
     misc_phrase1 = "zum kochen",
-    othercategory = "verloren|gefunden|versteiger|Versteiger|beerdigt|ebendaselbst",
+    othercategory = "verloren|gefunden|versteiger|Versteiger|gant|beerdigt|ebendaselbst",
     #othercategory: excluding lost&found, auction, funeral news  - which is never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
