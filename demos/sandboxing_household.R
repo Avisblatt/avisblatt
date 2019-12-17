@@ -15,14 +15,34 @@ source("R/cleaners.R")
 source("R/validate_filters.R")
 
 avis_1834 <- readtext("data/avis_1834.csv",
-                      text_field = "text")
+                      text_field = "text",
+                      encoding = "UTF-8")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
 
 corpus_1834 <- corpus(avis_1834,
                       docid_field = "doc_id")
 
-### checking and cleaning different tagfilters for household sub-categories
+### checking and cleaning different tagfilters for household objects and descriptions of quality
+
+## Quality: Secondhand
+
+secondhand <- tagfilter_secondhand()
+
+secondhand_ids <- secondhand$filtrate(corpus_1834, ignore.case = FALSE)
+
+secondhand_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in% secondhand_ids)
+
+secondhand_texts <- secondhand_subset$documents$texts
+
+secondhand_subset_clean <- secondhand_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(secondhand_subset_clean),
+                   max_words = 200)
+
 
 ## Bed
 bed <- tagfilter_bed()
@@ -270,7 +290,7 @@ tableware_kwic <- kwic(table_subset,
 
 tableware_kwic
 
-#### still one incluseion of "Pferdgeschirr" even though on negative list - why? ####
+#### still one inclusion of "Pferdgeschirr" even though on negative list - why? ####
 
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
 tableware_subset_clean <- tableware_subset %>%
@@ -282,5 +302,35 @@ textplot_wordcloud(dfm(tableware_subset_clean),
                    max_words = 100)
 
 
+### using existing categories for wordclouds and dfm to find missing objects in dictionaries
+# creating subset of houshold objects for sale
+household_1834 <- corpus_subset(corpus_1834, grepl("02hausrat", adcontent) & grepl("01kauf", finance))
 
+# cleaning subset
+household_1834_clean <- household_1834 %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
 
+# textplot of most frequent words
+textplot_wordcloud(dfm(household_1834_clean),
+                   max_words = 400)
+
+# tokenize ads of subcorpus
+household_tok <- household_1834 %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE,
+         remove_separators = TRUE) %>%
+  tokens_remove(stopwords("de")) %>%
+  tokens_remove(avis_stop())
+
+# creating document feature matrix
+household_dfm <- household_tok %>%
+  dfm()
+
+household_df <- docfreq(household_dfm)
+
+household_s_df <- sort(df,decreasing = T)
+
+# exporting csv with sorted document feature matrix to Desktop
+write.csv2(household_s_df, file = "data/household_s_df_1834.csv", fileEncoding = "UTF-8")
