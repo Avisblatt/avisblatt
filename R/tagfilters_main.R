@@ -8,22 +8,34 @@ tagfilter_labor <- function(){
   # separately, see also ?kwic Note on patterns.
   dict <- list()
   dict$pos <- list(
-    work = "\\bArbeit\\b|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|nähen",
+    work = "\\bArbeit\\b|Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen",
+    work_phrase_1 = "zu waschen",
     #removed \\bArbeiter\\b for now, as it added only 10 ads while producing 10 false positives
-    qualification = "\\bZeugnisse|\\erfahrene|rekommandir",
+    #'Arbeit not ideal either btw. Removing would cost 35 hits, but spare 14 oops
+    qualification = "\\bZeugnisse|\\erfahrene|versteht|rechtschaffen",
     position = "magd|Magd|knecht|Knecht|Köchin",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
-    employment_phrase_1 = "Platz als",
-    employment_phrase_2 = "Platz zu erhalten",
-    employment ="Anstellung|Beschäftigung|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
+    employment_phrase_1 = "einen Platz",
+    employment_phrase_2 = "ein Platz",
+    employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
   )
   dict$neg <- list(
-    #"zum kochen": describes pottery, not people
+    #should it be necessary to exclude the offering of services
+    # (hc-tagging as work), one could use "Anzeige, anzeigen, angezeigt, zeigt an" and also "Zutrauen"
+    #
+    #"zum kochen": describes cookware, not people
     misc = "Ornement",
     misc_phrase1 = "zum kochen",
-    othercategory = "verloren|gefunden|versteiger|Versteiger|gant|beerdigt|ebendaselbst",
-    #othercategory: excluding lost&found, auction, funeral news  - which is never combined with job offers/requests
+    othercat_lostandfound = "verloren|gefunden",
+    othercat_info = "beerdigt|dito|ebendaselbst",
+    othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
+    othercat_boarding_phrase1 = "an die Kost",
+    #othercategory: excluding lost&found, auction, funeral news,
+    # some real estate and boarding  - which is (almost)
+    # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
+    other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #transactions that are not associtaed with the job market
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff"
     #proclamation: some of the ads recognized by the filter are public announcements"

@@ -6,11 +6,12 @@ library(textcat)
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
-source("R/avis_stop.R")
-source("R/ocr_corrections.R")
-source("R/tagfilters_utils.R")
-source("R/tagfilters_household.R")
-source("R/tagfilters_main.R")
+#added encoding parameter, as otherwise Umlaute get scrambles when loading external dictionaries
+source("R/avis_stop.R", encoding = "UTF-8")
+source("R/ocr_corrections.R", encoding = "UTF-8")
+source("R/tagfilters_utils.R", encoding = "UTF-8")
+source("R/tagfilters_household.R", encoding = "UTF-8")
+source("R/tagfilters_main.R", encoding = "UTF-8")
 source("R/cleaners.R")
 source("R/validate_filters.R")
 
@@ -36,20 +37,13 @@ o <- validate_filter(corpus_1834, labor_ids,
                      pattern = "arbeit")
 o
 
+
 # FALSE positives ("oops"-cases) ----
 tt <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
                       o$filter_T_hc_F)
-
-# Some are interesting as these might
-# be some human misclassification,
-# the other seem problems of the filter.
-# !! HC seems to have trouble with looong ads
-# this clearly labor related (see end of the text)
-tt$documents$texts[99]
-
-
-
+tt$documents$texts[1:10]
+tt$documents$texts
 
 
 # FALSE negatives ----
@@ -67,8 +61,10 @@ missing_corpus_clean <- missing_corpus %>%
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
 
-head(kwic(missing_corpus, pattern = "arbeiten"))
+head(kwic(missing_corpus, pattern = "Platz"))
 missing_corpus$documents$texts[1-10]
+
+
 
 
 # Testing the impact of new entries ---
@@ -77,15 +73,25 @@ missing_corpus$documents$texts[1-10]
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "besorgen"
+    candidate = "Anzeige|anzeigen|angezeigt"
   )
   dict$neg <- list(
+    #should it be necessary to exclude the offering of services
+    # (hc-tagging as work), one could use "Anzeige, anzeigen, angezeigt, zeigt an" and also "Zutrauen"
+    #
     #"zum kochen": describes cookware, not people
     misc = "Ornement",
     misc_phrase1 = "zum kochen",
-    othercategory = "verloren|gefunden|versteiger|Versteiger|beerdigt|ebendaselbst",
-    #othercategory: excluding lost&found, auction, funeral news  - which is never combined with job offers/requests
+    othercat_lostandfound = "verloren|gefunden",
+    othercat_info = "beerdigt|dito|ebendaselbst",
+    othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
+    othercat_boarding_phrase1 = "an die Kost",
+    #othercategory: excluding lost&found, auction, funeral news,
+    # some real estate and boarding  - which is (almost)
+    # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
+    other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #transactions that are not associtaed with the job market
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff"
     #proclamation: some of the ads recognized by the filter are public announcements"
@@ -100,19 +106,26 @@ test_ids <- test$filtrate(corpus_1834,ignore.case = F)
 
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | in total ("our universe")
+## found by filter AND NOT by HC ("oops") | neither hc nor filter
 t <- validate_filter(corpus_1834, test_ids,
                      search_col = "adcontent",
                      pattern = "arbeit")
 t
 
-
-#- FALSE positives ("oops"-cases) of test-dict
+#Checking into ads found by filter AND hc ("yay!")
+#useful if one checks for entries in dict$neg
 tt <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
-                      t$filter_T_hc_F)
+                      t$filter_T_hc_T)
+tt$documents$texts[1:10]
 
-tt$documents$texts[1:12]
+
+
+#- FALSE positives ("oops"-cases) of test-dict
+oops <- corpus_subset(corpus_1834,
+                    docvars(corpus_1834,"id") %in%
+                      t$filter_T_hc_F)
+oops$documents$texts[1:15]
 
 
 # Quality of dictionary if
@@ -125,7 +138,7 @@ new_ids <- tagfilter_new$filtrate(corpus_1834)
 
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | in total ("our universe")
+## found by filter AND NOT by HC ("oops") | neither hc nor filter
 n <- validate_filter(corpus_1834, new_ids,
                      search_col = "adcontent",
                      pattern = "arbeit")
@@ -134,16 +147,6 @@ n
 missing_corpus <- corpus_subset(corpus_1834,
                                 docvars(corpus_1834,"id") %in%
                                   n$hc_T_filter_F)
-
-# ??? how come this was classified
-missing_corpus$documents$texts[120]
-
-# but those seem to fit
-missing_corpus$documents$texts[121]
-missing_corpus$documents$texts[122]
-missing_corpus$documents$texts[123]
-missing_corpus$documents$texts[124]
-
 missing_corpus_clean <- missing_corpus %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
