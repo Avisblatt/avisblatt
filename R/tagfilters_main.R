@@ -249,16 +249,15 @@ tagfilter_print <- function(){
 
 #' Filter Quanteda Corpus: Household
 #' @export
-tagfilter_household_goods <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  dict
-}
+tagfilter_household_goods <- merge_filters(tagfilter_bed(),
+                                           tagfilter_household_textile(),
+                                           tagfilter_seat(),
+                                           tagfilter_cabinet(),
+                                           tagfilter_stove(),
+                                           tagfilter_mirror(),
+                                           tagfilter_timepiece(),
+                                           tagfilter_table(),
+                                           tagfilter_tableware())
 
 
 #' Filter Quanteda Corpus: Miscellaneous Things
