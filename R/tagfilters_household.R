@@ -6,7 +6,11 @@ tagfilter_bed <- function(){
     bed = "[B|b]ett|[B|b]eth|[K|k]orbwag|[W|w]iege"
   )
   dict$neg <- list(
-    misc = "Elisabet|[V|v]erschwiegen|bettel|Babett"
+    name = "Elisabet|Babett", # names of people and places including "bett/beth"
+    placename = "Bettigen|Bettingen", # placenames containing "Bett"
+    textiles = "Bettdeck|Deckbet|Bettwerk|Bettwerkh|Bettzeug|Bethzeug|Bettsack|Bethsack|Bett-Tril|Betttril|Bethtril", # these are household textiles
+    feathers = "Bettfede|Bethfede",
+    misc ="[V|v]erschwiegen|bettel" # words containing "bett" or "wiege" not referring to objects
   )
   create_filter_output(dict)
 }
@@ -18,7 +22,7 @@ tagfilter_household_textile <- function(){
   dict <- list()
   dict$pos <- list(
     table_linen = "[T|t]afeltuch|[T|t]ischtuch|[T|t]ischzeug|[T|t]ischdeck",
-    bedding = "[D|d]eckbet|[H|h]auszeug|[M|m]a[t|d]rat",
+    bedding = "[D|d]eckbet|[H|h]auszeug|[M|m]a[t|d]rat|[B|b]ettdeck|[B|b]e[tt|th]wer|Bettzeug|Bethzeug|Bettsack|Bethsack",
     carpet = "[T|t]eppi|[T|t][e|a]pi",
     misc = "[S|s]chaubdeck"
   )
@@ -39,7 +43,9 @@ tagfilter_seat <- function(){
     chair = "[S|s]t[u|ü]hl"
   )
   dict$neg <- list(
-    non_seats = "Webstuhl|Bandstuhl|Frauenstuhl|Weiberstuhl|Stuhlschreiner"
+    loom = "Webstuhl|Bandstuhl|Posamentstuhl|[W|w]eberstuhl", # looms for weaving
+    churchchair = "Frauenstuhl|Weiberstuhl", # churchchairs are in another category
+    profession = "Stuhlschreiner" # professions including "stuhl"
   )
 
   create_filter_output(dict)
@@ -76,8 +82,9 @@ tagfilter_stove <- function(){
     grates = "[F|f]euerh[u|ü]nd"
   )
   dict$neg <- list(
-    placenames = "Oberhofen|Bachofen",
-    alecoves = "Aleko[v|f]en"
+    placename = "Oberhofen", # placenames containing "ofen"
+    alecove = "Alekofen", # alecoves if written with an "f"
+    familyname = "Bachofen" # family names containing "ofen"
   )
 
   # returns some ads for immo with an "ofen", not for the object itself
@@ -92,12 +99,13 @@ tagfilter_stove <- function(){
 tagfilter_mirror <- function(){
   dict <- list()
   dict$pos <- list(
-    mirror = "[S|s]piegel",
+    mirror = "[S|s]piegel"
+    # no negative list necessary so far
   )
   dict$neg <- list(
-    # no exclusion necessary so far
+    quality = "[S|s]piegelglanz", # describes a quality of something, not the object
+    placename = "Spiegelgasse|Spiegelgässl" # a street in Basel
   )
-
   create_filter_output(dict)
 
 }
@@ -107,11 +115,13 @@ tagfilter_mirror <- function(){
 tagfilter_timepiece <- function(){
   dict <- list()
   dict$pos <- list(
-    timepiece = "[U|u]hr",
+    timepiece = "[U|u]hr"
   )
   dict$neg <- list(
-    profession = "[U|u]hrmach",
-    driving = "[F|f]uhr"
+    profession = "[U|u]hrmach", # watchmakers
+    driving = "[F|f]uhr", # words associated with "driving" ("fuhr")
+    time = "\d\sUhr" # mostly meaning a time and not an object
+    #### this regex does not seem to work - is it false or is there another problem? It should catch e.g. "5 Uhr" or "12 Uhr"
   )
 
   create_filter_output(dict)
@@ -123,13 +133,16 @@ tagfilter_timepiece <- function(){
 tagfilter_table <- function(){
   dict <- list()
   dict$pos <- list(
-    table = "[T|t]isch",
+    table = "[T|t]isch"
   )
   dict$neg <- list(
     # negative list has to be extended
-    adjective = "praktisch|schottisch|optisch|homeopatisch",
-    textile = "[T|t]ischzeug]",
-    profession = "[T|t]ischler"
+    adjective = "praktisch|schottisch|optisch|homeopatisch|helvetisch|
+    romatisch|dramatisch|authentisch|brittisch|politisch|kosmetisch
+    elastisch|theoretisch", # multiple adjectives containing "tisch"
+    textile = "[T|t]ischzeug|[T|t]ischtepp", # table linen is in another category
+    profession = "[T|t]ischler", # professions containing "tisch"
+    person = "Tischgenos" # persons not objects
   )
 
   create_filter_output(dict)
@@ -146,8 +159,9 @@ tagfilter_tableware <- function(){
   )
   dict$neg <- list(
     harness = "Pferdgeschir|Pferdegeschir|Fuhrgeschir|
-    Chaisegeschir|Chaise-Geschir|Kummetgeschir|Kumetgeschir",
-    tavern = "Wirtshaus zur [K|k]anne"
+    Chaisegeschir|Chaise-Geschir|Kummetgeschir|Kumetgeschir|
+    Fuhrwerkgeschir|Sillengeschir", # different words containing "geschir" in the meaning of harness
+    tavern = "Wirtshaus zur [K|k]anne" # an inn in Basel is called "Zur Kanne"
   )
 
   create_filter_output(dict)
