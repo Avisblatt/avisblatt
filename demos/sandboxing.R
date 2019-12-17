@@ -15,7 +15,7 @@ source("R/cleaners.R")
 source("R/validate_filters.R")
 
 avis_1834 <- readtext("data/avis_1834.csv",
-                      text_field = "text")
+                      text_field = "text", encoding = "UTF-8")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
 
@@ -35,8 +35,6 @@ o <- validate_filter(corpus_1834, labor_ids,
                      search_col = "adcontent",
                      pattern = "arbeit")
 o
-
-
 
 # FALSE positives ("oops"-cases) ----
 tt <- corpus_subset(corpus_1834,
@@ -70,7 +68,7 @@ textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
 
 head(kwic(missing_corpus, pattern = "arbeiten"))
-
+missing_corpus$documents$texts[1-10]
 
 
 # Testing the impact of new entries ---
@@ -79,7 +77,7 @@ head(kwic(missing_corpus, pattern = "arbeiten"))
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "treue"
+    candidate = "besorgen"
   )
   dict$neg <- list(
     #"zum kochen": describes cookware, not people
@@ -114,7 +112,7 @@ tt <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
                       t$filter_T_hc_F)
 
-tt$documents$texts[1:10]
+tt$documents$texts[1:12]
 
 
 # Quality of dictionary if
