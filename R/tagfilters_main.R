@@ -83,6 +83,24 @@ tagfilter_real_estate <- function(){
 }
 
 
+#' Filter Quanteda Corpus: Board
+#' @export
+tagfilter_board <- function(){
+  dict <- list()
+  dict$pos <- list(
+    boarding = "\\bKost\\b"
+  )
+  dict$neg <- list(
+    misc = "Zeugnisse",
+    misc_phrase1 = "Kost kochen",
+    misc_phrase2 = "Kost erfahren"
+
+  )
+  create_filter_output(dict)
+}
+
+
+
 #' Filter Quanteda Corpus: Lottery
 #' @export
 tagfilter_lotto <- function(){
@@ -93,7 +111,7 @@ tagfilter_lotto <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -107,7 +125,7 @@ tagfilter_other <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -122,7 +140,7 @@ tagfilter_transport <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -137,7 +155,7 @@ tagfilter_charity <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -152,22 +170,7 @@ tagfilter_placement <- function(){
   dict$neg <- list(
 
   )
-  dict
-}
-
-
-
-#' Filter Quanteda Corpus: Board
-#' @export
-tagfilter_board <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -182,7 +185,7 @@ tagfilter_animal <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -198,7 +201,7 @@ tagfilter_info <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -212,7 +215,7 @@ tagfilter_bling <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -226,7 +229,7 @@ tagfilter_churchseat <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -241,7 +244,7 @@ tagfilter_textile <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -255,7 +258,7 @@ tagfilter_grocery <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -269,7 +272,7 @@ tagfilter_finance <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -283,7 +286,7 @@ tagfilter_print <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -297,7 +300,7 @@ tagfilter_household_goods <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
 
 
@@ -311,14 +314,5 @@ tagfilter_things <- function(){
   dict$neg <- list(
 
   )
-  dict
+  create_filter_output(dict)
 }
-
-
-
-
-
-
-
-
-
