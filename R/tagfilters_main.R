@@ -8,11 +8,10 @@ tagfilter_labor <- function(){
   # separately, see also ?kwic Note on patterns.
   dict <- list()
   dict$pos <- list(
-    work = "\\bArbeit\\b|Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen",
+    work = "Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen|glätten|Glätten",
     work_phrase_1 = "zu waschen",
-    #removed \\bArbeiter\\b for now, as it added only 10 ads while producing 10 false positives
-    #'Arbeit not ideal either btw. Removing would cost 35 hits, but spare 14 oops
-    qualification = "\\bZeugnisse|\\erfahrene|versteht|rechtschaffen",
+    #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
+    qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
     position = "magd|Magd|knecht|Knecht|Köchin",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     employment_phrase_1 = "einen Platz",
@@ -26,15 +25,17 @@ tagfilter_labor <- function(){
     misc_phrase2 = "darin zu kochen",
     misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|Dito|bendaselbst",
-    othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst|unrichtig",
+    othercat_info_phrase1 = "meinem Namen",
+    othercat_realestate = "Losament|Kammer|Stübchen",
     othercat_boarding = "Kosthaus",
     othercat_boarding_phrase1 = "//bdie Kost//b",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    other_transactions = "ubscri|übergeben|vermieten|verlehen|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #"unrichtig" and "in meinem Namen" found in clarification ads
+    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",

@@ -17,12 +17,13 @@ source("R/validate_filters.R")
 
 avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text", encoding = "UTF-8")
-
 avis_1834$text <- correct_ocr(avis_1834$text)
-
-corpus_1834 <- corpus(avis_1834,
+corpus_1834_with_fr <- corpus(avis_1834,
                       docid_field = "doc_id")
-
+french_doc_ids <- detect_lang(corpus_1834_with_fr)
+corpus_1834 <- corpus_subset(corpus_1834_with_fr,
+                                !(docvars(corpus_1834_with_fr,"id") %in%
+                                    french_doc_ids))
 
 labor <- tagfilter_labor()
 
@@ -82,15 +83,17 @@ tagfilter_test <- function(){
     misc_phrase2 = "darin zu kochen",
     misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|Dito|bendaselbst",
-    othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst|unrichtig",
+    othercat_info_phrase1 = "meinem Namen",
+    othercat_realestate = "Losament|Kammer|Stübchen",
     othercat_boarding = "Kosthaus",
     othercat_boarding_phrase1 = "//bdie Kost//b",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    other_transactions = "ubscri|übergeben|vermieten|verlehen|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #"unrichtig" and "in meinem Namen" found in clarification ads
+    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",
@@ -186,9 +189,10 @@ tagfilter_labor_apprentice <- function(){
 tagfilter_labor_without_apprentice <- function(){
   dict <- list()
   dict$pos <- list(
-    work = "\\bArbeit\\b|Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen",
+    work = "Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen|glätten|Glätten",
     work_phrase_1 = "zu waschen",
-    qualification = "\\bZeugnisse|\\erfahrene|versteht|rechtschaffen",
+    #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
+    qualification = "\\bZeugnisse|\\erfahrene|versteht|geübt",
     position = "magd|Magd|knecht|Knecht|Köchin",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz",
@@ -200,18 +204,20 @@ tagfilter_labor_without_apprentice <- function(){
     #excluding boarding ads here - boarding usually (?) only with apprenticeship ads
     #boarding = "//bKost//b|//bKostgeld//b",
     othercat_boarding = "Kosthaus",
-    othercat_boarding_phrase1 = "an die Kost",
+    othercat_boarding_phrase1 = "//bdie Kost//b",
     misc_phrase1 = "zum kochen",
     misc_phrase2 = "darin zu kochen",
     misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|Dito|bendaselbst",
-    othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst|unrichtig",
+    othercat_info_phrase1 = "meinem Namen",
+    othercat_realestate = "Losament|Kammer|Stübchen",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #"unrichtig" and "in meinem Namen" found in clarification ads
+    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",
@@ -240,7 +246,7 @@ with_apr <- validate_filter(corpus_1834, labor_apr_ids,
 without_apr <- validate_filter(corpus_1834, labor_without_apr_ids,
                        search_col = "adcontent",
                        pattern = "arbeit")
-mergedresults <- validate_filter(corpus_1834, c(labor_apr_ids, labor_without_apr_ids),
+mergedresults <- validate_filter(corpus_1834, union(labor_apr_ids, labor_without_apr_ids),
                         search_col = "adcontent",
                         pattern = "arbeit")
 mergedfilters <- validate_filter(corpus_1834, new_ids,
@@ -323,4 +329,16 @@ overview
 oops <- corpus_subset(corpus_1834,
                       docvars(corpus_1834,"id") %in%
                         filter_T_hc_F)
-oops$documents$texts[41:60]
+oops$documents$texts[1:20]
+
+missing_corpus <- corpus_subset(corpus_1834,
+                                docvars(corpus_1834,"id") %in%
+                                  hc_T_filter_F)
+missing_corpus_clean <- missing_corpus %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(stopwords("de")) %>%
+  dfm()
+textplot_wordcloud(dfm(missing_corpus_clean),
+                   max_words = 100)
+missing_corpus$documents$texts[1-10]
