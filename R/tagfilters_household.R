@@ -104,7 +104,7 @@ tagfilter_mirror <- function(){
   )
   dict$neg <- list(
     quality = "[S|s]piegelglanz", # describes a quality of something, not the object
-    placename = "Spiegelgasse|Spiegelgässl" # a street in Basel
+    placename = "Spiegelgasse|Spiegelgässl|Spiegelgäßl|Spiegelgaß" # a street in Basel
   )
   create_filter_output(dict)
 
@@ -120,7 +120,7 @@ tagfilter_timepiece <- function(){
   dict$neg <- list(
     profession = "[U|u]hrmach", # watchmakers
     driving = "[F|f]uhr", # words associated with "driving" ("fuhr")
-    time = "\d\sUhr" # mostly meaning a time and not an object
+    time = "\\d\\sUhr" # mostly meaning a time and not an object
     #### this regex does not seem to work - is it false or is there another problem? It should catch e.g. "5 Uhr" or "12 Uhr"
   )
 

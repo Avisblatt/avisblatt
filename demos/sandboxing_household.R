@@ -74,7 +74,7 @@ textplot_wordcloud(dfm(bed_subset_clean),
 ## Household Textiles
 household_textile <- tagfilter_household_textile()
 
-household_textile_ids <- household_textile$filtrate(corpus_1834,ignore.case = T)
+household_textile_ids <- household_textile$filtrate(corpus_1834,ignore.case = F)
 
 household_textile_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                             household_textile_ids)
@@ -82,13 +82,13 @@ household_textile_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id"
 household_textile_texts <- household_textile_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-textile_dict <- dictionary(list(
+household_textile_dict <- dictionary(list(
   table_linen = "[T|t]afeltuch|[T|t]ischtuch|[T|t]ischzeug|[T|t]ischdeck",
   bedding = "[D|d]eckbet|[H|h]auszeug|[M|m]a[t|d]rat|[B|b]ettdeck|[B|b]e[tt|th]wer|Bettzeug|Bethzeug|Bettsack|Bethsack",
   carpetmis = "[T|t]eppi|[T|t][e|a]pi|[S|s]chaubdeck"))
 
 household_textile_kwic <- kwic(household_textile_subset,
-                 pattern = household_textile_dict,
+                 pattern = "Tafeltuch",
                   valuetype = "regex")
 
 #### Why does this not work? I get the message "Error in x[[length(x)]]" - what is to long here? ####
@@ -207,8 +207,6 @@ mirror_kwic <- kwic(mirror_subset,
 
 mirror_kwic
 
-#### Still includes "Spiegelgässlein", event though this is on the negative list, probably because of the Umlaut? How to exclude this? ####
-
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
 mirror_subset_clean <- mirror_subset %>%
   tokens(remove_punct = TRUE,
@@ -235,8 +233,6 @@ timepiece_kwic <- kwic(timepiece_subset,
                     valuetype = "regex")
 
 timepiece_kwic
-
-#### Problem with regex in negative list meant to filter out indications of time ####
 
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
 timepiece_subset_clean <- timepiece_subset %>%
@@ -284,13 +280,13 @@ tableware_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
 tableware_texts <- tableware_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-tableware_kwic <- kwic(table_subset,
+tableware_kwic <- kwic(tableware_subset,
                    pattern = "[G|g]eschir|[K|k|C|c]anne",
                    valuetype = "regex")
 
 tableware_kwic
 
-#### still one inclusion of "Pferdgeschirr" even though on negative list - why? ####
+#### negative: Kummet-Geschirr, Reitgeschirr, Waschgeschirr ####
 
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
 tableware_subset_clean <- tableware_subset %>%
