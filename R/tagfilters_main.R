@@ -20,24 +20,25 @@ tagfilter_labor <- function(){
     employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
   )
   dict$neg <- list(
-    #should it be necessary to exclude the offering of services
-    # (hc-tagging as work), one could use "Anzeige, anzeigen, angezeigt, zeigt an" and also "Zutrauen"
-    #
-    #"zum kochen": describes cookware, not people
+    #"darin zu / zum kochen": describes cookware, not people
     misc = "Ornement",
     misc_phrase1 = "zum kochen",
+    misc_phrase2 = "darin zu kochen",
+    misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|ebendaselbst",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst",
     othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
-    othercat_boarding_phrase1 = "an die Kost",
+    othercat_boarding = "Kosthaus",
+    othercat_boarding_phrase1 = "//bdie Kost//b",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
-    #transactions that are not associtaed with the job market
+    other_transactions = "ubscri|übergeben|vermieten|verlehen|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff"
+    proclamation_phrase_1 = "Publikation in Betreff",
+    proclamation_phrase_2 = "Basel, den"
     #proclamation: some of the ads recognized by the filter are public announcements"
   )
   create_filter_output(dict)
@@ -52,14 +53,16 @@ tagfilter_labor <- function(){
 tagfilter_bizpromo <- function(){
   dict <- list()
   dict$pos <- list(
-    advertising = "Anzeige|anzeigen|angezeigt",
+    advertising = "Anzeige|anzeigen|angezeigt|benachrichtigen",
     advertising_phrase1 = "zeigt an",
     recommending = "rekommandi",
-    recommending_phrase1 = "empfiehlt sich"
+    recommending_phrase1 = "empfiehlt sich",
+    customertrust = "Zutrauen|Zuspruch",
+    serving = "bedienen"
   )
     dict$neg <- list(
     # excluding some jobmarket ads and public proclamations
-    employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst",
+    employment ="Anstellung|angestellt|\\bDienst\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst",
     proclamation = "Kundmachung|Polizey|Bekanntmachung",
     report_to_registry_office = "Anzeige im Berichthaus",
     report_to_registry_office_phrase1 = "gefälligst Anzeige"

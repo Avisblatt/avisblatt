@@ -73,27 +73,28 @@ missing_corpus$documents$texts[1-10]
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "rekomm"
+    candidate = "x"
   )
   dict$neg <- list(
-    #should it be necessary to exclude the offering of services
-    # (hc-tagging as work), one could use "Anzeige, anzeigen, angezeigt, zeigt an" and also "Zutrauen"
-    #
-    #"zum kochen": describes cookware, not people
+    #"darin zu / zum kochen": describes cookware, not people
     misc = "Ornement",
     misc_phrase1 = "zum kochen",
+    misc_phrase2 = "darin zu kochen",
+    misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|ebendaselbst",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst",
     othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
-    othercat_boarding_phrase1 = "an die Kost",
+    othercat_boarding = "Kosthaus",
+    othercat_boarding_phrase1 = "//bdie Kost//b",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
-    #transactions that are not associtaed with the job market
+    other_transactions = "ubscri|übergeben|vermieten|verlehen|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff"
+    proclamation_phrase_1 = "Publikation in Betreff",
+    proclamation_phrase_2 = "Basel, den"
     #proclamation: some of the ads recognized by the filter are public announcements"
   )
   create_filter_output(dict)
@@ -125,7 +126,7 @@ tt$documents$texts[1:10]
 oops <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
                       t$filter_T_hc_F)
-oops$documents$texts[1:15]
+oops$documents$texts[1:10]
 
 
 # Quality of dictionary if
@@ -193,16 +194,18 @@ tagfilter_labor_without_apprentice <- function(){
     employment_phrase_2 = "ein Platz",
     employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
   )
-  dict$neg <- list(
+    dict$neg <- list(
     #apprenticeship handeld by other filter
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     #excluding boarding ads here - boarding usually (?) only with apprenticeship ads
     #boarding = "//bKost//b|//bKostgeld//b",
+    othercat_boarding = "Kosthaus",
     othercat_boarding_phrase1 = "an die Kost",
-    misc = "Ornement",
     misc_phrase1 = "zum kochen",
+    misc_phrase2 = "darin zu kochen",
+    misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|ebendaselbst",
+    othercat_info = "beerdigt|dito|Dito|bendaselbst",
     othercat_realestate = "Losament|Zimmer|Kammer|Stübchen",
     #othercategory: excluding lost&found, auction, funeral news,
     # some real estate and boarding  - which is (almost)
@@ -211,7 +214,8 @@ tagfilter_labor_without_apprentice <- function(){
     other_transactions = "kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff"
+    proclamation_phrase_1 = "Publikation in Betreff",
+    proclamation_phrase_2 = "Basel, den"
     #proclamation: some of the ads recognized by the filter are public announcements"
   )
   create_filter_output(dict)
@@ -251,6 +255,7 @@ mergedresults
 #-------investigating bizpromo ads
 bizpromo <- tagfilter_bizpromo()
 bizpromo_ids <- bizpromo$filtrate(corpus_1834,ignore.case = F)
+length(bizpromo_ids)
 
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
@@ -314,3 +319,8 @@ filter_precision <- round(100 / (1 + length(filter_T_hc_F) /
 filter_range
 filter_precision
 overview
+
+oops <- corpus_subset(corpus_1834,
+                      docvars(corpus_1834,"id") %in%
+                        filter_T_hc_F)
+oops$documents$texts[41:60]

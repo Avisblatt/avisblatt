@@ -11,5 +11,7 @@ correct_ocr <- function(x){
   # ä and a seem to be mixed at times
   x <- gsub("fäst","fast",x)
   x <- gsub("Zeug nisse","Zeugnisse",x)
-  x
+  # c and e seem to be mixed at times
+  x <- gsub("ubseript","ubscript",x)
+    x
   }
