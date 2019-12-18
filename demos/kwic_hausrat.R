@@ -234,4 +234,25 @@ geschirr_corpus_clean <- geschirr_corpus %>%
 textplot_wordcloud(dfm(geschirr_corpus_clean),
                    max_words = 100)
 
+## Aufbewahrung
+
+aufbewahrung_1834 <- kwic(corpus_1834,
+                      pattern = "Bouteillen|Fa[ss|ß]|Fä[ss|ß]er|Sauerbrunnen",
+                      valuetype = "regex")
+
+aufbewahrung_1834
+
+# negative list: Fronfasten, fronfasten, Fastnacht, Sofa, Verfassung
+
+aufbewahrung_corpus <- corpus_subset(corpus_1834,
+                                 docnames(corpus_1834) %in%
+                                   aufbewahrung_1834$docname)
+
+aufbewahrung_corpus_clean <- aufbewahrung_corpus %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(aufbewahrung_corpus_clean),
+                   max_words = 100)
 
