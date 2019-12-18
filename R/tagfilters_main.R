@@ -44,6 +44,30 @@ tagfilter_labor <- function(){
 }
 
 
+#' Filter Quanteda Corpus: Advertising/promoting business
+#' @export
+#' as far as services is concerned,
+#' this was tagged "labor" (otherwise "things")
+#' but might be wise to draw a line between this & job market
+tagfilter_bizpromo <- function(){
+  dict <- list()
+  dict$pos <- list(
+    advertising = "Anzeige|anzeigen|angezeigt",
+    advertising_phrase1 = "zeigt an",
+    recommending = "rekommandi",
+    recommending_phrase1 = "empfiehlt sich"
+  )
+    dict$neg <- list(
+    # excluding some jobmarket ads and public proclamations
+    employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst",
+    proclamation = "Kundmachung|Polizey|Bekanntmachung",
+    report_to_registry_office = "Anzeige im Berichthaus",
+    report_to_registry_office_phrase1 = "gefälligst Anzeige"
+  )
+  create_filter_output(dict)
+}
+
+
 #' Filter Quanteda Corpus: Real Estate
 #' @export
 tagfilter_real_estate <- function(){
