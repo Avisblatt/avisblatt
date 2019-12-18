@@ -18,15 +18,17 @@ source("R/validate_filters.R")
 avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text", encoding = "UTF-8")
 avis_1834$text <- correct_ocr(avis_1834$text)
-corpus_1834_with_fr <- corpus(avis_1834,
+
+#just ads in German
+ids_by_lang <- fromJSON("data/ids_by_lang.json")
+corpus_1834_all <- corpus(avis_1834,
                       docid_field = "doc_id")
-french_doc_ids <- detect_lang(corpus_1834_with_fr)
-corpus_1834 <- corpus_subset(corpus_1834_with_fr,
-                                !(docvars(corpus_1834_with_fr,"id") %in%
-                                    french_doc_ids))
+corpus_1834 <- corpus_subset(corpus_1834_all,
+                                (docvars(corpus_1834_all,"id") %in%
+                                   ids_by_lang$de))
+
 
 labor <- tagfilter_labor()
-
 
 labor_ids <- labor$filtrate(corpus_1834,ignore.case = F)
 # Validation of Filters ----
@@ -37,137 +39,6 @@ o <- validate_filter(corpus_1834, labor_ids,
                      search_col = "adcontent",
                      pattern = "arbeit")
 o
-
-
-# FALSE positives ("oops"-cases) ----
-tt <- corpus_subset(corpus_1834,
-                    docvars(corpus_1834,"id") %in%
-                      o$filter_T_hc_F)
-tt$documents$texts[1:10]
-tt$documents$texts
-
-
-# FALSE negatives ----
-# Looking at the false negatives
-# ("What are we still missing?")
-missing_corpus <- corpus_subset(corpus_1834,
-                           docvars(corpus_1834,"id") %in%
-                             o$hc_T_filter_F)
-missing_corpus_clean <- missing_corpus %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(stopwords("de")) %>%
-  dfm()
-
-textplot_wordcloud(dfm(missing_corpus_clean),
-                   max_words = 100)
-
-head(kwic(missing_corpus, pattern = "reco"))
-missing_corpus$documents$texts[1-10]
-
-
-
-
-# Testing the impact of new entries ---
-
-#test dictionary for potential new entries
-tagfilter_test <- function(){
-  dict <- list()
-  dict$pos <- list(
-    candidate = "x"
-  )
-  dict$neg <- list(
-    #"darin zu / zum kochen": describes cookware, not people
-    misc = "Ornement",
-    misc_phrase1 = "zum kochen",
-    misc_phrase2 = "darin zu kochen",
-    misc_phrase3= "Dienst zu erweisen",
-    othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|Dito|bendaselbst|unrichtig",
-    othercat_info_phrase1 = "meinem Namen",
-    othercat_realestate = "Losament|Kammer|Stübchen",
-    othercat_boarding = "Kosthaus",
-    othercat_boarding_phrase1 = "//bdie Kost//b",
-    #othercategory: excluding lost&found, auction, funeral news,
-    # some real estate and boarding  - which is (almost)
-    # never combined with job offers/requests
-    #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    #"unrichtig" and "in meinem Namen" found in clarification ads
-    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
-    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
-    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff",
-    proclamation_phrase_2 = "Basel, den"
-    #proclamation: some of the ads recognized by the filter are public announcements"
-  )
-  create_filter_output(dict)
-}
-
-
-test <- tagfilter_test()
-test_ids <- test$filtrate(corpus_1834,ignore.case = F)
-
-
-## 2x2 Matrix containing number of ads
-## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | neither hc nor filter
-t <- validate_filter(corpus_1834, test_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
-t
-
-#Checking into ads found by filter AND hc ("yay!")
-#useful if one checks for entries in dict$neg
-tt <- corpus_subset(corpus_1834,
-                    docvars(corpus_1834,"id") %in%
-                      t$filter_T_hc_T)
-tt$documents$texts[1:10]
-
-
-
-#- FALSE positives ("oops"-cases) of test-dict
-oops <- corpus_subset(corpus_1834,
-                    docvars(corpus_1834,"id") %in%
-                      t$filter_T_hc_F)
-oops$documents$texts[1:10]
-
-
-# Quality of dictionary if
-# candidate(s) become actual entries
-
-tagfilter_new <- merge_filters(tagfilter_labor(),
-                               tagfilter_test())
-
-new_ids <- tagfilter_new$filtrate(corpus_1834)
-
-## 2x2 Matrix containing number of ads
-## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | neither hc nor filter
-n <- validate_filter(corpus_1834, new_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
-n
-
-missing_corpus <- corpus_subset(corpus_1834,
-                                docvars(corpus_1834,"id") %in%
-                                  n$hc_T_filter_F)
-missing_corpus_clean <- missing_corpus %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(stopwords("de")) %>%
-  dfm()
-
-textplot_wordcloud(dfm(missing_corpus_clean),
-                   max_words = 100)
-
-
-# How encompassing, and how precise is the filter compared to the old?
-rangeold <- round(100/(1+length(o$hc_T_filter_F)/length(o$filter_T_hc_T)),1)
-rangenew <- round(100/(1+length(n$hc_T_filter_F)/length(n$filter_T_hc_T)),1)
-precisionold <- round(100/(1+length(o$filter_T_hc_F)/length(o$filter_T_hc_T)),1)
-precisionnew <- round(100/(1+length(n$filter_T_hc_F)/length(n$filter_T_hc_T)),1)
-print( paste("Range: ", rangeold, "% -> ", rangenew, "% (", rangenew-rangeold, "%)."))
-print( paste("Precision: ", precisionold, "% -> ", precisionnew, "% (", precisionnew-precisionold, "%)."))
 
 
 
@@ -193,7 +64,7 @@ tagfilter_labor_without_apprentice <- function(){
     work_phrase_1 = "zu waschen",
     #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
     qualification = "\\bZeugnisse|\\erfahrene|versteht|geübt",
-    position = "magd|Magd|knecht|Knecht|Köchin",
+    position = "[m|M]agd|[k|K]necht|Köchin|Seidenbandweber|Seidenweber|Seidenwinder|Zettler",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz",
     employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
@@ -217,7 +88,7 @@ tagfilter_labor_without_apprentice <- function(){
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
     #"unrichtig" and "in meinem Namen" found in clarification ads
-    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",
@@ -258,32 +129,9 @@ mergedfilters
 mergedresults
 
 
-#-------investigating bizpromo ads
+#-------bizpromo ads
 bizpromo <- tagfilter_bizpromo()
 bizpromo_ids <- bizpromo$filtrate(corpus_1834,ignore.case = F)
-length(bizpromo_ids)
-
-## 2x2 Matrix containing number of ads
-## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | neither hc nor filter
-b <- validate_filter(corpus_1834, bizpromo_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
-b
-
-#TRUE positives
-b_t <- corpus_subset(corpus_1834,
-                    docvars(corpus_1834,"id") %in%
-                      b$filter_T_hc_T)
-b_t$documents$texts[21:30]
-
-#- FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                      docvars(corpus_1834,"id") %in%
-                        b$filter_T_hc_F)
-b_f$documents$texts[1:15]
-
-
 
 #' How good is the tagfilter_labor
 #' when you exclude all bizpromo ads
@@ -341,4 +189,27 @@ missing_corpus_clean <- missing_corpus %>%
   dfm()
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
-missing_corpus$documents$texts[1-10]
+missing_corpus$documents$texts[11-20]
+
+
+#investigating bizpromo ads
+
+## 2x2 Matrix containing number of ads
+## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+## found by filter AND NOT by HC ("oops") | neither hc nor filter
+b <- validate_filter(corpus_1834, bizpromo_ids,
+                     search_col = "adcontent",
+                     pattern = "arbeit")
+b
+
+#TRUE positives
+b_t <- corpus_subset(corpus_1834,
+                     docvars(corpus_1834,"id") %in%
+                       b$filter_T_hc_T)
+b_t$documents$texts[21:30]
+
+#- FALSE positives
+b_f <- corpus_subset(corpus_1834,
+                     docvars(corpus_1834,"id") %in%
+                       b$filter_T_hc_F)
+b_f$documents$texts[1:15]

@@ -12,7 +12,7 @@ tagfilter_labor <- function(){
     work_phrase_1 = "zu waschen",
     #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
     qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
-    position = "magd|Magd|knecht|Knecht|Köchin",
+    position = "[m|M]agd|[k|K]necht|Köchin|Seidenbandweber|Seidenweber|Seidenwinder|Zettler",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz",
@@ -25,7 +25,7 @@ tagfilter_labor <- function(){
     misc_phrase2 = "darin zu kochen",
     misc_phrase3= "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|dito|Dito|bendaselbst|unrichtig",
+    othercat_info = "beerdigt|verstorben|dito|Dito|bendaselbst|unrichtig",
     othercat_info_phrase1 = "meinem Namen",
     othercat_realestate = "Losament|Kammer|Stübchen",
     othercat_boarding = "Kosthaus",
@@ -35,7 +35,7 @@ tagfilter_labor <- function(){
     # never combined with job offers/requests
     #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
     #"unrichtig" and "in meinem Namen" found in clarification ads
-    other_transactions = "//bTausch//b|ubscri|übergeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
     #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",
@@ -54,7 +54,7 @@ tagfilter_labor <- function(){
 tagfilter_bizpromo <- function(){
   dict <- list()
   dict$pos <- list(
-    advertising = "Anzeige|anzeigen|angezeigt|benachrichtigen",
+    advertising = "Anzeige|anzeigen|anzuzeigen|angezeigt|benachrichtigen",
     advertising_phrase1 = "zeigt an",
     recommending = "rekommandi",
     recommending_phrase1 = "empfiehlt sich",
