@@ -19,42 +19,99 @@ avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text", encoding = "UTF-8")
 avis_1834$text <- correct_ocr(avis_1834$text)
 
-#just ads in German
+#for consistency of the filter, consider just ads in German
 ids_by_lang <- fromJSON("data/ids_by_lang.json")
 corpus_1834_all <- corpus(avis_1834,
                       docid_field = "doc_id")
 corpus_1834 <- corpus_subset(corpus_1834_all,
                                 (docvars(corpus_1834_all,"id") %in%
                                    ids_by_lang$de))
-
-
 labor <- tagfilter_labor()
 
+
+#' Testing the impact of new entries
+#'
+#' Insert potenial terms as candidate below
+#' execute code up to line 76 for comprehensive evaluation
+tagfilter_test <- function(){
+  dict <- list()
+  dict$pos <- list(
+    candidate = "[f|F]abrik"
+  )
+  #take over dict$neg from original filter to better gauge potential of candidate
+  #disable by adding # at beginning of next line
+  dict$neg <- labor$tagfilters$neg
+  create_filter_output(dict)
+}
+
+#' merging original and test filter and prepare validation
+tagfilter_new <- merge_filters(tagfilter_labor(),
+                               tagfilter_test())
+new_ids <- tagfilter_new$filtrate(corpus_1834,ignore.case = F)
+n <- validate_filter(corpus_1834, new_ids,
+                     search_col = "adcontent",
+                     pattern = "arbeit")
+
 labor_ids <- labor$filtrate(corpus_1834,ignore.case = F)
+o <- validate_filter(corpus_1834, labor_ids,
+                     search_col = "adcontent",
+                     pattern = "arbeit")
+
+test <- tagfilter_test()
+test_ids <- test$filtrate(corpus_1834,ignore.case = F)
+t <- validate_filter(corpus_1834, test_ids,
+                     search_col = "adcontent",
+                     pattern = "arbeit")
+
 # Validation of Filters ----
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 ## found by filter AND NOT by HC ("oops") | neither filter nor hc
-o <- validate_filter(corpus_1834, labor_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
+
 o
+t
+n
+cat(paste("Range (%):\t", o$range, "->", n$range, "| change:", round (n$range-o$range,1),
+                "\nPrecision (%):\t", o$precision, "->", n$precision, "| change:", round (n$precision-o$precision,1), "\n"
+))
 
 
-# FALSE positives ("oops"-cases) ----
-tt <- corpus_subset(corpus_1834,
+
+
+
+#' -----Check into the ads found/missed by the different filters
+#'
+#'
+
+#' ---test
+#'
+#' TRUE positives ("yay!") of test
+#' ...useful if one checks for entries who seem more fordict$neg
+yay <- corpus_subset(corpus_1834,
+                     docvars(corpus_1834,"id") %in%
+                       t$filter_T_hc_T)
+yay$documents$texts[1:10]
+
+#- FALSE positives ("oops") of test
+oops <- corpus_subset(corpus_1834,
+                      docvars(corpus_1834,"id") %in%
+                        t$filter_T_hc_F)
+oops$documents$texts[1:10]
+
+
+
+#' ---original
+#'
+#' FALSE positives ("oops") of original
+oops <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
                       o$filter_T_hc_F)
-tt$documents$texts[1:10]
-tt$documents$texts
+oops$documents$texts[1:10]
 
-
-# FALSE negatives ----
-# Looking at the false negatives
-# ("What are we still missing?")
+#' FALSE negatives ("What are we still missing?") of original
 missing_corpus <- corpus_subset(corpus_1834,
-                           docvars(corpus_1834,"id") %in%
-                             o$hc_T_filter_F)
+                                docvars(corpus_1834,"id") %in%
+                                  o$hc_T_filter_F)
 missing_corpus_clean <- missing_corpus %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
@@ -64,92 +121,21 @@ missing_corpus_clean <- missing_corpus %>%
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
 
-head(kwic(missing_corpus, pattern = "reco"))
 missing_corpus$documents$texts[1-10]
 
+head(kwic(missing_corpus, pattern = "something"))
 
 
 
-# Testing the impact of new entries ---
-
-#test dictionary for potential new entries
-tagfilter_test <- function(){
-  dict <- list()
-  dict$pos <- list(
-    candidate = "Seidenbandweber|Seidenweber|Seidenwinder|Zettler"
-  )
-  dict$neg <- list(
-    #"darin zu / zum kochen": describes cookware, not people
-    misc = "Ornement",
-    misc_phrase1 = "zum kochen",
-    misc_phrase2 = "darin zu kochen",
-    misc_phrase3= "Dienst zu erweisen",
-    othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|verstorben|dito|Dito|bendaselbst|unrichtig",
-    othercat_info_phrase1 = "meinem Namen",
-    othercat_realestate = "Losament|Kammer|Stübchen",
-    othercat_boarding = "Kosthaus",
-    othercat_boarding_phrase1 = "//bdie Kost//b",
-    #othercategory: excluding lost&found, auction, funeral news,
-    # some real estate and boarding  - which is (almost)
-    # never combined with job offers/requests
-    #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    #"unrichtig" and "in meinem Namen" found in clarification ads
-    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
-    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
-    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff",
-    proclamation_phrase_2 = "Basel, den"
-    #proclamation: some of the ads recognized by the filter are public announcements"
-  )
-  create_filter_output(dict)
-}
-
-
-test <- tagfilter_test()
-test_ids <- test$filtrate(corpus_1834,ignore.case = F)
-
-
-## 2x2 Matrix containing number of ads
-## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | neither hc nor filter
-t <- validate_filter(corpus_1834, test_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
-t
-
-#Checking into ads found by filter AND hc ("yay!")
-#useful if one checks for entries in dict$neg
-tt <- corpus_subset(corpus_1834,
-                    docvars(corpus_1834,"id") %in%
-                      t$filter_T_hc_T)
-tt$documents$texts[1:10]
-
-
-
-#- FALSE positives ("oops"-cases) of test-dict
+#' ---merged/new
+#'
+#' FALSE positives ("oops") of merged/new
 oops <- corpus_subset(corpus_1834,
                     docvars(corpus_1834,"id") %in%
-                      t$filter_T_hc_F)
+                      n$filter_T_hc_F)
 oops$documents$texts[1:10]
 
-
-# Quality of dictionary if
-# candidate(s) become actual entries
-
-tagfilter_new <- merge_filters(tagfilter_labor(),
-                               tagfilter_test())
-
-new_ids <- tagfilter_new$filtrate(corpus_1834)
-
-## 2x2 Matrix containing number of ads
-## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-## found by filter AND NOT by HC ("oops") | neither hc nor filter
-n <- validate_filter(corpus_1834, new_ids,
-                     search_col = "adcontent",
-                     pattern = "arbeit")
-n
-
+#' FALSE negatives ("What are we still missing?") of merged/new
 missing_corpus <- corpus_subset(corpus_1834,
                                 docvars(corpus_1834,"id") %in%
                                   n$hc_T_filter_F)
@@ -162,11 +148,6 @@ missing_corpus_clean <- missing_corpus %>%
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
 
+missing_corpus$documents$texts[1-10]
 
-# How encompassing, and how precise is the filter compared to the old?
-rangeold <- round(100/(1+length(o$hc_T_filter_F)/length(o$filter_T_hc_T)),1)
-rangenew <- round(100/(1+length(n$hc_T_filter_F)/length(n$filter_T_hc_T)),1)
-precisionold <- round(100/(1+length(o$filter_T_hc_F)/length(o$filter_T_hc_T)),1)
-precisionnew <- round(100/(1+length(n$filter_T_hc_F)/length(n$filter_T_hc_T)),1)
-print( paste("Range: ", rangeold, "% -> ", rangenew, "% (", rangenew-rangeold, "%)."))
-print( paste("Precision: ", precisionold, "% -> ", precisionnew, "% (", precisionnew-precisionold, "%)."))
+head(kwic(missing_corpus, pattern = "something"))
