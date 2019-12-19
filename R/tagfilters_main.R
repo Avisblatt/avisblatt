@@ -77,8 +77,35 @@ tagfilter_bizpromo <- function(){
 tagfilter_real_estate <- function(){
   dict <- list()
   dict$pos <- list(
-    apartment = "losament|^Zimmer|Wohnung|Kammer|Keller"
+    #excluded "|[W|w]ohnung" for now, too many oops
+    building = "[b|B]ehausung|Liegenschaft|[G|G]ebäude|Stallung|[m|M]ühle|Landgut|Landgüter",
+    apartment = "[L|l]osament|Zimmer|[k|K]ammer",
+    rooms = "[K|k]eller|Stube\\b|Stuben\\b|Stüblein|Küche\\b",
+    quality = "möblirt|meublirt|heibar|geräumig|Lage",
+    movingin = "beziehen",
+    date = "fronfasten",
+    dimensions = "[J|j]uchart"
   )
+  dict$neg <- list(
+    #"beziehen" meaning "procured" needs to be excluded both for dividends etc. and products
+    financeproducts = "Obligationen|A[c|k]tien|Titeln|Beytrag|Beiträge|
+                        Zinsentrichtung|Rechnung|Besoldung|Weggeld|Kapitalgeld|
+                        [C|K]ass[a|e]//b|Tauf[S|s]chein",
+    finance_phrase1 = "fälligen Zinsen",
+    #"Preis" is problematic: really needed to remove goods, but also removes some real estate sale offers :-/
+    product_procurement = "Preis|Ladenpreis|Bezahlung|Bedienung|Sortiment|Artikel",
+    product_procurement_phase1 = "in Commission",
+    #excluding "beziehen" meaning "receiving a newspaper"
+    receivingpaper = "Zeitung|Zeitschrift|Mithalter|Abonnement",
+    #excluding notifications that a business has relocated
+    relocation = "Wohnungsveränderung|Wohnungs-Veränderung|verändert|nunmehr",
+    relocation_phrase_1 = "empfiehlt sich",
+    #not "Küche" as a way of cooking; excluding cook-ware
+    cooking = "Köchin|Küche-|Geräthschaften",
+    cooking_phrase_1 = "[G|g]ute Küche",
+    cooking_phrase_2 = "[B|b]ürgerlich[e|er|en] Küche",
+    cooking_phrase_3 = "Küche bürgerlich"
+    )
   create_filter_output(dict)
 }
 

@@ -25,7 +25,10 @@ corpus_1834 <- corpus_subset(corpus_1834_all,
                                 ids_by_lang$de))
 
 
-#' PICK category and filter by removing # from the pertinent line:
+#' PICK category and filter by removing # from the pertinent line below
+#' #reload current version of filters here, so lines ~28-100
+#' #can be executed as a block after changing original and test dictionary
+source("R/tagfilters_main.R", encoding = "UTF-8")
 #category <- "01textilien"; original <- tagfilter_textiles()
 #category <- "02hausrat"; original <- tagfilter_household_goods()
 #category <- "03lebensmittel"; original <- tagfilter_grocery()
@@ -50,21 +53,17 @@ category <- "08immo"; original <- tagfilter_real_estate()
 #' Testing the impact of new entries
 #'
 #' Insert potenial terms as candidate below
-#' execute code up to line ~100 for comprehensive evaluation
+#' execute code from line 28 to line ~100 for comprehensive evaluation
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "Gebäude"
+    candidate = "Omaha"
   )
   #take over dict$neg from original filter to better gauge potential of candidate
   #disable by adding # at beginning of next line
   dict$neg <- original$tagfilters$neg
   create_filter_output(dict)
 }
-#reload current version of filters here, so lines ~50-100
-#can be executed as a block after changing original and test dictionary
-source("R/tagfilters_main.R", encoding = "UTF-8")
-
 
 #' merging original and test filter and prepare validation
 tagfilter_new <- merge_filters(original,
