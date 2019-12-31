@@ -10,6 +10,7 @@ source("R/avis_stop.R")
 source("R/ocr_corrections.R")
 source("R/tagfilters_utils.R")
 source("R/tagfilters_household.R")
+source("R/tagfilters_things_qualities.R")
 source("R/tagfilters_main.R")
 source("R/cleaners.R")
 source("R/validate_filters.R")
@@ -74,7 +75,7 @@ textplot_wordcloud(dfm(bed_subset_clean),
 ## Household Textiles
 household_textile <- tagfilter_household_textile()
 
-household_textile_ids <- household_textile$filtrate(corpus_1834,ignore.case = F)
+household_textile_ids <- household_textile$filtrate(corpus_1834,ignore.case = T)
 
 household_textile_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                             household_textile_ids)
@@ -82,16 +83,10 @@ household_textile_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id"
 household_textile_texts <- household_textile_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-household_textile_dict <- dictionary(list(
-  table_linen = "[T|t]afeltuch|[T|t]ischtuch|[T|t]ischzeug|[T|t]ischdeck",
-  bedding = "[D|d]eckbet|[H|h]auszeug|[M|m]a[t|d]rat|[B|b]ettdeck|[B|b]e[tt|th]wer|Bettzeug|Bethzeug|Bettsack|Bethsack",
-  carpetmis = "[T|t]eppi|[T|t][e|a]pi|[S|s]chaubdeck"))
-
 household_textile_kwic <- kwic(household_textile_subset,
-                 pattern = "Tafeltuch",
+                 pattern = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Deckbet|Hauszeug|Matrat|Madrat|Bettdeck|Bettwer|Bethwer|Bettzeug|
+                 Bethzeug|Bettsack|Bethsack|Teppi|Tepi|Tapi|Tappi|Schaubdeck",
                   valuetype = "regex")
-
-#### Why does this not work? I get the message "Error in x[[length(x)]]" - what is to long here? ####
 
 household_textile_kwic
 
@@ -105,33 +100,31 @@ textile_subset_clean <- household_textile_subset %>%
 textplot_wordcloud(dfm(household_textile_subset_clean),
                    max_words = 100)
 
-#### Here I get the same error message as before... ####
 
+## Chairs
+chair <- tagfilter_chair()
 
-## Seating Furniture
-seat <- tagfilter_seat()
+chair_ids <- chair$filtrate(corpus_1834,ignore.case = T)
 
-seat_ids <- seat$filtrate(corpus_1834,ignore.case = T)
+chair_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                chair_ids)
 
-seat_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                               seat_ids)
-
-seat_texts <- seat_subset$documents$texts
+chair_texts <- chair_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-seat_kwic <- kwic(seat_subset,
+chair_kwic <- kwic(chair_subset,
                  pattern = "[S|s]essel|[F|f][au|ua]teil|[S|s]t[u|ü]hl",
                  valuetype = "regex")
 
-seat_kwic
+chair_kwic
 
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
-seat_subset_clean <- seat_subset %>%
+chair_subset_clean <- chair_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(avis_stop())
 
-textplot_wordcloud(dfm(seat_subset_clean),
+textplot_wordcloud(dfm(chair_subset_clean),
                    max_words = 100)
 
 ## Cupboards, Cabinets and Storage
@@ -207,7 +200,7 @@ mirror_kwic <- kwic(mirror_subset,
 
 mirror_kwic
 
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 mirror_subset_clean <- mirror_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
@@ -234,7 +227,7 @@ timepiece_kwic <- kwic(timepiece_subset,
 
 timepiece_kwic
 
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 timepiece_subset_clean <- timepiece_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
@@ -260,7 +253,7 @@ table_kwic <- kwic(table_subset,
 
 table_kwic
 
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 table_subset_clean <- table_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
@@ -326,7 +319,41 @@ household_dfm <- household_tok %>%
 
 household_df <- docfreq(household_dfm)
 
-household_s_df <- sort(df,decreasing = T)
+household_s_df <- sort(household_df,decreasing = T)
+
+topfeatures(household_dfm)
 
 # exporting csv with sorted document feature matrix to Desktop
 write.csv2(household_s_df, file = "data/household_s_df_1834.csv", fileEncoding = "UTF-8")
+
+### showing ids for documents (ads) NOT classified as any houshold good by automatic classification, but classified manually as "02haushalt"
+# looking at household_1834 corpus
+household_1834
+
+# negating %in% operator
+`%notin%` <- Negate(`%in%`)
+
+# creating a corpus of all the ads (ids) not found by automatic classification
+household_missed <- corpus_subset(household_1834, docvars(household_1834, "id") %notin%
+                                    c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
+                                      timepiece_ids, mirror_ids, stove_ids, cabinet_ids))
+
+household_missed_texts <- household_missed$documents$texts
+
+# write csv for texts of missed ads
+write.csv2(household_missed_texts, file = "data/household_missed.csv", fileEncoding = "UTF-8")
+
+# creating a corpus of all ads (ids) found automatically, but not by manual classification
+household_ids <- household_1834$documents$id
+
+not_household <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
+                                  household_ids)
+
+
+household_oops <- corpus_subset(not_household, docvars(not_household, "id") %in%
+                                  c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
+                                    timepiece_ids, mirror_ids, stove_ids, cabinet_ids))
+
+household_oops_texts <- household_oops$documents$texts
+
+household_oops_texts[1:20]
