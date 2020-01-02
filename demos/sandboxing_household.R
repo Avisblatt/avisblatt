@@ -113,7 +113,7 @@ chair_texts <- chair_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 chair_kwic <- kwic(chair_subset,
-                 pattern = "[S|s]essel|[F|f][au|ua]teil|[S|s]t[u|ü]hl",
+                 pattern = "[S|s]t[u|ü]hl|[S|s]itz",
                  valuetype = "regex")
 
 chair_kwic
@@ -139,7 +139,7 @@ cabinet_texts <- cabinet_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 cabinet_dict <- dictionary(list(
-  cabinet = "[K|k]asten|[B|b]uffet|[C|c]orpus|[K|C]ommode"))
+  cabinet = "Schafft"))
 
 cabinet_kwic <- kwic(cabinet_subset,
                   pattern = cabinet_dict,
@@ -168,7 +168,7 @@ stove_texts <- stove_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 stove_kwic <- kwic(stove_subset,
-                 pattern = "[O|o|ö|Ö]fen|[O|o]efen|[K|k|C|c]amin[F|f]euerh[u|ü]nd",
+                 pattern = "[O|o]efel",
                  valuetype = "regex")
 
 stove_kwic
@@ -222,7 +222,7 @@ timepiece_texts <- timepiece_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 timepiece_kwic <- kwic(timepiece_subset,
-                    pattern = "[U|u]hr",
+                    pattern = "[P|p]endul",
                     valuetype = "regex")
 
 timepiece_kwic
@@ -248,10 +248,9 @@ table_texts <- table_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 table_kwic <- kwic(table_subset,
-                       pattern = "[T|t]isch",
+                       pattern = "[T|t]afel",
                        valuetype = "regex")
 
-table_kwic
 
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 table_subset_clean <- table_subset %>%
@@ -274,12 +273,11 @@ tableware_texts <- tableware_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 tableware_kwic <- kwic(tableware_subset,
-                   pattern = "[G|g]eschir|[K|k|C|c]anne",
+                   pattern = "[B|b]iergläs|[B|b]ierglas",
                    valuetype = "regex")
 
 tableware_kwic
 
-#### negative: Kummet-Geschirr, Reitgeschirr, Waschgeschirr ####
 
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
 tableware_subset_clean <- tableware_subset %>%

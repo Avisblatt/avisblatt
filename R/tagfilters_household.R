@@ -37,17 +37,23 @@ tagfilter_household_textile <- function(){
 }
 
 #' Dictionary Chair
-#' NEU: Sitz
 #' @export
 tagfilter_chair <- function(){
   dict <- list()
   dict$pos <- list(
-    chair = "[S|s]t[u|ü]hl|Sitz"
+    chair = "[S|s]t[u|ü]hl|[S|s]itz"
+    # maybe exclude Sitz later, as it only finds two ads also containing Sessel (which are upholstery)
   )
   dict$neg <- list(
     loom = "Webstuhl|Bandstuhl|Posamentstuhl|[W|w]eberstuhl", # looms for weaving
     churchchair = "Frauenstuhl|Weiberstuhl", # churchchairs are in another category
-    profession = "Stuhlschreiner" # professions including "stuhl"
+    profession = "Stuhlschreiner", # professions including "stuhl"
+    possession = "besitz|Besitz", # words meaning possession including "sitz"
+    meeting = "Sitzung", # word for meeting
+    churchchairs = "Frauensitz|Weibersitz|Mannensitz|[K|k]irchensitz|Mannssitz|Männersitz", # describing churchchairs (other category)
+    description = "sitzig|sitzend", # description of other objects (how many seats)
+    domicile = "Wohnsitz", # word for domicile
+    carriage = "[K|k]utsche|[W|w]agen|[W|w]ägelein|[W|w]ägelin|banc|bank" # pointing to carriages or carriage parts (seats for carriages)
   )
 
   create_filter_output(dict)
@@ -55,20 +61,22 @@ tagfilter_chair <- function(){
 }
 
 #' Dictionary Cupboards and Cabinets
-#' NEU: Schrank, Kästen, Buffet, Büffert
 #' @export
 tagfilter_cabinet <- function(){
   dict <- list()
   dict$pos <- list(
-    cabinet = "[K|k]asten|[B|b]uffet|[C|c]orpus|[K|C]ommode|[S|s]ch[a|ä]fft|[S|s]chrank|Kästen|Buffet|Büffert"
+    cabinet = "[K|k]asten|[B|b]uffet|[C|c]orpus|[K|C]ommode|[S|s]chrank|[K|k]ästen|[B|b]üffet|[B|b]üffert"
   )
   # "[K|C]ommode" is problematic, since it can also be an adjective for other objects,
   # therefore here only included if upper case
-  # "[S|s]ch[a|ä]fft" finds a lot of unrelated verbs (e.g. "angeschafft")
-  # exlusion of these through negative list has to be made
-  # when studying the ads in detail
+  # "[S|s]ch[a|ä]fft" finds a lot of unrelated verbs (e.g. "angeschafft") and no ads in this sample
+  # (therefore here excluded, maybe put it in later); exlusion of verbs through negative list has to be made
+  # if Schafft is necessary for other time periods
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder as a negative
+    toy = "Baukästen", # box for building bricks
+    dollbox = "Polichinell", # finds pop up doll boxes
+    paintbox = "Farbkästen|Farbkasten", # describes paintboxes
+    key = "Schrankschlüssel", # means key to a cabinet
   )
 
   create_filter_output(dict)
@@ -77,7 +85,6 @@ tagfilter_cabinet <- function(){
 
 
 #' Dictionary Stoves and Related Objects
-#' NEU: [O|o]efel
 #' @export
 tagfilter_stove <- function(){
   dict <- list()
@@ -115,12 +122,11 @@ tagfilter_mirror <- function(){
 }
 
 #' Dictionary Timepieces
-#' NEU: Pendule
 #' @export
 tagfilter_timepiece <- function(){
   dict <- list()
   dict$pos <- list(
-    timepiece = "[U|u]hr|Pendul"
+    timepiece = "[U|u]hr|[P|p]endul"
   )
   dict$neg <- list(
     profession = "[U|u]hrmach", # watchmakers
@@ -139,14 +145,14 @@ tagfilter_timepiece <- function(){
 tagfilter_table <- function(){
   dict <- list()
   dict$pos <- list(
-    table = "[T|t]isch|[T|t]afel"
+    table = "[T|t]isch|Küche-Tafel|Küchetafel"
   )
   dict$neg <- list(
     # negative list has to be extended
     adjective = "praktisch|schottisch|optisch|homeopatisch|helvetisch|
     romatisch|dramatisch|authentisch|brittisch|politisch|kosmetisch
     elastisch|theoretisch", # multiple adjectives containing "tisch"
-    textile = "[T|t]ischzeug|[T|t]ischtepp", # table linen is in another category
+    textile = "[T|t]ischzeug|[T|t]ischtepp|[T|t]ischtuch|[T|t]ischtüch", # table linen is in another category
     profession = "[T|t]ischler", # professions containing "tisch"
     person = "Tischgenos" # persons not objects
   )
@@ -156,15 +162,16 @@ tagfilter_table <- function(){
 }
 
 #' Dictionary Tableware
-#' NEU: [P|p]orzel|[P|p]orcel, Steingut|Fayence, Biergläs
 #' @export
 tagfilter_tableware <- function(){
   dict <- list()
   dict$pos <- list(
-    tableware = "[G|g]eschir|[P|p]orzel|[P|p]orcel|Steingut|Fayence|Biergläs",
-    jug ="[K|k|C|c]anne"
+    tableware = "[G|g]eschir|[B|b]iergläs|[B|b]ierglas",
+    material = "[P|p]orzel|[P|p]orcel|[S|s]teingut|[F|f]ayence|Krystallwaa|Krystall-Waa",
+    jug ="[K|k|C|c]anne|[K|k|C|c]arafe"
   )
   dict$neg <- list(
+    pipe = "Pfeifenkopf|Pfeifenköpf", # parts of tobacco pipes from porcelaine
     harness = "Pferdgeschir|Pferdegeschir|Fuhrgeschir|
     Chaisegeschir|Chaise-Geschir|Kummetgeschir|Kumetgeschir|
     Fuhrwerkgeschir|Sillengeschir", # different words containing "geschir" in the meaning of harness
