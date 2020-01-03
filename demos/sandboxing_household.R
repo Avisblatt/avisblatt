@@ -289,6 +289,62 @@ textplot_wordcloud(dfm(tableware_subset_clean),
                    max_words = 100)
 
 
+## Bureau
+bureau <- tagfilter_bureau()
+
+bureau_ids <- bureau$filtrate(corpus_1834,ignore.case = T)
+
+bureau_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                 bureau_ids)
+
+bureau_texts <- bureau_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+bureau_kwic <- kwic(bureau_subset,
+                       pattern = "[P|p]ult",
+                       valuetype = "regex")
+
+bureau_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+bureau_subset_clean <- bureau_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(bureau_subset_clean),
+                   max_words = 100)
+
+
+## Small Storage
+storage <- tagfilter_storage()
+
+storage_ids <- storage$filtrate(corpus_1834,ignore.case = F)
+
+storage_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                  storage_ids)
+
+storage_texts <- storage_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+storage_kwic <- kwic(storage_subset,
+                    pattern = "[S|s]ack|[S|s]äcke|[S|s]äckch",
+                    valuetype = "regex")
+
+storage_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+storage_subset_clean <- storage_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+storage_wordcloud(dfm(storage_subset_clean),
+                   max_words = 100)
+
+
 ### using existing categories for wordclouds and dfm to find missing objects in dictionaries
 # creating subset of houshold objects for sale
 household_1834 <- corpus_subset(corpus_1834, grepl("02hausrat", adcontent) & grepl("01kauf", finance))

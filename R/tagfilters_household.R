@@ -17,7 +17,6 @@ tagfilter_bed <- function(){
 
 
 #' Dictionary Household Textiles
-#' NEU: Bodentuch, Vorhang, Vorhäng, Jalousie
 #' @export
 tagfilter_household_textile <- function(){
   dict <- list()
@@ -65,7 +64,7 @@ tagfilter_chair <- function(){
 tagfilter_cabinet <- function(){
   dict <- list()
   dict$pos <- list(
-    cabinet = "[K|k]asten|[B|b]uffet|[C|c]orpus|[K|C]ommode|[S|s]chrank|[K|k]ästen|[B|b]üffet|[B|b]üffert"
+    cabinet = "[K|k]asten|[B|b]uffet|[C|c]orpus|[K|C]ommode|[S|s]chrank|[K|k]ästen|[B|b]üffet|[B|b]üffert|[B|b]ücherkäst"
   )
   # "[K|C]ommode" is problematic, since it can also be an adjective for other objects,
   # therefore here only included if upper case
@@ -140,12 +139,11 @@ tagfilter_timepiece <- function(){
 }
 
 #' Dictionary Tables
-#' NEU: [T|t]afel
 #' @export
 tagfilter_table <- function(){
   dict <- list()
   dict$pos <- list(
-    table = "[T|t]isch|Küche-Tafel|Küchetafel"
+    table = "[T|t]isch|Küche-Tafel|Küchetafel|Küchentafel|Küchen-Tafel"
   )
   dict$neg <- list(
     # negative list has to be extended
@@ -183,16 +181,17 @@ tagfilter_tableware <- function(){
 }
 
 
-#' Dictionary Bureaus and Work Desks NEU
+#' Dictionary Bureaus and Work Desks
 #' @export
 tagfilter_bureau <- function(){
   dict <- list()
   dict$pos <- list(
-    bureau = "[S|s]ekretär|[S|s]ecretär|[S|s]ecretair|[S|s]ekretair",
+    bureau = "[S|s]ekretär|[S|s]ecretär|[S|s]ecretair|[S|s]ekretair", # one false positive for "Secretär" as a job
     workdesk ="[P|p]ult"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    profession = "PolizeySekretär", # secretary of police
+    catapult = "Katapult|tapult" # catapults, sometimes the K is not correctly recognized
   )
 
   create_filter_output(dict)
@@ -204,13 +203,29 @@ tagfilter_bureau <- function(){
 tagfilter_storage <- function(){
   dict <- list()
   dict$pos <- list(
-    box = "[K|k]orb|[K|k]örb",
-    basket ="[K|k]iste|[K|k]istch|[K|k]ästchen",
+    basket = "[K|k]orb|[K|k]örb",
+    box ="[K|k]iste|[K|k]istch|[K|k]ästchen",
     bag = "[S|s]ack|[S|s]äcke|[S|s]äckch"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    measure_1 = "[K|k]orbweis|[K|k]istchenweis", # measuring something by baskets or boxes, variant 1
+    measure_2 = "Kistchen zu", # measuring something by boxes, variant 2
+    meausure_3 = "Kistchen von", # measuring something by boxes, variant 3
+    measure_4 = "//d//sKistchen", # measuring something by boxes, variant 4
+    meausure_5 = "Kistchen à", # measuring something by boxes, variant 5
+    meausure_6 = "Kistchen v.", # measuring something by boxes, variant 6
+    meausure_7 = "pr. Kistchen", # measuring something by boxes, variant 7
+    beehive = "Bienenkorb|Bienenkörb", # bee hives
+    stroller = "[K|k]orbwage|[K|k]orbwäge", # strollers and prams (own category)
+    profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
+    cabinet = "Bücherkäst", # book cabinets
+    watch = "Sackuhr", # pocketwatch
+    pistol = "Sack-Pistol|Sackpistol", # pocket pistols
+    telescope = "Sack-Perspek|Sackpersp", # pocket telescope
+    graveyard = "Gottesacker", # graveyard
+    textile = "[S|s]acktuch|[S|s]acktüch" # name for specific kind of cloth
   )
+  # maybe exclude Bettsack and add it to bed dictionary?
 
   create_filter_output(dict)
 
@@ -239,7 +254,8 @@ tagfilter_game <- function(){
   dict <- list()
   dict$pos <- list(
     billard = "[B|b]illard",
-    chess = "[S|s]chach"
+    chess = "[S|s]chach",
+    pocketgame = "Taschenspiel"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder

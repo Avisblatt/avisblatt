@@ -17,5 +17,6 @@ correct_ocr <- function(x){
   x <- gsub("Käsig", "Käfig", x)
   x <- gsub("Cortrait", "Portrait", x)
   x <- gsub("Beschirr", "Geschirr", x)
+  x <- gsub("Korbwäelein", "Korbwägelein", x)
   x
   }
