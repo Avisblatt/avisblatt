@@ -198,7 +198,7 @@ tagfilter_bureau <- function(){
 
 }
 
-#' Dictionary Small Storage NEU
+#' Dictionary Small Storage
 #' @export
 tagfilter_storage <- function(){
   dict <- list()
@@ -231,31 +231,34 @@ tagfilter_storage <- function(){
 
 }
 
-#' Dictionary Toys for Children NEU
+#' Dictionary Toys for Children
 #' @export
 tagfilter_toy <- function(){
   dict <- list()
   dict$pos <- list(
     doll = "[P|p]uppe",
-    misc = "Felsenburg"
+    misc = "Felsenburg|[S|s]pielwaare"
+    # has to be extended with other toys
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
 
   )
 
+
   create_filter_output(dict)
 
 }
 
-#' Dictionary Games NEU
+#' Dictionary Games
 #' @export
 tagfilter_game <- function(){
   dict <- list()
   dict$pos <- list(
-    billard = "[B|b]illard",
-    chess = "[S|s]chach",
+    billard = "[B|b]illard|[B|b]illiard|[B|b]ilard|[B|b]iliard",
+    chess = "[S|s]chachbret|[S|s]chachspiel",
     pocketgame = "Taschenspiel"
+    # has to be extended with other games
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
