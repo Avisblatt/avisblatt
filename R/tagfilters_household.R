@@ -269,20 +269,25 @@ tagfilter_game <- function(){
 
 }
 
-#' Dictionary Kitchen Utensils NEU
+#' Dictionary Kitchen Utensils
 #' @export
 tagfilter_kitchen <- function(){
   dict <- list()
   dict$pos <- list(
     washingup = "Wasserstein",
-    preparation = "Mörser|Wahlholz|Erdäpfel-Mühle|Kaffeemühle|Wahlhölz",
-    cooker = "Kaffeeheerd|Sparheerd|Kochhafen|KaffeeDampfmaschine",
-    storage ="Zuber|Krug|Krüg|Kessel||Krauthobel",
+    preparation = "Mörser|Wahlholz|Erdäpfel-Mühle|Kaffeemühle|Wahlhölz|Krauthobel",
+    cooker = "Kaffeheerd|Sparheerd|Kochhafen|KaffeeDampfmaschine",
+    storage ="Zuber|Krüg|Kessel", # I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
+    # maybe a new dictionary for washing utensils? Bauchkessel, Waschkessel
     pan = "Casserolle|Bressière|Daubière|Bratenwender",
     baking = "Mödel|Waffleneisen"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    textile = "gemödelt", # certain kind of decoration of a textile
+    preparation = "zubereit|Zubereit", # meaning preparation of something (containing "zuber")
+    mineralwater = "Selterser|Selter", # mostly stored mineral water (bevarage), very few instances used for bottles only (these will get lost with this negative)
+    immo = "ablaufen|Kammer", # filters out immo ads with kitchen and a "ablaufendem Wasserstein", "Kammer" filters out the rest of the immo ads
+    weapon = "Messing-Mörser" # description of a weapon
 
   )
 
@@ -290,15 +295,15 @@ tagfilter_kitchen <- function(){
 
 }
 
-#' Dictionary Lighting NEU
+#' Dictionary Lighting
 #' @export
 tagfilter_lighting <- function(){
   dict <- list()
   dict$pos <- list(
-    lighting = "Leuchter|Chandelier|Lampe|Laterne|Nachtlicht"
+    lighting = "Leuchter|Chandelier|Lampe|Laterne|Nachtlicht|Lichtstock|Lichtstöck"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    placeholder = "bibedibabediboo" # placeholder: so far no negatives necessary
 
   )
 
@@ -306,20 +311,27 @@ tagfilter_lighting <- function(){
 
 }
 
-#' Dictionary Musical Instruments NEU
+#' Dictionary Musical Instruments
 #' @export
 tagfilter_instrument <- function(){
   dict <- list()
   dict$pos <- list(
-    piano = "Flügel||Piano|Clavier|Klavier",
-    drum = "Trommel",
-    spinet = "Spinet",
+    keyboard = "Flügel|Piano|Clavier|Klavier|Spinet",
+    drum = "Trommel", # maybe exclude here drums specifically for children (toys)?
+    wind = "Flöte|Clarinet|Fagot|Trompet",
     guitar = "Guitar",
+    strings = "Violin|Contrebass|Cello",
     other = "Aeolotikon",
     misc = "Instrument"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    concert = "Conzert|Concert", # excludes announcements of concerts
+    physics = "physikal|mechani|chirurgi|opti", # excludes optical, mechanical, chirurgical and physical instruments
+    domestic = "Sticktrommel", # instrument for embroidery (see domestic appliances)
+    immo = "Flügelgebäude|Fensterflügel|Fenster", # description of certain kind of building or building material
+    food = "Geflügel", # chicken and oder poultry
+    print = "abonniren|Magazin|Composition|Ges[a|ä]ng|Auszüg|Auszug|Heft", # excludes printed matter (musical notes)
+    profession = "Unterricht|lecon" # excludes work-related ads (music teaching)
 
   )
 

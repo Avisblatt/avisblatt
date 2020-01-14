@@ -412,9 +412,10 @@ kitchen_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
 kitchen_texts <- kitchen_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-kitchen_kwic <- kwic(toy_subset,
-                  pattern = "Wasserstein",
-                  valuetype = "regex")
+kitchen_kwic <- kwic(kitchen_subset,
+                  pattern = "Mödel|Waffleneisen",
+                  valuetype = "regex",
+                  ignore.case = T)
 
 kitchen_kwic
 
@@ -426,6 +427,64 @@ kitchen_subset_clean <- kitchen_subset %>%
   tokens_remove(avis_stop())
 
 textplot_wordcloud(dfm(kitchen_subset_clean),
+                   max_words = 100)
+
+
+## Lighting
+lighting <- tagfilter_lighting()
+
+lighting_ids <- lighting$filtrate(corpus_1834, ignore.case = T)
+
+lighting_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   lighting_ids)
+
+lighting_texts <- lighting_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+lighting_kwic <- kwic(lighting_subset,
+                     pattern = "Lichtstock|Lichtstöck",
+                     valuetype = "regex",
+                     ignore.case = T)
+
+lighting_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+lighting_subset_clean <- lighting_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(lighting_subset_clean),
+                   max_words = 100)
+
+
+## Musical Instruments
+instrument <- tagfilter_instrument()
+
+instrument_ids <- instrument$filtrate(corpus_1834, ignore.case = T)
+
+instrument_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                     instrument_ids)
+
+instrument_texts <- instrument_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+instrument_kwic <- kwic(instrument_subset,
+                      pattern = "Instrument",
+                      valuetype = "regex",
+                      ignore.case = T)
+
+instrument_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+instrument_subset_clean <- instrument_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(instrument_subset_clean),
                    max_words = 100)
 
 
