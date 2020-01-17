@@ -835,7 +835,7 @@ textplot_wordcloud(dfm(mischoushold_subset_clean),
 
 
 ### using existing categories for wordclouds and dfm to find missing objects in dictionaries
-# creating subset of houshold objects for sale
+# creating subset of houshold objects for sale and for buying
 household_1834 <- corpus_subset(corpus_1834, grepl("02hausrat", adcontent) & grepl("01kauf", finance))
 
 # cleaning subset
@@ -884,6 +884,10 @@ household_missed <- corpus_subset(household_1834, docvars(household_1834, "id") 
                                       instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
                                       petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
                                       wallpaper_ids))
+# 17/01/20: only 52 missed ads - most of them French or wrongly classified as "Hausrat" in manual classification
+# some missed ads don't make any sense, should be included through dictionaries, words in question are: "Vorfenster",
+# "Trumeau", "Messer", "Fensterflügel", "Fenster", "WaarenKorpus" and "Bücherkästchen"
+# rest of missed ads are very special objects, makes no sense to make a dictionary for them (re-evaluate later)
 
 household_missed_texts <- household_missed$documents$texts
 
@@ -903,4 +907,26 @@ household_oops <- corpus_subset(not_household, docvars(not_household, "id") %in%
 
 household_oops_texts <- household_oops$documents$texts
 
-household_oops_texts[1:20]
+# 17/01/20: 631 oops cases, but most of them seem to be work or immo related and could be excluded by detection of work/immo ads
+# some of them are adverts for shops or services, were houshold goods are advertised, so actually correctly recognized
+# as such; often also ads wrongly not classified as houshold by manual clasification
+# sometimes also negative dictionaries don't seem to work consistently,  e.g. "Sitzung" or "Langmesser"
+
+
+household_oops_texts[100:150]
+
+# creating a corpus of all ads recognised by automated household filters
+household_filters <- corpus_subset(corpus_1834, docvars(household_1834, "id") %in%
+                                    c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
+                                      timepiece_ids, mirror_ids, stove_ids, cabinet_ids, bureau_ids, cabinet_ids,
+                                      chair_ids, cutlery_ids, divider_ids, domestic_ids, game_ids, garden_ids,
+                                      instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
+                                      petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
+                                      wallpaper_ids))
+
+
+
+
+cat(paste("Range (%):\t", household_1834$range, "->", household_filters$range, "| change:", round (household_filters$range-o$range,1),
+          "\nPrecision (%):\t", household_1834$precision, "->", household_filters$precision, "| change:", round (household_filters$precision-o$precision,1), "\n"
+))
