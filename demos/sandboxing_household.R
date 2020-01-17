@@ -84,8 +84,7 @@ household_textile_texts <- household_textile_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 household_textile_kwic <- kwic(household_textile_subset,
-                 pattern = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Deckbet|Hauszeug|Matrat|Madrat|Bettdeck|Bettwer|Bethwer|Bettzeug|
-                 Bethzeug|Bettsack|Bethsack|Teppi|Tepi|Tapi|Tappi|Schaubdeck",
+                 pattern = "Bodentüch",
                   valuetype = "regex")
 
 household_textile_kwic
@@ -138,11 +137,8 @@ cabinet_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
 cabinet_texts <- cabinet_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-cabinet_dict <- dictionary(list(
-  cabinet = "Schafft"))
-
 cabinet_kwic <- kwic(cabinet_subset,
-                  pattern = cabinet_dict,
+                  pattern = "Kästlein|[K|k]orpus",
                   valuetype = "regex")
 
 cabinet_kwic
@@ -168,7 +164,7 @@ stove_texts <- stove_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 stove_kwic <- kwic(stove_subset,
-                 pattern = "[O|o]efel",
+                 pattern = "öfel",
                  valuetype = "regex")
 
 stove_kwic
@@ -273,7 +269,7 @@ tableware_texts <- tableware_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 tableware_kwic <- kwic(tableware_subset,
-                   pattern = "[B|b]iergläs|[B|b]ierglas",
+                   pattern = "Tasse|Humpe|Teller|Becher",
                    valuetype = "regex")
 
 tableware_kwic
@@ -413,7 +409,7 @@ kitchen_texts <- kitchen_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 kitchen_kwic <- kwic(kitchen_subset,
-                  pattern = "Mödel|Waffleneisen",
+                  pattern = "Brennhafen|Milchflasche|Fleischbütte|Sauerkrautstand|Züber",
                   valuetype = "regex",
                   ignore.case = T)
 
@@ -471,7 +467,7 @@ instrument_texts <- instrument_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 instrument_kwic <- kwic(instrument_subset,
-                      pattern = "Instrument",
+                      pattern = "Stimmgabel",
                       valuetype = "regex",
                       ignore.case = T)
 
@@ -486,6 +482,356 @@ instrument_subset_clean <- instrument_subset %>%
 
 textplot_wordcloud(dfm(instrument_subset_clean),
                    max_words = 100)
+
+
+## Building Components
+building <- tagfilter_building()
+
+building_ids <- building$filtrate(corpus_1834, ignore.case = F)
+
+building_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   building_ids)
+
+building_texts <- instrument_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+building_kwic <- kwic(building_subset,
+                        pattern = "Bodenplättl|Bodenplatt",
+                        valuetype = "regex",
+                        ignore.case = F)
+
+building_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+building_subset_clean <- building_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(building_subset_clean),
+                   max_words = 100)
+
+
+## Wallpaper
+wallpaper <- tagfilter_wallpaper()
+
+wallpaper_ids <- wallpaper$filtrate(corpus_1834, ignore.case = T)
+
+wallpaper_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                    wallpaper_ids)
+
+wallpaper_texts <- wallpaper_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+wallpaper_kwic <- kwic(wallpaper_subset,
+                      pattern = "Tapet",
+                      valuetype = "regex",
+                      ignore.case = T)
+
+wallpaper_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+wallpaper_subset_clean <- wallpaper_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(wallpaper_subset_clean),
+                   max_words = 100)
+
+
+## Suitcases
+suitcase <- tagfilter_suitcase()
+
+suitcase_ids <- suitcase$filtrate(corpus_1834, ignore.case = T)
+
+suitcase_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   suitcase_ids)
+
+suitcase_texts <- suitcase_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+suitcase_kwic <- kwic(suitcase_subset,
+                       pattern = "Koffer|Coffre|Coffer",
+                       valuetype = "regex",
+                       ignore.case = T)
+
+suitcase_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+suitcase_subset_clean <- suitcase_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(suitcase_subset_clean),
+                   max_words = 100)
+
+
+## Cutlery
+cutlery <- tagfilter_cutlery()
+
+cutlery_ids <- cutlery$filtrate(corpus_1834, ignore.case = T)
+
+cutlery_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                  cutlery_ids)
+
+cutlery_texts <- cutlery_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+cutlery_kwic <- kwic(cutlery_subset,
+                     pattern = "Messer",
+                     valuetype = "regex",
+                     ignore.case = T)
+
+cutlery_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+cutlery_subset_clean <- cutlery_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(cutlery_subset_clean),
+                   max_words = 100)
+
+
+## Measuring instruments
+measure <- tagfilter_measure()
+
+measure_ids <- measure$filtrate(corpus_1834, ignore.case = T)
+
+measure_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                  measure_ids)
+
+measure_texts <- measure_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+measure_kwic <- kwic(measure_subset,
+                      pattern = "Termometer",
+                      valuetype = "regex",
+                      ignore.case = T)
+
+measure_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+measure_subset_clean <- measure_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(measure_subset_clean),
+                   max_words = 100)
+
+
+## Room Dividers
+divider <- tagfilter_divider()
+
+divider_ids <- divider$filtrate(corpus_1834, ignore.case = T)
+
+divider_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                  divider_ids)
+
+divider_texts <- divider_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+divider_kwic <- kwic(divider_subset,
+                     pattern = "spanisch",
+                     valuetype = "regex",
+                     ignore.case = T)
+
+divider_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+divider_subset_clean <- divider_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(divider_subset_clean),
+                   max_words = 100)
+
+
+## Object for Pets
+petobject <- tagfilter_petobject()
+
+petobject_ids <- petobject$filtrate(corpus_1834, ignore.case = T)
+
+petobject_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                    petobject_ids)
+
+petobject_texts <- petobject_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+petobject_kwic <- kwic(petobject_subset,
+                     pattern = "Hundesställ|Hundestall",
+                     valuetype = "regex",
+                     ignore.case = T)
+
+petobject_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+petobject_subset_clean <- petobject_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(petobject_subset_clean),
+                   max_words = 100)
+
+
+## Upholstery
+upholstery <- tagfilter_upholstery()
+
+upholstery_ids <- upholstery$filtrate(corpus_1834, ignore.case = T)
+
+upholstery_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                    upholstery_ids)
+
+upholstery_texts <- upholstery_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+upholstery_kwic <- kwic(upholstery_subset,
+                       pattern = "Kanefa",
+                       valuetype = "regex",
+                       ignore.case = T)
+
+upholstery_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+upholstery_subset_clean <- upholstery_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(upholstery_subset_clean),
+                   max_words = 100)
+
+
+## Houseplant and related Objects
+plantobject <- tagfilter_plantobject()
+
+plantobject_ids <- plantobject$filtrate(corpus_1834, ignore.case = T)
+
+plantobject_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                      plantobject_ids)
+
+plantobject_texts <- plantobject_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+plantobject_kwic <- kwic(plantobject_subset,
+                        pattern = "Blumen",
+                        valuetype = "regex",
+                        ignore.case = T)
+
+plantobject_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+plantobject_subset_clean <- plantobject_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(plantobject_subset_clean),
+                   max_words = 100)
+
+
+## Domestic Appliances
+domestic <- tagfilter_domestic()
+
+domestic_ids <- domestic$filtrate(corpus_1834, ignore.case = T)
+
+domestic_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   domestic_ids)
+
+domestic_texts <- domestic_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+domestic_kwic <- kwic(domestic_subset,
+                         pattern = "Spuhlrad|Sticktrommel|Spuhlrad|Plunderstang",
+                         valuetype = "regex",
+                         ignore.case = T)
+
+domestic_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+domestic_subset_clean <- domestic_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(domestic_subset_clean),
+                   max_words = 100)
+
+
+
+## Garden Furniture and Objects
+garden <- tagfilter_garden()
+
+garden_ids <- garden$filtrate(corpus_1834, ignore.case = T)
+
+garden_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                 garden_ids)
+
+garden_texts <- garden_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+garden_kwic <- kwic(garden_subset,
+                      pattern = "Gärtner-Cloches|Baum-Scheere",
+                      valuetype = "regex",
+                      ignore.case = T)
+
+garden_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+garden_subset_clean <- garden_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(garden_subset_clean),
+                   max_words = 100)
+
+
+## Misc Household Goods (Unspecified)
+mischoushold <- tagfilter_mischoushold()
+
+mischoushold_ids <- mischoushold$filtrate(corpus_1834, ignore.case = T)
+
+mischoushold_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                       mischoushold_ids)
+
+mischoushold_texts <- mischoushold_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+mischoushold_kwic <- kwic(mischoushold_subset,
+                    pattern = "Hausgerät",
+                    valuetype = "regex",
+                    ignore.case = T)
+
+mischoushold_kwic
+
+
+# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
+mischoushold_subset_clean <- mischoushold_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(mischoushold_subset_clean),
+                   max_words = 100)
+
 
 
 ### using existing categories for wordclouds and dfm to find missing objects in dictionaries
@@ -533,7 +879,11 @@ household_1834
 # creating a corpus of all the ads (ids) not found by automatic classification
 household_missed <- corpus_subset(household_1834, docvars(household_1834, "id") %notin%
                                     c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
-                                      timepiece_ids, mirror_ids, stove_ids, cabinet_ids))
+                                      timepiece_ids, mirror_ids, stove_ids, cabinet_ids, bureau_ids, cabinet_ids,
+                                      chair_ids, cutlery_ids, divider_ids, domestic_ids, game_ids, garden_ids,
+                                      instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
+                                      petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
+                                      wallpaper_ids))
 
 household_missed_texts <- household_missed$documents$texts
 

@@ -20,5 +20,14 @@ correct_ocr <- function(x){
   x <- gsub("Korbwäelein", "Korbwägelein", x)
   x <- gsub("Mesung-Mörser", "Messing-Mörser", x)
   x <- gsub("Raspar", "Kaspar", x)
+  x <- gsub("Zurückgabel", "Zurückgabe", x)
+  x <- gsub("Ghar-à-banc", "Char-à-banc", x)
+  x <- gsub("Bögeleisen", "Bügeleisen", x)
+  x <- gsub("Rothfall", "Notfall", x)
+  x <- gsub("Rovität", "Novität", x)
+  x <- gsub("Moskan", "Moskau", x)
+  x <- gsub("Trumoau", "Trumeau", x)
+  x <- gsub("BlecHosen", "Blechofen", x)
+  x <- gsub("Jalousre-Läden", "Jalousie-Läden", x)
   x
   }
