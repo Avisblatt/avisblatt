@@ -21,14 +21,19 @@ tagfilter_bed <- function(){
 tagfilter_household_textile <- function(){
   dict <- list()
   dict$pos <- list(
-    table_linen = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck",
-    bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|Bethzeug|Bettsack|Bethsack",
+    table_linen = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Tischtüch",
+    bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|
+    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbett",
     carpet = "Teppi|Tepi|Tapi|Tappi|Bodentuch|Bodentüch",
     curtain = "Vorhang|Vorhäng|Jalousie",
     misc = "Schaubdeck"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder as a negative
+    name = "Neudecker", # family name
+    horse = "Pferdedecke|Pferddecke", # horse covers, will be included in category for riding
+    other = "Deckenstock", # unsure of meaning, but no household textile
+    wood = "Holzdecke", # pieces of wood
+    lid = "Deckel" # lid of a container
     )
 
   create_filter_output(dict)
@@ -78,7 +83,7 @@ tagfilter_cabinet <- function(){
     toy = "Baukästen", # box for building bricks
     dollbox = "Polichinell", # finds pop up doll boxes
     paintbox = "Farbkästen|Farbkasten", # describes paintboxes
-    key = "Schrankschlüssel", # means key to a cabinet
+    key = "Schrankschlüssel" # means key to a cabinet
   )
 
   create_filter_output(dict)

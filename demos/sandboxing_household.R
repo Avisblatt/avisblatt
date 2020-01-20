@@ -84,7 +84,7 @@ household_textile_texts <- household_textile_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 household_textile_kwic <- kwic(household_textile_subset,
-                 pattern = "Bodentüch",
+                 pattern = "Decke|Tischtüch|Strohsack|Strohsäck|Kissen|Unterbett",
                   valuetype = "regex")
 
 household_textile_kwic
@@ -895,6 +895,10 @@ household_missed_texts <- household_missed$documents$texts
 write.csv2(household_missed_texts, file = "data/household_missed.csv", fileEncoding = "UTF-8")
 
 # creating a corpus of all ads (ids) found automatically, but not by manual classification
+# new household_1834 corpus with all ads (not only "01kauf")
+
+household_1834 <- corpus_subset(corpus_1834, grepl("02hausrat", adcontent))
+
 household_ids <- household_1834$documents$id
 
 not_household <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
@@ -903,17 +907,21 @@ not_household <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
 
 household_oops <- corpus_subset(not_household, docvars(not_household, "id") %in%
                                   c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
-                                    timepiece_ids, mirror_ids, stove_ids, cabinet_ids))
+                                    timepiece_ids, mirror_ids, stove_ids, cabinet_ids, bureau_ids, cabinet_ids,
+                                    chair_ids, cutlery_ids, divider_ids, domestic_ids, game_ids, garden_ids,
+                                    instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
+                                    petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
+                                    wallpaper_ids))
 
 household_oops_texts <- household_oops$documents$texts
 
-# 17/01/20: 631 oops cases, but most of them seem to be work or immo related and could be excluded by detection of work/immo ads
-# some of them are adverts for shops or services, were houshold goods are advertised, so actually correctly recognized
+# 20/01/20: 928 oops cases, but most of them seem to be work or immo related and could be excluded by detection of work/immo ads
+# some of them are adverts for shops or services, were houshold goods are advertised, so actually correctly recognized via automatic recognition
 # as such; often also ads wrongly not classified as houshold by manual clasification
 # sometimes also negative dictionaries don't seem to work consistently,  e.g. "Sitzung" or "Langmesser"
 
 
-household_oops_texts[100:150]
+household_oops_texts[1:150]
 
 # creating a corpus of all ads recognised by automated household filters
 household_filters <- corpus_subset(corpus_1834, docvars(household_1834, "id") %in%
