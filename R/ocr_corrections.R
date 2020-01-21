@@ -40,5 +40,11 @@ correct_ocr <- function(x){
   x <- gsub("Rinderrock", "Kinderrock", x)
   x <- gsub("Höbe", "Höhe", x)
   x <- gsub("gleichalls", "gleichfalls", x)
+  x <- gsub("Gefundheit", "Gesundheit", x)
+  x <- gsub("Mareeline", "Marceline", x)
+  x <- gsub("Cemnture", "Ceinture", x)
+  x <- gsub("Cemture", "Ceinture", x)
+  x <- gsub("Alspin", "Alépin", x)
+  x <- gsub("Cor et", "Corset", x)
   x
   }

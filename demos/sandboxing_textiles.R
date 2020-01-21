@@ -362,7 +362,7 @@ headdress_subset_clean <- headdress_subset %>%
 textplot_wordcloud(dfm(headdress_subset_clean),
                    max_words = 100)
 
-### checked up until here ###
+
 
 ## Certain Types of Fabric/ Textile Material
 texmaterial <- tagfilter_texmaterial()
@@ -376,7 +376,7 @@ texmaterial_texts <- texmaterial_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 texmaterial_kwic <- kwic(texmaterial_subset,
-                       pattern = "Marceline|Levantine|Seide|Blonde|Floreth|Floret|Taffent|Taffet",
+                       pattern = "Wachslappen|Alépin",
                        valuetype = "regex",
                        ignore.case = T)
 texmaterial_kwic
@@ -392,10 +392,10 @@ textplot_wordcloud(dfm(texmaterial_subset_clean),
 
 
 
-## Cloth and Fabric
+## Unspecified Cloth and Fabric
 cloth <- tagfilter_cloth()
 
-cloth_ids <- cloth$filtrate(corpus_1834,ignore.case = F)
+cloth_ids <- cloth$filtrate(corpus_1834,ignore.case = T)
 
 cloth_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                 cloth_ids)
@@ -404,12 +404,11 @@ cloth_texts <- cloth_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 cloth_kwic <- kwic(cloth_subset,
-                       pattern = "[H|h]austuch|[F|f]uttertuch|[R|r]este|[L|l]einwa[nd|th]|Zeug|[S|s]acktuch|
-                   [W|w]ollw[aa|ah]r|[W|w]oll-[W|w][aa|ah]r",
-                       valuetype = "regex")
+                       pattern = "Reste|Zeug|Tuch|Tüch|Geflecht|Etoffe|Gewebe",
+                       valuetype = "regex",
+                   ignore.case = T)
 
 cloth_kwic
-
 
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 cloth_subset_clean <- cloth_subset %>%
@@ -433,9 +432,9 @@ yarn_texts <- yarn_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 yarn_kwic <- kwic(yarn_subset,
-                 pattern = "[F|f]lachs|[G|g]arn|[F|f]aden|[S|s]tickseide|[S|s]tickwolle|[S|s]tickbaum|
-                 [S|s]trickseide|[S|s]trickwolle|[S|s]trickbaum",
-                 valuetype = "regex")
+                 pattern = "Strickseide|Strickwolle|Strickbaum",
+                 valuetype = "regex",
+                 ignore.case = T)
 
 yarn_kwic
 
@@ -450,7 +449,6 @@ textplot_wordcloud(dfm(yarn_subset_clean),
 
 
 ## Animal Raw Materials
-### This does not work, animalraw_ids = 0 - why? In kwic_textile it works with the exact same dictionary... have to look into it later!
 animalraw <- tagfilter_animalraw()
 
 animalraw_ids <- animalraw$filtrate(corpus_1834,ignore.case = T)
@@ -462,8 +460,9 @@ animalraw_texts <- animalraw_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 animalraw_kwic <- kwic(animalraw_subset,
-                   pattern = "Bettfehde|Bethfehde|Bettfede|Bettfehde|Rosshaar|Roßhaar",
-                   valuetype = "regex")
+                   pattern = "Pferdhaar",
+                   valuetype = "regex",
+                   ignore.case = T)
 
 animalraw_kwic
 
@@ -477,30 +476,61 @@ textplot_wordcloud(dfm(animalraw_subset_clean),
                    max_words = 100)
 
 
-## Non Textile Accessoires
-nontexaccess <- tagfilter_nontexaccess()
 
-nontexaccess_ids <- nontexaccess$filtrate(corpus_1834,ignore.case = T)
+## Plant Raw Materials
+plantraw <- tagfilter_plantraw()
 
-nontexaccess_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                       nontexaccess_ids)
+plantraw_ids <- plantraw$filtrate(corpus_1834,ignore.case = T)
 
-nontexaccess_texts <- nontexaccess_subset$documents$texts
+plantraw_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   plantraw_ids)
+
+plantraw_texts <- plantraw_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-nontexaccess_kwic <- kwic(nontexaccess_subset,
-                    pattern = "[S|s]chnalle|Hosenträger|[G|g]ürtel|[C|c]eintur|[K|k]n[o|ö]pf",
-                    valuetype = "regex")
+plantraw_kwic <- kwic(plantraw_subset,
+                       pattern = "Waldhaar",
+                       valuetype = "regex",
+                       ignore.case = T)
 
-nontexaccess_kwic
+plantraw_kwic
 
 # creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
-nontexaccess_subset_clean <- nontexaccess_subset %>%
+plantraw_subset_clean <- plantraw_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(avis_stop())
 
-textplot_wordcloud(dfm(nontexaccess_subset_clean),
+textplot_wordcloud(dfm(plantraw_subset_clean),
+                   max_words = 100)
+
+
+
+## Mercery and Non Textile Accessoires
+mercery <- tagfilter_mercery()
+
+mercery_ids <- mercery$filtrate(corpus_1834,ignore.case = T)
+
+mercery_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                  mercery_ids)
+
+mercery_texts <- mercery_subset$documents$texts
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+mercery_kwic <- kwic(mercery_subset,
+                    pattern = "Kn[o|ö]pf",
+                    valuetype = "regex",
+                    ignore.case = T)
+
+mercery_kwic
+
+# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
+mercery_subset_clean <- mercery_subset %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(mercery_subset_clean),
                    max_words = 100)
 
 
@@ -516,8 +546,9 @@ bag_texts <- bag_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 bag_kwic <- kwic(bag_subset,
-                       pattern = "[T|t]asche|[S|s]eckel|[B|b]eutel|[S|s]äcklein",
-                       valuetype = "regex")
+                       pattern = "Tasche|Seckel|Beutel|Säck|Ridicule",
+                       valuetype = "regex",
+                       ignore.case = T)
 
 bag_kwic
 
@@ -550,7 +581,7 @@ household_textile_kwic
 
 
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
-textile_subset_clean <- household_textile_subset %>%
+household_textile_subset_clean <- household_textile_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(avis_stop())
@@ -601,17 +632,31 @@ textiles_1834
 # negating %in% operator
 `%notin%` <- Negate(`%in%`)
 
-# creating a corpus of all the ads (ids) not found by automatic classification
+# creating a corpus of all the ads (ids) not found by automatic classification of ads for sale/ to buy
 textiles_missed <- corpus_subset(textiles_1834, docvars(textiles_1834, "id") %notin%
-                                    c(clothing_ids, shoes_ids, texaccess_ids, cloth_ids, yarn_ids,
-                                      animalraw_ids, nontexaccess_ids, bag_ids, household_textile_ids))
+                                    c(clothing_ids, sleapwear_ids, uniform_ids, underwear_ids, outerwear_ids, costume_ids, shoes_ids,
+                                      handkerchief_ids, hand_ids, neck_ids, headdress_ids, texmaterial_ids, cloth_ids, yarn_ids,
+                                      animalraw_ids, plantraw_ids, mercery_ids, bag_ids, household_textile_ids))
+
+tex_id_automatic <- c(clothing_ids, sleapwear_ids, uniform_ids, underwear_ids, outerwear_ids, costume_ids, shoes_ids, handkerchief_ids,
+                      hand_ids, neck_ids, headdress_ids, texmaterial_ids, cloth_ids, yarn_ids, animalraw_ids, plantraw_ids, mercery_ids,
+                      bag_ids, household_textile_ids)
 
 textiles_missed_texts <- textiles_missed$documents$texts
 
 # write csv for texts of missed ads
 write.csv2(textiles_missed_texts, file = "data/textiles_missed.csv", fileEncoding = "UTF-8")
 
-# creating a corpus of all ads (ids) found automatically, but not by manual classification
+# 21/01/2020: 88 missed ads (by automated classification)
+# most often wrongly classified manually ("Bett" and "spanische Wand" and upholstery is very often classified as textile)
+# some French ads
+# not recognized due to ocr mistakes (Gane/Gaze)
+# few with "Wolle" or "Atlas" not recognizes (difficult to sort out negatives)
+# some should be included through dictionaries, no idea why they are not (e.g. Regenschirm)
+# artificial flowers are not included (Blumenarbeit as another dictionary?)
+
+
+# creating a corpus of all for sale/ to buy ads (ids) found automatically, but not by manual classification
 textiles_ids <- textiles_1834$documents$id
 
 not_textiles <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
@@ -619,8 +664,7 @@ not_textiles <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
 
 
 textiles_oops <- corpus_subset(not_textiles, docvars(not_textiles, "id") %in%
-                                  c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
-                                    timepiece_ids, mirror_ids, stove_ids, cabinet_ids))
+                                  tex_id_automatic)
 
 textiles_oops_texts <- textiles_oops$documents$texts
 
@@ -628,11 +672,8 @@ textiles_oops_texts <- textiles_oops$documents$texts
 textiles_oops_texts[100:150]
 
 # creating a corpus of all ads recognised by automated textiles filters
-textiles_filters <- corpus_subset(corpus_1834, docvars(textiles_1834, "id") %in%
-                                     c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
-                                       timepiece_ids, mirror_ids, stove_ids, cabinet_ids, bureau_ids, cabinet_ids,
-                                       chair_ids, cutlery_ids, divider_ids, domestic_ids, game_ids, garden_ids,
-                                       instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
-                                       petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
-                                       wallpaper_ids))
+textiles_filters <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                     c(clothing_ids, sleapwear_ids, uniform_ids, underwear_ids, outerwear_ids, costume_ids, shoes_ids,
+                                       handkerchief_ids, hand_ids, neck_ids, headdress_ids, texmaterial_ids, cloth_ids, yarn_ids,
+                                       animalraw_ids, plantraw_ids, mercery_ids, bag_ids, household_textile_ids))
 

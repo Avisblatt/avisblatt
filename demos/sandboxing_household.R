@@ -904,6 +904,12 @@ household_ids <- household_1834$documents$id
 not_household <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
                                   household_ids)
 
+household_automatic <- corpus(c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
+         timepiece_ids, mirror_ids, stove_ids, cabinet_ids, bureau_ids, cabinet_ids,
+         chair_ids, cutlery_ids, divider_ids, domestic_ids, game_ids, garden_ids,
+         instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
+         petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
+         wallpaper_ids))
 
 household_oops <- corpus_subset(not_household, docvars(not_household, "id") %in%
                                   c(bed_ids, household_textile_ids, seat_ids, table_ids, tableware_ids,
@@ -931,10 +937,3 @@ household_filters <- corpus_subset(corpus_1834, docvars(household_1834, "id") %i
                                       instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
                                       petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
                                       wallpaper_ids))
-
-
-
-
-cat(paste("Range (%):\t", household_1834$range, "->", household_filters$range, "| change:", round (household_filters$range-o$range,1),
-          "\nPrecision (%):\t", household_1834$precision, "->", household_filters$precision, "| change:", round (household_filters$precision-o$precision,1), "\n"
-))
