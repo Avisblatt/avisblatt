@@ -32,7 +32,7 @@ tagfilter_clothing <- function(){
 
 #' Dictionary Sleepwear
 #' @export
-tagfilter_sleapwear <- function(){
+tagfilter_sleepwear <- function(){
   dict <- list()
   dict$pos <- list(
     general = "Schlafrock|Schlafröck|Nachtärmel"

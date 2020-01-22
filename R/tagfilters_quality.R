@@ -20,7 +20,9 @@ tagfilter_secondhand <- function(){
     used_phrase_15 = "beinahe gantz neu",
     used_phrase_16 = "fast ganz neu",
     used_phrase_17 = "schier ganz neu",
-    used_phrase_18 = "beinahe ganz neu"
+    used_phrase_18 = "beinahe ganz neu",
+    used_phrase_19 = "so viel wie neu",
+    used_phrase_20 = "so viel als"
   )
 
   dict$neg <- list(

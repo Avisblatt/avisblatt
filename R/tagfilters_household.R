@@ -29,6 +29,7 @@ tagfilter_household_textile <- function(){
     misc = "Schaubdeck"
   )
   dict$neg <- list(
+    carriage = "Chaise|Schäse", # excludes carriages with drapes or other textiles
     name = "Neudecker", # family name
     horse = "Pferdedecke|Pferddecke", # horse covers, will be included in category for riding
     other = "Deckenstock", # unsure of meaning, but no household textile
@@ -137,10 +138,38 @@ tagfilter_timepiece <- function(){
     timepiece = "[U|u]hr|[P|p]endul"
   )
   dict$neg <- list(
-    profession = "[U|u]hrmach", # watchmakers
-    driving = "[F|f]uhr", # words associated with "driving" ("fuhr")
-    time = "\\d\\sUhr" # mostly meaning a time and not an object
-    #### this regex does not seem to work - is it false or is there another problem? It should catch e.g. "5 Uhr" or "12 Uhr"
+    key = "Uhrenschlüssel|Uhrschlüssel", # key for a clock, very often lost & found, maybe include later or in another category?
+    chain = "Uhrkette|Uhrenkette|Uhrhafte|Uhrenhafte|Uhrenband|Uhrband|Uhrenbänd|Uhrbänd", # chain for pocketwatches
+    lost = "verloren|gefunden|Finder", # filters out lost and found ads (pocketwatches)
+    book = "Uhrfeder", # booktitle
+    time_1 = "Nachts Uhr", # nighttime, not object
+    time_2 = "um Uhr", # specific time (if number not recognised)
+    time_3 = "ein Uhr", # specific time, number 1
+    time_4 = "zwei Uhr", # specific time, number 2
+    time_5 = "drei Uhr", # specific time, number 3
+    time_6 = "vier Uhr", # specific time, number 4
+    time_7 = "fünf Uhr", # specific time, number 5
+    time_8 = "sechs Uhr", # specific time, number 6
+    time_9 = "sieben Uhr", # specific time, number 7
+    time_10 = "acht Uhr", # specific time, number 8
+    time_11 = "neun Uhr", # specific time, number 9
+    time_12 = "zehn Uhr", # specific time, number 10
+    time_13 = "elf Uhr", # specific time, number 11
+    time_14 = "zwölf Uhr", # specific time, number 12
+    time_15 = "zwey Uhr", # specific time, number 13
+    time_16 = "\\d\\sUhr", # specific times with numbers, mostly meaning a time and not an object, version 1
+    #### this regex does not seem to always work - what is the problem? I think the problem is the whitespace... It should catch e.g. "5 Uhr" or "12 Uhr"
+    time_17 = "\\dUhr", # specific times with numbers, mostly meaning a time and not an object, version 2
+    time_18 = "tags Uhr", # specific time
+    time_19 = "früh Uhr", # specific time
+    time_20 = "Uhrzeit", # specific time
+    time_21 = "Uhr vormittag", # specific time
+    time_22 = "Uhr Abend", # specific time
+    pocketwatch = "Taschenuhr|Sackuhr|Repetiruhr|Frauenzimmeruhr|Zylinderuhr|Repetir-uhr|Frauenzimmer-uhr|Zylinder-uhr", # pocketsize watches (accessoire)
+    profession = "[U|u]hrmach|Uhrenmach", # watchmakers, also excludes some relevant ads
+    place = "\\bWuhr", # placename
+    name = "Puhrmann", # family name
+    driving = "[F|f]uhr" # words associated with "driving" ("fuhr")
   )
 
   create_filter_output(dict)
@@ -224,6 +253,15 @@ tagfilter_storage <- function(){
     bag = "[S|s]ack|[S|s]äcke|[S|s]äckch"
   )
   dict$neg <- list(
+    carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
+    stroller = "Kinderwagen|Kinderwäg", # excludes strollers with baskets
+    pocketknife = "Sackmesser", # pocketknife
+    travel= "Fussack|Fußsack|Reissack|Reisesack|Reis-Sack|Reise-Sack", # foot rest for carriages and bags for travel
+    bed = "Strohsack|Bettsack|Nachtsack", # bag full of straw, used as bedding
+    textile = "Sacktuch", # textile
+    work = "lesen|schreiben|rechnen", # filtering out work ads
+    grain = "Kernen", # filters out ads selling grain in bags
+    food = "Erdäpfel|Grundbirne|Setzerdäpfel", # filters out ads selling different kind of food in bags
     measure_1 = "[K|k]orbweis|[K|k]istchenweis", # measuring something by baskets or boxes, variant 1
     measure_2 = "Kistchen zu", # measuring something by boxes, variant 2
     meausure_3 = "Kistchen von", # measuring something by boxes, variant 3
@@ -231,6 +269,9 @@ tagfilter_storage <- function(){
     meausure_5 = "Kistchen à", # measuring something by boxes, variant 5
     meausure_6 = "Kistchen v.", # measuring something by boxes, variant 6
     meausure_7 = "pr. Kistchen", # measuring something by boxes, variant 7
+    measure_8 = "der Sack zu",  # measuring something by bags, variant 8
+    measure_9 = "\\d\\sSack", # number of bags of something
+    measure_9 = "\\d\\sSäck", # number of bags of something
     beehive = "Bienenkorb|Bienenkörb", # bee hives
     stroller = "[K|k]orbwage|[K|k]orbwäge", # strollers and prams (own category)
     profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
@@ -238,6 +279,7 @@ tagfilter_storage <- function(){
     watch = "Sackuhr", # pocketwatch
     pistol = "Sack-Pistol|Sackpistol", # pocket pistols
     telescope = "Sack-Perspek|Sackpersp", # pocket telescope
+    light = "Sackfeuer|Sacklatern", # pocket lighter and lantern
     graveyard = "Gottesacker", # graveyard
     textile = "[S|s]acktuch|[S|s]acktüch" # name for specific kind of cloth
   )
@@ -349,7 +391,7 @@ tagfilter_instrument <- function(){
     domestic = "Sticktrommel", # instrument for embroidery (see domestic appliances)
     immo = "Flügelgebäude|Fensterflügel|Fenster", # description of certain kind of building or building material
     food = "Geflügel", # chicken and oder poultry
-    print = "abonniren|Magazin|Composition|Ges[a|ä]ng|Auszüg|Auszug|Heft", # excludes printed matter (musical notes)
+    print = "abonniren|Magazin|Composition|Ges[a|ä]ng|Auszüg|Auszug|Heft|Begleitung", # excludes printed matter (musical notes)
     profession = "Unterricht|lecon" # excludes work-related ads (music teaching)
 
   )
@@ -399,7 +441,8 @@ tagfilter_wallpaper <- function(){
 tagfilter_suitcase <- function(){
   dict <- list()
   dict$pos <- list(
-    suitcase = "Koffer|Coffre|Coffer"
+    suitcase = "Koffer|Coffre|Coffer",
+    travelbag = "Reissack|Reisesack|Reissäck|Reisesäck|Reis-Sack|Reis-Säck|Reise-Sack|Reise-Säck"
   )
   dict$neg <- list(
     tool = "Kofferwinde" # name for a winding tool

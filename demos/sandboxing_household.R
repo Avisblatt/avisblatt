@@ -10,10 +10,12 @@ source("R/avis_stop.R")
 source("R/ocr_corrections.R")
 source("R/tagfilters_utils.R")
 source("R/tagfilters_household.R")
-source("R/tagfilters_things_qualities.R")
+source("R/tagfilters_quality.R")
 source("R/tagfilters_main.R")
 source("R/cleaners.R")
 source("R/validate_filters.R")
+
+
 
 avis_1834 <- readtext("data/avis_1834.csv",
                       text_field = "text",
@@ -24,7 +26,10 @@ avis_1834$text <- correct_ocr(avis_1834$text)
 corpus_1834 <- corpus(avis_1834,
                       docid_field = "doc_id")
 
+
+
 ### checking and cleaning different tagfilters for household objects and descriptions of quality
+## validations for single dictionaries are not very significant, because a lot of objects in these dictionaries are manually also classified as things...
 
 
 ## Bed
@@ -52,6 +57,15 @@ bed_subset_clean <- bed_subset %>%
 
 textplot_wordcloud(dfm(bed_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_bed <- validate_filter(corpus_1834, bed_ids,
+                              search_col = "adcontent",
+                              pattern = "02hausrat")
+tibble_bed
 
 
 ## Household Textiles
@@ -81,6 +95,15 @@ textile_subset_clean <- household_textile_subset %>%
 textplot_wordcloud(dfm(household_textile_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_household_textile <- validate_filter(corpus_1834, household_textile_ids,
+                              search_col = "adcontent",
+                              pattern = "02hausrat")
+tibble_household_textile
+
 
 ## Chairs
 chair <- tagfilter_chair()
@@ -108,6 +131,17 @@ chair_subset_clean <- chair_subset %>%
 textplot_wordcloud(dfm(chair_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_chair <- validate_filter(corpus_1834, chair_ids,
+                                            search_col = "adcontent",
+                                            pattern = "02hausrat")
+tibble_chair
+
+
+
 ## Cupboards, Cabinets and Storage
 cabinet <- tagfilter_cabinet()
 
@@ -134,6 +168,17 @@ cabinet_subset_clean <- cabinet_subset %>%
 textplot_wordcloud(dfm(cabinet_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_cabinet <- validate_filter(corpus_1834, cabinet_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_cabinet
+
+
+
 ## Stoves and Related Objects
 stove <- tagfilter_stove()
 
@@ -159,6 +204,16 @@ stove_subset_clean <- stove_subset %>%
 
 textplot_wordcloud(dfm(stove_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_stove <- validate_filter(corpus_1834, stove_ids,
+                                  search_col = "adcontent",
+                                  pattern = "02hausrat")
+tibble_stove
+
 
 
 ## Mirrors
@@ -187,6 +242,16 @@ mirror_subset_clean <- mirror_subset %>%
 textplot_wordcloud(dfm(mirror_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_mirror <- validate_filter(corpus_1834, mirror_ids,
+                                  search_col = "adcontent",
+                                  pattern = "02hausrat")
+tibble_mirror
+
+
 
 ## Timepieces
 timepiece <- tagfilter_timepiece()
@@ -198,9 +263,10 @@ timepiece_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
 
 timepiece_texts <- timepiece_subset$documents$texts
 
+
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 timepiece_kwic <- kwic(timepiece_subset,
-                    pattern = "[P|p]endul",
+                    pattern = "Uhr",
                     valuetype = "regex")
 
 timepiece_kwic
@@ -213,6 +279,16 @@ timepiece_subset_clean <- timepiece_subset %>%
 
 textplot_wordcloud(dfm(timepiece_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_timepiece <- validate_filter(corpus_1834, timepiece_ids,
+                                  search_col = "adcontent",
+                                  pattern = "02hausrat")
+tibble_timepiece
+
 
 ## Tables
 table <- tagfilter_table()
@@ -238,6 +314,16 @@ table_subset_clean <- table_subset %>%
 
 textplot_wordcloud(dfm(table_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_table <- validate_filter(corpus_1834, table_ids,
+                                    search_col = "adcontent",
+                                    pattern = "02hausrat")
+tibble_table
+
 
 ## Tableware
 tableware <- tagfilter_tableware()
@@ -265,6 +351,15 @@ tableware_subset_clean <- tableware_subset %>%
 
 textplot_wordcloud(dfm(tableware_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_tableware <- validate_filter(corpus_1834, tableware_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_tableware
 
 
 ## Bureau
@@ -294,6 +389,15 @@ bureau_subset_clean <- bureau_subset %>%
 textplot_wordcloud(dfm(bureau_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_bureau <- validate_filter(corpus_1834, bureau_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_bureau
+
 
 ## Small Storage
 storage <- tagfilter_storage()
@@ -305,9 +409,10 @@ storage_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
 
 storage_texts <- storage_subset$documents$texts
 
+
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 storage_kwic <- kwic(storage_subset,
-                    pattern = "[S|s]ack|[S|s]äcke|[S|s]äckch",
+                    pattern = "Erdapfel",
                     valuetype = "regex")
 
 storage_kwic
@@ -321,6 +426,15 @@ storage_subset_clean <- storage_subset %>%
 
 textplot_wordcloud(dfm(storage_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_storage <- validate_filter(corpus_1834, storage_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_storage
 
 
 ## Toys
@@ -350,6 +464,15 @@ toy_subset_clean <- toy_subset %>%
 textplot_wordcloud(dfm(toy_subset_clean),
                   max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_toy <- validate_filter(corpus_1834, toy_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_toy
+
 
 ## Games
 game <- tagfilter_game()
@@ -377,6 +500,15 @@ game_subset_clean <- game_subset %>%
 
 textplot_wordcloud(dfm(game_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_game <- validate_filter(corpus_1834, game_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_game
 
 
 ## Kitchen Utensils
@@ -407,6 +539,15 @@ kitchen_subset_clean <- kitchen_subset %>%
 textplot_wordcloud(dfm(kitchen_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_kitchen <- validate_filter(corpus_1834, kitchen_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_kitchen
+
 
 ## Lighting
 lighting <- tagfilter_lighting()
@@ -435,6 +576,16 @@ lighting_subset_clean <- lighting_subset %>%
 
 textplot_wordcloud(dfm(lighting_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_lighting <- validate_filter(corpus_1834, lighting_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_lighting
+
 
 
 ## Musical Instruments
@@ -465,6 +616,15 @@ instrument_subset_clean <- instrument_subset %>%
 textplot_wordcloud(dfm(instrument_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_instrument <- validate_filter(corpus_1834, instrument_ids,
+                                search_col = "adcontent",
+                                pattern = "02hausrat")
+tibble_instrument
+
 
 ## Building Components
 building <- tagfilter_building()
@@ -484,7 +644,6 @@ building_kwic <- kwic(building_subset,
 
 building_kwic
 
-
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 building_subset_clean <- building_subset %>%
   tokens(remove_punct = TRUE,
@@ -493,6 +652,16 @@ building_subset_clean <- building_subset %>%
 
 textplot_wordcloud(dfm(building_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_building <- validate_filter(corpus_1834, building_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_building
+
 
 
 ## Wallpaper
@@ -523,8 +692,17 @@ wallpaper_subset_clean <- wallpaper_subset %>%
 textplot_wordcloud(dfm(wallpaper_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_wallpaper <- validate_filter(corpus_1834, wallpaper_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_wallpaper
 
-## Suitcases
+
+## Suitcases and Travel Bags
 suitcase <- tagfilter_suitcase()
 
 suitcase_ids <- suitcase$filtrate(corpus_1834, ignore.case = T)
@@ -533,6 +711,7 @@ suitcase_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                    suitcase_ids)
 
 suitcase_texts <- suitcase_subset$documents$texts
+
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 suitcase_kwic <- kwic(suitcase_subset,
@@ -551,6 +730,18 @@ suitcase_subset_clean <- suitcase_subset %>%
 
 textplot_wordcloud(dfm(suitcase_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_suitcase <- validate_filter(corpus_1834, suitcase_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_suitcase
+
+# good example, why this validation check is not very suitable:
+# checked every ad found by dictionary - all are correctly reconised (manually tagged as "ding")!
 
 
 ## Cutlery
@@ -581,6 +772,15 @@ cutlery_subset_clean <- cutlery_subset %>%
 textplot_wordcloud(dfm(cutlery_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_cutlery <- validate_filter(corpus_1834, cutlery_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_cutlery
+
 
 ## Measuring instruments
 measure <- tagfilter_measure()
@@ -609,6 +809,15 @@ measure_subset_clean <- measure_subset %>%
 
 textplot_wordcloud(dfm(measure_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_measure <- validate_filter(corpus_1834, measure_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_measure
 
 
 ## Room Dividers
@@ -639,6 +848,15 @@ divider_subset_clean <- divider_subset %>%
 textplot_wordcloud(dfm(divider_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_divider <- validate_filter(corpus_1834, divider_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_divider
+
 
 ## Object for Pets
 petobject <- tagfilter_petobject()
@@ -649,6 +867,7 @@ petobject_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                     petobject_ids)
 
 petobject_texts <- petobject_subset$documents$texts
+
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 petobject_kwic <- kwic(petobject_subset,
@@ -669,6 +888,16 @@ textplot_wordcloud(dfm(petobject_subset_clean),
                    max_words = 100)
 
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_petobject <- validate_filter(corpus_1834, petobject_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_petobject
+
+
 ## Upholstery
 upholstery <- tagfilter_upholstery()
 
@@ -685,9 +914,6 @@ upholstery_kwic <- kwic(upholstery_subset,
                        valuetype = "regex",
                        ignore.case = T)
 
-upholstery_kwic
-
-
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
 upholstery_subset_clean <- upholstery_subset %>%
   tokens(remove_punct = TRUE,
@@ -696,6 +922,15 @@ upholstery_subset_clean <- upholstery_subset %>%
 
 textplot_wordcloud(dfm(upholstery_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_upholstery <- validate_filter(corpus_1834, upholstery_ids,
+                                   search_col = "adcontent",
+                                   pattern = "02hausrat")
+tibble_upholstery
 
 
 ## Houseplant and related Objects
@@ -726,6 +961,15 @@ plantobject_subset_clean <- plantobject_subset %>%
 textplot_wordcloud(dfm(plantobject_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_plantobject <- validate_filter(corpus_1834, plantobject_ids,
+                                     search_col = "adcontent",
+                                     pattern = "02hausrat")
+tibble_plantobject
+
 
 ## Domestic Appliances
 domestic <- tagfilter_domestic()
@@ -755,6 +999,14 @@ domestic_subset_clean <- domestic_subset %>%
 textplot_wordcloud(dfm(domestic_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_domestic <- validate_filter(corpus_1834, domestic_ids,
+                                     search_col = "adcontent",
+                                     pattern = "02hausrat")
+tibble_domestic
 
 
 ## Garden Furniture and Objects
@@ -785,6 +1037,15 @@ garden_subset_clean <- garden_subset %>%
 textplot_wordcloud(dfm(garden_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_garden <- validate_filter(corpus_1834, garden_ids,
+                                     search_col = "adcontent",
+                                     pattern = "02hausrat")
+tibble_garden
+
 
 ## Misc Household Goods (Unspecified)
 mischoushold <- tagfilter_mischoushold()
@@ -813,6 +1074,15 @@ mischoushold_subset_clean <- mischoushold_subset %>%
 
 textplot_wordcloud(dfm(mischoushold_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+tibble_mischousehold <- validate_filter(corpus_1834, mischoushold_ids,
+                                     search_col = "adcontent",
+                                     pattern = "02hausrat")
+tibble_mischousehold
 
 
 
@@ -866,7 +1136,8 @@ household_missed <- corpus_subset(household_1834, docvars(household_1834, "id") 
                                       instrument_ids, kitchen_ids, lighting_ids, measure_ids, mischoushold_ids,
                                       petobject_ids, plantobject_ids, storage_ids, suitcase_ids, toy_ids, upholstery_ids,
                                       wallpaper_ids))
-# 17/01/20: only 52 missed ads - most of them French or wrongly classified as "Hausrat" in manual classification
+# 17/01/20: only 52 missed ads (if only looking at "for sale/to buy", 168 if including others)
+# most of them French or wrongly classified as "Hausrat" in manual classification
 # some missed ads don't make any sense, should be included through dictionaries, words in question are: "Vorfenster",
 # "Trumeau", "Messer", "Fensterflügel", "Fenster", "WaarenKorpus" and "Bücherkästchen"
 # rest of missed ads are very special objects, makes no sense to make a dictionary for them (re-evaluate later)
@@ -903,13 +1174,12 @@ household_oops <- corpus_subset(not_household, docvars(not_household, "id") %in%
 
 household_oops_texts <- household_oops$documents$texts
 
-# 20/01/20: 928 oops cases, but most of them seem to be work or immo related and could be excluded by detection of work/immo ads
+write.csv2(household_oops_texts, file = "data/household_oops.csv", fileEncoding = "UTF-8")
+
+# 20/01/20: a lot of "oops" cases (936!), but most of them seem to be work or immo related and could be excluded by detection of work/immo ads
 # some of them are adverts for shops or services, were houshold goods are advertised, so actually correctly recognized via automatic recognition
-# as such; often also ads wrongly not classified as houshold by manual clasification
+# and wrongly not tagged manually, in general ads frequently not classified as houshold by manual clasification
 # sometimes also negative dictionaries don't seem to work consistently,  e.g. "Sitzung" or "Langmesser"
-
-
-household_oops_texts[1:150]
 
 # creating a corpus of all ads recognised by automated household filters
 household_filters <- corpus_subset(corpus_1834, docvars(household_1834, "id") %in%

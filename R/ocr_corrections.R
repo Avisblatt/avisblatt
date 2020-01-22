@@ -46,5 +46,8 @@ correct_ocr <- function(x){
   x <- gsub("Cemture", "Ceinture", x)
   x <- gsub("Alspin", "Alépin", x)
   x <- gsub("Cor et", "Corset", x)
+  x <- gsub("Uthr", "Uhr", x)
+  x <- gsub("bUhr", "6Uhr", x)
+  x <- gsub("Felir", "Felix", x)
   x
   }

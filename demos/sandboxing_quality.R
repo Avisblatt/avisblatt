@@ -12,7 +12,7 @@ source("R/tagfilters_utils.R")
 source("R/tagfilters_textiles.R")
 source("R/tagfilters_household.R")
 source("R/tagfilters_main.R")
-source("R/tagfilters_secondhand.R")
+source("R/tagfilters_quality.R")
 source("R/cleaners.R")
 source("R/validate_filters.R")
 

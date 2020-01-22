@@ -54,32 +54,50 @@ textplot_wordcloud(dfm(clothing_subset_clean),
                    max_words = 200)
 
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_clothing <- validate_filter(corpus_1834, clothing_ids,
+                                  search_col = "adcontent",
+                                  pattern = "01textilien")
+validation_clothing
 
-## Sleapwear
-sleapwear <- tagfilter_sleapwear()
 
-sleapwear_ids <- sleapwear$filtrate(corpus_1834,ignore.case = T)
+## Sleepwear
+sleepwear <- tagfilter_sleepwear()
 
-sleapwear_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                    sleapwear_ids)
+sleepwear_ids <- sleepwear$filtrate(corpus_1834,ignore.case = T)
 
-sleapwear_texts <- sleapwear_subset$documents$texts
+sleepwear_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                    sleepwear_ids)
+
+sleepwear_texts <- sleepwear_subset$documents$texts
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-sleapwear_kwic <- kwic(sleapwear_subset,
+sleepwear_kwic <- kwic(sleepwear_subset,
                       pattern = "Schlafrock|Schlafröck|Nachtärmel",
                       valuetype = "regex",
                       ignore.case = T)
-sleapwear_kwic
+sleepwear_kwic
 
 # creating wordcloud for subset for getting ideas for qualities etc. for further exploration
-sleapwear_subset_clean <- sleapwear_subset %>%
+sleepwear_subset_clean <- sleepwear_subset %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(avis_stop())
 
-textplot_wordcloud(dfm(sleapwear_subset_clean),
+textplot_wordcloud(dfm(sleepwear_subset_clean),
                    max_words = 200)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_sleepwear <- validate_filter(corpus_1834, sleepwear_ids,
+                                       search_col = "adcontent",
+                                       pattern = "01textilien")
+validation_sleepwear
 
 
 
@@ -109,6 +127,14 @@ uniform_subset_clean <- uniform_subset %>%
 textplot_wordcloud(dfm(uniform_subset_clean),
                    max_words = 200)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_uniform <- validate_filter(corpus_1834, uniform_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_uniform
 
 
 ## Underwear
@@ -137,6 +163,14 @@ underwear_subset_clean <- underwear_subset %>%
 textplot_wordcloud(dfm(underwear_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_underwear <- validate_filter(corpus_1834, underwear_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_underwear
 
 
 ## Outerwear
@@ -165,6 +199,14 @@ outerwear_subset_clean <- outerwear_subset %>%
 textplot_wordcloud(dfm(outerwear_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_outerwear <- validate_filter(corpus_1834, outerwear_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_outerwear
 
 
 ## Costumes/ Special Occasion Garments
@@ -193,6 +235,14 @@ costume_subset_clean <- costume_subset %>%
 textplot_wordcloud(dfm(costume_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_costume <- validate_filter(corpus_1834, costume_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_costume
 
 
 ## Shoes
@@ -224,6 +274,15 @@ shoes_subset_clean <- shoes_subset %>%
 textplot_wordcloud(dfm(shoes_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_shoes <- validate_filter(corpus_1834, shoes_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_shoes
+
 
 ## Handkerchiefs
 handkerchief <- tagfilter_handkerchief()
@@ -251,6 +310,14 @@ handkerchief_subset_clean <- handkerchief_subset %>%
 textplot_wordcloud(dfm(handkerchief_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_handkerchief <- validate_filter(corpus_1834, handkerchief_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_handkerchief
 
 
 ## Umbrellas
@@ -278,6 +345,15 @@ umbrella_subset_clean <- umbrella_subset %>%
 
 textplot_wordcloud(dfm(umbrella_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_umbrella <- validate_filter(corpus_1834, umbrella_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_umbrella
 
 
 
@@ -307,6 +383,15 @@ hand_subset_clean <- hand_subset %>%
 textplot_wordcloud(dfm(hand_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_hand <- validate_filter(corpus_1834, hand_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_hand
+
 
 
 ## Scarves, Colars, and Neckties
@@ -335,6 +420,15 @@ neck_subset_clean <- neck_subset %>%
 textplot_wordcloud(dfm(neck_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_neck <- validate_filter(corpus_1834, neck_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_neck
+
 
 ## Headdress and Wigs
 headdress <- tagfilter_headdress()
@@ -361,6 +455,15 @@ headdress_subset_clean <- headdress_subset %>%
 
 textplot_wordcloud(dfm(headdress_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_headdress <- validate_filter(corpus_1834, headdress_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_headdress
 
 
 
@@ -390,6 +493,14 @@ texmaterial_subset_clean <- texmaterial_subset %>%
 textplot_wordcloud(dfm(texmaterial_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_texmaterial <- validate_filter(corpus_1834, texmaterial_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_texmaterial
 
 
 ## Unspecified Cloth and Fabric
@@ -419,6 +530,15 @@ cloth_subset_clean <- cloth_subset %>%
 textplot_wordcloud(dfm(cloth_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_cloth <- validate_filter(corpus_1834, cloth_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_cloth
+
 
 ## Yarn
 yarn <- tagfilter_yarn()
@@ -446,6 +566,15 @@ yarn_subset_clean <- yarn_subset %>%
 
 textplot_wordcloud(dfm(yarn_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_yarn <- validate_filter(corpus_1834, yarn_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_yarn
 
 
 ## Animal Raw Materials
@@ -475,6 +604,14 @@ animalraw_subset_clean <- animalraw_subset %>%
 textplot_wordcloud(dfm(animalraw_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_animalraw <- validate_filter(corpus_1834, animalraw_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_animalraw
 
 
 ## Plant Raw Materials
@@ -504,6 +641,14 @@ plantraw_subset_clean <- plantraw_subset %>%
 textplot_wordcloud(dfm(plantraw_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_plantraw <- validate_filter(corpus_1834, plantraw_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_plantraw
 
 
 ## Mercery and Non Textile Accessoires
@@ -533,6 +678,15 @@ mercery_subset_clean <- mercery_subset %>%
 textplot_wordcloud(dfm(mercery_subset_clean),
                    max_words = 100)
 
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_mercery <- validate_filter(corpus_1834, mercery_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_mercery
+
 
 ## Bags and Purses
 bag <- tagfilter_bag()
@@ -560,6 +714,15 @@ bag_subset_clean <- bag_subset %>%
 
 textplot_wordcloud(dfm(bag_subset_clean),
                    max_words = 100)
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_bag <- validate_filter(corpus_1834, bag_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_bag
 
 
 ## Household Textiles
@@ -589,6 +752,15 @@ household_textile_subset_clean <- household_textile_subset %>%
 textplot_wordcloud(dfm(household_textile_subset_clean),
                    max_words = 100)
 
+
+# Validation
+# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
+# found by filter AND NOT by HC ("oops") | neither filter nor hc
+# only "yay" and "oops" relevant
+validation_household_textile <- validate_filter(corpus_1834, household_textile_ids,
+                                        search_col = "adcontent",
+                                        pattern = "01textilien")
+validation_household_textile
 
 
 ### using existing categories for wordclouds and dfm to find missing objects in dictionaries
@@ -656,11 +828,15 @@ write.csv2(textiles_missed_texts, file = "data/textiles_missed.csv", fileEncodin
 # artificial flowers are not included (Blumenarbeit as another dictionary?)
 
 
+
 # creating a corpus of all for sale/ to buy ads (ids) found automatically, but not by manual classification
 textiles_ids <- textiles_1834$documents$id
 
 not_textiles <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %notin%
                                 textiles_ids)
+
+#### In the following code something doesn't seem to work... When checking,
+# "not_textiles" includes a lot of ads that are indeed tagged manually as "textile"!!! Why?
 
 
 textiles_oops <- corpus_subset(not_textiles, docvars(not_textiles, "id") %in%
@@ -668,6 +844,7 @@ textiles_oops <- corpus_subset(not_textiles, docvars(not_textiles, "id") %in%
 
 textiles_oops_texts <- textiles_oops$documents$texts
 
+write.csv2(textiles_oops_texts, file = "data/textiles_oops_texts.csv", fileEncoding = "UTF-8")
 
 textiles_oops_texts[100:150]
 
