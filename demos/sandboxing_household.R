@@ -26,24 +26,6 @@ corpus_1834 <- corpus(avis_1834,
 
 ### checking and cleaning different tagfilters for household objects and descriptions of quality
 
-## Quality: Secondhand
-
-secondhand <- tagfilter_secondhand()
-
-secondhand_ids <- secondhand$filtrate(corpus_1834, ignore.case = FALSE)
-
-secondhand_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in% secondhand_ids)
-
-secondhand_texts <- secondhand_subset$documents$texts
-
-secondhand_subset_clean <- secondhand_subset %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(secondhand_subset_clean),
-                   max_words = 200)
-
 
 ## Bed
 bed <- tagfilter_bed()
