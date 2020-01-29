@@ -14,5 +14,11 @@ get_text_by_id <- function(corp, ids, n = NULL,
 
 }
 
+#' @export
+get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
+  corpus_subset(corp,
+                (docvars(corp, idvar) %in% ids)
+  )
+}
 
 

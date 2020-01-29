@@ -15,17 +15,18 @@ tagfilter_labor <- function(){
     position = "[m|M]agd|[k|K]necht|Köchin|Seidenbandweber|Seidenweber|Seidenwinder|Zettler",
     apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
     employment_phrase_1 = "einen Platz",
-    employment_phrase_2 = "ein Platz",
+    employment_phrase_2 = "ein Platz als",
     employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
   )
   dict$neg <- list(
     #"darin zu / zum kochen": describes cookware, not people
     misc = "Ornement",
+    warnig = "warne|Warnung",
     misc_phrase1 = "zum kochen",
     misc_phrase2 = "darin zu kochen",
-    misc_phrase3= "Dienst zu erweisen",
+    misc_phrase3 = "Dienst zu erweisen",
     othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|verstorben|dito|Dito|bendaselbst|unrichtig|genöthigt",
+    othercat_info = "[B|b]eerdigt|verstorben|dito|Dito|bendaselbst|unrichtig|genöthigt",
     othercat_info_phrase1 = "meinem Namen",
     othercat_realestate = "Losament|Kammer|Stübchen|Remise",
     othercat_boarding = "Kosthaus",
@@ -40,7 +41,7 @@ tagfilter_labor <- function(){
     proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
     proclamation_phrase_1 = "Publikation in Betreff",
     proclamation_phrase_2 = "Basel, den",
-    proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
+    proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel"
     #proclamation: some of the ads recognized by the filter are public announcements"
   )
   create_filter_output(dict)
