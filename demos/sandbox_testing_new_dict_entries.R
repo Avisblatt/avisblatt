@@ -36,10 +36,10 @@ source("R/tagfilters_main.R", encoding = "UTF-8")
 #category <- "05drucksachen"; original <- tagfilter_print()
 #category <- "06ding"; original <- tagfilter_things()
 #category <- "07tier"; original <- tagfilter_animal()
-category <- "08immo"; original <- tagfilter_real_estate()
+#category <- "08immo"; original <- tagfilter_real_estate()
 #category <- "09kirchenstuhl"; original <- tagfilter_churchseat()
 #category <- "arbeit"; original <- tagfilter_labor()
-#category <- "11kost"; original <- tagfilter_board()
+category <- "11kost"; original <- tagfilter_board()
 #category <- "12platzierung"; original <- tagfilter_placement()
 #category <- "13caritas"; original <- tagfilter_charity()
 #category <- "14finanz"; original <- tagfilter_finance()
@@ -48,6 +48,14 @@ category <- "08immo"; original <- tagfilter_real_estate()
 #category <- "17auskunft"; original <- tagfilter_info()
 #category <- "18uneindeutig"; original <- tagfilter_other()
 
+
+#' Examining current filter
+#'
+original_ids <- original$filtrate(corpus_1834,ignore.case = F)
+o <- validate_filter(corpus_1834, original_ids,
+                     search_col = "adcontent",
+                     pattern <- category)
+o
 
 
 #' Testing the impact of new entries
@@ -73,11 +81,6 @@ n <- validate_filter(corpus_1834, new_ids,
                      search_col = "adcontent",
                      pattern <- category)
 
-original_ids <- original$filtrate(corpus_1834,ignore.case = F)
-o <- validate_filter(corpus_1834, original_ids,
-                     search_col = "adcontent",
-                     pattern <- category)
-
 test <- tagfilter_test()
 test_ids <- test$filtrate(corpus_1834,ignore.case = F)
 t <- validate_filter(corpus_1834, test_ids,
@@ -89,12 +92,9 @@ t <- validate_filter(corpus_1834, test_ids,
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 ## found by filter AND NOT by HC ("oops") | neither filter nor hc
 
-o
 t
-n
 cat(paste("Range (%):\t", o$range, "->", n$range, "| change:", round (n$range-o$range,1),
-                "\nPrecision (%):\t", o$precision, "->", n$precision, "| change:", round (n$precision-o$precision,1), "\n"
-))
+                "\nPrecision (%):\t", o$precision, "->", n$precision, "| change:", round (n$precision-o$precision,1), "\n"))
 
 
 
@@ -139,10 +139,10 @@ missing_corpus_clean <- missing_corpus %>%
   tokens_remove(stopwords("de")) %>%
   dfm()
 
+missing_corpus$documents$texts[1-10]
+
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
-
-missing_corpus$documents$texts[1-10]
 
 head(kwic(missing_corpus, pattern = "something"))
 
