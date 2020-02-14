@@ -27,13 +27,18 @@ create_filter <- function(dict){
   }
 }
 
+
 merge_filters <- function(...){
   l <- list(...)
   dict <- list()
-  dict$pos <- unlist(sapply(l$tagfilters, "[[", "pos"),
-                     recursive = F)
-  dict$neg <- unlist(sapply(l$tagfilters, "[[", "neg"),
-                     recursive = F)
+  dict$pos <- unlist(lapply(l, function(x){
+    x$tagfilters$pos
+  }),
+  recursive = F)
+  dict$neg <- unlist(lapply(l, function(x){
+    x$tagfilters$neg
+  }),
+  recursive = F)
 
   create_filter_output(dict)
 

@@ -1,0 +1,84 @@
+---
+title: "1834 General Report"
+author: "The A-Team"
+date: "12/12/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE, echo=FALSE}
+# Load libraries and source functions
+# in pre-package state
+library(readtext)
+library(quanteda)
+library(textcat)
+library(jsonlite)
+library(ggplot2)
+library(dplyr)
+source("../R/avis_stop.R")
+source("../R/ocr_corrections.R")
+source("../R/tagfilters_utils.R")
+source("../R/tagfilters_household.R")
+source("../R/tagfilters_main.R")
+source("../R/cleaners.R")
+source("../R/validate_filters.R")
+
+avis_1834 <- readtext("../data/avis_1834.csv",
+                      text_field = "text")
+
+avis_1834$text <- correct_ocr(avis_1834$text)
+
+corpus_1834 <- corpus(avis_1834,
+                      docid_field = "doc_id")
+
+
+```
+
+## Distribution of Ad Length
+
+
+```{r}
+tok_1834 <- corpus_1834 %>% 
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(stopwords("de"))
+
+tok_count <- tibble(
+  num_id = 1:length(tok_1834),
+  token_count = ntoken(tok_1834),
+       unique_token_count = ntype(tok_1834)
+  )
+
+xx <- tidyr::pivot_longer(tok_count,
+                    cols = c(token_count,
+                             unique_token_count))
+
+gg <- ggplot(xx, aes(value))
+gg + geom_histogram(binwidth = 5) + 
+  theme_minimal() +
+  theme(panel.grid.major.x = element_blank(),
+        panel.grid.minor.x = element_blank()) +
+  xlim(0, 200) +
+  facet_wrap(~name)
+
+```
+
+Distributions of the number of tokens and number of unique tokens are extremely similar, i.e., most of the time tokens occur only once in a document. Most ads have **35 or fewer** tokens.
+
+## Thoughts and Notes on Labor
+
+- Warnings w.r.t. former employees are among ads recognized by filter but not human classification
+
+- Workforce moving into other flats / parts of the city may not be a true labor ad, but nevertheless could stay labor because the indicate practices. 
+
+- Debatable: temporal events cooking. Offer of services, cleaning etc.  
+
+- room offers suitable for certain practices are a challenge
+
+
+
+
+
