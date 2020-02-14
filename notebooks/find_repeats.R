@@ -1,22 +1,11 @@
-# load libraries
-library(readtext)
-library(quanteda)
-library(jsonlite)
-library(dplyr)
-
-# avisblatt package candidates
-# this is not packaged yet.
-# hence single files have to be sourced 'manually'
-source("R/avis_stop.R")
-source("R/ocr_corrections.R")
-source("R/cleaners.R")
+library(avisblatt)
 
 # READ DOCUMENT ############
 # and make use of previously assigned tags
 # in order to save time.
 # here: select german ads only
 avis_1834 <- readtext("data/avis_1834.csv",
-                      text_field = "adcontent")
+                      text_field = "text")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
 
@@ -32,10 +21,17 @@ de_1834_dfm <- de_1834 %>%
   dfm()
 
 de_1834_dist <- textstat_dist(de_1834_dfm)
+rownames(de_1834_dist) <- 1:nrow(de_1834_dist)
+colnames(de_1834_dist) <- 1:ncol(de_1834_dist)
+
+# around  ~ 3.8 seems like a reasonable distance.
+# these seem to be repetitions.
 
 dim(de_1834_dist)
 
+de_1834_dist[1:10,1:10]
 
+de_1834$documents$texts[9]
 
 
 by_year <- lapply(1734:1844, avis_get_corpus)
@@ -43,3 +39,30 @@ by_year <- lapply(1734:1844, avis_get_corpus)
 c_1834 <- avis_get_corpus(1834)
 
 by_year[[1]]
+
+li <- list()
+for (i in 1:ncol(de_1834_dist[,1:20])){
+  li[[i]] <- head(sort(de_1834_dist[i,],decreasing = F))
+}
+
+
+
+
+
+
+head(sort(de_1834_dist[2012,],decreasing = F))
+head(sort(de_1834_dist[2121,],decreasing = F))
+
+dim(de_1834_dist)
+length(de_1834$documents$texts)
+
+de_1834_dist[2121,2012]
+de_1834_dist[2121,2045]
+de_1834_dist[10,262]
+de_1834$documents$texts[10]
+de_1834$documents$texts[262]
+
+
+
+
+
