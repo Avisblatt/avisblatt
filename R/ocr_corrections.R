@@ -1,4 +1,11 @@
+#' Correction of OCR Issues
+#'
+#' Regular expression based correction of scanning issues.
+#' @param x character vector to be corrected
+#' @return character vector
+#' @export
 correct_ocr <- function(x){
+  x <- gsub("Rummer","Nummer",x)
   x <- gsub("Lebrling","Lehrling",x)
   x <- gsub("büte","hüte",x, ignore.case = TRUE)
   x <- gsub("Mer;","Merz",x, ignore.case = TRUE)
