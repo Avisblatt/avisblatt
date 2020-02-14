@@ -3,11 +3,12 @@ Type: Package
 Version: 0.1
 Title: Process Avisblatt Data
 Description: Processing ads level data from the Basler Avisblatt. 
-Author: "Matthias Bannert <bannert@kof.ethz.ch> [aut, cre], Alexander Engel[aut], Ina Serif[aut]"
+Author: "Matthias Bannert <bannert@kof.ethz.ch> [aut, cre], Alexander Engel[aut], Anna Reimann [aut], Ina Serif[aut]"
 Depends:
     R (>= 3.5),
 Imports:
     jsonlite (>= 1.1),
+    readtext,
     dplyr,
     quanteda
 Suggests:
