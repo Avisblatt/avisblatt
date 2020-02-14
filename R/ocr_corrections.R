@@ -49,5 +49,9 @@ correct_ocr <- function(x){
   x <- gsub("Uthr", "Uhr", x)
   x <- gsub("bUhr", "6Uhr", x)
   x <- gsub("Felir", "Felix", x)
+  # c and e seem to be mixed at times
+  x <- gsub("ubseript","ubscript",x)
+  # V and P seem to be mixed at times
+  x <- gsub("Peränd","Veränd",x)
   x
   }
