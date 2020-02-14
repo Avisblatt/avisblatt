@@ -50,10 +50,10 @@ tagfilter_labor <- function(){
 
 #' Filter Quanteda Corpus: Advertising/promoting business
 #' @export
-#' as far as services is concerned,
-#' this was tagged "labor" (otherwise "things")
-#' but might be wise to draw a line between this & job market
 tagfilter_bizpromo <- function(){
+  # as far as services is concerned,
+  # this was tagged "labor" (otherwise "things")
+  # but might be wise to draw a line between this & job market
   dict <- list()
   dict$pos <- list(
     advertising = "Anzeige|anzeigen|anzuzeigen|angezeigt|benachrichtigen",
@@ -350,16 +350,17 @@ tagfilter_print <- function(){
 
 #' Filter Quanteda Corpus: Household
 #' @export
-
-tagfilter_household_goods <- merge_filters(tagfilter_bed(),
-                                           tagfilter_household_textile(),
-                                           tagfilter_seat(),
-                                           tagfilter_cabinet(),
-                                           tagfilter_stove(),
-                                           tagfilter_mirror(),
-                                           tagfilter_timepiece(),
-                                           tagfilter_table(),
-                                           tagfilter_tableware())
+tagfilter_household_goods <- function(){
+  merge_filters(tagfilter_bed(),
+                tagfilter_household_textile(),
+                tagfilter_seat(),
+                tagfilter_cabinet(),
+                tagfilter_stove(),
+                tagfilter_mirror(),
+                tagfilter_timepiece(),
+                tagfilter_table(),
+                tagfilter_tableware())
+}
 
 
 

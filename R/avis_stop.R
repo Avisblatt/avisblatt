@@ -1,6 +1,9 @@
-# different functions that
-# return stopwords vectors
-# this file should contain different dictionaries
+#' Avisblatt Specific Stopword Dictionary
+#'
+#' Collection of stopwords.
+#'
+#' @return list containing vectors of stopwords.
+#' @export
 avis_stop <- function(){
   bsl_stop <- c("in", "der", "die", "das","bis","no",
                 "dem", "den", "im", "und", "e",
