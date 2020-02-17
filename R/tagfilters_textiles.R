@@ -10,10 +10,34 @@ tagfilter_clothing <- function(){
     shirt = "[H|h]emd|[H|h]embd|[C|c]hemise|[K|k]amisol|[K|k]amisohl|[C|c]amisol|[C|c]amisohl"
   )
   dict$neg <- list(
-    straw = "Rockstroh", # special kind of straw
+    activity_1 = "Kleider machen", # activity with clothes, v1
+    activity_2 = "Kleider w[a|ä]schen", # activity with clothes, v2
+    activity_3 = "Kleider glätten", # activity with clothes, v3
+    activity_4 = "Kleider nähen", # activity with clothes, v4
+    activity_5 = "Kleider putzen", # activity with clothes, v5
+    activity_6 = "Kleider zu machen", # activity with clothes, v6
+    activity_7 = "Kleider zu w[a|ä]schen", # activity with clothes, v7
+    activity_8 = "Kleider zu glätten", # activity with clothes, v8
+    activity_9 = "Kleider zu nähen", # activity with clothes, v9
+    activity_10 = "Kleider zu putzen", # activity with clothes, v10
+    activity_11 = "zu stricken", # activity with clothes, v11
+    activity_12 = "einen Platz", # activity with clothes, v12
+    activity_13 = "zum Putzen", # activity with clothes, v13
+    activity_14 = "zu vertilgen", # activity with clothes, v14
+    animal = "Federnhund", # filters out animal related clothing
+    book = "Fleckenbüchlein", # book with instructions for cleaning
+    death = "gewesen", # filters out death notices
+    cleaning = "Waschwasser|Flecken-Kugelen|Kleiderputz", # detergent for cleaning clothes
+    lime = "Kalchosen", # limestone
+    fragrance = "Rosenöl", # fragrance for laundry
+    immo = "Bauchosen|Alickhosen|Gebäude", # immo ads
+    place = "Oberhosen|Freyhosen|Waltighosen", # placename
+    position = "einen Platz", # filters out labour ads for servants
+    name = "Bachosen", # family name
+    straw = "Rockstroh|Rockenstroh", # special kind of straw
     carneval = "Milchjoggi|Fastnachtkleid|Fastnachtskleid|Polichinel-Kleid|Polichinelkleid|Maskenkleid", # costumes for carneval, see dictionary "costume"
     other = "Brockel", # describes appearance of different objects (small chunks)
-    occupation = "Kleiderputz", # cleaning of clothes
+    work = "Lehre|Unterricht|Haußbedient|Zeugnisse", # cleaning of clothes
     name = "Bolingbrocke", # family name
     military = "Offiziers-Rock|Uniform-Rock|Exerzier-Weste", # see dictionary "uniform"
     shroud = "Todtenröck|Todtenrock", # see dictionary "costume"
@@ -22,8 +46,9 @@ tagfilter_clothing <- function(){
     adjective = "gekleidet", # description of other object (mostly dolls)
     sister = "Schwester", # contains "weste"
     dry = "trocke|trockne", # adjectives or verbs meaning "dry" but containing "rock"
-    furniture = "Kleiderkasten|Kleiderkäst|Kleiderschrank|Kleider-Kasten|Kleider-Kästen", # furniture for keeping clothing, see dictionary cabinet
-    accessoire = "knopf|knöpf|träger" # non textile accessoires (Hemdknopf, Hosenträger etc.)
+    furniture_1 = "Kleiderkasten|Kleiderkäst|Kleiderschrank|Kleider-Kasten|Kleider-Kästen|Kleidermange|Kasten|Kleider-Kästlein|Blunderschafft", # furniture for keeping clothing, see dictionary cabinet, v1
+    furniture_2 = "kleider dienlich", # filters out cabinets for clothes
+    accessoire = "knopf|knöpf|träger|Hemdengufe" # non textile accessoires (Hemdknopf, Hosenträger etc.)
 
   )
   create_filter_output(dict)
