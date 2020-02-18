@@ -5,6 +5,19 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("besindlicher","befindlicher",x)
+  x <- gsub("exrra","extra",x)
+  x <- gsub("Zeuanuß","Zeugniß",x)
+  x <- gsub("selner","seiner",x)
+  x <- gsub("Zeuenuß","Zeugniß",x)
+  x <- gsub("senaben","Knaben",x)
+  x <- gsub("condirionirt","conditionirt",x)
+  x <- gsub("Schuhladen","Schubladen",x)
+  x <- gsub("Strumpffweder","Strumpffweber",x)
+  x <- gsub("Setlinge","Setzlinge",x)
+  x <- gsub("Strümpffweher","Strümpffweber",x)
+  x <- gsub("weder-Stuhl","weber-Stuhl",x)
+  x <- gsub("Weiver","Weiber",x, ignore.case = TRUE)
   x <- gsub("berzustellen","herzustellen",x)
   x <- gsub("anerblethet","anerbiethet",x)
   x <- gsub("alUirhand","allerhand",x)

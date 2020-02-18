@@ -103,27 +103,31 @@ filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% clothing_ids_all)]
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_clothing_all$filter_T_hc_T)
-b_t$documents$texts[1:91]
+b_t$documents$texts[1:100]
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_clothing_all$filter_T_hc_F)
-b_f$documents$texts[1:26]
+b_f$documents$texts[1:18]
 
 
 ## Sleepwear
 sleepwear <- tagfilter_sleepwear()
 
-sleepwear_ids <- sleepwear$filtrate(corpus_1834,ignore.case = T)
+sleepwear_ids_1734 <- sleepwear$filtrate(corpus_1734,ignore.case = T)
+sleepwear_ids_1834 <- sleepwear$filtrate(corpus_1834,ignore.case = T)
 
-sleepwear_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                    sleepwear_ids)
+sleepwear_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                         sleepwear_ids_1734)
+sleepwear_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                         sleepwear_ids_1834)
 
-sleepwear_texts <- sleepwear_subset$documents$texts
+sleepwear_subset_all <- c(sleepwear_subset_1734, sleepwear_subset_1834)
+sleepwear_ids_all <- c(sleepwear_ids_1734, sleepwear_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-sleepwear_kwic <- kwic(sleepwear_subset,
+sleepwear_kwic <- kwic(sleepwear_subset_all,
                       pattern = "Schlafrock|Schlafröck|Nachtärmel",
                       valuetype = "regex",
                       ignore.case = T)
@@ -142,22 +146,43 @@ textplot_wordcloud(dfm(sleepwear_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_sleepwear <- validate_filter(corpus_1834, sleepwear_ids,
-                                       search_col = "adcontent",
-                                       pattern = "01textilien")
-validation_sleepwear
+validation_sleepwear_all <- validate_filter(corpus_all, sleepwear_ids_all,
+                                           search_col = "adcontent",
+                                           pattern = "01textilien")
+validation_sleepwear_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% sleepwear_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% sleepwear_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_sleepwear_all$filter_T_hc_T)
+b_t$documents$texts[1:18]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_sleepwear_all$filter_T_hc_F)
+b_f$documents$texts[1:18]
 
 
 
 ## Military/ Uniforms
 uniform <- tagfilter_uniform()
 
-uniform_ids <- uniform$filtrate(corpus_1834,ignore.case = T)
+uniform_ids_1734 <- uniform$filtrate(corpus_1734,ignore.case = T)
+uniform_ids_1834 <- uniform$filtrate(corpus_1834,ignore.case = T)
 
-uniform_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                  uniform_ids)
+uniform_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                       uniform_ids_1734)
+uniform_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                       uniform_ids_1834)
 
-uniform_texts <- uniform_subset$documents$texts
+uniform_subset_all <- c(uniform_subset_1734, uniform_subset_1834)
+uniform_ids_all <- c(uniform_ids_1734, uniform_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 uniform_kwic <- kwic(uniform_subset,
@@ -179,21 +204,43 @@ textplot_wordcloud(dfm(uniform_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_uniform <- validate_filter(corpus_1834, uniform_ids,
-                                        search_col = "adcontent",
-                                        pattern = "01textilien")
-validation_uniform
+validation_uniform_all <- validate_filter(corpus_all, uniform_ids_all,
+                                            search_col = "adcontent",
+                                            pattern = "01textilien")
+validation_uniform_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% uniform_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% uniform_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_uniform_all$filter_T_hc_T)
+b_t$documents$texts[1:28]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_uniform_all$filter_T_hc_F)
+b_f$documents$texts[1:3]
+
 
 
 ## Underwear
 underwear <- tagfilter_underwear()
 
-underwear_ids <- underwear$filtrate(corpus_1834,ignore.case = T)
+underwear_ids_1734 <- underwear$filtrate(corpus_1734,ignore.case = T)
+underwear_ids_1834 <- underwear$filtrate(corpus_1834,ignore.case = T)
 
-underwear_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                    underwear_ids)
+underwear_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                         underwear_ids_1734)
+underwear_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                         underwear_ids_1834)
 
-underwear_texts <- underwear_subset$documents$texts
+underwear_subset_all <- c(underwear_subset_1734, underwear_subset_1834)
+underwear_ids_all <- c(underwear_ids_1734, underwear_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 underwear_kwic <- kwic(underwear_subset,
@@ -215,21 +262,42 @@ textplot_wordcloud(dfm(underwear_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_underwear <- validate_filter(corpus_1834, underwear_ids,
-                                        search_col = "adcontent",
-                                        pattern = "01textilien")
-validation_underwear
+validation_underwear_all <- validate_filter(corpus_1734, underwear_ids_1734,
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
+validation_underwear_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% underwear_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% underwear_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_underwear_all$filter_T_hc_T)
+b_t$documents$texts[1:28]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_underwear_all$filter_T_hc_F)
+b_f$documents$texts[1:6]
 
 
 ## Outerwear
 outerwear <- tagfilter_outerwear()
 
-outerwear_ids <- outerwear$filtrate(corpus_1834,ignore.case = T)
+outerwear_ids_1734 <- outerwear$filtrate(corpus_1734,ignore.case = T)
+outerwear_ids_1834 <- outerwear$filtrate(corpus_1834,ignore.case = T)
 
-outerwear_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                    outerwear_ids)
+outerwear_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                         outerwear_ids_1734)
+outerwear_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                         outerwear_ids_1834)
 
-outerwear_texts <- outerwear_subset$documents$texts
+outerwear_subset_all <- c(outerwear_subset_1734, outerwear_subset_1834)
+outerwear_ids_all <- c(outerwear_ids_1734, outerwear_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 outerwear_kwic <- kwic(outerwear_subset,
@@ -251,21 +319,42 @@ textplot_wordcloud(dfm(outerwear_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_outerwear <- validate_filter(corpus_1834, outerwear_ids,
-                                        search_col = "adcontent",
-                                        pattern = "01textilien")
-validation_outerwear
+validation_outerwear_all <- validate_filter(corpus_all, outerwear_ids_all,
+                                            search_col = "adcontent",
+                                            pattern = "01textilien")
+validation_outerwear_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% outerwear_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% outerwear_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_outerwear_all$filter_T_hc_T)
+b_t$documents$texts[1:28]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_outerwear_all$filter_T_hc_F)
+b_f$documents$texts[1:8]
 
 
 ## Costumes/ Special Occasion Garments
 costume <- tagfilter_costume()
 
-costume_ids <- costume$filtrate(corpus_1834,ignore.case = T)
+costume_ids_1734 <- costume$filtrate(corpus_1734,ignore.case = T)
+costume_ids_1834 <- costume$filtrate(corpus_1834,ignore.case = T)
 
-costume_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                  costume_ids)
+costume_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                       costume_ids_1734)
+costume_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                       costume_ids_1834)
 
-costume_texts <- costume_subset$documents$texts
+costume_subset_all <- c(costume_subset_1734, costume_subset_1834)
+costume_ids_all <- c(costume_ids_1734, costume_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 costume_kwic <- kwic(costume_subset,
@@ -287,21 +376,42 @@ textplot_wordcloud(dfm(costume_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_costume <- validate_filter(corpus_1834, costume_ids,
-                                        search_col = "adcontent",
-                                        pattern = "01textilien")
-validation_costume
+validation_costume_all <- validate_filter(corpus_all, costume_ids_all,
+                                            search_col = "adcontent",
+                                            pattern = "01textilien")
+validation_costume_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% costume_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% costume_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_costume_all$filter_T_hc_T)
+b_t$documents$texts[1:12]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_costume_all$filter_T_hc_F)
+b_f$documents$texts[1:2]
 
 
 ## Shoes
 shoes <- tagfilter_shoes()
 
-shoes_ids <- shoes$filtrate(corpus_1834,ignore.case = F)
+shoes_ids_1734 <- shoes$filtrate(corpus_1734,ignore.case = T)
+shoes_ids_1834 <- shoes$filtrate(corpus_1834,ignore.case = T)
 
-shoes_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                shoes_ids)
+shoes_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                     shoes_ids_1734)
+shoes_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                     shoes_ids_1834)
 
-shoes_texts <- shoes_subset$documents$texts
+shoes_subset_all <- c(shoes_subset_1734, shoes_subset_1834)
+shoes_ids_all <- c(shoes_ids_1734, shoes_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 shoes_kwic <- kwic(shoes_subset,
@@ -326,21 +436,42 @@ textplot_wordcloud(dfm(shoes_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_shoes <- validate_filter(corpus_1834, shoes_ids,
-                                        search_col = "adcontent",
-                                        pattern = "01textilien")
-validation_shoes
+validation_shoes_all <- validate_filter(corpus_all, shoes_ids_all,
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
+validation_shoes_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% shoes_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% shoes_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_shoes_all$filter_T_hc_T)
+b_t$documents$texts[1:57]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_shoes_all$filter_T_hc_F)
+b_f$documents$texts[1:17]
 
 
 ## Handkerchiefs
 handkerchief <- tagfilter_handkerchief()
 
-handkerchief_ids <- handkerchief$filtrate(corpus_1834,ignore.case = T)
+handkerchief_ids_1734 <- handkerchief$filtrate(corpus_1734,ignore.case = T)
+handkerchief_ids_1834 <- handkerchief$filtrate(corpus_1834,ignore.case = T)
 
-handkerchief_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                       handkerchief_ids)
+handkerchief_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                            handkerchief_ids_1734)
+handkerchief_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                            handkerchief_ids_1834)
 
-handkerchief_texts <- handkerchief_subset$documents$texts
+handkerchief_subset_all <- c(handkerchief_subset_1734, handkerchief_subset_1834)
+handkerchief_ids_all <- c(handkerchief_ids_1734, handkerchief_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 handkerchief_kwic <- kwic(handkerchief_subset,
@@ -362,10 +493,27 @@ textplot_wordcloud(dfm(handkerchief_subset_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_handkerchief <- validate_filter(corpus_1834, handkerchief_ids,
+validation_handkerchief_all <- validate_filter(corpus_all, handkerchief_ids_all,
                                         search_col = "adcontent",
                                         pattern = "01textilien")
-validation_handkerchief
+validation_handkerchief_all
+
+# Filters for TRUE and FALSE positives
+doc_ids_all <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% handkerchief_ids_all)]
+filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% handkerchief_ids_all)]
+
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_handkerchief_all$filter_T_hc_T)
+b_t$documents$texts[1:67]
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_handkerchief_all$filter_T_hc_F)
+b_f$documents$texts[1:2]
 
 
 ## Umbrellas

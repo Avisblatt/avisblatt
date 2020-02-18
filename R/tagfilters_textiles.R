@@ -80,7 +80,7 @@ tagfilter_uniform <- function(){
     epaulets = "Epaulett"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    militia = "Miliz-Aufgebot" # muster for the militia
   )
   create_filter_output(dict)
 }
@@ -96,7 +96,11 @@ tagfilter_underwear <- function(){
     socks = "Socke|Strumpf|Strümpf"
   )
   dict$neg <- list(
-    profession = "Strumpfweber|Strumpfausbreit|Strumpffach", # profession of making stockings, also excludes tools for profession (e.g. Strumpfweber-Stuhl)
+    immo = "Losament|Behausung|Gelegenheit", # excludes related immo ads
+    book = "Heft|Kalender", # excludes related prints
+    service = "Kundenhäuser|Kundenhaus", # excludes ads for related services
+    board = "Kost", # excludes ads for board with additional services
+    profession = "Strumpfw[ä|e]b|Strumpffw[ä|e]b|Strumpfausbreit|Strumpffach|Str[u|ü]mpf-Fabri|Str[u|ü]mpff-Fabri", # profession of making stockings, also excludes tools for profession (e.g. Strumpfweber-Stuhl)
     raw = "Strumpfwolle|Strümpfwolle|Strumpf-Wolle|Strümpf-Wolle" # yarn for making socks
   )
   create_filter_output(dict)
@@ -110,9 +114,10 @@ tagfilter_outerwear <- function(){
   dict <- list()
   dict$pos <- list(
     male = "Frack|Talar",
-    general = "Mantel|Mäntel|Coat|Cotte|Schabrack|Mantille|Kittelein|Pellerine"
+    general = "Mantel|Mäntel|Coat|Cotte|Mantille|Kittelein|Pellerine"
   )
   dict$neg <- list(
+
     fabric = "Mantelzeug", # fabric for coats
     mercery = "Mantelhaft", # clasps for coats
     music = "Instrumentalartikel" # musical instruments (contains "talar")
@@ -151,19 +156,26 @@ tagfilter_shoes <- function(){
     soles = "[S|s]ohle|[S|s]öhle"
   )
   dict$neg <- list(
+    immo = "Liegenschaft", # filters out immo ads with measurements in "Schuh"
+    wood = "Bodenholz|Faßdaugen|Dielen|Daugenholz", # wood, measured in "Schuh"
+    polish = "Wichse", # shoe polish
+    fountain = "Brunnstiefel|Ziehbrunn", # fountains (one part is also called "Schuh")
     name = "Guldenschuh", # family name
     accessoire = "[H|h]andschuh|[H|h]andschüh", # textile accessoires (gloves)
     work = "Schuhmacher|Schuster|Schuhster", # occupations concerned with making shoes
     # PROBLEM: sometimes filters out relevant ads - exclusion of work and immo ads probably better solution
     misc = "Radschuh|Schuhkraft|Schuhknech", # other objects and nouns containing "schuh"
-    measure_1 = "Schuh\\s[lang|breit|dick|hoch|weit|Länge|hohe]", # removes "Schuh" as measurement, version 1
+    measure_1a = "Schuh\\s[lang|breit|dick|hoch|weit|Länge|hohe]", # removes "Schuh" as measurement, version 1a
+    measure_1b = "Schuhe\\s[lang|breit|dick|hoch|weit|Länge|hohe]", # removes "Schuh" as measurement, version 1b
     measure_2 = "Schuh\\s\\d", # removes "Schuh" as measurement, version 2
     measure_3 = "Nürnberger Maß", # removes "Schuh" as measurement, version 3
     measure_4 = "franz. Maß", # removes "Schuh" as measurement, version 4
-    measure_5 = "Schuhlänge|SchuhLänge|Schuh-Länge", # removes "Schuh" as measurement, version 5
+    measure_5 = "Schuhlänge|SchuhLänge|Schuh-Länge|schühig", # removes "Schuh" as measurement, version 5
     measure_6 = "Schuh Breite", # removes "Schuh" as measurement, version 6
     measure_7 = "Schuh Länge", # removes "Schuh" as measurement, version 7
-    measure_8 = "Schuh Höhe" # removes "Schuh" as measurement, version 8
+    measure_8 = "Schuh Höhe", # removes "Schuh" as measurement, version 8
+    measure_9 = "Länge\\s\\d", # removes "Schuh" as measurement, version 9
+    measure_10 = "Breite\\s\\d" # removes "Schuh" as measurement, version 10
   )
 
   create_filter_output(dict)
@@ -193,7 +205,7 @@ tagfilter_handkerchief <- function(){
 tagfilter_umbrella <- function(){
   dict <- list()
   dict$pos <- list(
-    rain = "Paraplui|Regenschirm",
+    rain = "Paraplu[i|y]|Regenschirm",
     sun = "Sonnenschirm|Ombrelle|Parasol|Parresol"
 
   )

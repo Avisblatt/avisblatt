@@ -45,6 +45,8 @@ corpus_1834 <- corpus_subset(corpus_1834_all,
                              (docvars(corpus_1834_all,"id") %in%
                                 ids_by_lang$de))
 
+corpus_all <- c(corpus_1734, corpus_1834)
+
 # negating %in% operator
 `%notin%` <- Negate(`%in%`)
 
@@ -67,7 +69,7 @@ carriage_ids_all <- c(carriage_ids_1734, carriage_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 carriage_kwic <- kwic(carriage_subset_all,
-                      pattern = "Trosque",
+                      pattern = "Wagen",
                       valuetype = "regex",
                       ignore.case = T)
 carriage_kwic
@@ -78,7 +80,7 @@ carriage_subset_all_clean <- carriage_subset_all %>%
          remove_numbers = TRUE) %>%
   tokens_remove(avis_stop())
 
-textplot_wordcloud(dfm(carriage_subset_clean_all_clean),
+textplot_wordcloud(dfm(carriage_subset_all_clean),
                    max_words = 200)
 
 
@@ -111,10 +113,10 @@ b_f$documents$texts[1:2]
 # No FALSE positives and TRUE positives all correct!!!
 
 ## Validation 1834
-validation_carriage_all <- validate_filter(corpus_1834, carriage_ids_all,
+validation_carriage_1834 <- validate_filter(corpus_1834, carriage_ids_1834,
                                             search_col = "adcontent",
                                             pattern = "06ding")
-validation_carriage_all
+validation_carriage_1834
 
 # Filters for TRUE and FALSE positives
 doc_ids <- corpus_1834$documents[,"id"]
