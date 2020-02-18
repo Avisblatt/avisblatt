@@ -30,6 +30,11 @@ corpus_1834 <- corpus_subset(corpus_1834_all,
 print <- tagfilter_print()
 
 print_ids <- print$filtrate(corpus_1834,ignore.case = F)
+
+print_subset <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                              print_ids)
+
+
 # Validation of Filters ----
 ## 2x2 Matrix containing number of ads
 ## found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
@@ -57,6 +62,16 @@ tagfilter_labor_apprentice <- function(){
   create_filter_output(dict)
 }
 
+doc_ids <- corpus_1834$documents[,"id"]
+
+filter_T_hc_T <- doc_ids[(doc_ids %in% print_ids) &
+                           (doc_ids %in% print_ids)]
+filter_T_hc_F <- doc_ids[(doc_ids %in% print_ids) &
+                           !(doc_ids %in% print_ids)]
+hc_T_filter_F <- doc_ids[!(doc_ids %in% print_ids) &
+                           (doc_ids %in% print_ids)]
+hc_F_filter_F <- doc_ids[!(doc_ids %in% print_ids) &
+                           !(doc_ids %in% print_ids)]
 
 
 #TRUE positives

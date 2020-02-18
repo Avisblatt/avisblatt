@@ -8,6 +8,8 @@ source("R/ocr_corrections.R")
 avis_1834 <- readtext("data/avis_1834.csv")
 avis_1834$doc_id <- avis_1834$text
 avis_1834$text <- NULL
+getOption("max.print")
+
 
 # ocr corrections
 avis_1834$ad_content <- correct_ocr(avis_1834$ad_content)
@@ -19,6 +21,11 @@ corpus_1834 <- corpus(avis_1834,
                       docid_field = "doc_id")
 
 summary(corpus_1834)
+
+druckzeug_1834 <- kwic(print_subset,
+                       pattern = "Buch|Bücher[n]|Bucher",
+                       valuetype = "regex")
+druckzeug_1834
 
 # KWIC #######################################
 # Keywords in context analysis examples ######
