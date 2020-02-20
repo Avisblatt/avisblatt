@@ -6,7 +6,7 @@ tagfilter_clothing <- function(){
     general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste",
     apron = "[T|t]scho[b|p|pp]en|Fürtuch",
     trousers = "[H|h]ose",
-    dress = "[J|j]unte|[J|j]undte|Juppe",
+    dress = "[J|j]unte|[J|j]undte|Juppe|Jüppe",
     shirt = "[H|h]emd|[H|h]embd|[C|c]hemise|[K|k]amisol|[K|k]amisohl|[C|c]amisol|[C|c]amisohl"
   )
   dict$neg <- list(
@@ -108,7 +108,6 @@ tagfilter_underwear <- function(){
 
 
 #' Dictionary Outerwear
-#' NEU
 #' @export
 tagfilter_outerwear <- function(){
   dict <- list()
@@ -150,9 +149,9 @@ tagfilter_costume <- function(){
 tagfilter_shoes <- function(){
   dict <- list()
   dict$pos <- list(
-    slippers = "[P|p]antoffel",
+    slippers = "[P|p]antoffel|Chauffe-pied",
     shoes = "[S|s]chuh|[S|s]chüh",
-    boots = "[S|s]tiefel",
+    boots = "[S|s]tiefel|Stüfel",
     soles = "[S|s]ohle|[S|s]öhle"
   )
   dict$neg <- list(
@@ -205,7 +204,7 @@ tagfilter_handkerchief <- function(){
 tagfilter_umbrella <- function(){
   dict <- list()
   dict$pos <- list(
-    rain = "Paraplu[i|y]|Regenschirm",
+    rain = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]",
     sun = "Sonnenschirm|Ombrelle|Parasol|Parresol"
 
   )
@@ -223,8 +222,8 @@ tagfilter_umbrella <- function(){
 tagfilter_hand <- function(){
   dict <- list()
   dict$pos <- list(
-    muff = "Schlupfer|Schlüpfer",
-    gloves = "Handschuh"
+    muff = "Schlupfer|Schlüpfer|Schlupffer|Schlüpffer",
+    gloves = "Handsch[u|ü]h"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
@@ -244,9 +243,11 @@ tagfilter_neck <- function(){
     scarf = "Halstuch|Foulard|Schal|Schawl|Shaul|Chal|Fichu"
   )
   dict$neg <- list(
-    sound = "Schalles|Schalle", # sound of something
+    person = "Marschal", # military rank
+    ocr = "sichals|auchal|welchal|durchal|gleichal|Schaltem|sichall", # ocr mistakes (whitespace is missing)
+    sound = "Schalles|Schalle|Schalsconservirung", # sound of something
     place = "Schaltenbrand|Mönchaltdorf", # placenames
-    fabric = "Chalis|Chaly|Chally", # special kind of fabric; PROBLEM: sometimes description for fabric of a scarve...
+    fabric = "Chalis|Chaly|Chally|Chalon", # special kind of fabric; PROBLEM: sometimes description for fabric of a scarve...
     measure = "Waagschale", # measurement containing "schal
     bowls = "Schalen|Schale" # bowls
   )
@@ -265,9 +266,10 @@ tagfilter_headdress <- function(){
     cap = "Kappe|Capotte|Bonnet|Mütze",
     general = "Hut|Hüt|Chapeau",
     straw = "Strohhut|Strohhüt",
-    female = "Haube"
+    female = "Haube|Häubchen"
   )
   dict$neg <- list(
+    animal = "[D|T]aube", # description of animal with "kappe"
     mind = "zu//shüte", # minding something/someone (usally children)
     plant = "Zuckerhut", # name of a plant
     dump = "hütten", # verbs meaning dumping something
@@ -275,11 +277,15 @@ tagfilter_headdress <- function(){
     name = "Schaubhut|Hauber|Schaubelt", # family names
     religion = "Herrenhut", # religious group
     unclear = "Bonneterie", # exact meaning unsure, maybe place of making bonnets?
-    profession = "Kappenmacher|Hutmacher|Strohhutnähen", # professions, PROBLEM: often in ad including actual hats but not always... - leave out?
-    place = "Hutting|Schönhut|Waldshut|Hutgasse|Huthgasse|Schützen|Eisenhut|Schutzen", # placenames containing "hut/hüt"
-    verb = "\\sthut", # verbs (doing)
+    # profession = "Kappenmacher|Hutmacher|Strohhutnähen", # professions, PROBLEM: often in ad including actual hats but not always... - leave out?
+    place = "Hutting|Schönhut|Waldshut|Hutgasse|Huthgasse|Hutgaß|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
+    immo = "Losament|Behausung|Stube|Stüblein|Wohnung", # filters out immo ads
+    work = "Gesell|Profeßion|Kamerdiener", # filters out work ads
+    other = "Hüter", # supervisor
+    verb_1 = "\\sthut", # verbs (doing)
+    verb_2 = "sch[u|ü]tten|schutt[e|i]n|schütt[e|i]n|Schut", # to throw smth
     hut = "Hütte", # small house, hut
-    object = "Fingerhut|Fingerhüt|Strumpfwoll|Strümpfwoll|Strumpf-Woll|Strümpf-Woll|Zündhütchen" # other objects including "hut" or "strumpf"
+    object = "Fingerhut|Fingerhüt|Strumpfwoll|Strümpfwoll|Strumpf-Woll|Strümpf-Woll|Zündhütchen|Schutt" # other objects including "hut" or "strumpf"
   )
   create_filter_output(dict)
 }
@@ -296,17 +302,18 @@ tagfilter_headdress <- function(){
 tagfilter_texmaterial <- function(){
   dict <- list()
   dict$pos <- list(
-    unclear = "Nappes|Senpareille|Napolitain|Circassien|Stramin",
+    atlas = "gestreifter Atlas",
+    unclear = "Nappes|Senpareille|Napolitain|Circassien|Stramin|Alépin|Etamin|Kamelott",
     fur = "Pelz|Marder|Zobel|Steinmarder",
     marcelline = "Marcelin",
     muslin = "Mousselin",
     lace = "Neiges|Spitzlein|Spitze",
-    canvas = "Leinwand|Leinwat|Battist|Batist|Canevas",
+    canvas = "Leinwand|Leinwat|Battist|Batist|Canevas|Halblein",
     gingham = "Guingham|Gingham",
     semi_silk = "Halbseide",
     silk_origin_1 = "Gros de", # does not seem to work- why? is the space between the problem?
     silk_origin_2 = "Grosde",
-    silk = "Marceline|Levantine|Seide|Blonde|Floreth|Floret|Taffent|Taffet",
+    silk = "Marceline|Levantine|Seide|Blonde|Floreth|Floret|Taffent|Taffet|Crepvan|Creptamin",
     cashemere = "Casimir|Cachemir",
     bast = "Bast|Sparterie",
     cotton = "Linon|Baumwoll",
@@ -320,19 +327,24 @@ tagfilter_texmaterial <- function(){
     wool = "Wollenband|-Wolle|\\bWollenwaare|Thibet|Alépin"
   )
   dict$neg <- list(
-    # includes some "Pfeifenspitzen", where "Pfeifen" is not right before "Spitzen" - how to exclude those?
-    stone = "Alabast[e|a]r", # kind of stone
+    book = "Bücher|Buch|Gespräch", # excludes ads for prints
+    death = "Ehefrau|beerdigt", # excludes death notices
+    umbrella = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
+    immo = "Losament|Wohnung|Ziehbrunn", # filters out immo ads
+    stone = "Alabast[e|a]r|Bernstein", # kind of stones
     bastard = "Bastard", # child out of wedlock
     name = "Sebastian|Sebast", # first name
     animal = "Seidenkaninchen", # certain kind of
-    work = "unterzubringen|begehrt|gewesener", # excludes work ads and description of people's jobs
-    paper = "Seidenpapier", # kind of paper
+    work = "unterzubringen|begehrt|gewesener|Lehrgelt|placieren|Handschrift|Zeugnis|Zeugniß", # excludes work ads and description of people's jobs
+    service = "waschen|flicken", # filters out ads for services related to textiles
+    paper = "Seidenpapier|Seindeppr|Papier", # kind of paper
     profession = "Seidenzwirnmeister|Seidenwinder", # profession
     workplace = "Seiden-Zwirnerey", # workplace
-    tool = "Seidenwind-Maschine|Seidenwindmaschine|Seidenrad|Seinderäder", # tool for winding silk thread
+    tool = "Seidenwind-Maschine|Seidenwindmaschine|Seidenrad|Seinderäd|Seindenwaage", # tool for winding silk thread
     place = "Geißspitz", # placename
     instrument = "Mundspitze", # part of musical instrument
-    ohter = "Pelzfüsse|Pelzsäcke" # meaning unclear, but no textile
+    medicine = "Balsam|Heilbalsam", # medicine with instructions to put it on a kind of cloth
+    ohter = "Pelzfüsse|Pelzsäcke|Brennkessel" # other objects
   )
 
   create_filter_output(dict)
@@ -348,13 +360,24 @@ tagfilter_cloth <- function(){
     general = "Reste|Zeug|Tuch|Tüch|Geflecht|Etoffe|Gewebe"
   )
   dict$neg <- list(
-    work = "Zeugni[s|ß]|tüchtig|Leumundszeug", # filters out work advertisements
-    occupation = "Zeugwar", # Occupation "Zeugwart" containing "zeug"
+    print = "Subscription|Buch|Büch|Papier", # print and paper ads
+    carriage = "Chaise", # carriages with textile decorations
+    animal = "Spitzpommer|Hund", # excludes ads with animal descriptions
+    death = "begraben", # excludes death notices
+    immo = "Juchart", # excludes immo ads
+    election = "Wahl", # excludes election notices
+    other = "Ratte|Schriften|Bibliothek|Feuerzeug|Rosenöl", # excludes other unrelated objects
+    bag = "T[a|ä]sch|Seckel|Beutel|S[ä|a]ck|Ridicule", # excludes bags and purses
+    umbrella = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
+    horse = " Pferdtzeug|Reitzeug", # objects for riding etc.
+    ocr = "aufhaltetofferirt", # ocr mistake (whitespace missing)
+    work = "Zeugni[s|ß]|tüchtig|Leumundszeug|Lehrling|Bedingnis|Lehre|Ladendiener|Reisender|ledig", # filters out work advertisements
+    occupation = "Zeugwar|Tuchhandler|Tuchscherer|putzen|Flecken|nähen|stricken", # Occupation "Zeugwart" containing "zeug"
     verb = "überzeug|restera", # verbs containing "zeug" or "rest"
-    household = "Bettzeug|Tischzeug", # household textile
-    noun = "bezeug", # nouns containing "zeug"
-    tool = "Werkzeug|Werkszeug", # tool
-    place = "Zeughaus", # name of a house in Basel
+    household = "Bettzeug|Tischzeug|Preß|Lampe|Betteinguß|Tapete", # household textiles and objects
+    noun = "bezeug|erzeug", # nouns containing "zeug"
+    tool = "Werkzeug|Werkszeug|Werckzeug|W[e|ä]bstuhl|W[e|ä]bstühl|Presse", # tool
+    place = "Zeughaus|Zeug-Hauß", # name of a house in Basel
     paper = "Papierrest|Rei[ß|ss]zeug|Schreibzeug", # scrap paper, writing and painting tools
     date = "Jahrestermin" # refers to a date
   )
@@ -375,8 +398,10 @@ tagfilter_yarn <- function(){
     knitting = "Strickseide|Strickwolle|Strickbaum"
   )
   dict$neg <- list(
-    tool = "Fadenzähler", # tool for counting threads
-    adjectives = "garnies|garniert|garnirt|garnie|\\sfadene\\s", # adjectives for decorated with
+    print = "Buch|Bücher", # excludes print ads
+    hunt = "Jagd|Jagds[ä|a]ck|Fischgarn", # hunting with yarn
+    tool = "Fadenz[ä|a]hler|Oehren|Waarenzähler", # tool for counting threads, needles for yarn
+    adjectives = "garnies|garniert|garnirt|garnie|fadene|garnire", # adjectives for decorated with
     decoration = "Garnitur|Garnirung", # decoration on objects
     deco_description = "Faden durchwirkt", # decorated with yarn, not yarn itself
     military = "Garnison" # military garrison
@@ -394,7 +419,7 @@ tagfilter_yarn <- function(){
 tagfilter_animalraw <- function(){
   dict <- list()
   dict$pos <- list(
-    feather = "Bettfehde|Bethfehde|Bettfede|Bettfehde|Flaum",
+    feather = "Bettfehde|Bethfehde|Bettfede|Bethfehd|Bettfehde|Flaum|Eitherdaun|Ederdun",
     horsehair = "Ro[ss|ß]haar|Pferdhaar"
 
   )
@@ -430,13 +455,16 @@ tagfilter_plantraw <- function(){
 tagfilter_mercery <- function(){
   dict <- list()
   dict$pos <- list(
+    pin = "Vorstecknadel",
     buckle = "Schnalle",
     suspender = "Hosenträger",
     belt = "Gürtel|Ceintur",
     button = "Kn[o|ö]pf"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
+    immo = "Losament|Gelegenheit", # excludes immo ads
+    cane = "Spannisches Rohr", # walking canes with "Knopf"
+    other = "Waidsack|Säcke|Ofenstange|Deckel|Redincorte" # other objects with buckles or buttons
     # "Knopfmacher" as a profession relevant for category, exclusion of work and immo ads should exclude those irrelevant to textile category
   )
 
@@ -453,7 +481,13 @@ tagfilter_bag <- function(){
     rucksack = "Felleisen"
   )
   dict$neg <- list(
-    # negative list has to be extended
+    immo = "Wohnung|Losament|Gelegenheit", # excludes immo ads
+    bed = "Strohs[ä|a]ck", # bedding
+    measure_1 = "\\d.\\sSäck", # removes "Säck" as measurement, v1
+    measure_2 = "\\d\\sSäck", # removes "Säck" as measurement, v2
+    measure_3 = "\\d.\\sSack", # removes "Sack" as measurement, v3
+    measure_4 = "\\d\\sSack", # removes "Sack" as measurement, v4
+    measure_5 = "hundert Säck", # removes "Säck" as measurement, v5
     fruit = "Früchte", # filters out ads with bags of fruit
     coffee = "Kaffee", # filters out ads with bags of coffee
     cloth = "Beuteltuch", # cloth for bags
@@ -461,10 +495,10 @@ tagfilter_bag <- function(){
     potato = "Erdäpfel", # filters out ads with bags of potatoes
     oat = "Habersäck", # bags of oats
     travel = "Fußsäck|Nachtsäck", # leather blanket for carriage passengers and sleeping bags
-    books = "Taschenkalender|Taschenbuch|Taschenbüch", # pocket books and calendars
-    pocketsize = "Taschen-Perspektiv|Taschenspiel|Taschenfeuer|Taschenuhr", # pocketsize versions of other objects
-    administration = "Seckelmeister|Seckelrechnung", # administrative positions and words containing "Seckel"
-    description = "Taschenformat" # description of pocketsize of an object
+    books = "Taschenkalender|Taschenbuch|Taschenbüch|Hauskalender", # pocket books and calendars
+    pocketsize = "Taschen-Perspektiv|Taschenspiel|Taschenfeuer|Taschenuhr|Taschen-Latern|Taschenlatern|Taschenmesser|Federmesser", # pocketsize versions of other objects
+    administration = "Seckelmeister|Seckelrechnung|Seckel-", # administrative positions and words containing "Seckel"
+    description = "Taschenformat|Taschenform" # description of pocketsize of an object
   )
 
   create_filter_output(dict)

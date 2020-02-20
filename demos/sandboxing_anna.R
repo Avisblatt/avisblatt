@@ -2,6 +2,7 @@ library(dplyr) #Data manipulation (also included in the tidyverse package)
 library(tidytext) #Text mining
 library(tidyr) #Spread, separate, unite, text mining (also included in the tidyverse package)
 library(widyr) #Use for pairwise correlation
+library(sentimentr) #sentiment package
 
 #Visualizations!
 library(ggplot2) #Visualizations (also included in the tidyverse package)
@@ -17,6 +18,7 @@ library(yarrr)  #Pirate plot
 library(radarchart) #Visualizations
 library(igraph) #ngram network diagrams
 library(ggraph) #ngram network diagrams
+
 
 # Load libraries and source functions
 # in pre-package state
@@ -77,9 +79,13 @@ corpus_1734_all <- corpus(avis_1734,
 corpus_1734 <- corpus_subset(corpus_1734_all,
                              (docvars(corpus_1734_all,"id") %in%
                                 ids_by_lang$de))
+
+textiles_1734 <- corpus_subset(corpus_1734, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+
+
 # tokenize ads 1734
 token_1734 <- corpus_1734 %>%
-  tokens(remove_punct = TRUE,
+  tokens.(remove_punct = TRUE,
          remove_numbers = TRUE,
          remove_separators = TRUE) %>%
   tokens_remove(stopwords("de")) %>%
@@ -105,6 +111,8 @@ corpus_1834 <- corpus_subset(corpus_1834_all,
 
 corpus_all <- c(corpus_1734, corpus_1834)
 
+textiles_1834 <- corpus_subset(corpus_1834, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+
 # tokenize ads 1734
 token_1834 <- corpus_1834 %>%
   tokens(remove_punct = TRUE,
@@ -114,7 +122,27 @@ token_1834 <- corpus_1834 %>%
   tokens_remove(avis_stop())
 
 
-key <- readtext("demos/advertising.csv")
+key <- read.csv2("demos/advertising_words.csv",
+                 colClasses = c("character", "numeric"))
 
-as_key(key)
+key_new <- as_key(key)
+is_key(key_new)
+
+sentiment_by("36. Unterzeichnete giebt sich die Ehre E. E. Püblikum zu benachrichtigen, daß sie so eben eine frische Sendung diversfarbiger Indiennes erhalten hat, die zu dem sehr billigen Preis von neun Kreutzer pr. Elle erlassen werden können.", polarity_dt = key_new)
+sentiment_by("Ein schöner Papagey sambt dem Käfig.", polarity_dt = key_new)
+
+sentiment_by(corpus_1734, polarity_dt = key_new)
+
+textiles_1734_t <-textiles_1734 %>%
+  tidy()
+
+textiles_1734_t
+
+textiles_ad_1734 <- textiles_1734_t  %>%
+  get_sentences() %>%
+  sentiment_by(by = c('text'), polarity_dt = key_new)
+
+textiles_ad_1734
+
+write.csv2(textiles_ad_1734, file = "data/textiles_ad_1734.csv", fileEncoding = "UTF-8")
 

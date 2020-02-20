@@ -23,14 +23,20 @@ tagfilter_household_textile <- function(){
   dict$pos <- list(
     table_linen = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Tischtüch",
     bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|
-    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbett",
+    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbe[tt|th]",
     carpet = "Teppi|Tepi|Tapi|Tappi|Bodentuch|Bodentüch",
-    curtain = "Vorhang|Vorhäng|Jalousie",
+    curtain = "Vorhang|Vorhäng",
     misc = "Schaubdeck"
   )
   dict$neg <- list(
-    carriage = "Chaise|Schäse", # excludes carriages with drapes or other textiles
-    name = "Neudecker", # family name
+    cover = "zu decken", # verb
+    book = "Goldschnitt", # excludes descriptions of books
+    service = "ausbessern|flicken", # services concerning household textiles
+    food = "Tapioca", # names for food products
+    furniture = "Canapee|Fortepiano", # excludes furniture
+    discover = "entdecke", # meaning discovery of smth
+    carriage = "Chaise|Schäse|Packkissen|Wägelein", # excludes carriages with drapes or other textiles
+    name = "Neudecker|Decker", # family name
     horse = "Pferdedecke|Pferddecke", # horse covers, will be included in category for riding
     other = "Deckenstock", # unsure of meaning, but no household textile
     wood = "Holzdecke", # pieces of wood
