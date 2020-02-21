@@ -1220,7 +1220,9 @@ b_f$documents$texts[1:35]
 ### using existing categories for wordclouds and dfm to find missing objects in dictionaries
 # creating subset of textile objects for sale
 textiles_1834 <- corpus_subset(corpus_1834, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+buy_1834 <- corpus_subset(corpus_1834, grepl("01kauf", finance) & grepl("01biete", adtype))
 textiles_1734 <- corpus_subset(corpus_1734, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+buy_1734 <- corpus_subset(corpus_1734, grepl("01kauf", finance) & grepl("01biete", adtype))
 textiles_all <- c(textiles_1734, textiles_1834)
 
 # cleaning subset
@@ -1266,6 +1268,17 @@ textiles_missed <- corpus_subset(textiles_all, docvars(textiles_all, "id") %noti
                                     c(clothing_ids_all, sleepwear_ids_all, uniform_ids_all, underwear_ids_all, outerwear_ids_all, costume_ids_all, shoes_ids_all,
                                       handkerchief_ids_all, umbrella_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
                                       animalraw_ids_all, plantraw_ids_all, mercery_ids_all, bag_ids_all, household_textile_ids_all))
+
+textiles_aut_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                 c(clothing_ids_1734, sleepwear_ids_1734, uniform_ids_1734, underwear_ids_1734, outerwear_ids_1734, costume_ids_1734, shoes_ids_1734,
+                                   handkerchief_ids_1734, umbrella_ids_1734, hand_ids_1734, neck_ids_1734, headdress_ids_1734, texmaterial_ids_1734, cloth_ids_1734, yarn_ids_1734,
+                                   animalraw_ids_1734, plantraw_ids_1734, mercery_ids_1734, bag_ids_1734, household_textile_ids_1734))
+
+textiles_aut_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                     c(clothing_ids_1834, sleepwear_ids_1834, uniform_ids_1834, underwear_ids_1834, outerwear_ids_1834, costume_ids_1834, shoes_ids_1834,
+                                       handkerchief_ids_1834, umbrella_ids_1834, hand_ids_1834, neck_ids_1834, headdress_ids_1834, texmaterial_ids_1834, cloth_ids_1834, yarn_ids_1834,
+                                       animalraw_ids_1834, plantraw_ids_1834, mercery_ids_1834, bag_ids_1834, household_textile_ids_1834))
+
 
 tex_ids_automatic <- c(clothing_ids_all, sleepwear_ids_all, uniform_ids_all, underwear_ids_all, outerwear_ids_all, costume_ids_all, shoes_ids_all,
                        handkerchief_ids_all, umbrealla_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
