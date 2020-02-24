@@ -1,25 +1,3 @@
-library(dplyr) #Data manipulation (also included in the tidyverse package)
-library(tidytext) #Text mining
-library(tidyr) #Spread, separate, unite, text mining (also included in the tidyverse package)
-library(widyr) #Use for pairwise correlation
-library(sentimentr) #sentiment package
-
-#Visualizations!
-library(ggplot2) #Visualizations (also included in the tidyverse package)
-library(ggrepel) #`geom_label_repel`
-library(gridExtra) #`grid.arrange()` for multi-graphs
-library(knitr) #Create nicely formatted output tables
-library(kableExtra) #Create nicely formatted output tables
-library(formattable) #For the color_tile function
-library(circlize) #Visualizations - chord diagram
-library(memery) #Memes - images with plots
-library(magick) #Memes - images with plots (image_read)
-library(yarrr)  #Pirate plot
-library(radarchart) #Visualizations
-library(igraph) #ngram network diagrams
-library(ggraph) #ngram network diagrams
-
-
 # Load libraries and source functions
 # in pre-package state
 library(readtext)
@@ -28,6 +6,7 @@ library(textcat)
 library(jsonlite)
 library(ggplot2)
 library(dplyr)
+library(lubridate)
 source("R/avis_stop.R")
 source("R/ocr_corrections.R")
 source("R/tagfilters_utils.R")
@@ -37,32 +16,17 @@ source("R/tagfilters_main.R")
 source("R/cleaners.R")
 source("R/validate_filters.R")
 
-#Define some colors to use throughout
-my_colors <- c("#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#D55E00", "#D65E00")
 
-#Customize ggplot2's default theme settings
-#This tutorial doesn't actually pass any parameters, but you may use it again in future tutorials so it's nice to have the options
-theme_lyrics <- function(aticks = element_blank(),
-                         pgminor = element_blank(),
-                         lt = element_blank(),
-                         lp = "none")
-{
-  theme(plot.title = element_text(hjust = 0.5), #Center the title
-        axis.ticks = aticks, #Set axis ticks to on or off
-        panel.grid.minor = pgminor, #Turn the minor grid lines on or off
-        legend.title = lt, #Turn the legend title on or off
-        legend.position = lp) #Turn the legend on or off
-}
+# dictionary for "Werbeanzeigen", words strongly suggesting advertising language and polite society
+advertising_dict <- dictionary(list(selection = c("angelang*", "assortiert*", "auswahl*", "erfrisch*", "erinner*", "frisch*", "jüngst*","reichhaltig*", "sortiment*", "vollständig*"),
+                                    politeness = c("darf", "dienlich", "dürfe*", "ehre*", "freundlich*", "geehrt*", "geneigt*", "hochgeehrt*", "höflich*",
+                                                   "verehrlicht*", "zusprech*", "zusprich*", "zuspruch"),
+                                    service = c("aufmerksam*", "bedien*", "befriedig*", "bequem*", "empfehl*", "empfhiehl*", "erinner*", "garantie*"),
+                                    quality = c("besonder*", "besser", "best*", "einschlage*", "extra", "fein*", "frisch*", "gut*", "hübsch*",
+                                                "schön*", "vorteil*", "vorzüglich*", "wohl*"),
+                                    fashion = c("begehrt*", "belieb*", "commod", "commoder", "commodes", "geschmack*", "mode*", "modi*", "neu*")))
 
-#Customize the text tables for consistency using HTML formatting
-my_kable_styling <- function(dat, caption) {
-  kable(dat, "html", escape = FALSE, caption = caption) %>%
-    kable_styling(bootstrap_options = c("striped", "condensed", "bordered"),
-                  full_width = FALSE)
-}
-
-# corpus 1734
-
+# preparing corpus for 1734
 avis_1734 <- readtext("data/groundtruth1734.csv",
                       text_field = "text",
                       encoding = "UTF-8")
@@ -80,20 +44,33 @@ corpus_1734 <- corpus_subset(corpus_1734_all,
                              (docvars(corpus_1734_all,"id") %in%
                                 ids_by_lang$de))
 
-textiles_1734 <- corpus_subset(corpus_1734, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+docvars(corpus_1734, "year") <- year(docvars(corpus_1734, "date"))
+docvars(corpus_1734, "month") <- month(docvars(corpus_1734, "date"))
+docvars(corpus_1734, "day") <- day(docvars(corpus_1734, "date"))
 
-
-# tokenize ads 1734
+# tokenizing ads for corpus of 1734
 token_1734 <- corpus_1734 %>%
-  tokens.(remove_punct = TRUE,
+  tokens(remove_punct = TRUE,
          remove_numbers = TRUE,
          remove_separators = TRUE) %>%
   tokens_remove(stopwords("de")) %>%
   tokens_remove(avis_stop())
 
+summary(token_1734)
 
-# corpus 1834
+# dictionary analysis for 1734
+token_dict_1734 <- tokens_lookup(token_1734, dictionary = advertising_dict)
 
+token_dict_1734_dfma <- dfm(token_dict_1734)
+head(token_dict_1734_dfma)
+
+# plotting results of dictionary analysis for 1734
+matplot(token_dict_1734_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')
+grid()
+legend('topleft', col = 1:2, legend = c('all', 'selection'), lty = 1, bg = 'white')
+
+
+# preparing corpus for 1834
 avis_1834 <- readtext("data/groundtruth1834.csv",
                       text_field = "text",
                       encoding = "UTF-8")
@@ -109,11 +86,11 @@ corpus_1834 <- corpus_subset(corpus_1834_all,
                              (docvars(corpus_1834_all,"id") %in%
                                 ids_by_lang$de))
 
-corpus_all <- c(corpus_1734, corpus_1834)
+docvars(corpus_1834, "year") <- year(docvars(corpus_1834, "date"))
+docvars(corpus_1834, "month") <- month(docvars(corpus_1834, "date"))
+docvars(corpus_1834, "day") <- day(docvars(corpus_1834, "date"))
 
-textiles_1834 <- corpus_subset(corpus_1834, grepl("01textilien", adcontent) & grepl("01kauf", finance))
-
-# tokenize ads 1734
+# tokenizing ads for corpus of 1834
 token_1834 <- corpus_1834 %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE,
@@ -121,28 +98,59 @@ token_1834 <- corpus_1834 %>%
   tokens_remove(stopwords("de")) %>%
   tokens_remove(avis_stop())
 
+summary(token_1834)
 
-key <- read.csv2("demos/advertising_words.csv",
-                 colClasses = c("character", "numeric"))
+# dictionary analysis for 1834
+token_dict_1834 <- tokens_lookup(token_1834, dictionary = advertising_dict)
 
-key_new <- as_key(key)
-is_key(key_new)
+token_dict_1834_dfma <- dfm(token_dict_1834)
+head(token_dict_1834_dfma)
 
-sentiment_by("36. Unterzeichnete giebt sich die Ehre E. E. Püblikum zu benachrichtigen, daß sie so eben eine frische Sendung diversfarbiger Indiennes erhalten hat, die zu dem sehr billigen Preis von neun Kreutzer pr. Elle erlassen werden können.", polarity_dt = key_new)
-sentiment_by("Ein schöner Papagey sambt dem Käfig.", polarity_dt = key_new)
+# plotting results of dictionary analysis for 1834
+matplot(token_dict_1834_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')
+grid()
+legend('topleft', col = 1:2, legend = c('advertising words'), lty = 1, bg = 'white')
 
-sentiment_by(corpus_1734, polarity_dt = key_new)
+# corpora for 1734 and 1834 with only textiles for sale
+textiles_1734 <- corpus_subset(corpus_1734, grepl("01textilien", adcontent) & grepl("01kauf", finance))
+textiles_1834 <- corpus_subset(corpus_1834, grepl("01textilien", adcontent) & grepl("01kauf", finance))
 
-textiles_1734_t <-textiles_1734 %>%
-  tidy()
+# tokenizing of textile corpora
+token_textiles_1734 <- textiles_1734 %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE,
+         remove_separators = TRUE) %>%
+  tokens_remove(stopwords("de")) %>%
+  tokens_remove(avis_stop())
 
-textiles_1734_t
+token_textiles_1834 <- textiles_1834 %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE,
+         remove_separators = TRUE) %>%
+  tokens_remove(stopwords("de")) %>%
+  tokens_remove(avis_stop())
 
-textiles_ad_1734 <- textiles_1734_t  %>%
-  get_sentences() %>%
-  sentiment_by(by = c('text'), polarity_dt = key_new)
+# dictionary analysis for textile corpora
+token_tex_dict_1734 <- tokens_lookup(token_textiles_1734, dictionary = advertising_dict)
+token_tex_dict_1734_dfma <- dfm(token_tex_dict_1734)
+topfeatures(token_tex_dict_1734_dfma)
 
-textiles_ad_1734
+token_tex_dict_1834 <- tokens_lookup(token_textiles_1834, dictionary = advertising_dict)
+token_tex_dict_1834_dfma <- dfm(token_tex_dict_1834)
+topfeatures(token_tex_dict_1834_dfma)
 
-write.csv2(textiles_ad_1734, file = "data/textiles_ad_1734.csv", fileEncoding = "UTF-8")
+# exporting dictionary analyisis to csv
+token_tex_dict_1734_df <- convert(token_tex_dict_1734_dfma, to = "data.frame")
+write.csv2(token_tex_dict_1734_df, file = "data/token_tex_dict_1734_df.csv", fileEncoding = "UTF-8")
 
+token_tex_dict_1834_df <- convert(token_tex_dict_1834_dfma, to = "data.frame")
+write.csv2(token_tex_dict_1834_df, file = "data/token_tex_dict_1834_df.csv", fileEncoding = "UTF-8")
+
+# plotting results of dictionary analysis for textile corpora
+matplot(token_tex_dict_1734_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')
+grid()
+legend('topright', col = 1:5, legend = c('selection', 'politeness', 'service', 'quality', 'fashion'), lty = 1, bg = 'white')
+
+matplot(token_tex_dict_1834_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')
+grid()
+legend('topright', col = 1:5, legend = c('selection', 'politeness', 'service', 'quality', 'fashion'), lty = 1, bg = 'white')
