@@ -3,7 +3,7 @@
 tagfilter_clothing <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste",
+    general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste|Tschako",
     apron = "[T|t]scho[b|p|pp]en|Fürtuch",
     trousers = "[H|h]ose",
     dress = "[J|j]unte|[J|j]undte|Juppe|Jüppe",
@@ -77,7 +77,8 @@ tagfilter_uniform <- function(){
   dict$pos <- list(
     general = "Offiziers-Rock|Uniform-Rock|Offiziers-Roöck|Uniform-Röck|Exerzier-Weste|Uniformrock|Uniformröck",
     uniform = "Uniform",
-    epaulets = "Epaulett"
+    epaulets = "Epaulett",
+    general = "Militä[r-E|re]ffekt"
   )
   dict$neg <- list(
     militia = "Miliz-Aufgebot" # muster for the militia
@@ -254,19 +255,16 @@ tagfilter_neck <- function(){
   create_filter_output(dict)
 }
 
-
-
-
 #' Dictionary Headdresses and Wigs
 #' @export
 tagfilter_headdress <- function(){
   dict <- list()
   dict$pos <- list(
-    wig = "Perruck|Perrück|Perück|Peruck",
+    wig = "Perruck|Perrück|Perück|Peruck|H[a|aa]r-Tours",
     cap = "Kappe|Capotte|Bonnet|Mütze",
     general = "Hut|Hüt|Chapeau",
     straw = "Strohhut|Strohhüt",
-    female = "Haube|Häubchen"
+    female = "Haube|Häubchen|Kopfputz"
   )
   dict$neg <- list(
     animal = "[D|T]aube", # description of animal with "kappe"
@@ -316,6 +314,7 @@ tagfilter_texmaterial <- function(){
     silk = "Marceline|Levantine|Seide|Blonde|Floreth|Floret|Taffent|Taffet|Crepvan|Creptamin",
     cashemere = "Casimir|Cachemir",
     bast = "Bast|Sparterie",
+    wicker = "Wiener Rohr",
     cotton = "Linon|Baumwoll",
     linnen_1 = "leinenes Gewebe", # does not seem to work- why? is the space between the problem?
     linnen_2 = "Leinenzeug|Futter-Leinen|Halbleinen|leinenes|Steifleinen|leinener|Leinenwaaren|Leinenplunder|halbleinen|Leinenb[a|ä]nd",
@@ -419,7 +418,7 @@ tagfilter_yarn <- function(){
 tagfilter_animalraw <- function(){
   dict <- list()
   dict$pos <- list(
-    feather = "Bettfehde|Bethfehde|Bettfede|Bethfehd|Bettfehde|Flaum|Eitherdaun|Ederdun",
+    feather = "Bettfehde|Bethfehde|Bettfede|Bethfehd|Bettfehde|Flaum|Eitherdaun|Ederdun|Federb[u|ü]sch",
     horsehair = "Ro[ss|ß]haar|Pferdhaar"
 
   )
@@ -477,7 +476,7 @@ tagfilter_mercery <- function(){
 tagfilter_bag <- function(){
   dict <- list()
   dict$pos <- list(
-    bag = "Tasche|Seckel|Beutel|Säck|Ridicule",
+    bag = "Tasche|Seckel|Beutel|S[ä|a]ck|Ridicule|Täschlein|N[é|e]cessaire",
     rucksack = "Felleisen"
   )
   dict$neg <- list(

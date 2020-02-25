@@ -16,6 +16,18 @@ tagfilter_bed <- function(){
   create_filter_output(dict)
 }
 
+#' Dictionary Childrens Pushchairs (some may be toys!)
+#' @export
+tagfilter_pushchair <- function(){
+  dict <- list()
+  dict$pos <- list(
+    pushchair = "Korbw[ag|äg|ae]|Kinderw[a|ä]g|Kinder[chais|schäs]|Korb-W[ag|äg|ae]|Kinder-W[a|ä]g|Kinder-[Chais|Schäs]",
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
 
 #' Dictionary Household Textiles
 #' @export
@@ -24,7 +36,7 @@ tagfilter_household_textile <- function(){
   dict$pos <- list(
     table_linen = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Tischtüch",
     bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|
-    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbe[tt|th]",
+    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbe[tt|th]|Nachtsack|Betteingu[ß|ss]",
     carpet = "Teppi|Tepi|Tapi|Tappi|Bodentuch|Bodentüch",
     curtain = "Vorhang|Vorhäng",
     misc = "Schaubdeck"
@@ -253,14 +265,14 @@ tagfilter_bureau <- function(){
 
 }
 
-#' Dictionary Small Storage
+#' Dictionary Storage
 #' @export
 tagfilter_storage <- function(){
   dict <- list()
   dict$pos <- list(
-    basket = "[K|k]orb|[K|k]örb",
-    box ="[K|k]iste|[K|k]istch|[K|k]ästchen",
-    bag = "[S|s]ack|[S|s]äcke|[S|s]äckch"
+    basket = "Korb|Körb",
+    box ="Kiste|Kistch|Kästchen",
+    bag = "Sack|Säcke|Säckch"
   )
   dict$neg <- list(
     carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
@@ -605,7 +617,8 @@ tagfilter_domestic <- function(){
     sewing = "Nadeln|Nadle[r-W|rw]aaren|Nähk[ä|a]st|Steckgufen|Stecknadel|Fingerh[u|ü]t",
     knitting = "Stricknadel|Strickseckel|Stricksstiefel",
     iron = "Bügeleisen|Glätteisen|Glättetisch|Glätte[öfelein|ofen]|Kleidermange",
-    washing ="Wasc[hk|h-K]essel|Wasc[hb|h-B]ütte|Bauch[eg|e-G|g|-G]eschir|Bauch[eb|e-B|b|-B]ütte|Plunderstang|Waschpulver|Waschwasser",
+    washing ="Wasc[hk|h-K]essel|Wasc[hb|h-B]ütte|Bauch[eg|e-G|g|-G]eschir|Bauch[eb|e-B|b|-B]ütte|
+    Plunderstang|Waschpulver|Waschwasser|Asche",
     spinning = "Spinnrad|Spinnräd|Spuhlrad|Schlumpstock"
   )
   dict$neg <- list(
@@ -671,6 +684,18 @@ tagfilter_art <- function(){
 
 }
 
+#' Dictionary Bathing Objects
+#' @export
+tagfilter_bathobject <- function(){
+  dict <- list()
+  dict$pos <- list(
+    bath = "Bad[bütte|kasten]"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
 
 #' Dictionary Misc Household Goods (Unspecified)
 #' @export

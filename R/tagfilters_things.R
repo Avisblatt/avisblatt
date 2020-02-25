@@ -160,7 +160,7 @@ tagfilter_tool <- function(){
     straw = "Strohschneid",
     distilling = "Brennhafen|Brennkessel",
     other = "Stemmeisen|Zange|[K|C]arabiner|Feile|Wasserwaag|Zirkel|Zollstab",
-    general = "Werkzeug"
+    general = "Werkzeug|Quincaillerie"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -298,6 +298,303 @@ tagfilter_dung <- function(){
   create_filter_output(dict)
 }
 
+#' Dictionary Plants
+#' @export
+tagfilter_plant <- function(){
+  dict <- list()
+  dict$pos <- list(
+    tree = "Baum|Bäume|Obstb[ä|a]um",
+    bush = "Garthenbuchs|Oleander",
+    flower = "Blumen|Rose",
+    seed = "S[a|aa]men",
+    seedling = "Setzling",
+    root = "Wurzeln",
+    general = "Pflanze|Gewächs"
+
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Glasses and Optical Instruments
+#' @export
+tagfilter_glasses <- function(){
+  dict <- list()
+  dict$pos <- list(
+    glasses = "Brille|Augengl[a|ä]s|Lesegl[a|ä]s",
+    lens = "Luppe",
+    opera = "Lorgnette|Perspektiv|Lorgnon",
+    telescope = "Telescope|Fernr[o|ö]hr",
+    microscope = "Micros[c|k]op",
+    laterna = "Laterna magica",
+    optical = "optische Instrumente",
+    other = "Landschaftspiegel"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Soil, Gravel, Lime and Related Goods
+#' @export
+tagfilter_soil <- function(){
+  dict <- list()
+  dict$pos <- list(
+    soil = "Erde|Garte[ng|n-G]rund",
+    gravel = "Birsgrien"
+    lime = "Kalk",
+    red = "ro[t|th]e Waare",
+    plaster = "G[y|i]ps"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Agriculture
+#' @export
+tagfilter_agriculture <- function(){
+  dict <- list()
+  dict$pos <- list(
+    tool = "Dreschflegel|[Heu|Lad|Lade]gabel|Pfl[u|ü]g|Sense|Rechen|Matte[n-M|nm]esser",
+    trolley = "Güllenkarren|Heuwagen",
+    storage = "Obsthurte|Obstk[o|ö]rb",
+    wine = "Rebsteck",
+    animal = "Mastbütte|Bienenst[o|ö]ck"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Riding
+#' @export
+tagfilter_riding <- function(){
+  dict <- list()
+  dict$pos <- list(
+    saddle = "S[a|ä]ttel|Steigbügel",
+    bridle = "Pferdebiss|Pfer[dg|deg|d-G|de-G]eschirr|Rei[tg|t-g]eschirr",
+    whip = "Peitsche",
+    spur = "Sporren",
+    blanket = "Pfer[ded|dd]ecke"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Objects Related to Wells and Fountains
+#' @export
+tagfilter_well <- function(){
+  dict <- list()
+  dict$pos <- list(
+    well = "Brun[ns|nens|n-S|nen-S]tein|Brun[nt|nent|n-T|nen-T]rog",
+    pump = "Wasse[rp|r-P]umpe"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Coal and Related Objects
+#' @export
+tagfilter_coal <- function(){
+  dict <- list()
+  dict$pos <- list(
+    coal = "Kohle",
+    stoarge = "Kohlenkessel"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Naturalia and Minerals
+#' @export
+tagfilter_naturalia <- function(){
+  dict <- list()
+  dict$pos <- list(
+    naturalia = "Muscheln|Schmetterling",
+    minerals = "Versteinerung|Mineralien"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Containers
+#' @export
+tagfilter_container <- function(){
+  dict <- list()
+  dict$pos <- list(
+    container = "Z[u|ü]ber|Eimer|Trog|Bö[ck|k]lin|Bo[ck|k]te|Bu[ck|k]te"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Fire Starters
+#' @export
+tagfilter_firestart <- function(){
+  dict <- list()
+  dict$pos <- list(
+    lighter = "Feuerstahl|Feuerzeug|Zündmaschine",
+    match = "Schwefelh[o|ö]lz|Zündh[o|ö]lz"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Fire Protection and Fire Extinguishers
+#' @export
+tagfilter_extinguisher <- function(){
+  dict <- list()
+  dict$pos <- list(
+    extinguisher = "Feue[rs|r-S]pritze",
+    bucket_1 = "Feue[re|r-E]imer",
+    bucket_2 = "Feuer Eimer"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Fireworks
+#' @export
+tagfilter_firework <- function(){
+  dict <- list()
+  dict$pos <- list(
+    firework = "Feuerwerk"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Antiques
+#' @export
+tagfilter_antique <- function(){
+  dict <- list()
+  dict$pos <- list(
+    antique_1 = "Antique-K[o|ö]pf|Antiquek[o|ö]pf",
+    antique_2 = "römische Figur"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Keys
+#' @export
+tagfilter_key <- function(){
+  dict <- list()
+  dict$pos <- list(
+    home = "Hausschlüssel",
+    furniture = "Schrankschlüssel|Uhrenschlüssel"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Walking Canes
+#' @export
+tagfilter_cane <- function(){
+  dict <- list()
+  dict$pos <- list(
+    cane = "Spazierst[o|ö]ck"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Objects Related to Wine
+#' @export
+tagfilter_wineobject <- function(){
+  dict <- list()
+  dict$pos <- list(
+    production = "Weintrott|Z[a|ä]pfen",
+    storage = "Weinbü[k|ck]te",
+    consumption = "Wei[nhah|nhäh|nha|nhä|n-Hah|n-Häh|n-Ha|n-Hä]nen|Weinkrause|Weinschild"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Ropes
+#' @export
+tagfilter_rope <- function(){
+  dict <- list()
+  dict$pos <- list(
+    rope = "Strick|Seil"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Objects for Taverns and Inns
+#' @export
+tagfilter_tavernobject <- function(){
+  dict <- list()
+  dict$pos <- list(
+    sign = "Wir[th|t]sschild",
+    general = "Wir[t|th]schaftsgerät"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Misc Objects (Unspecified)
+#' @export
+tagfilter_miscobject <- function(){
+  dict <- list()
+  dict$pos <- list(
+    misc = "Gegenstände"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Animal Feed
+#' @export
+tagfilter_feed <- function(){
+  dict <- list()
+  dict$pos <- list(
+    potatoes = "Schwei[n-E|ne]rdäpfel"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
 
 
 #' Dictionary Placeholder
@@ -312,5 +609,3 @@ tagfilter_placeholder <- function(){
   )
   create_filter_output(dict)
 }
-
-
