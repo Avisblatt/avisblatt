@@ -62,7 +62,7 @@ summary(token_1734)
 token_dict_1734 <- tokens_lookup(token_1734, dictionary = advertising_dict)
 
 token_dict_1734_dfma <- dfm(token_dict_1734)
-head(token_dict_1734_dfma)
+topfeatures(token_dict_1734_dfma)
 
 # plotting results of dictionary analysis for 1734
 matplot(token_dict_1734_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')
@@ -104,7 +104,7 @@ summary(token_1834)
 token_dict_1834 <- tokens_lookup(token_1834, dictionary = advertising_dict)
 
 token_dict_1834_dfma <- dfm(token_dict_1834)
-head(token_dict_1834_dfma)
+topfeatures(token_dict_1834_dfma)
 
 # plotting results of dictionary analysis for 1834
 matplot(token_dict_1834_dfma, type = 'h', xaxt = 'n', lty = 1, ylab = 'Frequency')

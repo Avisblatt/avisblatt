@@ -84,7 +84,7 @@ textplot_wordcloud(dfm(carriage_subset_all_clean),
                    max_words = 200)
 
 
-## Validation 1734
+## Validation
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
@@ -112,28 +112,51 @@ b_f$documents$texts[1:2]
 
 # No FALSE positives and TRUE positives all correct!!!
 
-## Validation 1834
-validation_carriage_1834 <- validate_filter(corpus_1834, carriage_ids_1834,
+
+
+
+
+## TEMPLATE
+XXX <- tagfilter_XXX()
+
+XXX_ids_1734 <- XXX$filtrate(corpus_1734, ignore.case = T)
+XXX_ids_1834 <- XXX$filtrate(corpus_1834, ignore.case = T)
+
+XXX_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
+                                        XXX_ids)
+
+XXX_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
+                                        XXX_ids)
+
+XXX_subset_all <- c(XXX_subset_1734, XXX_subset_1834)
+XXX_ids_all <- c(XXX_ids_1734, XXX_ids_1834)
+
+# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
+XXX_kwic <- kwic(XXX_subset_all,
+                      pattern = "Wagen",
+                      valuetype = "regex",
+                      ignore.case = T)
+XXX_kwic
+
+## Validation
+validation_XXX_all <- validate_filter(corpus_all, XXX_ids_all,
                                             search_col = "adcontent",
                                             pattern = "06ding")
-validation_carriage_1834
+validation_XXX_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_1834$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% carriage_ids_1834)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% carriage_ids_1834)]
+doc_ids <- corpus_all$documents[,"id"]
+filter_T_hc_T <- doc_ids[(doc_ids %in% XXX_ids_all)]
+filter_T_hc_F <- doc_ids[(doc_ids %notin% XXX_ids_all)]
 
 #TRUE positives
-b_t <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
-                       validation_carriage_1834$filter_T_hc_T)
-b_t$documents$texts[1:210]
+b_t <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
+                       validation_XXX_all$filter_T_hc_T)
+b_t$documents$texts[1:10]
 
 #FALSE positives
 b_f <- corpus_subset(corpus_1834,
                      docvars(corpus_1834,"id") %in%
-                       validation_carriage_1834$filter_T_hc_F)
-b_f$documents$texts[1:8]
-
-# 8 FALSE positives, but ALL are actually correctly identified as carriages or related objects!!!
-
+                       validation_XXX_all$filter_T_hc_F)
+b_f$documents$texts[1:10]
