@@ -188,20 +188,26 @@ tagfilter_mirror <- function(){
 tagfilter_timepiece <- function(){
   dict <- list()
   dict$pos <- list(
-    timepiece = "(U|Ü|Ue)hr|(P|p)endul"
+    timepiece = "(U|Ü|Ue)hr|Pendul"
   )
   dict$neg <- list(
+    book = "Schriften", # filters out book ads
+    official = "Polizeigericht", # official notices (e.g. lotteries of timepieces)
+    shoe = "Schuhrin", # clasp for shoes
+    verb = "führen|ausgeführ|herrühr|verspühr|derührt|gerührt|geführ|berühr|spühr|rühr|ührt|ühret", # verbs containing "uhr/ühr"
+    other = "Ge(b|d)(ü|u)hr|Aufführ|Führlohn|Wühren|ge(n|b)ührend", # other words containing "uhr/ühr"
     key = "Uhrenschlüssel|Uhrschlüssel", # key for a clock, very often lost & found, maybe include later or in another category?
-    chain = "Uhrkette|Uhrenkette|Uhrhafte|Uhrenhafte|Uhrenband|Uhrband|Uhrenbänd|Uhrbänd", # chain for pocketwatches
+    chain_1 = "Uhrkette|Uhrenkette|Uhrhafte|Uhrenhafte|Uhrenband|Uhrband|Uhrenbänd|Uhrbänd|Schnüre|Uhren-Kette", # chain for pocketwatches, v1
+    chain_2 = "Uhren Kette", # chain for pocketwatches, v2
     lost = "verloren|gefunden|Finder", # filters out lost and found ads (pocketwatches)
     book = "Uhrfeder", # booktitle
     time_1 = "Nachts Uhr", # nighttime, not object
     time_2 = "um Uhr", # specific time (if number not recognised)
     time_3 = "ein Uhr", # specific time, number 1
-    time_4 = "zwei Uhr", # specific time, number 2
-    time_5 = "drei Uhr", # specific time, number 3
+    time_4 = "zwe(i|y) Uhr", # specific time, number 2
+    time_5 = "dre(i|y) Uhr", # specific time, number 3
     time_6 = "vier Uhr", # specific time, number 4
-    time_7 = "fünf Uhr", # specific time, number 5
+    time_7 = "fün(f|ff) Uhr", # specific time, number 5
     time_8 = "sechs Uhr", # specific time, number 6
     time_9 = "sieben Uhr", # specific time, number 7
     time_10 = "acht Uhr", # specific time, number 8
@@ -218,11 +224,16 @@ tagfilter_timepiece <- function(){
     time_20 = "Uhrzeit", # specific time
     time_21 = "Uhr vormittag", # specific time
     time_22 = "Uhr Abend", # specific time
-    pocketwatch = "Taschenuhr|Sackuhr|Repetiruhr|Frauenzimmeruhr|Zylinderuhr|Repetir-uhr|Frauenzimmer-uhr|Zylinder-uhr", # pocketsize watches (accessoire)
+    time_23 = "\\d.\\sUhr", # specific time
+    time_24 = "Versteigerung|Versammlung|Tanz-Anzeige", # auctions and meetings with information about time
+    pocketwatch_1 = "Taschenuhr|Sackuhr|Repetiruhr|Frauenzimmeruhr|Zylinderuhr|Repetir-uhr|Frauenzimmer-uhr|
+    Zylinder-uhr|Sack-Uhr|Frauenzimmer(ue|u|ü)hr", # pocketsize watches (accessoire), v1
+    pocketwatch_2 = "Sack Uhr", # pocketsize watches (accessoire), v2
+    pocketwatch_3 = "Uhr mit der Kette", # pocketsize watches (accessoire), v3
     profession = "(U|u)hrmach|Uhrenmach", # watchmakers, also excludes some relevant ads
     place = "\\bWuhr", # placename
     name = "Puhrmann", # family name
-    driving = "(F|f)uhr" # words associated with "driving" ("fuhr")
+    driving = "F(u|ü)hr" # words associated with "driving" ("fuhr")
   )
 
   create_filter_output(dict)
@@ -238,12 +249,21 @@ tagfilter_table <- function(){
     table = "(T|t)isch"
   )
   dict$neg <- list(
-    # negative list has to be extended
-    adjective = "praktisch|schottisch|optisch|homeopatisch|helvetisch|
-    romatisch|dramatisch|authentisch|brittisch|politisch|kosmetisch
-    elastisch|theoretisch", # multiple adjectives containing "tisch"
-    textile = "(T|t)ischzeug|(T|t)ischtepp|(T|t)ischtuch|(T|t)ischtüch", # table linen is in another category
-    profession = "(T|t)ischler", # professions containing "tisch"
+    knife = "Tischmesser|Tranchiermesser", # knives
+    board = "Tischg(ä|a)ng", # board and lodging
+    building = "Holzdecke", # pieces of wood
+    ironing = "Glättetisch|Glätte-Tisch", # ironing board
+    light = "Wachskerze|Wachslicht|Tischlampe", # lighting for on tables
+    plant = "Artischock", # plant
+    key = "Schlüssel|Schlüßlen", # keys for tables
+    immo = "Keller", # filters out immo ads
+    book = "Buchdrucker|Schriften|Buchbinder", # filters out book ads
+    adjective = "praktisch|sch(o|ö)ttisch|optisch|homeopatisch|helvetisch|
+    romatisch|dramatisch|authentisch|brittisch|politisch|kosmetisch|rheumatisch|
+    elastisch|theoretisch|levantisch|alphabetisch|gichtisch|aromatisch|poetisch|zantisch|
+    orientalisch|elastisch|corbutisch|astatisch|juristisch|achromatisch|städtisch", # multiple adjectives containing "tisch"
+    textile = "Tischzeug|Tischtepp|Tischtuch|Tischt(ü|u)ch|Tischdeck|Tischlachen|Unters(a|ä)tz", # table linen is in another category
+    profession = "Tischler|Tischmacher", # professions containing "tisch"
     person = "Tischgenos" # persons not objects
   )
 
@@ -257,23 +277,37 @@ tagfilter_tableware <- function(){
   dict <- list()
   dict$pos <- list(
     plate = "Teller",
-    tableware = "(G|g)eschir|(B|b)iergläs|(B|b)ierglas|Tasse|Humpe|Becher",
-    material = "(P|p)orzel|(P|p)orcel|(S|s)teingut|(F|f)ayence|Krystallwaa|Krystall-Waa|
+    tableware = "Geschir|Biergläs|Bierglas|Tasse|Humpe|Becher",
+    material = "Porzel|Porcel|Steingut|Fayence|Krystallwaa|Krystall-Waa|
     Zin(n|nen)geschirr|Zin(n|nen)-Geschirr|Zin(n|nen)waare|Zin(n|nen)-Waare|Blechwaare|Blech-Waare",
-    jug ="(K|k|C|c)anne|(K|k|C|c)arafe",
+    jug ="(K|C)anne|(K|C)arafe",
     beverage = "Caffeti(e|è)r|Kaffeti(e|è)r|Kaffeeti(e|è)r|Cr(e|ê)mier"
   )
   dict$neg <- list(
+    cutlery = "Silbergeschir", # cutlery
+    toy = "Soldaten", # tin soldiers
+    washing = "Bauc(hg|heg)eschir|Waschgeschir", # washing utensils
+    bird = "Tauben", # pidgeaon "Geschirr"
+    churchchair = "Cannel-Roost", # filters out churchchairs
+    profession = "Kannengiesser", # profession
+    tool = "Schmiedegeschir|Bierbrauere(y|i)", # tools
+    polish = "Wichse|Schmiere", # polish for harnesses and cutlery
+    immo = "Acker|Reben|Zimmer|Losament|Landg(u|ü)t", # filters out immo ads
+    wine = "Herbsgeschir|Trettgeschir|Kellergeschir", # tools for wine making
     french = "couteller", # cutlery in French
-    measure = "Becherweise", # measuring of something in cups
+    measure_1 = "Becherweise", # measuring of something in cups, v1
+    measure_2 = "be(y|i)m Becher", # measuring of something in cups, v2
+    measure_3 = "zwe(y|i) Becher", # measuring of something in cups, v3
+    measure_4 = "Becher à", # measuring of something in cups, v4
     wine = "Muscateller", # special kind of wine
     letter = "Briefsteller", # writer of a letter
     order = "Besteller", # ordering
     pipe = "Pfeifenkopf|Pfeifenköpf", # parts of tobacco pipes from porcelaine
-    harness = "Pferdgeschir|Pferdegeschir|Fuhrgeschir|
-    Chaisegeschir|Chaise-Geschir|Kummetgeschir|Kumetgeschir|
-    Fuhrwerkgeschir|Sillengeschir", # different words containing "geschir" in the meaning of harness
-    tavern = "Wirtshaus zur (K|k)anne" # an inn in Basel is called "Zur Kanne"
+    harness = "Pferdgeschir|Pferdegeschir|Fuhrgeschir|Kutschengeschir|Kutschen-Geschir|
+    Chaisegeschir|Chaise-Geschir|Kummetgeschir|Kumetgeschir|Pferd|Geschell|Hindergeschir|
+    Fuhrwerkgeschir|Sillengeschir|Brustplatt-Geschir|Reitgeschir|Traggeschir", # different words containing "geschir" in the meaning of harness
+    tavern_1 = "Wirtshaus zur Kanne", # an inn in Basel is called "Zur Kanne"
+    tavern_2 = "Zur Kanne" # an inn in Basel is called "Zur Kanne"
   )
 
   create_filter_output(dict)
@@ -290,7 +324,8 @@ tagfilter_bureau <- function(){
     workdesk ="P(u|ü)lt"
   )
   dict$neg <- list(
-    profession = "PolizeySekretär", # secretary of police
+    key = "Schlüssel", # keys for bureaus
+    profession = "PolizeySekretär|Commission", # secretaries of certain commissions
     catapult = "Katapult|tapult" # catapults, sometimes the K is not correctly recognized
   )
 
@@ -308,16 +343,19 @@ tagfilter_storage <- function(){
     bag = "Sack|Säcke|Säckch"
   )
   dict$neg <- list(
+    death = "beerdigt", # death notices
+    bed = "Strohs(ä|a)ck", # bedding
+    book = "Buchdrucker", # filters out book ads
     carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
     stroller = "Kinderwagen|Kinderwäg", # excludes strollers with baskets
     pocketknife = "Sackmesser", # pocketknife
     travel= "Fussack|Fußsack|Reissack|Reisesack|Reis-Sack|Reise-Sack", # foot rest for carriages and bags for travel
     bed = "Strohsack|Bettsack|Nachtsack", # bag full of straw, used as bedding
     textile = "Sacktuch", # textile
-    work = "lesen|schreiben|rechnen", # filtering out work ads
+    work = "lesen|schreiben|rechnen|Lehrt(o|ö)chter", # filtering out work ads
     grain = "Kernen", # filters out ads selling grain in bags
     food = "Erdäpfel|Grundbirne|Setzerdäpfel", # filters out ads selling different kind of food in bags
-    measure_1 = "(K|k)orbweis|(K|k)istchenweis", # measuring something by baskets or boxes, variant 1
+    measure_1 = "korbweis|kistchenweis|kistenweis", # measuring something by baskets or boxes, variant 1
     measure_2 = "Kistchen zu", # measuring something by boxes, variant 2
     meausure_3 = "Kistchen von", # measuring something by boxes, variant 3
     measure_4 = "//d//sKistchen", # measuring something by boxes, variant 4
@@ -325,18 +363,28 @@ tagfilter_storage <- function(){
     meausure_6 = "Kistchen v.", # measuring something by boxes, variant 6
     meausure_7 = "pr. Kistchen", # measuring something by boxes, variant 7
     measure_8 = "der Sack zu",  # measuring something by bags, variant 8
-    measure_9 = "\\d\\sSack", # number of bags of something
-    measure_9 = "\\d\\sSäck", # number of bags of something
+    measure_9 = "\\d\\sSack", # number of bags of something, v 9
+    measure_10 = "\\d\\sSäck", # number of bags of something, v 10
+    measure_11 = "\\dSäck", # number of bags of something, v 11
+    measure_12 = "in K(o|ö)rb", # number of bags of something, v 12
+    measure_13 = "be(i|y)m Korb", # number of bags of something, v 13
+    measure_14 = "Sack à", # number of bags of something, v 14
+    measure_15 = "Sack um", # number of bags of something, v 15
+    measure_16 = "Sack von", # number of bags of something, v 16
+    measure_17 = "Sackvon", # number of bags of something, v 17
+    measure_18 = "sackweis", # number of bags of something, v 18
     beehive = "Bienenkorb|Bienenkörb", # bee hives
-    stroller = "(K|k)orbwage|(K|k)orbwäge", # strollers and prams (own category)
+    stroller = "Korbwage|Korbwäge", # strollers and prams (own category)
     profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
     cabinet = "Bücherkäst", # book cabinets
-    watch = "Sackuhr", # pocketwatch
+    watch_1 = "Sackuhr|Sack-Uhr", # pocketwatch, v1
+    watch_2 = "Sack Uhr", # pocketwatch, v1
     pistol = "Sack-Pistol|Sackpistol", # pocket pistols
     telescope = "Sack-Perspek|Sackpersp", # pocket telescope
     light = "Sackfeuer|Sacklatern", # pocket lighter and lantern
     graveyard = "Gottesacker", # graveyard
-    textile = "(S|s)acktuch|(S|s)acktüch" # name for specific kind of cloth
+    other = "Korbgitter", # unknwon object, but no storage
+    textile = "Sacktuch|(S|s)acktüch" # name for specific kind of cloth
   )
   # maybe exclude Bettsack and add it to bed dictionary?
 
