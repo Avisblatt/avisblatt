@@ -57,7 +57,7 @@ tagfilter_trolley <- function(){
   dict <- list()
   dict$pos <- list(
     handcart = "Handwägel|Leiterwägel|Leiterwagen|Sto[ss|ß]karren|Trogkarre",
-    trolley = "Bauer[nwa|nwä|n-Wa|n-Wä]ge|Diele[nw|n-W]agen",
+    trolley = "Bauern-W[a|ä]ge|Bauernw[a|ä]ge|Dielenwagen|Dielen-Wagen",
     harness = "Sillen-Geschir|Sillengeschir",
     objects = "Wagenkette|[Leit|Zug]seil|Fuhrwerk"
   )
@@ -128,7 +128,7 @@ tagfilter_shopequip <- function(){
     display = "Glask[a|ä]st|Gläser-K[a|ä]st|Glaser-K[a|ä]st|Glasglocke",
     desk = "Ladent[c|k]orpus|Ladentisch",
     cash = "Geld[k|c]ass|Geld-[K|C]ass|Geldtrog|[K|C]asse|[K|C]assa",
-    scale = "Fuhrw[ä|aa|a]ge|Einsat[zg|z-g]ewicht|Goldw[ä|aa|a]ge|lbstein|Magazin-W[ä|aa|a]ge|
+    scale = "Fuhrw[ä|aa|a]ge|Einsatzgewicht|Einsatz-Gewicht|Goldw[ä|aa|a]ge|lbstein|Magazin-W[ä|aa|a]ge|
     Schnellw[ä|aa|a]ge|Waaren-W[ä|aa|a]ge|Waarenw[ä|aa|a]ge|Waren-W[ä|aa|a]ge|Warenw[ä|aa|a]ge|Messinggewicht",
     counting = "W[aa|a]renzähl",
     general = "Handelsutensil"
@@ -154,7 +154,7 @@ tagfilter_tool <- function(){
     sharpening = "Streichriemen|Abziehleder",
     textileworking = "Strumpfw[e|ä]ber-Stuhl|Strumpfw[e|ä]berstuhl|Tuch-Pre[ss|ß]|Tuchpre[ss|ß]|Zwirnmaschine|Fadenzähler|
     Schwefelk[a|ä]st|Seidenrad",
-    mill = "Kammr[ä|a]d|Wasserr[a|ä]d|Seide[nw|n-w]aage|Seidenwin[dm|d-m]aschine|Schwun[gr|g-r]ad",
+    mill = "Kammr[ä|a]d|Wasserr[a|ä]d|Seidenwaage|Seiden-Waage|Seidenwindmaschine|Seidenwind-Maschine|Schwungrad|Schwung-Rad",
     paper = "Siegelpre[ss|ß]",
     printing = "Kupferpre[ss|ß]",
     straw = "Strohschneid",
@@ -174,7 +174,7 @@ tagfilter_stationary <- function(){
   dict <- list()
   dict$pos <- list(
     pen = "Bleistift|Griffel|Schreibfeder|Schreibzeug",
-    drawing = "Zeichnungs[kreide|papier]|Pinsel|Far[ben|b|ben-|b-]käst|Far[ben|b|ben-|b-]kast",
+    drawing = "Zeichnungs[kreide|papier]|Pinsel|Far[ben|b]käst|Far[ben|b]-Käst|Far[ben|b]kast|Far[ben|b]-Kast",
     ink = "[T|D]inte",
     notebook = "Carnet|Notizb[u|ü]ch|Schreibb[u|ü]ch|Schreibmappe",
     paper = "Briefpapier|Briefpre[ss|ß]|Papier|Postpapier|Schreibkarte|Romain|Schreibrolle|Makulatur",
@@ -214,7 +214,7 @@ tagfilter_wood <- function(){
   dict <- list()
   dict$pos <- list(
     firewood = "Brennholz",
-    material = "Buchenholz|Tannenholz|Ahorn-St[a|ä]mm|Weichse[lr|l-R]ohr",
+    material = "Buchenholz|Tannenholz|Ahorn-St[a|ä]mm|Weichselrohr|Weichsel-Rohr",
     form = "Bodenholz|Fleckling|Führling|Holz-Raspel|Holzbock|Pf[a|ä]hl|[Prügel|Knebel]holz|
     S[a|ä]gspähn|Scheitholz|Stämme|Stammholz|Wellen|Daugenholz|Fa[ss|ß]dauge|Plütschi|Reisten|Sägb[a|ä]um",
     unknown = "Kammholz",
@@ -275,8 +275,8 @@ tagfilter_hay <- function(){
 tagfilter_woodobject <- function(){
   dict <- list()
   dict$pos <- list(
-    woodturning = "Drechlse[rw|r-w]aar",
-    carving = "Schnit[zw|z-w]aar",
+    woodturning = "Drechlserwaar|Drechlser-Waar",
+    carving = "Schnitzwaar|Schnitz-Waar",
     general = "Holdecke|H[ö|o]lzenwerk|H[ö|o]lzwerk"
   )
   dict$neg <- list(
@@ -343,8 +343,8 @@ tagfilter_glasses <- function(){
 tagfilter_soil <- function(){
   dict <- list()
   dict$pos <- list(
-    soil = "Erde|Garte[ng|n-G]rund",
-    gravel = "Birsgrien"
+    soil = "Erde|Gartengrund|Garten-Grund",
+    gravel = "Birsgrien",
     lime = "Kalk",
     red = "ro[t|th]e Waare",
     plaster = "G[y|i]ps"
@@ -360,7 +360,7 @@ tagfilter_soil <- function(){
 tagfilter_agriculture <- function(){
   dict <- list()
   dict$pos <- list(
-    tool = "Dreschflegel|[Heu|Lad|Lade]gabel|Pfl[u|ü]g|Sense|Rechen|Matte[n-M|nm]esser",
+    tool = "Dreschflegel|[Heu|Lad|Lade]gabel|Pfl[u|ü]g|Sense|Rechen|Mattenmesser|Matten-Messer",
     trolley = "Güllenkarren|Heuwagen",
     storage = "Obsthurte|Obstk[o|ö]rb",
     wine = "Rebsteck",
@@ -378,7 +378,7 @@ tagfilter_riding <- function(){
   dict <- list()
   dict$pos <- list(
     saddle = "S[a|ä]ttel|Steigbügel",
-    bridle = "Pferdebiss|Pfer[dg|deg|d-G|de-G]eschirr|Rei[tg|t-g]eschirr",
+    bridle = "Pferdebiss|Pfer[dg|deg]eschirr|Reitgeschirr|Pfer[d|de]-Geschirr|Reit-Geschirr",
     whip = "Peitsche",
     spur = "Sporren",
     blanket = "Pfer[ded|dd]ecke"
@@ -394,8 +394,8 @@ tagfilter_riding <- function(){
 tagfilter_well <- function(){
   dict <- list()
   dict$pos <- list(
-    well = "Brun[ns|nens|n-S|nen-S]tein|Brun[nt|nent|n-T|nen-T]rog",
-    pump = "Wasse[rp|r-P]umpe"
+    well = "Brun[n|nen]stein|Brun[n|nen]trog|Brun[n|nen]-Stein|Brun[n|nen]-Trog",
+    pump = "Wasserpumpe|Wasser-Pumpe"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -463,8 +463,8 @@ tagfilter_firestart <- function(){
 tagfilter_extinguisher <- function(){
   dict <- list()
   dict$pos <- list(
-    extinguisher = "Feue[rs|r-S]pritze",
-    bucket_1 = "Feue[re|r-E]imer",
+    extinguisher = "Feuerspritze|Feuer-Spritze",
+    bucket_1 = "Feuereimer|Feuer-Eimer",
     bucket_2 = "Feuer Eimer"
   )
   dict$neg <- list(
@@ -534,7 +534,7 @@ tagfilter_wineobject <- function(){
   dict$pos <- list(
     production = "Weintrott|Z[a|ä]pfen",
     storage = "Weinbü[k|ck]te",
-    consumption = "Wei[nhah|nhäh|nha|nhä|n-Hah|n-Häh|n-Ha|n-Hä]nen|Weinkrause|Weinschild"
+    consumption = "Wei[nhah|nhäh|nha|nhä]nen|Wein-H[ah|a]nen||Wein-H[äh|ä]nen|Weinkrause|Weinschild"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -588,21 +588,7 @@ tagfilter_miscobject <- function(){
 tagfilter_feed <- function(){
   dict <- list()
   dict$pos <- list(
-    potatoes = "Schwei[n-E|ne]rdäpfel"
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Placeholder
-#' @export
-tagfilter_placeholder <- function(){
-  dict <- list()
-  dict$pos <- list(
-    placeholder = "bibedibabediboo"
+    potatoes = "Schweinerdäpfel|Schwein-Erdäpfel"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder

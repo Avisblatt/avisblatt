@@ -5,6 +5,11 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Pelescop","Telescop",x)
+  x <- gsub("AlckHosen","Alckhofen",x)
+  x <- gsub("Nopembrit","Novembris",x)
+  x <- gsub("Sistum","Bistum",x)
+  x <- gsub("Weidersitz","Weibersitz",x)
   x <- gsub("Eramine","Etamine",x)
   x <- gsub("besindlich","befindlich",x)
   x <- gsub("enedecke","entdecke",x)

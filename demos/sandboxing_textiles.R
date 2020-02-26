@@ -71,7 +71,7 @@ clothing_ids_all <- c(clothing_ids_1734, clothing_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 clothing_kwic <- kwic(clothing_subset_all,
-                  pattern = "Kleid|Kleyd|Rock|Röck|Ärmel|Weste",
+                  pattern = "Tschako",
                   valuetype = "regex",
                   ignore.case = T)
 clothing_kwic
@@ -187,7 +187,7 @@ uniform_ids_all <- c(uniform_ids_1734, uniform_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 uniform_kwic <- kwic(uniform_subset_all,
-                       pattern = "Epaulett",
+                       pattern = "Militär-Effekt|Militäreffekt",
                        valuetype = "regex",
                        ignore.case = T)
 uniform_kwic
@@ -225,7 +225,7 @@ b_t$documents$texts[1:28]
 b_f <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_uniform_all$filter_T_hc_F)
-b_f$documents$texts[1:3]
+b_f$documents$texts[1:6]
 
 
 

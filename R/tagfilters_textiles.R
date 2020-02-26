@@ -3,7 +3,7 @@
 tagfilter_clothing <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste|Tschako",
+    general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste",
     apron = "[T|t]scho[b|p|pp]en|Fürtuch",
     trousers = "[H|h]ose",
     dress = "[J|j]unte|[J|j]undte|Juppe|Jüppe",
@@ -75,10 +75,10 @@ tagfilter_sleepwear <- function(){
 tagfilter_uniform <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "Offiziers-Rock|Uniform-Rock|Offiziers-Roöck|Uniform-Röck|Exerzier-Weste|Uniformrock|Uniformröck",
+    general = "Offiziers-Rock|Uniform-Rock|Offiziers-Roöck|Uniform-Röck|Exerzier-Weste|Uniformrock|Uniformröck|Tschako",
     uniform = "Uniform",
     epaulets = "Epaulett",
-    general = "Militä[r-E|re]ffekt"
+    general = "Militär-Effekt|Militäreffekt"
   )
   dict$neg <- list(
     militia = "Miliz-Aufgebot" # muster for the militia
