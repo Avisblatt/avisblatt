@@ -317,9 +317,9 @@ tagfilter_print <- function(){
     material = "gedruckt|Pergament",
     person = "Buchhändler|Buchdrucker|Buchbinder",
     place = "Buchhand|Buchdruckere[y|i]|Buchladen|Leihbibl|Leseanstalt",
-    format_1 = "in Fol.",
+    format_1 = "\\bin Fol.\\b",
     format_2 = "in 4to.",
-    format_3 = "4°|8°|tom.$|[O|o]ctavo|Bogen|Bögen|Halbfranzband|[ein|un]gebunden|brosch[.|iert]",
+    format_3 = "4°|8°|tom.\\b|[O|o]ctavo|\\bBogen|\\bBögen|Halbfranzband|[ein|un]gebunden|brosch[.|iert]",
     format_4 = "in [1-9] Bänden",
     format_5 = "gedruckte[n] Fortsetzung",
     ausstattung = "Kupf[f]er|Holzschnitt|Stahlstich",
@@ -330,7 +330,6 @@ tagfilter_print <- function(){
     title_1 = "Rauracher|Rau-racher|Raura-cher",
     title_2 = "Allgemeine[n] Zeitung",
     title_3 = "Christliche[r|n] Volksbote*",
-   # title_4 = "Kantonsblatt|Kantons-blatt",
     title_5 = "Annalen",
     title_6 = "Missions-Magazin",
     title_7 = "Basler-Zeitung|Basler Zeitung",
@@ -342,7 +341,7 @@ tagfilter_print <- function(){
     region = "Entlibuch|Schönenbuch",
     bible = "Buch Mose",
     work = "Platz als",
-    other = "Haushaltungsbuch|Anfangsbuchstabe[n]|Buchstabe[n]|Buchführung|Buchhaltung|Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit"
+    other = "Haushaltungsbuch|[Z|z]uber|Fischbeckin|Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Tabacks-Buchs|Tabacksbuchs|Anfangsbuchstabe[n]|Buchstabe[n]|Buchführung|Buchhaltung|Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit"
   )
   create_filter_output(dict)
 

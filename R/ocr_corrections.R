@@ -7,6 +7,7 @@
 correct_ocr <- function(x){
   x <- gsub("Rochbuch","Kochbuch",x)
   x <- gsub("Rummer","Nummer",x)
+  x <- gsub("Medieinischen", "Medicinischen",x)
   x <- gsub("Lebrling","Lehrling",x)
   x <- gsub("büte","hüte",x, ignore.case = TRUE)
   x <- gsub("Mer;","Merz",x, ignore.case = TRUE)
