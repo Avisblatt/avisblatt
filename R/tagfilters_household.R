@@ -384,12 +384,11 @@ tagfilter_storage <- function(){
     light = "Sackfeuer|Sacklatern", # pocket lighter and lantern
     graveyard = "Gottesacker", # graveyard
     other = "Korbgitter", # unknwon object, but no storage
-    textile = "Sacktuch|(S|s)acktüch" # name for specific kind of cloth
+    textile = "Sacktuch|Sacktüch" # name for specific kind of cloth
   )
   # maybe exclude Bettsack and add it to bed dictionary?
 
   create_filter_output(dict)
-
 }
 
 #' Dictionary Toys for Children
@@ -397,22 +396,21 @@ tagfilter_storage <- function(){
 tagfilter_toy <- function(){
   dict <- list()
   dict$pos <- list(
-    doll = "Puppe",
+    learning = "ABC-Spiel",
+    doll = "Puppe|Puppen-Korbw(a|ä)g|Puppenkorbw(a|ä)g",
     bricks = "Bauhölz(chen|lein)|Baukasten",
     castle = "Felsenburg",
-    boy = "Spie(l-b|lb)oit|Aufstellschachtel",
-    horse = "Schwungpferd",
-    general = "Spiel(waa|a)re"
-    # has to be extended with other toys
+    boy = "Spiel-Boit|Spielboit|Aufstellschachtel",
+    horse = "(Schwung|Steck|Stecken)pferd",
+    general = "Spiel(waa|a)re|Kinderspiel",
+    tin_1 = "zinn(erne|ern|erner|ernes) Soldat",
+    tin_2 = "Zin(n|nen)soldat|Zin(n|nen)-Soldat"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
 
   )
-
-
   create_filter_output(dict)
-
 }
 
 #' Dictionary Games
@@ -421,7 +419,7 @@ tagfilter_game <- function(){
   dict <- list()
   dict$pos <- list(
     billard = "Billard|Billiard|Bilard|Biliard",
-    chess = "schachbret|Schachspiel",
+    chess = "Schachbret|Schachspiel",
     pocketgame = "Taschenspiel",
     domino = "Domino",
     lotto = "Lottospiel",
@@ -431,7 +429,18 @@ tagfilter_game <- function(){
     general = "Spiele"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    marionette = "Margonetten-Spiel", # marionettes
+    book = "Schriften", # filters out book ads
+    competition = "ausgekegelt", # competition in certain games (bowling)
+    authority = "Gesetz|Verordnung", # related official notices
+    other = "Ausspiel|Beispiel", # other unrelated words containing "spiel"
+    children = "ABC-Spiel", # toys and games for children
+    work = "Spielkarten-Arbeit|Anstellung|kundig", # filters out related work ads
+    fireworks = "Feuerwerkspiel", # fireworks
+    music = "Pianofortespiel", # playing music, musicians
+    thief = "Taschenspieler", # tricksters and thieves
+    play = "spielend|gespielt|Spielens\\b", # meaning to play something
+    theater = "Traurspiel" # ads for theater plays
 
   )
 
@@ -441,6 +450,8 @@ tagfilter_game <- function(){
 
 #' Dictionary Kitchen Utensils
 #' @export
+# I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
+# maybe a new dictionary for washing utensils? Bauchkessel, Waschkessel
 tagfilter_kitchen <- function(){
   dict <- list()
   dict$pos <- list(
@@ -448,23 +459,26 @@ tagfilter_kitchen <- function(){
     washingup = "Wasserstein",
     preparation = "Mörser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
     Ca(ff|f)ebrett",
-    cooking = "Kochlöffel|Kochhafen|Schwenkkessel",
+    cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir",
     cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe",
     storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zuckerdose|Kühlstand|Krautstand|Fischtrog|
     Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit",
-    # I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
-    # maybe a new dictionary for washing utensils? Bauchkessel, Waschkessel
     pan = "Casserolle|Bressière|Daubière|Bratenwender",
     baking = "Mödel|Waffleneisen|Gugelhopfform",
-    press = "Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Trotte|Trottenspindel|Stockpre(ss|ß)",
-    mill = "(Oe|Ö)lmühl|Erdäpfe(l-M|lm)ühle|Kaffe(em|e-M)ühle|Kirsche(nm|n-M)ühle|Mah(lm|l-M)ühle",
-    tub = "Zuber|Züber|Krüg|Kessel"
+    press = "Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Stockpre(ss|ß)",
+    mill = "(Oe|Ö)lmühl|Erdäpfelmühle|Erdäpfel-Mühle|(K|C)a(ff|f)emühle|(K|C)a(ff|f)e-Mühle|Kirschenmühle|Kirschen-Mühle|
+    Mahlmühle|Mahl-Mühle"
   )
   dict$neg <- list(
+    measure_1 = "\\d.\\sZ(ü|u)ber", # measurement of something, v1
+    measure_2 = "in Krügen", # measurement of something, v2
+    measure_3 = "Z(ü|u)ber Wasser", # measurement of water, v3
+    tool = "F(a|ä)rbkessel|F(a|ä)rb-Kessel", # tools
+    name = "Her(rn|r) Kr(ü|u)g", # family name
     textile = "gemödelt", # certain kind of decoration of a textile
     preparation = "zubereit|Zubereit", # meaning preparation of something (containing "zuber")
     mineralwater = "Selterser|Selter", # mostly stored mineral water (bevarage), very few instances used for bottles only (these will get lost with this negative)
-    immo = "ablaufen|Kammer", # filters out immo ads with kitchen and a "ablaufendem Wasserstein", "Kammer" filters out the rest of the immo ads
+    immo = "ablaufen|Kammer|H(a|ä)u(s|ß)", # filters out immo ads with kitchen and a "ablaufendem Wasserstein", "Kammer" filters out the rest of the immo ads
     weapon = "Messing-Mörser" # description of a weapon
 
   )
@@ -473,12 +487,14 @@ tagfilter_kitchen <- function(){
 
 }
 
+#############################################
 #' Dictionary Lighting
 #' @export
 tagfilter_lighting <- function(){
   dict <- list()
   dict$pos <- list(
-    lighting = "Leuchter|Chandelier|Lampe|Latern|Nachtlicht|Lichtstock|Lichtstöck|Lamepngl(a|ä)s",
+    lighting = "Leuchter|Chandelier|Lampe|Latern|Nachtlicht|Lichtstock|Lichtstöck|Lamepngl(a|ä)s|
+    Gingette",
     oil = "Lampe(nö|noe|n-Ö|n-Oe)hl",
     candle = "Wachskerzen|Wachslichter|Kerze",
     wick = "Lamendocht",

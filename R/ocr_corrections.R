@@ -5,6 +5,12 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Käsich","Käfig",x)
+  x <- gsub("Boureillen","Bouteillen",x)
+  x <- gsub("Rinderspiel","Kinderspiel",x)
+  x <- gsub("Bifouterie","Bijouterie",x)
+  x <- gsub("Cafino","Casino",x)
+  x <- gsub("Arrikel","Artikel",x)
   x <- gsub("Raffee","Kaffee",x)
   x <- gsub("kannerner","tannerner",x)
   x <- gsub("Museateller","Muscateller",x)

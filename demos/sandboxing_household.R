@@ -732,17 +732,18 @@ toy_ids_1734 <- toy$filtrate(corpus_1734, ignore.case = T)
 toy_ids_1834 <- toy$filtrate(corpus_1834, ignore.case = T)
 
 toy_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                   toy_ids)
+                                   toy_ids_1734)
 
-toy_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
-                                   toy_ids)
+toy_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   toy_ids_1834)
 
 toy_subset_all <- c(toy_subset_1734, toy_subset_1834)
 toy_ids_all <- c(toy_ids_1734, toy_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 toy_kwic <- kwic(toy_subset_all,
-                 pattern = "Wagen",
+                 pattern = "Puppe|Bauhölz(chen|lein)|Baukasten|Felsenburg|Spiel-Boit|Spielboit|
+                 Aufstellschachtel|(Schwung|Steck|Stecken)pferd|Spiel(waa|a)re|Kinderspiel",
                  valuetype = "regex",
                  ignore.case = T)
 toy_kwic
@@ -767,17 +768,17 @@ doc_ids <- corpus_all$documents[,"id"]
 filter_T_hc_T <- doc_ids[(doc_ids %in% toy_ids_all)]
 filter_T_hc_F <- doc_ids[(doc_ids %notin% toy_ids_all)]
 
-#TRUE positives
+# TRUE positives
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_toy_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+b_t$documents$texts[1:32]
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+# FALSE positives - All are correct!
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
                        validation_toy_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+b_f$documents$texts[1:12]
 
 
 ## Games
@@ -787,17 +788,18 @@ game_ids_1734 <- game$filtrate(corpus_1734, ignore.case = T)
 game_ids_1834 <- game$filtrate(corpus_1834, ignore.case = T)
 
 game_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                   game_ids)
+                                   game_ids_1734)
 
-game_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
-                                   game_ids)
+game_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   game_ids_1834)
 
 game_subset_all <- c(game_subset_1734, game_subset_1834)
 game_ids_all <- c(game_ids_1734, game_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 game_kwic <- kwic(game_subset_all,
-                 pattern = "Wagen",
+                 pattern = "Billard|Billiard|Bilard|Biliard|Schachbret|Schachspiel|Taschenspiel|
+                 Domino|Lottospiel|Spielkarten|Whist|Würfelspiel|Kegelspiel|Kegelries|Spiele",
                  valuetype = "regex",
                  ignore.case = T)
 game_kwic
@@ -822,17 +824,17 @@ doc_ids <- corpus_all$documents[,"id"]
 filter_T_hc_T <- doc_ids[(doc_ids %in% game_ids_all)]
 filter_T_hc_F <- doc_ids[(doc_ids %notin% game_ids_all)]
 
-#TRUE positives
+# TRUE positives
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_game_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+b_t$documents$texts[1:21]
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+# FALSE positives: Most are correctly identified
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
                        validation_game_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+b_f$documents$texts[1:13]
 
 
 ## Kitchen Utensils
@@ -842,17 +844,22 @@ kitchen_ids_1734 <- kitchen$filtrate(corpus_1734, ignore.case = T)
 kitchen_ids_1834 <- kitchen$filtrate(corpus_1834, ignore.case = T)
 
 kitchen_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                   kitchen_ids)
+                                   kitchen_ids_1734)
 
-kitchen_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
-                                   kitchen_ids)
+kitchen_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   kitchen_ids_1834)
 
 kitchen_subset_all <- c(kitchen_subset_1734, kitchen_subset_1834)
 kitchen_ids_all <- c(kitchen_ids_1734, kitchen_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-kitchen_kwic <- kwic(kitchen_subset_all,
-                 pattern = "Wagen",
+kitchen_kwic <- kwic(kitchen_subset_1734,
+                 pattern = "Brennhafen|Wasserstein|Mörser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|
+Beizebütte|Kaffeebrett|Ca(ff|f)ebrett|Kochlöffel|Kochhafen|Schwenkkessel|Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|
+Braten(ö|o)fe|Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zuckerdose|Kühlstand|Krautstand|Fischtrog|Bro(d|t)korb|
+Bro(d|t)körb|T(hee|hée|ee)-Boit|Casserolle|Bressière|Daubière|Bratenwender|Mödel|Waffleneisen|Gugelhopfform|
+Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Trotte|Trottenspindel|Stockpre(ss|ß)|
+(Oe|Ö)lmühl|Erdäpfelmühle|Erdäpfel-Mühle|(K|C)a(ff|f)emühle|(K|C)a(ff|f)e-Mühle|Kirschenmühle|Kirschen-Mühle|Mahlmühle|Mahl-Mühle",
                  valuetype = "regex",
                  ignore.case = T)
 kitchen_kwic
@@ -877,17 +884,17 @@ doc_ids <- corpus_all$documents[,"id"]
 filter_T_hc_T <- doc_ids[(doc_ids %in% kitchen_ids_all)]
 filter_T_hc_F <- doc_ids[(doc_ids %notin% kitchen_ids_all)]
 
-#TRUE positives
+# TRUE positives
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_kitchen_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+b_t$documents$texts[1:61]
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+# FALSE positives: almost all correctly recognised
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
                        validation_kitchen_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+b_f$documents$texts[1:48]
 
 
 ## Lighting
@@ -897,17 +904,18 @@ lighting_ids_1734 <- lighting$filtrate(corpus_1734, ignore.case = T)
 lighting_ids_1834 <- lighting$filtrate(corpus_1834, ignore.case = T)
 
 lighting_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                   lighting_ids)
+                                   lighting_ids_1734)
 
-lighting_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
-                                   lighting_ids)
+lighting_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                   lighting_ids_1834)
 
 lighting_subset_all <- c(lighting_subset_1734, lighting_subset_1834)
 lighting_ids_all <- c(lighting_ids_1734, lighting_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-lighting_kwic <- kwic(lighting_subset_all,
-                 pattern = "Wagen",
+lighting_kwic <- kwic(lighting_subset_1734,
+                 pattern = "Leuchter|Chandelier|Lampe|Latern|Nachtlicht|Lichtstock|Lichtstöck|Lamepngl(a|ä)s|
+                 Lampe(nö|noe|n-Ö|n-Oe)hl|Wachskerzen|Wachslichter|Kerze|Lamendocht|Lichtscheer",
                  valuetype = "regex",
                  ignore.case = T)
 lighting_kwic
@@ -932,17 +940,17 @@ doc_ids <- corpus_all$documents[,"id"]
 filter_T_hc_T <- doc_ids[(doc_ids %in% lighting_ids_all)]
 filter_T_hc_F <- doc_ids[(doc_ids %notin% lighting_ids_all)]
 
-#TRUE positives
+# TRUE positives
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_lighting_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+b_t$documents$texts[1:47]
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
                        validation_lighting_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+b_f$documents$texts[1:77]
 
 
 
