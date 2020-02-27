@@ -487,7 +487,7 @@ tagfilter_kitchen <- function(){
 
 }
 
-#############################################
+
 #' Dictionary Lighting
 #' @export
 tagfilter_lighting <- function(){
@@ -502,7 +502,11 @@ tagfilter_lighting <- function(){
 
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder: so far no negatives necessary
+    book = "Welttheater", # filters out book ads
+    fireworks = "Feuerwerk", # fireworks
+    carriage = "einsp(ä|a)nnig|zweisp(ä|a)nnig", # excludes descriptions of carriages
+    magica = "magica", # excludes laterna magica
+    lecture = "Physik" # description of university lectures
 
   )
 
@@ -527,10 +531,20 @@ tagfilter_instrument <- function(){
     misc = "Instrument"
   )
   dict$neg <- list(
-    concert = "Conzert|Concert", # excludes announcements of concerts
+    form = "wie eine Trompete", # formed like a trumpet
+    invention = "erfunden", # technical instruments
+    official = "Bewilligung|Ordnung", # official notices, prohibition of music etc.
+    book = "Vorwort|Gedicht", # book ads
+    food = "Vermicelle", # food
+    adjective = "scharfen|excellent", # contains "harfe" or "celle"
+    work = "Clavierschlagen", # excludes work ads
+    divider = "Spanische Wand", # dividers with "Flügel"
+    notes = "instrumental|Genre", # music notes
+    concert_1 = "Conzert|Concert", # excludes announcements of concerts, v1
+    concert_2 = "Freunde des", # excludes announcements of concerts, v2
     physics = "physikal|mechani|chirurgi|opti", # excludes optical, mechanical, chirurgical and physical instruments
     domestic = "Sticktrommel", # instrument for embroidery (see domestic appliances)
-    immo = "Flügelgebäude|Fensterflügel|Fenster", # description of certain kind of building or building material
+    immo = "Flügelgebäude|Fensterflügel|Fenster|Parcelle", # description of certain kind of building or building material
     food = "Geflügel", # chicken and oder poultry
     print = "abonniren|Magazin|Composition|Ges(a|ä)ng|Auszüg|Auszug|Heft|Begleitung", # excludes printed matter (musical notes)
     profession = "Unterricht|lecon" # excludes work-related ads (music teaching)
@@ -552,15 +566,35 @@ tagfilter_building <- function(){
     stone = "Backstein|Quaderstein",
     metal = "Dachk(a|ä)nel|Dachk(a|ä)nal|Rohr|T(ei|eu)chel|Abtrittrohr",
     shingle = "Dachschindel|Schind(eln|len)",
-    fence = "Zaum",
     tile = "Bodenpl(ä|a)ttl|Plättlein",
-    glas = "Gals in Scheibe",
+    glas = "Glas in Scheibe",
     other = "Gerüststange|Wetterdach"
   )
   dict$neg <- list(
+    news = "Pulver-Mühl|Stockwerck|Mordthat", # excludes news containing "Hauß" and "Fenster"
+    umbrella = "Parapluie", # descriptions of umbrellas with "rohr"
+    lost = "verloren", # excludes ads for lost goods (very rare with building components)
+    churchchair = "(Frauen|Mannen|Weiber)sitz|(Frauen|Mannen|Weiber)-Sitz", # church chairs (close to a door)
+    telescope = "Fernrohr", # telescope
+    instrument = "Fagotrohr|Instrument", # musical instruments
+    material_1 = "M(eh|ee)rrohr|Pfefferrohr|Wienerrohr", # materials for walking canes, v1
+    material_2 = "Wiener Rohr", # materials for walking canes, v2
+    measure = "in Platte", # measurement for something
+    carriage = "einsp(ä|a)nnig|zwe(i|y)sp(ä|a)nnig", # carriages with windows
+    work = "Kenntnis|Lehre", # filters out work ads
+    plates = "Platten", # plates
+    place = "Winterthür", # placenames
+    cabinet = "Schrank|Kästchen", # description of cabinet doors
+    book = "Kupfferblatt", # book ads
+    weapon = "Flin(th|t)e", # weapons with a "rohr"
+    tool = "Glaserwerckzeug", # tools
+    tobacco = "Bla(ß|ss|s)rohr-Steck|Pfeifenrohr", # tobacco utensil
+    walking = "Spannisc(h|he|hes) Rohr", # walking cane
+    adjective = "glatt", # containing "latt"
     divider = "Scheidwand", # excludes doors as part of room dividers
     cabinet = "Kasten", # excludes doors as a part of cabinets
-    immo = "Ladenthüre|beschlüssig|beschlossen|Estrich" # words indicating immo-ads
+    immo = "Ladenthüre|beschlüssig|beschlossen|Estrich|Küche|Hinterthür|Fasnachtfronfast", # words indicating immo-ads
+    ocr = "dieletze" # ocr mistakes
 
   )
 
@@ -610,6 +644,9 @@ tagfilter_cutlery <- function(){
     misc ="Silbergarnitur|Besteck"
   )
   dict$neg <- list(
+    measure = "Messerspi(ß|tz)", # measuring something
+    shooting = "Schützen", # ads for "Schützenfest" with cutlery as prices
+    death = "gewesen|hinterlassen", # filters out death notices
     ocr = "Zurückgabel", # ocr mistake (actually "Zurückgabe")
     saddle = "Löffel-Sattel", # certain kind of saddle
     measure = "Augenmesser", # tools for measuring
@@ -617,7 +654,7 @@ tagfilter_cutlery <- function(){
     music = "Stimmgabel", # tunig fork
     pocket = "Sackmesser", # pocketknife
     agriculture = "Heugabel|Ladgabel|Obstmesser|Mattenmesser|Matten-Messer",
-    work = "Messerschmied|Messerschmid", # profession
+    work = "Kornmesser|messerey|Mehlmesser", # profession
     stove = "Kachelöfel", # small stove containing "löfel"
     hunting = "Waidmesser", # hunting knife
     diameter = "Durchmesser", # diameter
@@ -653,8 +690,8 @@ tagfilter_measure <- function(){
 tagfilter_divider <- function(){
   dict <- list()
   dict$pos <- list(
-    spanish_1 = "spanische Wand",
-    spanish_2 = "spanische Wänd",
+    spanish_1 = "spanische W(a|ä)nd",
+    spanish_2 = "spanisch W(a|ä)nd",
     divider = "Scheidwand|Kunstwand"
   )
   dict$neg <- list(
@@ -676,7 +713,7 @@ tagfilter_petobject <- function(){
     dog ="Hundesst(ä|a)ll|Hundest(ä|a)ll|Hundsst(ä|a)ll|Halsband"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    lost = "abhanden|verloren|verloffen|entloffen|zugeloffen|entlief|entflogen" # excludes lost and found animals with descriptions
 
   )
 
@@ -695,7 +732,7 @@ tagfilter_upholstery <- function(){
   )
   dict$neg <- list(
     work = "Sesselfabrik", # occupation or place of manufacture for upholstery
-    carpet = "Vorlageteppich" # carpets ment to be placed before a couch
+    carpet = "Vorl(a|e)g(et|t)eppich" # carpets ment to be placed before a couch
 
   )
 
@@ -714,12 +751,13 @@ tagfilter_domestic <- function(){
     sewing = "Nadeln|Nadlerwaaren|Nadler-Waaren|Nähk(ä|a)st|Steckgufen|Stecknadel|Fingerh(u|ü)t",
     knitting = "Stricknadel|Strickseckel|Stricksstiefel",
     iron = "Bügeleisen|Glätteisen|Glättetisch|Glätte(öfelein|ofen)|Kleidermange",
-    washing ="Waschkessel|Wasc-Kessel|Waschbütte||Wasch-Bütte|Bauc(he|h)geschir|Bauc(he|h)-Geschir|Bauc(he|h)bütte|Bauc(he|h)-Bütte|
-    Plunderstang|Waschpulver|Waschwasser|Asche",
+    washing ="Waschkessel|Wasch-Kessel|Waschbütte|Wasch-Bütte|Bauc(he|h)geschir|Bauc(he|h)-Geschir|Bauc(he|h)bütte|Bauc(he|h)-Bütte|
+    Plunderstang",
     spinning = "Spinnrad|Spinnräd|Spuhlrad|Schlumpstock"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    accessoire_1 = "Vorstecknadel|Broche", # accessoire, v1
+    accessoire_2 = "goldene Stecknadel" # accessoire, v2
 
   )
 
@@ -740,7 +778,7 @@ tagfilter_garden <- function(){
     Baums(a|ä)ge|Gertel|Gartengeschirr"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    immo = "Landg(u|ü)t|Juchart|Wohnung" # filters out immo ads
 
   )
 
@@ -773,7 +811,7 @@ tagfilter_art <- function(){
     art = "Aquarel|Handzeichnung|(Oe|Ö)lgemäld|(Oe|Ö)lbild|Kupferstiche"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    book = "Zeitschrift|Katalog|Schriften" # filters out book ads
 
   )
 
@@ -796,7 +834,7 @@ tagfilter_bathobject <- function(){
 
 #' Dictionary Misc Household Goods (Unspecified)
 #' @export
-tagfilter_mischoushold <- function(){
+tagfilter_mischousehold <- function(){
   dict <- list()
   dict$pos <- list(
     misc_1 = "hausräthlich|hausrätlich",

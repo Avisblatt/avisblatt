@@ -217,6 +217,7 @@ tagfilter_wood <- function(){
     material = "Buchenholz|Tannenholz|Ahorn-St[a|ä]mm|Weichselrohr|Weichsel-Rohr",
     form = "Bodenholz|Fleckling|Führling|Holz-Raspel|Holzbock|Pf[a|ä]hl|[Prügel|Knebel]holz|
     S[a|ä]gspähn|Scheitholz|Stämme|Stammholz|Wellen|Daugenholz|Fa[ss|ß]dauge|Plütschi|Reisten|Sägb[a|ä]um",
+    building = "Bauholz|Latten|Diele",
     unknown = "Kammholz",
     general = "Holz|Klafter"
   )

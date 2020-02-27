@@ -5,6 +5,19 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Brufstein","Brunstein",x)
+  x <- gsub("Brun4","Brunn",x)
+  x <- gsub("Schreib-Pull","Schreib-Pult",x)
+  x <- gsub("keuchter","Leuchter",x)
+  x <- gsub("Sratue","Statue",x)
+  x <- gsub("Rähfaden","Nähfaden",x)
+  x <- gsub("Groche","Broche",x)
+  x <- gsub("Mirtur","Mixtur",x)
+  x <- gsub("verohren","verloren",x)
+  x <- gsub("Gare-Band","Gaze-Band",x)
+  x <- gsub("verohren","verloren",x)
+  x <- gsub("Gcosse","Grösse",x)
+  x <- gsub("Ersindung","Erfindung",x)
   x <- gsub("Käsich","Käfig",x)
   x <- gsub("Boureillen","Bouteillen",x)
   x <- gsub("Rinderspiel","Kinderspiel",x)
