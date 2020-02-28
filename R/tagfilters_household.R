@@ -38,32 +38,62 @@ tagfilter_pushchair <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Household Textiles
+#' Dictionary Bedding
 #' @export
-tagfilter_household_textile <- function(){
+tagfilter_bedding <- function(){
   dict <- list()
   dict$pos <- list(
-    table_linen = "Tafeltuch|Tischtuch|Tischzeug|Tischdeck|Tischtüch",
-    bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|
-    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbe(tt|th)|Nachtsack|Betteingu(ß|ss)",
-    carpet = "Teppi|Tepi|Tapi|Tappi|Bodentuch|Bodentüch",
-    curtain = "Vorhang|Vorhäng",
-    misc = "Schaubdeck"
+    bedding = "Deckbet|Hauszeug|Matrat|Madrat|Matraz|Bettdeck|Bettwer|Bethwer|Bettzeug|Federbe(th|tt)|
+    Bethzeug|Bettsack|Bethsack|Decke|Strochsack|Strohsäck|Kissen|Unterbe(tt|th)|Nachtsack|Betteingu(ß|ss)"
   )
   dict$neg <- list(
+    carriage = "Schlitten|Packkissen|Rei(s|se)kissen|Wägelein|Kütschlein|Cabriolet|Kummeter", # descriptions of carriages
     cover = "zu decken", # verb
     book = "Goldschnitt", # excludes descriptions of books
     service = "ausbessern|flicken", # services concerning household textiles
-    food = "Tapioca", # names for food products
     furniture = "Canapee|Fortepiano", # excludes furniture
     discover = "entdecke", # meaning discovery of smth
-    carriage = "Chaise|Schäse|Packkissen|Wägelein", # excludes carriages with drapes or other textiles
     name = "Neudecker|Decker", # family name
     horse = "Pferdedecke|Pferddecke|bedecken", # horse covers, will be included in category for riding
     other = "Deckenstock", # unsure of meaning, but no household textile
     wood = "Holzdecke", # pieces of wood
-    lid = "Deckel" # lid of a container
+    lid = "Deckel", # lid of a container
+    ocr = "zugleichzudecke|Enideckend" # ocr mistake
     )
+
+  create_filter_output(dict)
+
+}
+
+#' Dictionary Table Linen
+#' @export
+tagfilter_tablelinen <- function(){
+  dict <- list()
+  dict$pos <- list(
+    tablelinen = "Tisch(zeug|deck)|(Tisch|Tafel)t(ü|u)ch",
+    napkin = "Serviette|Handt(ü|u)ch"
+
+  )
+  dict$neg <- list(
+    napkinring = "Serviette-Ring|Serviette-Schieber" # placeholder
+  )
+
+  create_filter_output(dict)
+
+}
+
+#' Dictionary Carpets and Curtains
+#' @export
+tagfilter_carpet <- function(){
+  dict <- list()
+  dict$pos <- list(
+    carpet = "T(e|a)(pp|p)i|Bodent(u|ü)ch",
+    curtain = "Vorh(a|ä)ng"
+  )
+  dict$neg <- list(
+    food = "Tapioca", # names for food products
+    instrument = "Fortepiano" # excludes musical instruments (containig "tepi")
+  )
 
   create_filter_output(dict)
 
