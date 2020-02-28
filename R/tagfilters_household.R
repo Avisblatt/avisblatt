@@ -137,7 +137,7 @@ tagfilter_cabinet <- function(){
   dict$pos <- list(
     cupboard = "B(u|ü)ffet|Büffert",
     dresser = "(K|C)ommode|Trumeau",
-    cabinet = "K(a|ä)sten|(C|K)orpus|Schrank|Kästlein",
+    cabinet = "K(a|ä)sten|(C|K)orpus|Schrank|Kästlein|Kensterlin",
     book = "Bücherkäst|Büchersch"
   )
   # "Sch(a|ä)fft" finds a lot of unrelated verbs (e.g. "angeschafft") and no ads in 1734/1834
@@ -440,7 +440,8 @@ tagfilter_toy <- function(){
     horse = "(Schwung|Steck|Stecken)pferd",
     general = "Spiel(waa|a)re|Kinderspiel",
     tin_1 = "zinn(erne|ern|erner|ernes) Soldat",
-    tin_2 = "Zin(n|nen)soldat|Zin(n|nen)-Soldat"
+    tin_2 = "Zin(n|nen)soldat|Zin(n|nen)-Soldat",
+    tin_3 = "Zin(n|nen)w(waa|a)ren zum Aufstellen"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -605,7 +606,8 @@ tagfilter_building <- function(){
     shingle = "Dachschindel|Schind(eln|len)",
     tile = "Bodenpl(ä|a)ttl|Plättlein",
     glas = "Glas in Scheibe",
-    other = "Gerüststange|Wetterdach"
+    other = "Gerüststange|Wetterdach",
+    pipe = "Rohr"
   )
   dict$neg <- list(
     news = "Pulver-Mühl|Stockwerck|Mordthat", # excludes news containing "Hauß" and "Fenster"
@@ -751,7 +753,8 @@ tagfilter_petobject <- function(){
   dict <- list()
   dict$pos <- list(
     bird = "Paarhäus|Käfig|Paarh(a|ä)us|Anh(a|ä)ngköfig|Flugbret|Maisenschlag|Taubennest|Taubenschlag|Vogelschlag",
-    dog ="Hundesst(ä|a)ll|Hundest(ä|a)ll|Hundsst(ä|a)ll|Halsband"
+    dog ="Hundesst(ä|a)ll|Hundest(ä|a)ll|Hundsst(ä|a)ll|Halsband",
+    fish = "Goldfischglas"
   )
   dict$neg <- list(
     lost = "abhanden|verloren|verloffen|entloffen|zugeloffen|entlief|entflogen" # excludes lost and found animals with descriptions
@@ -869,7 +872,7 @@ tagfilter_art <- function(){
 tagfilter_bathobject <- function(){
   dict <- list()
   dict$pos <- list(
-    bath = "Bad(bütte|kasten)"
+    bath = "B(a|aa)d(bütt|kast|käst)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder

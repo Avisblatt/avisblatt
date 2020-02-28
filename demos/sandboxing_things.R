@@ -123,10 +123,10 @@ XXX_ids_1734 <- XXX$filtrate(corpus_1734, ignore.case = T)
 XXX_ids_1834 <- XXX$filtrate(corpus_1834, ignore.case = T)
 
 XXX_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                        XXX_ids)
+                                        XXX_ids_1734)
 
-XXX_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1734, "id") %in%
-                                        XXX_ids)
+XXX_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
+                                        XXX_ids_1834)
 
 XXX_subset_all <- c(XXX_subset_1734, XXX_subset_1834)
 XXX_ids_all <- c(XXX_ids_1734, XXX_ids_1834)
@@ -156,7 +156,7 @@ b_t <- corpus_subset(corpus_all,
 b_t$documents$texts[1:10]
 
 #FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+b_f <- corpus_subset(corpus_all,
+                     docvars(corpus_all,"id") %in%
                        validation_XXX_all$filter_T_hc_F)
 b_f$documents$texts[1:10]

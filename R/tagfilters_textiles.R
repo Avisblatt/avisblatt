@@ -205,7 +205,7 @@ tagfilter_handkerchief <- function(){
 tagfilter_umbrella <- function(){
   dict <- list()
   dict$pos <- list(
-    rain = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]",
+    rain = "Paraplu[i|y|v|g]|Regenschirm|Pareplu[i|y|v|g]",
     sun = "Sonnenschirm|Ombrelle|Parasol|Parresol"
 
   )
@@ -418,7 +418,7 @@ tagfilter_yarn <- function(){
 tagfilter_animalraw <- function(){
   dict <- list()
   dict$pos <- list(
-    feather = "Bettfehde|Bethfehde|Bettfede|Bethfehd|Bettfehde|Flaum|Eitherdaun|Ederdun|Federb[u|ü]sch",
+    feather = "Be(tt|th)f(eh|e)de|Flaum|Eitherdaun|Ederdun|Federb[u|ü]sch",
     horsehair = "Ro[ss|ß]haar|Pferdhaar"
 
   )
