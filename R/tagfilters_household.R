@@ -108,19 +108,21 @@ tagfilter_cabinet <- function(){
     cupboard = "B(u|ü)ffet|Büffert",
     dresser = "(K|C)ommode|Trumeau",
     cabinet = "K(a|ä)sten|(C|K)orpus|Schrank|Kästlein",
-    book = "Bücherkäst"
+    book = "Bücherkäst|Büchersch"
   )
   # "Sch(a|ä)fft" finds a lot of unrelated verbs (e.g. "angeschafft") and no ads in 1734/1834
   # (therefore here excluded, maybe put it in later); exlusion of verbs through negative list has to be made
   # if Schafft is necessary for other time periods
   dict$neg <- list(
+    building = "Wasserkasten", # waterstorage
+    textile = "Wachsdecken|Wachstücher|Kommodendecke", # cover of dressers
     measure = "auf den Kasten", # measuring of something in boxes
     tool = "Schwefelkasten", # tool for working with textiles
     instrument = "Piano", # can be described with a "Kasten"
     authority = "Kasten des Klingenthals", # salt depot
-    book = "Anleitung|Bücher|Juris", # filters out titles of books
+    book = "Anleitung|Juris|Grammatik", # filters out titles of books
     storage = "Haberk(a|ä)st", # small storage for grains
-    carriage = "Chaisek(a|ä)st|Chaise-K(a|ä)st|Schäsen|Kutschen-Kasten", # carriages
+    carriage = "Chais(e|en)k(a|ä)st|Chais(e|en)-K(a|ä)st|Schäsen|Kutschen-Kasten", # carriages
     bath = "Baadk(a|ä)st|Badk(a|ä)st", # bath tub
     clock = "Büffet-Uhr", # timepiece
     lottery = "Kasten-Ampts-Lotterie|KastenAm(b|d)ts-Lotterie|Kastenamt", # filters out lottery ads
@@ -141,15 +143,17 @@ tagfilter_cabinet <- function(){
 tagfilter_stove <- function(){
   dict <- list()
   dict$pos <- list(
-    stoves = "(O|Ö|Oe)fen|(K|C)amin|(O|Ö)efel",
-    grates = "Feuerh(u|ü)nd|Kunstblech"
+    stoves = "(O|Ö|Oe)fen|(K|C)amin|(Oe|Ö|O)fel",
+    grates = "Feu(er|r)h(u|ü)nd|K(u|ü)nstblech",
+    bedpan = "Be(th|tt)pfanne"
   )
   dict$neg <- list(
+    kitchen = "Bratenöfelein", # kitchen utensil
     weapon = "Oefension", # description of use of weapons
     factory = "Schmöltzöfen", # factory equipment
     book = "Stadtbibliothek", # filters out book ads
     work = "Kaminfeger", # filters out work ads
-    immo_1 = "Güter|Kaminküche|(K|C)amin-Kammer", # filters out immo ads, v1
+    immo_1 = "Güter|Kaminküche|(K|C)amin-Kammer|Losament", # filters out immo ads, v1
     immo_2 = "ohne (K|C)amin", # filters out immo ads, v2
     immo_3 = "mit (K|C)amin", # filters out immo ads, v3
     oil = "Tropfen", # fragrant oil for pouring on ovens
@@ -339,13 +343,15 @@ tagfilter_storage <- function(){
   dict <- list()
   dict$pos <- list(
     basket = "Korb|Körb",
-    box ="Kiste|Kistch|Kästchen",
-    bag = "Sack|Säcke|Säckch"
+    box ="K(i|ü)ste|K(i|ü)stch|Kästchen",
+    bag = "Sack|Säcke|Säckch",
+    tub = "Trog\\b"
   )
   dict$neg <- list(
+    place = "Goldküste", # placename
     death = "beerdigt", # death notices
     bed = "Strohs(ä|a)ck", # bedding
-    book = "Buchdrucker", # filters out book ads
+    book = "Buchdrucker|Bibel", # filters out book ads
     carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
     stroller = "Kinderwagen|Kinderwäg", # excludes strollers with baskets
     pocketknife = "Sackmesser", # pocketknife
@@ -354,7 +360,7 @@ tagfilter_storage <- function(){
     textile = "Sacktuch", # textile
     work = "lesen|schreiben|rechnen|Lehrt(o|ö)chter", # filtering out work ads
     grain = "Kernen", # filters out ads selling grain in bags
-    food = "Erdäpfel|Grundbirne|Setzerdäpfel", # filters out ads selling different kind of food in bags
+    food = "Erdäpfel|Grundbirne|Setzerdäpfel|Habern\\b|Haber\\b", # filters out ads selling different kind of food in bags
     measure_1 = "korbweis|kistchenweis|kistenweis", # measuring something by baskets or boxes, variant 1
     measure_2 = "Kistchen zu", # measuring something by boxes, variant 2
     meausure_3 = "Kistchen von", # measuring something by boxes, variant 3
@@ -376,7 +382,7 @@ tagfilter_storage <- function(){
     beehive = "Bienenkorb|Bienenkörb", # bee hives
     stroller = "Korbwage|Korbwäge", # strollers and prams (own category)
     profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
-    cabinet = "Bücherkäst", # book cabinets
+    cabinet = "Bücherkäst|Glaskäst", # differet kinds of cabinets
     watch_1 = "Sackuhr|Sack-Uhr", # pocketwatch, v1
     watch_2 = "Sack Uhr", # pocketwatch, v1
     pistol = "Sack-Pistol|Sackpistol", # pocket pistols
@@ -451,7 +457,6 @@ tagfilter_game <- function(){
 #' Dictionary Kitchen Utensils
 #' @export
 # I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
-# maybe a new dictionary for washing utensils? Bauchkessel, Waschkessel
 tagfilter_kitchen <- function(){
   dict <- list()
   dict$pos <- list(
@@ -459,24 +464,24 @@ tagfilter_kitchen <- function(){
     washingup = "Wasserstein",
     preparation = "Mörser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
     Ca(ff|f)ebrett",
-    cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir",
-    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe",
-    storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zuckerdose|Kühlstand|Krautstand|Fischtrog|
-    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit",
-    pan = "Casserolle|Bressière|Daubière|Bratenwender",
+    cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir|Pfanne|Pfännlein",
+    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
+    storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zucker(dose|buchs)|Kühlstand|Krautstand|Fischtrog|
+    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit|Wasserzuber|Fischbeck(i|e)n",
+    pan = "Casserolle|Bressière|Daubière|Bratenwender|Federbrä(t|th)er",
     baking = "Mödel|Waffleneisen|Gugelhopfform",
     press = "Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Stockpre(ss|ß)",
     mill = "(Oe|Ö)lmühl|Erdäpfelmühle|Erdäpfel-Mühle|(K|C)a(ff|f)emühle|(K|C)a(ff|f)e-Mühle|Kirschenmühle|Kirschen-Mühle|
     Mahlmühle|Mahl-Mühle"
   )
   dict$neg <- list(
+    death = "von Basel", # excludes death notices
     measure_1 = "\\d.\\sZ(ü|u)ber", # measurement of something, v1
     measure_2 = "in Krügen", # measurement of something, v2
     measure_3 = "Z(ü|u)ber Wasser", # measurement of water, v3
     tool = "F(a|ä)rbkessel|F(a|ä)rb-Kessel", # tools
     name = "Her(rn|r) Kr(ü|u)g", # family name
     textile = "gemödelt", # certain kind of decoration of a textile
-    preparation = "zubereit|Zubereit", # meaning preparation of something (containing "zuber")
     mineralwater = "Selterser|Selter", # mostly stored mineral water (bevarage), very few instances used for bottles only (these will get lost with this negative)
     immo = "ablaufen|Kammer|H(a|ä)u(s|ß)", # filters out immo ads with kitchen and a "ablaufendem Wasserstein", "Kammer" filters out the rest of the immo ads
     weapon = "Messing-Mörser" # description of a weapon
@@ -520,7 +525,7 @@ tagfilter_instrument <- function(){
   dict <- list()
   dict$pos <- list(
     tuning = "Stimmgabel",
-    keyboard = "Flügel|Piano|Clavier|Klavier|Spinet",
+    keyboard = "Flügel|Piano|Clavier|Klavier|Spinet|Spi(nn|n)eth",
     drum = "Trommel", # maybe exclude here drums specifically for children (toys)?
     wind = "Flöte|Clarinet|Fagot|Trompet|Oboe|Posaune|Posth(o|ö)rn|Waldh(o|ö)rn",
     guitar = "Gui(t|tt)ar",
@@ -560,6 +565,8 @@ tagfilter_instrument <- function(){
 tagfilter_building <- function(){
   dict <- list()
   dict$pos <- list(
+    well_1 = "Br(u|ü)(nn|n)stein",
+    well_2 = "Br(u|ü)(nn|n) Stein",
     door = "(Th|T)üre|Vor(th|t)üre|(Th|T)ürschlinge", # possibly too many immo ads with "Thüre", negatives are tricky
     window = "Fenster|Kreuzstock|Kreuzstöck|Fensterflügel|Fensterpritsch|Vorfenster",
     wood = "Bauholz|Latten|Diele",
@@ -607,9 +614,13 @@ tagfilter_building <- function(){
 tagfilter_wallpaper <- function(){
   dict <- list()
   dict$pos <- list(
-    wallpaper = "Tapet"
+    wallpaper = "Tape(t|z)"
   )
   dict$neg <- list(
+    attraction = "vorstellen", # advertisments for attraction at the place of a "Tapezierer"
+    service = "waschen", # services from "Tapezirer" unrelated to wallpaper
+    furniture = "Fauteuil", # furniture with descriptions or from "Tapezirer"
+    immo = "Behausung|Küche|austapezirt|tapezirt", # excludes immo ads with description of wallpaper
     sewing = "Nadeln" # sewing needles
 
   )
@@ -690,8 +701,8 @@ tagfilter_measure <- function(){
 tagfilter_divider <- function(){
   dict <- list()
   dict$pos <- list(
-    spanish_1 = "spanische W(a|ä)nd",
-    spanish_2 = "spanisch W(a|ä)nd",
+    spanish_1 = "spa(n|nn)ische W(a|ä)nd",
+    spanish_2 = "spa(n|nn)isch W(a|ä)nd",
     divider = "Scheidwand|Kunstwand"
   )
   dict$neg <- list(
@@ -808,10 +819,14 @@ tagfilter_homedeco <- function(){
 tagfilter_art <- function(){
   dict <- list()
   dict$pos <- list(
-    art = "Aquarel|Handzeichnung|(Oe|Ö)lgemäld|(Oe|Ö)lbild|Kupferstiche"
+    art = "Aquarel|Handzeichnung|(Oe|Ö)lgemäld|(Oe|Ö)lbild|Kupferstiche|Bilder|Gem(ä|äh)lde|M(a|ah)lere(y|i)en"
   )
   dict$neg <- list(
-    book = "Zeitschrift|Katalog|Schriften" # filters out book ads
+    embroidery = "Sticken", # description of embroidery
+    collection = "Kabinet|Ausstellung|Sammlung|Vorstellung", # collections of art for visiting
+    women = "Weibsbild", # meaning woman/women
+    weapon = "Degen", # descriptions of weapons with decorations
+    book = "Zeitschrift|Katalog|Schriften|Predigt|Fabel|Titel|Leseb(u|ü)ch|Erklärung|Erzählung|Beschreibung" # filters out book ads
 
   )
 

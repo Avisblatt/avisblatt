@@ -5,6 +5,10 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Ziertzig","Viertzig",x)
+  x <- gsub("Gane-Bänd","Gaze-Bänd",x)
+  x <- gsub("Kutchen-Kasten","Kutschen-Kasten",x)
+  x <- gsub("Welbsbild","Weibsbild",x)
   x <- gsub("Brufstein","Brunstein",x)
   x <- gsub("Brun4","Brunn",x)
   x <- gsub("Schreib-Pull","Schreib-Pult",x)
