@@ -566,7 +566,7 @@ filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% umbrella_ids_all)]
 b_t <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_umbrella_all$filter_T_hc_T)
-b_t$documents$texts[1:42]
+b_t$documents$texts[1:43]
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,

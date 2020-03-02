@@ -25,18 +25,7 @@ tagfilter_bed <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Childrens Pushchairs (some may be toys!)
-#' @export
-tagfilter_pushchair <- function(){
-  dict <- list()
-  dict$pos <- list(
-    pushchair = "Korbw(a|ä|ae)g|Kinderw(a|ä|ae)g|Kinder(chais|schäs)|Korb-W(ag|äg|ae)|Kinder-W(a|ä|ae)g|Kinder-(Chais|Schäs)"
-  )
-  dict$neg <- list(
-    toy = "Puppen-Korb" # toy for children
-  )
-  create_filter_output(dict)
-}
+
 
 #' Dictionary Bedding
 #' @export
@@ -367,65 +356,7 @@ tagfilter_bureau <- function(){
 
 }
 
-#' Dictionary Storage
-#' @export
-tagfilter_storage <- function(){
-  dict <- list()
-  dict$pos <- list(
-    basket = "Korb|Körb",
-    box ="K(i|ü)ste|K(i|ü)stch|Kästchen",
-    bag = "Sack|Säcke|Säckch",
-    tub = "Trog\\b"
-  )
-  dict$neg <- list(
-    place = "Goldküste", # placename
-    death = "beerdigt", # death notices
-    bed = "Strohs(ä|a)ck", # bedding
-    book = "Buchdrucker|Bibel", # filters out book ads
-    carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
-    stroller = "Kinderwagen|Kinderwäg", # excludes strollers with baskets
-    pocketknife = "Sackmesser", # pocketknife
-    travel= "Fussack|Fußsack|Reissack|Reisesack|Reis-Sack|Reise-Sack", # foot rest for carriages and bags for travel
-    bed = "Strohsack|Bettsack|Nachtsack", # bag full of straw, used as bedding
-    textile = "Sacktuch", # textile
-    work = "lesen|schreiben|rechnen|Lehrt(o|ö)chter", # filtering out work ads
-    grain = "Kernen", # filters out ads selling grain in bags
-    food = "Erdäpfel|Grundbirne|Setzerdäpfel|Habern\\b|Haber\\b", # filters out ads selling different kind of food in bags
-    measure_1 = "korbweis|kistchenweis|kistenweis", # measuring something by baskets or boxes, variant 1
-    measure_2 = "Kistchen zu", # measuring something by boxes, variant 2
-    meausure_3 = "Kistchen von", # measuring something by boxes, variant 3
-    measure_4 = "//d//sKistchen", # measuring something by boxes, variant 4
-    meausure_5 = "Kistchen à", # measuring something by boxes, variant 5
-    meausure_6 = "Kistchen v.", # measuring something by boxes, variant 6
-    meausure_7 = "pr. Kistchen", # measuring something by boxes, variant 7
-    measure_8 = "der Sack zu",  # measuring something by bags, variant 8
-    measure_9 = "\\d\\sSack", # number of bags of something, v 9
-    measure_10 = "\\d\\sSäck", # number of bags of something, v 10
-    measure_11 = "\\dSäck", # number of bags of something, v 11
-    measure_12 = "in K(o|ö)rb", # number of bags of something, v 12
-    measure_13 = "be(i|y)m Korb", # number of bags of something, v 13
-    measure_14 = "Sack à", # number of bags of something, v 14
-    measure_15 = "Sack um", # number of bags of something, v 15
-    measure_16 = "Sack von", # number of bags of something, v 16
-    measure_17 = "Sackvon", # number of bags of something, v 17
-    measure_18 = "sackweis", # number of bags of something, v 18
-    beehive = "Bienenkorb|Bienenkörb", # bee hives
-    stroller = "Korbwage|Korbwäge", # strollers and prams (own category)
-    profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
-    cabinet = "Bücherkäst|Glaskäst", # differet kinds of cabinets
-    watch_1 = "Sackuhr|Sack-Uhr", # pocketwatch, v1
-    watch_2 = "Sack Uhr", # pocketwatch, v1
-    pistol = "Sack-Pistol|Sackpistol", # pocket pistols
-    telescope = "Sack-Perspek|Sackpersp", # pocket telescope
-    light = "Sackfeuer|Sacklatern", # pocket lighter and lantern
-    graveyard = "Gottesacker", # graveyard
-    other = "Korbgitter", # unknwon object, but no storage
-    textile = "Sacktuch|Sacktüch" # name for specific kind of cloth
-  )
-  # maybe exclude Bettsack and add it to bed dictionary?
 
-  create_filter_output(dict)
-}
 
 #' Dictionary Toys for Children
 #' @export
@@ -591,55 +522,6 @@ tagfilter_instrument <- function(){
 
 }
 
-#' Dictionary Building Components
-#' @export
-tagfilter_building <- function(){
-  dict <- list()
-  dict$pos <- list(
-    well_1 = "Br(u|ü)(nn|n)stein",
-    well_2 = "Br(u|ü)(nn|n) Stein",
-    door = "(Th|T)üre|Vor(th|t)üre|(Th|T)ürschlinge", # possibly too many immo ads with "Thüre", negatives are tricky
-    window = "Fenster|Kreuzstock|Kreuzstöck|Fensterflügel|Fensterpritsch|Vorfenster",
-    wood = "Bauholz|Latten|Diele",
-    stone = "Backstein|Quaderstein",
-    metal = "Dachk(a|ä)nel|Dachk(a|ä)nal|Rohr|T(ei|eu)chel|Abtrittrohr",
-    shingle = "Dachschindel|Schind(eln|len)",
-    tile = "Bodenpl(ä|a)ttl|Plättlein",
-    glas = "Glas in Scheibe",
-    other = "Gerüststange|Wetterdach",
-    pipe = "Rohr"
-  )
-  dict$neg <- list(
-    news = "Pulver-Mühl|Stockwerck|Mordthat", # excludes news containing "Hauß" and "Fenster"
-    umbrella = "Parapluie", # descriptions of umbrellas with "rohr"
-    lost = "verloren", # excludes ads for lost goods (very rare with building components)
-    churchchair = "(Frauen|Mannen|Weiber)sitz|(Frauen|Mannen|Weiber)-Sitz", # church chairs (close to a door)
-    telescope = "Fernrohr", # telescope
-    instrument = "Fagotrohr|Instrument", # musical instruments
-    material_1 = "M(eh|ee)rrohr|Pfefferrohr|Wienerrohr", # materials for walking canes, v1
-    material_2 = "Wiener Rohr", # materials for walking canes, v2
-    measure = "in Platte", # measurement for something
-    carriage = "einsp(ä|a)nnig|zwe(i|y)sp(ä|a)nnig", # carriages with windows
-    work = "Kenntnis|Lehre", # filters out work ads
-    plates = "Platten", # plates
-    place = "Winterthür", # placenames
-    cabinet = "Schrank|Kästchen", # description of cabinet doors
-    book = "Kupfferblatt", # book ads
-    weapon = "Flin(th|t)e", # weapons with a "rohr"
-    tool = "Glaserwerckzeug", # tools
-    tobacco = "Bla(ß|ss|s)rohr-Steck|Pfeifenrohr", # tobacco utensil
-    walking = "Spannisc(h|he|hes) Rohr", # walking cane
-    adjective = "glatt", # containing "latt"
-    divider = "Scheidwand", # excludes doors as part of room dividers
-    cabinet = "Kasten", # excludes doors as a part of cabinets
-    immo = "Ladenthüre|beschlüssig|beschlossen|Estrich|Küche|Hinterthür|Fasnachtfronfast", # words indicating immo-ads
-    ocr = "dieletze" # ocr mistakes
-
-  )
-
-  create_filter_output(dict)
-
-}
 
 #' Dictionary Wallpaper
 #' @export
@@ -661,22 +543,7 @@ tagfilter_wallpaper <- function(){
 
 }
 
-#' Dictionary Suitcases
-#' @export
-tagfilter_suitcase <- function(){
-  dict <- list()
-  dict$pos <- list(
-    suitcase = "Koffer|Coffre|Coffer",
-    travelbag = "Reissack|Reisesack|Reissäck|Reisesäck|Reis-Sack|Reis-Säck|Reise-Sack|Reise-Säck|Rei(ss|ß)zeug"
-  )
-  dict$neg <- list(
-    tool = "Kofferwinde" # name for a winding tool
 
-  )
-
-  create_filter_output(dict)
-
-}
 
 #' Dictionary Cutlery
 #' @export
@@ -704,22 +571,6 @@ tagfilter_cutlery <- function(){
     stationary = "Federmesser|Falzmesser|Rastermesser", # tools for writing and for use of paper in general
     name = "Langmesser", # family name
     razor = "Rasiermesser|Barbiermesser" # razors and
-
-  )
-
-  create_filter_output(dict)
-
-}
-
-#' Dictionary Measuring Instruments
-#' @export
-tagfilter_measure <- function(){
-  dict <- list()
-  dict$pos <- list(
-    meter = "Barometer|Thermometer"
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
 
   )
 
