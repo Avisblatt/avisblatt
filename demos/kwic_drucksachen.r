@@ -3,22 +3,111 @@
 # avisblatt year 1834
 library(readtext)
 library(quanteda)
+library(jsonlite)
+library(dplyr)
+library(textcat)
+library(ggplot2)
 source("R/avis_stop.R")
 source("R/ocr_corrections.R")
-avis_1834 <- readtext("data/avis_1834.csv")
+avis_1834 <- readtext("data/groundtruth1834.csv")
 avis_1834$doc_id <- avis_1834$text
 avis_1834$text <- NULL
-
-# ocr corrections
-avis_1834$ad_content <- correct_ocr(avis_1834$ad_content)
+getOption("max.print")
 
 
+# ocr corrections 1834
+avis_1834 <- readtext("data/groundtruth1834.csv",
+                      text_field = "text",
+                      encoding = "UTF-8")
+
+avis_1834$text <- correct_ocr(avis_1834$text)
+
+ids_by_lang <- fromJSON("data/ids_by_lang.json")
+ids_by_lang
 
 corpus_1834 <- corpus(avis_1834,
-                      text_field = "ad_content",
                       docid_field = "doc_id")
 
 summary(corpus_1834)
+
+#subset
+corpus_1834_de <- corpus_subset(corpus_1834,
+                                (docvars(corpus_1834,"id")%in%
+                                   ids_by_lang$de))
+docvars(corpus_1834_de)
+
+# ocr corrections 1734
+avis_1734 <- readtext("data/groundtruth1734.csv",
+                      text_field = "text",
+                      encoding = "UTF-8")
+
+avis_1734$text <- correct_ocr(avis_1734$text)
+
+ids_by_lang <- fromJSON("data/ids_by_lang.json")
+
+corpus_1734 <- corpus(avis_1734,
+                      docid_field = "doc_id")
+
+summary(corpus_1734)
+
+#subset
+corpus_1734_de <- corpus_subset(corpus_1734,
+                                (docvars(corpus_1734,"id")%in%
+                                   ids_by_lang$de))
+
+#drucksachen
+
+druckzeug_corpus_clean_1834 <- corpus_1834_de %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+druckzeug_1834 <- kwic(druckzeug_corpus_clean_1834,
+                       pattern = "Buch|Bücher[n]|Bucher",
+                       valuetype = "regex")
+druckzeug_1834
+
+textplot_wordcloud(dfm(druckzeug_corpus_clean_1834),
+                   max_words = 50)
+
+dict <- dictionary(list(book = "Buch|Bücher[n]|Bucher",
+                        edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
+                        material = "gedruckt|Pergament",
+                        person = "Buchhändler|Buchdrucker|Buchbinder",
+                        place = "Buchhand|Buchdruckere[y|i]|Buchladen|Leihbibl|Leseanstalt",
+                        format_1 = "in Fol.",
+                        format_2 = "in 4to.",
+                        format_3 = "4°|8°|tom.$|[O|o]ctavo|Bogen|Bögen|Halbfranzband|[ein|un]gebunden|brosch[.|iert]",
+                        format_4 = "in [1-9] Bänden",
+                        format_5 = "gedruckte[n] Fortsetzung",
+                        ausstattung = "Kupf[f]er|Holzschnitt|Stahlstich",
+                        catalog = "Catalogus|Katalog",
+                        participant = "Mithalte*|Pr[ae|ä]numerant[en]|Abonnent",
+                        types = "Wörterbuch|Zeitung|Zeitschrift",
+                        type = "Neueste Schriften",
+                        title_1 = "Rauracher|Rau-racher|Raura-cher",
+                        title_2 = "Allgemeine[n] Zeitung",
+                        title_3 = "Christliche[r|n] Volksbote*",
+                        # title_4 = "Kantonsblatt|Kantons-blatt",
+                        title_5 = "Annalen",
+                        title_6 = "Missions-Magazin",
+                        title_7 = "Basler-Zeitung|Basler Zeitung",
+                        title_8 = "Wochenblatt"
+))
+
+druckzeug_1734 <- kwic(corpus_1734_de,
+                       dictionary(dict),
+                       valuetype = "regex")
+druckzeug_1734
+write.csv(druckzeug_1734, file = "data/druckzeug", fileEncoding = "UTF-8")
+
+druckzeug_corpus_clean_1734 <- druckzeug_1734 %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(avis_stop())
+
+textplot_wordcloud(dfm(druckzeug_corpus_clean_1734),
+                   max_words = 50)
 
 # KWIC #######################################
 # Keywords in context analysis examples ######
