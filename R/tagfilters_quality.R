@@ -22,7 +22,19 @@ tagfilter_secondhand <- function(){
     used_phrase_17 = "schier ganz neu",
     used_phrase_18 = "beinahe ganz neu",
     used_phrase_19 = "so viel wie neu",
-    used_phrase_20 = "so viel als"
+    used_phrase_20 = "so viel als",
+    used_phrase_21 = "halbalt",
+    used_phrase_22 = "in bestem Stand",
+    used_phrase_23 = "gut (c|k)ondition(ie|i)rt",
+    used_phrase_24 = "(c|k)ondition(ie|i)rt",
+    used_phrase_25 = "gut unterhalten",
+    used_phrase_26 = "in gutem Stand",
+    used_phrase_27 = "schon gebraucht",
+    used_phrase_28 = "brauchbar",
+    used_phrase_29 = "halbneu",
+    used_phrase_30 = "halb alt",
+    used_phrase_31 = "noch brauchbar",
+    used_phrase_32 = "fast gan(tz|z) neu"
   )
 
   dict$neg <- list(
