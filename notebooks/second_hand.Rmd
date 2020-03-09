@@ -1,0 +1,35 @@
+---
+title: "Using Quanteda 2.0"
+subtitle: "Second Hand Market Example"
+author: "Matthias Bannert"
+date: "3/9/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+devtools::load_all()
+library(quanteda)
+
+corpus_1834 <- avis_create_corpus("../data/avis_1834.csv")
+
+## Quality: Secondhand
+
+secondhand <- tagfilter_secondhand()
+sh_corpus <- secondhand$filtrate(corpus_1834)
+
+sh_clean <- sh_corpus %>%
+  tokens(remove_punct = TRUE,
+         remove_numbers = TRUE) %>%
+  tokens_remove(c(avis_stop(),
+                  "neu","neuer","neues",
+                  "neue","viel"))
+
+textplot_wordcloud(dfm(sh_clean),
+                   max_words = 120)
+
+```
+

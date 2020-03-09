@@ -4,7 +4,7 @@
 #' to the function.
 create_filter <- function(dict){
   function(corp,
-           identifier = "id",
+           return_corp = TRUE,
            ignore.case = TRUE){
     stopifnot(inherits(corp,"corpus"))
     re_pos <- paste(unlist(dict$pos), collapse = "|")
@@ -22,7 +22,9 @@ create_filter <- function(dict){
       sel <- tf_pos
     }
 
-    ids <- docvars(corp, identifier)[sel]
+    if(return_corp) return(corp[sel])
+
+    ids <- names(corp[sel])
     ids
   }
 }
