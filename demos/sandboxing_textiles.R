@@ -13,6 +13,8 @@ source("R/tagfilters_textiles.R")
 source("R/tagfilters_household.R")
 source("R/tagfilters_main.R")
 source("R/cleaners.R")
+source("R/avis_create_corpus.R")
+source("R/utils.R")
 source("R/validate_filters.R")
 
 # corpus 1734
@@ -517,64 +519,6 @@ b_f <- corpus_subset(corpus_all,
 b_f$documents$texts[1:2]
 
 
-## Umbrellas
-umbrella <- tagfilter_umbrella()
-
-umbrella_ids_1734 <- umbrella$filtrate(corpus_1734,ignore.case = T)
-umbrella_ids_1834 <- umbrella$filtrate(corpus_1834,ignore.case = T)
-
-umbrella_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                        umbrella_ids_1734)
-umbrella_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                        umbrella_ids_1834)
-
-umbrella_subset_all <- c(umbrella_subset_1734, umbrella_subset_1834)
-umbrella_ids_all <- c(umbrella_ids_1734, umbrella_ids_1834)
-
-# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-umbrella_kwic <- kwic(umbrella_subset_all,
-                          pattern = "Ombrelle|Parasol|Parresol",
-                          valuetype = "regex",
-                          ignore.case = T)
-umbrella_kwic
-
-# creating wordcloud for subset for getting ideas for qualities etc. for further exploration
-umbrella_subset_clean <- umbrella_subset_all %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(umbrella_subset_clean),
-                   max_words = 100)
-
-# Validation
-# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-# found by filter AND NOT by HC ("oops") | neither filter nor hc
-# only "yay" and "oops" relevant
-# most FALSE positives are actually correct if counting umbrellas as textiles
-validation_umbrella_all <- validate_filter(corpus_all, umbrella_ids_all,
-                                               search_col = "adcontent",
-                                               pattern = "01textilien")
-validation_umbrella_all
-
-# Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% umbrella_ids_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% umbrella_ids_all)]
-
-# TRUE positives
-b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_umbrella_all$filter_T_hc_T)
-b_t$documents$texts[1:43]
-
-# FALSE positives
-b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_umbrella_all$filter_T_hc_F)
-b_f$documents$texts[1:121]
-
-
 ## Gloves and Muffs
 hand <- tagfilter_hand()
 
@@ -923,237 +867,8 @@ b_f <- corpus_subset(corpus_all,
 b_f$documents$texts[1:5]
 
 
-## Animal Raw Materials
-animalraw <- tagfilter_animalraw()
-
-animalraw_ids_1734 <- animalraw$filtrate(corpus_1734,ignore.case = T)
-animalraw_ids_1834 <- animalraw$filtrate(corpus_1834,ignore.case = T)
-
-animalraw_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                         animalraw_ids_1734)
-animalraw_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                         animalraw_ids_1834)
-
-animalraw_subset_all <- c(animalraw_subset_1734, animalraw_subset_1834)
-animalraw_ids_all <- c(animalraw_ids_1734, animalraw_ids_1834)
-
-# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-animalraw_kwic <- kwic(animalraw_subset_all,
-                   pattern = "Pferdhaar",
-                   valuetype = "regex",
-                   ignore.case = T)
-
-animalraw_kwic
-
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
-animalraw_subset_clean <- animalraw_subset_all %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(animalraw_subset_clean),
-                   max_words = 100)
-
-# Validation
-# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-# found by filter AND NOT by HC ("oops") | neither filter nor hc
-# only "yay" and "oops" relevant
-validation_animalraw_all <- validate_filter(corpus_all, animalraw_ids_all,
-                                       search_col = "adcontent",
-                                       pattern = "01textilien")
-validation_animalraw_all
-
-# Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% animalraw_ids_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% animalraw_ids_all)]
-
-# TRUE positives
-b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_animalraw_all$filter_T_hc_T)
-b_t$documents$texts[1:51]
-
-# FALSE positives
-b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_animalraw_all$filter_T_hc_F)
-b_f$documents$texts[1:5]
 
 
-## Plant Raw Materials
-plantraw <- tagfilter_plantraw()
-
-plantraw_ids_1734 <- plantraw$filtrate(corpus_1734,ignore.case = T)
-plantraw_ids_1834 <- plantraw$filtrate(corpus_1834,ignore.case = T)
-
-plantraw_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                        plantraw_ids_1734)
-plantraw_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                        plantraw_ids_1834)
-
-plantraw_subset_all <- c(plantraw_subset_1734, plantraw_subset_1834)
-plantraw_ids_all <- c(plantraw_ids_1734, plantraw_ids_1834)
-
-# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-plantraw_kwic <- kwic(plantraw_subset_all,
-                       pattern = "Waldhaar",
-                       valuetype = "regex",
-                       ignore.case = T)
-
-plantraw_kwic
-
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
-plantraw_subset_clean <- plantraw_subset_all %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(plantraw_subset_clean),
-                   max_words = 100)
-
-# Validation
-# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-# found by filter AND NOT by HC ("oops") | neither filter nor hc
-# only "yay" and "oops" relevant
-validation_plantraw_all <- validate_filter(corpus_all, plantraw_ids_all,
-                                            search_col = "adcontent",
-                                            pattern = "01textilien")
-validation_plantraw_all
-
-# Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% plantraw_ids_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% plantraw_ids_all)]
-
-# TRUE positives
-b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_plantraw_all$filter_T_hc_T)
-b_t$documents$texts[1:12]
-
-# FALSE positives
-b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_plantraw_all$filter_T_hc_F)
-b_f$documents$texts[1:4]
-
-
-## Mercery and Non Textile Accessoires
-mercery <- tagfilter_mercery()
-
-mercery_ids_1734 <- mercery$filtrate(corpus_1734,ignore.case = T)
-mercery_ids_1834 <- mercery$filtrate(corpus_1834,ignore.case = T)
-
-mercery_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                       mercery_ids_1734)
-mercery_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                       mercery_ids_1834)
-
-mercery_subset_all <- c(mercery_subset_1734, mercery_subset_1834)
-mercery_ids_all <- c(mercery_ids_1734, mercery_ids_1834)
-
-# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-mercery_kwic <- kwic(mercery_subset_all,
-                    pattern = "Kn[o|ö]pf",
-                    valuetype = "regex",
-                    ignore.case = T)
-
-mercery_kwic
-
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
-mercery_subset_clean <- mercery_subset_all %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(mercery_subset_clean),
-                   max_words = 100)
-
-# Validation
-# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-# found by filter AND NOT by HC ("oops") | neither filter nor hc
-# only "yay" and "oops" relevant
-validation_mercery_all <- validate_filter(corpus_all, mercery_ids_all,
-                                           search_col = "adcontent",
-                                           pattern = "01textilien")
-validation_mercery_all
-
-# Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% mercery_ids_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% mercery_ids_all)]
-
-# TRUE positives
-b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_mercery_all$filter_T_hc_T)
-b_t$documents$texts[1:93]
-
-# FALSE positives
-b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_mercery_all$filter_T_hc_F)
-b_f$documents$texts[1:49]
-
-
-
-## Bags and Purses
-bag <- tagfilter_bag()
-
-bag_ids_1734 <- bag$filtrate(corpus_1734,ignore.case = T)
-bag_ids_1834 <- bag$filtrate(corpus_1834,ignore.case = T)
-
-bag_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                    bag_ids_1734)
-bag_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                   bag_ids_1834)
-
-bag_subset_all <- c(bag_subset_1734, bag_subset_1834)
-bag_ids_all <- c(bag_ids_1734, bag_ids_1834)
-
-# checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-bag_kwic <- kwic(bag_subset_all,
-                       pattern = "Tasche|Seckel|Beutel|Säck|Ridicule",
-                       valuetype = "regex",
-                       ignore.case = T)
-
-bag_kwic
-
-# creating wordcloud for bed_subset for getting ideas for qualities etc. for further exploration
-bag_subset_clean <- bag_subset_all %>%
-  tokens(remove_punct = TRUE,
-         remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
-
-textplot_wordcloud(dfm(bag_subset_clean),
-                   max_words = 100)
-
-# Validation
-# found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
-# found by filter AND NOT by HC ("oops") | neither filter nor hc
-# only "yay" and "oops" relevant
-validation_bag_all <- validate_filter(corpus_all, bag_ids_all,
-                                          search_col = "adcontent",
-                                          pattern = "01textilien")
-validation_bag_all
-
-# Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% bag_ids_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% bag_ids_all)]
-
-# TRUE positives
-b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_bag_all$filter_T_hc_T)
-b_t$documents$texts[1:117]
-
-# FALSE positives
-b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
-                       validation_bag_all$filter_T_hc_F)
-b_f$documents$texts[1:113]
 
 ## Tablelinen
 tablelinen <- tagfilter_tablelinen()
@@ -1370,23 +1085,23 @@ textiles_all
 # creating a corpus of all the ads (ids) not found by automatic classification of ads for sale/ to buy
 textiles_missed <- corpus_subset(textiles_all, docvars(textiles_all, "id") %notin%
                                     c(clothing_ids_all, sleepwear_ids_all, uniform_ids_all, underwear_ids_all, outerwear_ids_all, costume_ids_all, shoes_ids_all,
-                                      handkerchief_ids_all, umbrella_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
-                                      animalraw_ids_all, plantraw_ids_all, mercery_ids_all, bag_ids_all, tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
+                                      handkerchief_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
+                                      tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
 
 textiles_aut_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
                                  c(clothing_ids_1734, sleepwear_ids_1734, uniform_ids_1734, underwear_ids_1734, outerwear_ids_1734, costume_ids_1734, shoes_ids_1734,
-                                   handkerchief_ids_1734, umbrella_ids_1734, hand_ids_1734, neck_ids_1734, headdress_ids_1734, texmaterial_ids_1734, cloth_ids_1734, yarn_ids_1734,
-                                   animalraw_ids_1734, plantraw_ids_1734, mercery_ids_1734, bag_ids_1734, tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
+                                   handkerchief_ids_1734, hand_ids_1734, neck_ids_1734, headdress_ids_1734, texmaterial_ids_1734, cloth_ids_1734, yarn_ids_1734,
+                                  bag_ids_1734, tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
 
 textiles_aut_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                      c(clothing_ids_1834, sleepwear_ids_1834, uniform_ids_1834, underwear_ids_1834, outerwear_ids_1834, costume_ids_1834, shoes_ids_1834,
-                                       handkerchief_ids_1834, umbrella_ids_1834, hand_ids_1834, neck_ids_1834, headdress_ids_1834, texmaterial_ids_1834, cloth_ids_1834, yarn_ids_1834,
-                                       animalraw_ids_1834, plantraw_ids_1834, mercery_ids_1834, bag_ids_1834, tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
+                                       handkerchief_ids_1834, hand_ids_1834, neck_ids_1834, headdress_ids_1834, texmaterial_ids_1834, cloth_ids_1834, yarn_ids_1834,
+                                       tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
 
 
 tex_ids_automatic <- c(clothing_ids_all, sleepwear_ids_all, uniform_ids_all, underwear_ids_all, outerwear_ids_all, costume_ids_all, shoes_ids_all,
-                       handkerchief_ids_all, umbrealla_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
-                       animalraw_ids_all, plantraw_ids_all, mercery_ids_all, bag_ids_all, tablelinen_ids_all, carpet_ids_all, bedding_ids_all)
+                       handkerchief_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
+                      bag_ids_all, tablelinen_ids_all, carpet_ids_all, bedding_ids_all)
 
 textiles_missed_texts <- textiles_missed$documents$texts
 
@@ -1424,6 +1139,6 @@ textiles_oops_texts[100:150]
 # creating a corpus of all ads recognised by automated textiles filters
 textiles_filters <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
                                      c(clothing_ids_all, sleepwear_ids_all, uniform_ids_all, underwear_ids_all, outerwear_ids_all, costume_ids_all, shoes_ids_all,
-                                       handkerchief_ids_all, umbrella_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
-                                       animalraw_ids_all, plantraw_ids_all, mercery_ids_all, bag_ids_all, tablelinen_ids_all, carpet_ids_all, bedding_ids_all,))
+                                       handkerchief_ids_all, hand_ids_all, neck_ids_all, headdress_ids_all, texmaterial_ids_all, cloth_ids_all, yarn_ids_all,
+                                      tablelinen_ids_all, carpet_ids_all, bedding_ids_all))
 

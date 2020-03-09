@@ -424,8 +424,8 @@ tagfilter_kitchen <- function(){
   dict$pos <- list(
     distilling = "Brennhafen",
     washingup = "Wasserstein",
-    preparation = "Mörser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
-    Ca(ff|f)ebrett",
+    preparation = "M(ö|o)rser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
+    Ca(ff|f)ebrett|(T|Th)eema(sch|ch)ine|(T|Th)ee-Ma(sch|ch)ine",
     cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir|Pfanne|Pfännlein",
     cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
     storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zucker(dose|buchs)|Kühlstand|Krautstand|Fischtrog|
@@ -490,11 +490,11 @@ tagfilter_instrument <- function(){
     keyboard = "Flügel|Piano|Clavier|Klavier|Spinet|Spi(nn|n)eth",
     drum = "Trommel", # maybe exclude here drums specifically for children (toys)?
     wind = "Flöte|Clarinet|Fagot|Trompet|Oboe|Posaune|Posth(o|ö)rn|Waldh(o|ö)rn",
-    guitar = "Gui(t|tt)ar",
+    guitar = "G(ui|i)(t|tt)ar",
     string = "Violin|Contrebass|Cell(o|e)|Harfe",
     resin = "Colophonium|Geigenharz",
     strings = "Saiten",
-    organ = "Aeoloti(k|c)on|Harmonika|Haus(ö|o)rgel",
+    organ = "Aeoloti(k|c)on|Harmonika|Haus(ö|o)rgel|Clavicordium",
     misc = "Instrument"
   )
   dict$neg <- list(
@@ -603,7 +603,7 @@ tagfilter_divider <- function(){
 tagfilter_petobject <- function(){
   dict <- list()
   dict$pos <- list(
-    bird = "Paarhäus|Käfig|Paarh(a|ä)us|Anh(a|ä)ngköfig|Flugbret|Maisenschlag|Taubennest|Taubenschlag|Vogelschlag",
+    bird = "Käfig|Paarh(a|ä)(u|ü)s|Anh(a|ä)ngköfig|Flugbret|Maisenschlag|Taubennest|Taubenschlag|Vogelschlag",
     dog ="Hundesst(ä|a)ll|Hundest(ä|a)ll|Hundsst(ä|a)ll|Halsband",
     fish = "Goldfischglas"
   )
