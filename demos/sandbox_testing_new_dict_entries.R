@@ -41,8 +41,8 @@ source("R/tagfilters_main.R", encoding = "UTF-8")
 #category <- "06ding"; original <- tagfilter_things()
 #category <- "07tier"; original <- tagfilter_animal()
 #category <- "08immo"; original <- tagfilter_real_estate()
-#category <- "09kirchenstuhl"; original <- tagfilter_churchseat()
-category <- "10arbeitsstelle"; original <- tagfilter_labor()
+category <- "09kirchenstuhl"; original <- tagfilter_churchseat()
+#category <- "10arbeitsstelle"; original <- tagfilter_labor()
 #category <- "11kost"; original <- tagfilter_board()
 #category <- "12platzierung"; original <- tagfilter_placement()
 #category <- "13caritas"; original <- tagfilter_charity()
@@ -118,7 +118,7 @@ yay <- corpus_subset(corpus_groundtruth,
 yay$documents$texts[1:10]
 
 #- FALSE positives ("oops") of test
-oops <- corpus_subset(corpus_1834,
+oops <- corpus_subset(corpus_groundtruth,
                       docvars(corpus_groundtruth,"id") %in%
                         t$filter_T_hc_F)
 oops$documents$texts[1:10]
