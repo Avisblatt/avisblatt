@@ -2,12 +2,10 @@
 % Please edit documentation in R/tagfilters_textiles.R
 \name{tagfilter_outerwear}
 \alias{tagfilter_outerwear}
-\title{Dictionary Outerwear
-NEU}
+\title{Dictionary Outerwear}
 \usage{
 tagfilter_outerwear()
 }
 \description{
 Dictionary Outerwear
-NEU
 }
