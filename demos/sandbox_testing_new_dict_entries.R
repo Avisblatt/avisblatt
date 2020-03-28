@@ -1,23 +1,13 @@
 # Load libraries and source functions
 # in pre-package state
-library(readtext)
-library(quanteda)
-library(textcat)
-library(jsonlite)
-library(ggplot2)
-library(dplyr)
-source("R/avis_stop.R", encoding = "UTF-8")
-source("R/ocr_corrections.R", encoding = "UTF-8")
-source("R/tagfilters_utils.R", encoding = "UTF-8")
-source("R/tagfilters_household.R", encoding = "UTF-8")
-source("R/tagfilters_main.R", encoding = "UTF-8")
-source("R/cleaners.R")
-source("R/validate_filters.R")
-
+library(avisblatt)
+# During Development rather run
+devtools::load_all()
 
 # preparing corpus of German ads
 # chose year by modifying csv-file name in line below. Currently possible:
 # groundtruth1734.csv
+# groundtruth1754.csv
 # groundtruth1834.csv
 # groundtruth*.csv for all
 groundtruth <- readtext("data/groundtruth*.csv",
@@ -60,7 +50,6 @@ o <- validate_filter(corpus_groundtruth, original_ids,
                      search_col = "adcontent",
                      pattern <- category)
 o
-
 
 #' Testing the impact of new entries
 #'
