@@ -236,9 +236,9 @@ tagfilter_bling <- function(){
 tagfilter_churchseat <- function(){
   dict <- list()
   dict$pos <- list(
-    seat = "[K|k]irchenstuhl|[K|k]irchensitz|[K|k]irchenstühl",
-    female = "Weibersitz|Weiberstuhl|Weiberstühle|Frauensitz|Frauenstuhl|Frauenstühle",
-    male = "Mannsitz|Mannstuhl|Mannstühle|Mannssitz|Mannsstuhl|Mannsstühle|Männersitz|Männerstuhl|Männerstühle"
+    seat = "[K|k]irchenstuhl|[K|k]irchensitz|[K|k]irchenstühl|Anhencker",
+    female = "Weibersitz|Weiber-Sitz|Weiberstuhl|Weiberstühle|Frauensitz|Frauenstuhl|Frauenstühle",
+    male = "Mannsitz|Mannensitz|Mannstuhl|Mannstühle|Mannssitz|Mannsstuhl|Mannsstühle|Männersitz|Männerstuhl|Männerstühle"
   )
   create_filter_output(dict)
 }

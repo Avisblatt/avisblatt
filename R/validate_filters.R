@@ -1,16 +1,14 @@
-validate_filter <- function(corp, filter_ids,
-                            search_col, pattern,
-                            docid = "id"){
-  doc_ids <- corp$documents[,docid]
-  human_class_ids <- doc_ids[grepl(pattern,
-                                   corp$documents[,search_col])]
+validate_filter <- function(corp, filteredcorp,
+                                search_col, pattern){
+  filter_ids <- names(filteredcorp)
+  doc_ids <- names(corp)
+  human_class_ids <- doc_ids[grepl(pattern, docvars(corp, field = search_col))]
   filter_T_hc_T <- doc_ids[(doc_ids %in% filter_ids) &
                              (doc_ids %in% human_class_ids)]
   filter_T_hc_F <- doc_ids[(doc_ids %in% filter_ids) &
                              !(doc_ids %in% human_class_ids)]
   hc_T_filter_F <- doc_ids[!(doc_ids %in% filter_ids) &
                              (doc_ids %in% human_class_ids)]
-
   hc_F_filter_F <- doc_ids[!(doc_ids %in% filter_ids) &
                              !(doc_ids %in% human_class_ids)]
 
@@ -26,7 +24,7 @@ validate_filter <- function(corp, filter_ids,
   filter_range <- round(100 / (1+ length(hc_T_filter_F)/length(filter_T_hc_T)), 1)
 
   filter_precision <- round(100 / (1 + length(filter_T_hc_F) /
-                                    length(filter_T_hc_T)), 1)
+                                     length(filter_T_hc_T)), 1)
 
 
 
@@ -39,6 +37,7 @@ validate_filter <- function(corp, filter_ids,
   output$overview <- overview
   output$range <- filter_range
   output$precision <- filter_precision
+  output$filter_ids <- filter_ids
   output
 
   class(output) <- append("avis_confusion_matrix",

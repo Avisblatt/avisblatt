@@ -36,6 +36,8 @@ correct_ocr <- function(x){
   x <- gsub("AlckHosen","Alckhofen",x)
   x <- gsub("Nopembrit","Novembris",x)
   x <- gsub("Sistum","Bistum",x)
+  x <- gsub("Weibersit","Weibersitz",x)
+  x <- gsub("Welbersitz","Weibersitz",x)
   x <- gsub("Weidersitz","Weibersitz",x)
   x <- gsub("Eramine","Etamine",x)
   x <- gsub("besindlich","befindlich",x)
