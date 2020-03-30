@@ -301,7 +301,7 @@ umbrella_ids_all <- c(umbrella_ids_1734, umbrella_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 umbrella_kwic <- kwic(umbrella_subset_all,
-                      pattern = "Ombrelle|Parasol|Parresol",
+                      pattern = "\\bSchirme",
                       valuetype = "regex",
                       ignore.case = T)
 umbrella_kwic
@@ -360,7 +360,8 @@ carriage_ids_all <- c(carriage_ids_1734, carriage_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 carriage_kwic <- kwic(carriage_subset_all,
-                      pattern = "Wagen",
+                      pattern = "(1|2|3|4)spännig|Schlitten|(T|D)ro(sch|tsch)ke|Chai(se|s)|Trosque|Wägen|Kutsch//b|Schwanenhäls|
+                      Haußschlitten|Geschell|Berline//b|Kutschen-Kasich|Kutschenkasich",
                       valuetype = "regex",
                       ignore.case = T)
 carriage_kwic
@@ -739,7 +740,7 @@ health_ids_all <- c(health_ids_1734, health_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 health_kwic <- kwic(health_subset_all,
-                 pattern = "Schmiere|Wichse|Schella(ck|k)",
+                 pattern = phrase("(K|C)(o|ö)(l|ll)ni(sch|sches) Wasser"),
                  valuetype = "regex",
                  ignore.case = T)
 health_kwic
@@ -877,7 +878,8 @@ tool_ids_all <- c(tool_ids_1734, tool_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 tool_kwic <- kwic(tool_subset_all,
-                 pattern = "Stemmeisen|Zange|Wasserwaag|Zirkel|Zollstab",
+                 pattern = "Kupferdruckerpre(ss|ß)|Schraubst(o|ö)ck|M(ü|a)hlstein|Wendelbaum|F(u|ü)gbl(o|ö)ch|Drucktisch|
+                 Brennhäu(s|ß)lein|Reibstein",
                  valuetype = "regex",
                  ignore.case = T)
 tool_kwic
@@ -1014,7 +1016,7 @@ wood_ids_all <- c(wood_ids_1734, wood_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 wood_kwic <- kwic(wood_subset_all,
-                 pattern = phrase("Par(th|t)e(y|i) Kohlen"),
+                 pattern = "S(a|ä)gsp(ä|a|äh|ah)n|Lohst(o|ö)ck|Drehsp(äh|ä)n",
                  valuetype = "regex",
                  ignore.case = T)
 wood_kwic
@@ -1059,7 +1061,7 @@ barrel_ids_all <- c(barrel_ids_1734, barrel_ids_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 barrel_kwic <- kwic(barrel_subset_all,
-                 pattern = "Fa(ss|ß)\\b|Fä(ss|ß)er\\b",
+                 pattern = phrase("Stücklein Fa(s|ß|ss)"),
                  valuetype = "regex",
                  ignore.case = T)
 barrel_kwic
