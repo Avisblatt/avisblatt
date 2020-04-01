@@ -1,20 +1,9 @@
 # Load libraries and source functions
 # in pre-package state
-library(readtext)
-library(quanteda)
-library(textcat)
-library(jsonlite)
-library(ggplot2)
-library(dplyr)
-source("R/avis_stop.R")
-source("R/ocr_corrections.R")
-source("R/tagfilters_utils.R")
-source("R/tagfilters_textiles.R")
-source("R/tagfilters_household.R")
-source("R/tagfilters_main.R")
-source("R/tagfilters_quality.R")
-source("R/cleaners.R")
-source("R/validate_filters.R")
+library(avisblatt)
+# During Development rather run
+devtools::load_all()
+
 
 # corpus 1734
 
@@ -50,9 +39,12 @@ corpus_all <- c(corpus_1734, corpus_1834)
 
 ### checking and cleaning different tagfilters for descriptions of quality
 
+
 ## Secondhand
 
 secondhand <- tagfilter_secondhand()
+sh_corpus <- secondhand$filtrate(corpus_1834)
+
 
 secondhand_ids_1734 <- secondhand$filtrate(corpus_1734, ignore.case = T)
 secondhand_ids_1834 <- secondhand$filtrate(corpus_1834, ignore.case = T)
@@ -74,9 +66,15 @@ secondhand_kwic <- kwic(secondhand_subset_all,
 secondhand_kwic
 
 secondhand_subset_clean <- secondhand_subset_1834 %>%
+
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
-  tokens_remove(avis_stop())
+  tokens_remove(c(avis_stop(),
+                  "neu","neuer","neues",
+                  "neue","viel"))
 
-textplot_wordcloud(dfm(secondhand_subset_clean),
-                   max_words = 200)
+textplot_wordcloud(dfm(sh_clean),
+                   max_words = 120)
+
+groundtruth <- readtext("data/groundtruth*.csv",
+                        text_field = "text", encoding = "UTF-8")

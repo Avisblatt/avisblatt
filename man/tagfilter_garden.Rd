@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_household.R
 \name{tagfilter_garden}
 \alias{tagfilter_garden}
-\title{Dictionary Garden Furniture and Objects}
+\title{Dictionary Garden Tools, Furniture and Other Objects}
 \usage{
 tagfilter_garden()
 }
 \description{
-Dictionary Garden Furniture and Objects
+Dictionary Garden Tools, Furniture and Other Objects
 }

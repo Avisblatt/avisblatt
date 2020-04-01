@@ -4,6 +4,7 @@
 #' quanteda 2.0 corpuses.
 #'
 #' @importFrom readtext readtext
+#' @importFrom quanteda corpus
 #' @export
 avis_create_corpus <- function(f,
                                text_field = "text",
