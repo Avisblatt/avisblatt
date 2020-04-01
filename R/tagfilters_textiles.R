@@ -200,23 +200,6 @@ tagfilter_handkerchief <- function(){
 }
 
 
-#' Dictionary Umbrellas and Related Objects (umbrella cases and umbrella cloth)
-#' @export
-tagfilter_umbrella <- function(){
-  dict <- list()
-  dict$pos <- list(
-    rain = "Paraplu[i|y|v|g]|Regenschirm|Pareplu[i|y|v|g]",
-    sun = "Sonnenschirm|Ombrelle|Parasol|Parresol"
-
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
-  )
-
-  create_filter_output(dict)
-
-}
-
 
 #' Dictionary Gloves and Muffs
 #' @export
@@ -404,100 +387,6 @@ tagfilter_yarn <- function(){
     decoration = "Garnitur|Garnirung", # decoration on objects
     deco_description = "Faden durchwirkt", # decorated with yarn, not yarn itself
     military = "Garnison" # military garrison
-  )
-
-  create_filter_output(dict)
-
-}
-
-#' Dictionary Animal Raw Materials
-#' @export
-# problematic category with dictionary, cause words like Wolle or Leder are often
-# given as part of the description of clothing or other textiles
-# therefore here only unambiguous words so far
-tagfilter_animalraw <- function(){
-  dict <- list()
-  dict$pos <- list(
-    feather = "Be(tt|th)f(eh|e)de|Flaum|Eitherdaun|Ederdun|Federb[u|ü]sch",
-    horsehair = "Ro[ss|ß]haar|Pferdhaar"
-
-  )
-  dict$neg <- list(
-    upholstery = "ausgepolstert", # removes upholstery containing horsehair
-    household = "Roßhaarsieb", # strainer from horsehair
-    garment = "Roßhaar-Cravat|roßhaarne\\s|roßhaarene\\s", # garments from horsehair
-    plums = "Pflaumen\\s" # plums
-  )
-  create_filter_output(dict)
-
-}
-
-#' Dictionary Plant Raw Materials
-#' @export
-tagfilter_plantraw <- function(){
-  dict <- list()
-  dict$pos <- list(
-    alpinegrass = "Waldhaar"
-
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
-  )
-  create_filter_output(dict)
-
-}
-
-
-
-#' Dictionary Mercery and Non Textile Accessoires
-#' @export
-tagfilter_mercery <- function(){
-  dict <- list()
-  dict$pos <- list(
-    pin = "Vorstecknadel",
-    buckle = "Schnalle",
-    suspender = "Hosenträger",
-    belt = "Gürtel|Ceintur",
-    button = "Kn[o|ö]pf"
-  )
-  dict$neg <- list(
-    immo = "Losament|Gelegenheit", # excludes immo ads
-    cane = "Spannisches Rohr", # walking canes with "Knopf"
-    other = "Waidsack|Säcke|Ofenstange|Deckel|Redincorte" # other objects with buckles or buttons
-    # "Knopfmacher" as a profession relevant for category, exclusion of work and immo ads should exclude those irrelevant to textile category
-  )
-
-  create_filter_output(dict)
-
-}
-
-#' Dictionary Bags and Purses
-#' @export
-tagfilter_bag <- function(){
-  dict <- list()
-  dict$pos <- list(
-    bag = "Tasche|Seckel|Beutel|S[ä|a]ck|Ridicule|Täschlein|N[é|e]cessaire",
-    rucksack = "Felleisen"
-  )
-  dict$neg <- list(
-    immo = "Wohnung|Losament|Gelegenheit", # excludes immo ads
-    bed = "Strohs[ä|a]ck", # bedding
-    measure_1 = "\\d.\\sSäck", # removes "Säck" as measurement, v1
-    measure_2 = "\\d\\sSäck", # removes "Säck" as measurement, v2
-    measure_3 = "\\d.\\sSack", # removes "Sack" as measurement, v3
-    measure_4 = "\\d\\sSack", # removes "Sack" as measurement, v4
-    measure_5 = "hundert Säck", # removes "Säck" as measurement, v5
-    fruit = "Früchte", # filters out ads with bags of fruit
-    coffee = "Kaffee", # filters out ads with bags of coffee
-    cloth = "Beuteltuch", # cloth for bags
-    place = "Säckingen", # placename
-    potato = "Erdäpfel", # filters out ads with bags of potatoes
-    oat = "Habersäck", # bags of oats
-    travel = "Fußsäck|Nachtsäck", # leather blanket for carriage passengers and sleeping bags
-    books = "Taschenkalender|Taschenbuch|Taschenbüch|Hauskalender", # pocket books and calendars
-    pocketsize = "Taschen-Perspektiv|Taschenspiel|Taschenfeuer|Taschenuhr|Taschen-Latern|Taschenlatern|Taschenmesser|Federmesser", # pocketsize versions of other objects
-    administration = "Seckelmeister|Seckelrechnung|Seckel-", # administrative positions and words containing "Seckel"
-    description = "Taschenformat|Taschenform" # description of pocketsize of an object
   )
 
   create_filter_output(dict)
