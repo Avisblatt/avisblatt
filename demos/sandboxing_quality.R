@@ -1,5 +1,4 @@
 # Load libraries and source functions
-# in pre-package state
 library(avisblatt)
 # During Development rather run
 devtools::load_all()

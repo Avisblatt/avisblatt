@@ -426,12 +426,15 @@ tagfilter_kitchen <- function(){
     washingup = "Wasserstein",
     preparation = "M(ö|o)rser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
     Ca(ff|f)ebrett|(T|Th)eema(sch|ch)ine|(T|Th)ee-Ma(sch|ch)ine",
+    tea = "(T|Th)ee Ma(sch|ch)ine",
+    bred = "Bro(d|t) Tr(ö|o)g",
     cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir|Pfanne|Pfännlein",
-    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
+    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffee-Dampfmaschine|Kaffeedampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
     storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zucker(dose|buchs)|Kühlstand|Krautstand|Fischtrog|
-    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit|Wasserzuber|Fischbeck(i|e)n",
+    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit|Wasserzuber|Fischbeck(i|e)n|Bro(d|t)-Tr(ö|o)g",
+    fish = "Brunn zu (Fisch|Krebs)",
     pan = "Casserolle|Bressière|Daubière|Bratenwender|Federbrä(t|th)er",
-    baking = "Mödel|Waffleneisen|Gugelhopfform",
+    baking = "Mödel|Waffleneisen|Wafflen-Eisen|Gugelhopfform",
     press = "Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Stockpre(ss|ß)",
     mill = "(Oe|Ö)lmühl|Erdäpfelmühle|Erdäpfel-Mühle|(K|C)a(ff|f)emühle|(K|C)a(ff|f)e-Mühle|Kirschenmühle|Kirschen-Mühle|
     Mahlmühle|Mahl-Mühle"

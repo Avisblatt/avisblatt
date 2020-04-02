@@ -635,19 +635,23 @@ tagfilter_plant <- function(){
   dict <- list()
   dict$pos <- list(
     tree = "B(a|ä)um|Bäume|Obstb(ä|a)um",
-    bush = "Gar(th|t)enbuchs|Oleander",
-    flower = "Blumenzwiebel|Blumen-Ziebel",
+    bush_1 = "Gar(th|t)enbu(chs|x)|Oleander",
+    bush_2 = "grüner Bu(chs|x)",
+    flower = "Blumenzwiebel|Blumen-Ziebel|Nägelin",
     flower_2 = "Blumen Zwiebel",
     seed = "S(a|aa)men\\b",
     seedling = "Setzling",
-    root = "Dahlien-Wurzeln",
+    root = "Dahlien-Wurzeln|Sparglen-Wurtz(el|e)n",
     general = "Pflanze|Pflantze|Gewächs"
 
   )
   dict$neg <- list(
+    name_1 = "Wittwe Nägelin", # family name 1
+    name_2 = "Jakob Nägelin", # family name 2
+    name_3 = "Adam Nägelin", # family name 3
     fair = "Bude|Messe", # descriptions of fair stalls by trees
     wine = "Wein", # sometimes described as "bestes Gewächs"
-    book = "Tafeln|Meisterstück|Schriften|Prospekt", # excludes book illustrations
+    book = "Tafeln|Meisterstück|Schriften|Prospekt|Buchbinder", # excludes book illustrations
     adjective = "arbeitsam|heisam|heilsam|gemeinsam|grausam|zusamen|ehrsam|erwerbsam", # adjectives with "samen"
     verb = "samen halten", # verb
     name = "Baumgartner|Baumann|Baumeister", # family names

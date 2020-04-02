@@ -1,22 +1,12 @@
 # Load libraries and source functions
-# in pre-package state
-library(readtext)
-library(quanteda)
-library(textcat)
-library(jsonlite)
-library(ggplot2)
-library(dplyr)
-source("R/avis_stop.R")
-source("R/ocr_corrections.R")
-source("R/tagfilters_titles.R")
-source("R/cleaners.R")
-source("R/avis_create_corpus.R")
-source("R/utils.R")
-source("R/validate_filters.R")
+library(avisblatt)
+
+# During Development rather run
+devtools::load_all()
 
 
 ### corpus
-# ... has to be replaced with the year of the current Avisblatt data
+# "..." has to be replaced with the year of the current Avisblatt data
 avis_... <- readtext("data/groundtruth....csv",
                       text_field = "text",
                       encoding = "UTF-8")
@@ -45,9 +35,6 @@ titles_... <- corpus_subset(corpus_..., grepl("1", isheader))
 saleoffer <- tagfilter_saleoffer()
 
 saleoffer_ids_... <- saleoffer$filtrate(titles_...,ignore.case = T)
-
-saleoffer_... <- corpus_subset(titles_..., docvars(titles_..., "id") %in%
-                                        saleoffer_ids_...)
 
 # identifying title-ads that are too long (threshold has to be adapted to each type of title)
 # and therefore are either falsely classified as titles or the text region is too large
