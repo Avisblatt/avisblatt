@@ -45,20 +45,13 @@ secondhand <- tagfilter_secondhand()
 sh_corpus <- secondhand$filtrate(corpus_1834)
 
 
-secondhand_ids_1734 <- secondhand$filtrate(corpus_1734, ignore.case = T)
-secondhand_ids_1834 <- secondhand$filtrate(corpus_1834, ignore.case = T)
+secondhand_1734 <- secondhand$filtrate(corpus_1734, ignore.case = T)
+secondhand_1834 <- secondhand$filtrate(corpus_1834, ignore.case = T)
 
-secondhand_subset_1734 <- corpus_subset(corpus_1734, docvars(corpus_1734, "id") %in%
-                                        secondhand_ids_1734)
-
-secondhand_subset_1834 <- corpus_subset(corpus_1834, docvars(corpus_1834, "id") %in%
-                                        secondhand_ids_1834)
-
-secondhand_subset_all <- c(secondhand_subset_1734, secondhand_subset_1834)
-secondhand_ids_all <- c(secondhand_ids_1734, secondhand_ids_1834)
+secondhand__all <- c(secondhand_1734, secondhand_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-secondhand_kwic <- kwic(secondhand_subset_all,
+secondhand_kwic <- kwic(secondhand_all,
                       pattern = phrase("so viel als neu"),
                       valuetype = "regex",
                       ignore.case = T)
