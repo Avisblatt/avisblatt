@@ -5,7 +5,6 @@ library(avisblatt)
 devtools::load_all()
 
 # corpus 1734
-
 avis_1734 <- readtext("data/groundtruth1734.csv",
                       text_field = "text",
                       encoding = "UTF-8")
@@ -20,7 +19,6 @@ corpus_1734 <- corpus_subset(corpus_1734_all,
                                 ids_by_lang$de))
 
 # corpus 1834
-
 avis_1834 <- readtext("data/groundtruth1834.csv",
                       text_field = "text",
                       encoding = "UTF-8")
@@ -548,10 +546,8 @@ tableware_1834 <- tableware$filtrate(corpus_1834, ignore.case = T)
 tableware_all <- c(tableware_1734, tableware_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
-tableware_kwic <- kwic(tableware_1734,
-                 pattern = "Teller|Geschir|Biergläs|Bierglas|Tasse|Humpe|Becher|Porzel|Porcel|Steingut|Fayence|Krystallwaa|Krystall-Waa|
-                 Zin(n|nen)geschirr|Zin(n|nen)-Geschirr|Zin(n|nen)waare|Zin(n|nen)-Waare|Blechwaare|Blech-Waare|(K|C)anne|(K|C)arafe|
-                 Caffeti(e|è)r|Kaffeti(e|è)r|Kaffeeti(e|è)r|Cr(e|ê)mier",
+tableware_kwic <- kwic(tableware_all,
+                 pattern = "Steingeschir|Stein-Geschir",
                  valuetype = "regex",
                  ignore.case = T)
 tableware_kwic
@@ -700,8 +696,7 @@ game_ids_all <- c(game_1734, game_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 game_kwic <- kwic(game_all,
-                 pattern = "Billard|Billiard|Bilard|Biliard|Schachbret|Schachspiel|Taschenspiel|
-                 Domino|Lottospiel|Spielkarten|Whist|Würfelspiel|Kegelspiel|Kegelries|Spiele",
+                 pattern = "Trocquen-Kart|Spiel-Kart",
                  valuetype = "regex",
                  ignore.case = T)
 game_kwic
@@ -749,7 +744,7 @@ kitchen_all <- c(kitchen_1734, kitchen_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 kitchen_kwic <- kwic(kitchen_all,
-                     pattern = phrase("Brunn zu (Fisch|Krebs)"),
+                     pattern = "Sauerkraut-Stand|Kunsthafe",
                      valuetype = "regex",
                      ignore.case = T)
 
@@ -770,7 +765,7 @@ textplot_wordcloud(dfm(kitchen_subset_clean),
 # only "yay" and "oops" relevant
 validation_kitchen_all <- validate_filter(corpus_all, kitchen_all,
                                           search_col = "adcontent",
-                                          pattern = "01textilien")
+                                          pattern = "hausrat")
 validation_kitchen_all
 
 # Filters for TRUE and FALSE positives
@@ -851,7 +846,7 @@ instrument_all <- c(instrument_1734, instrument_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 instrument_kwic <- kwic(instrument_all,
-                 pattern = "Spi(nn|n)et",
+                 pattern = "Spi(nn|n)et|Aeoloti(k|c)on",
                  valuetype = "regex",
                  ignore.case = T)
 instrument_kwic
@@ -882,11 +877,11 @@ b_t <- corpus_subset(corpus_all,
                        validation_instrument_all$filter_T_hc_T)
 b_t$documents$texts[1:62]
 
-# FALSE positives: all are correct!
+# FALSE positives: almost all are correct!
 b_f <- corpus_subset(corpus_all,
                      docvars(corpus_all,"id") %in%
                        validation_instrument_all$filter_T_hc_F)
-b_f$documents$texts[1:107]
+b_f$documents$texts[1:40]
 
 
 
@@ -1051,7 +1046,8 @@ petobject_all <- c(petobject_1734, petobject_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 petobject_kwic <- kwic(petobject_all,
-                 pattern = "Wagen",
+                 pattern = "Paarh(a|ä)(u|ü)(s|ß)|Paar-h(a|ä)(u|ü)(s|ß)|Anh(e|a|ä)n(g|ck|c|k)k(ö|ä|e)fi(g|ch)|
+                 Tauben-Nest|Vogel(schlag|käfig|käfich)",
                  valuetype = "regex",
                  ignore.case = T)
 petobject_kwic
