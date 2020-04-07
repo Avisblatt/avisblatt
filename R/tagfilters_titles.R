@@ -19,7 +19,7 @@ tagfilter_saleoffer <- function(){
 tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
-    saledemand_1 = "zu kaufen begehrt",
+    saledemand_1 = "(zu|zum) kaufen begehrt",
     saledemand_add_1 = "Nachtrag (zu|zum) kaufen begehrt" # delete this if saledemand_1 works
     )
   dict$neg <- list(
