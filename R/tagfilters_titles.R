@@ -156,7 +156,7 @@ tagfilter_taxes <- function(){
   dict <- list()
   dict$pos <- list(
     taxes_1 = "B r o d-T (ä|a)(x|r)", # white space?
-    texes_2 = "B r o d- T (ä|a) (x|r)" # white space?
+    taxes_2 = "B r o d- T (ä|a) (x|r)" # white space?
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
