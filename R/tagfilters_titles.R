@@ -74,7 +74,7 @@ tagfilter_lostandfound <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "Verstorben und begraben"
+    death_1 = "Verstorben und begrabe(n|m)"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
