@@ -163,3 +163,18 @@ tagfilter_taxes <- function(){
   )
   create_filter_output(dict)
 }
+
+' Dictionary Bookstore (Title)
+#' @export
+tagfilter_bookstore <- function(){
+  dict <- list()
+  dict$pos <- list(
+    bookstore_1 = "Buchhandlung",
+    bookstore_2 = "Buchhandlulg", # can be deleted, if ocr correction works
+    bookstore_3 = "Buch- handlung",
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}      
