@@ -164,7 +164,7 @@ tagfilter_taxes <- function(){
   create_filter_output(dict)
 }
 
-' Dictionary Bookstore (Title)
+#' Dictionary Bookstore (Title)
 #' @export
 tagfilter_bookstore <- function(){
   dict <- list()
