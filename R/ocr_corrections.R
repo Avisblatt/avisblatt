@@ -5,6 +5,11 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Rotenpapier","Notenpapier",x)
+  x <- gsub("Gattersea","Battersea",x)
+  x <- gsub("nutliche","nutzliche",x)
+  x <- gsub("\\bBatter\\b","Gatter",x)
+  x <- gsub("Strumpfwäber\\. Stuhl","Strumpfwäber-Stuhl",x)
   x <- gsub("Verkorne","Verlorne",x)
   x <- gsub("Jahnpulver","Zahnpulver",x)
   x <- gsub("Werckleug","Werckzeug",x)
@@ -36,7 +41,6 @@ correct_ocr <- function(x){
   x <- gsub("Kesich","Kefich",x)
   x <- gsub("Elute","Flute",x)
   x <- gsub("Geitstock","Geldstock",x)
-  x <- gsub("Batter","Gatter",x)
   x <- gsub("Elutes","Flutes",x)
   x <- gsub("Peister","Meister",x)
   x <- gsub("Urtzney","Artzney",x)

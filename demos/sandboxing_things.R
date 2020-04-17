@@ -6,33 +6,25 @@ devtools::load_all()
 
 # corpus 1734
 
-avis_1734 <- readtext("data/groundtruth1734.csv",
-                      text_field = "text",
-                      encoding = "UTF-8")
+corpus_1734 <- avis_create_corpus("data/groundtruth1734.csv")
 
-avis_1734$text <- correct_ocr(avis_1734$text)
+## is the following code still necessary, or is avis_create_corpus enough?
+# avis_1734 <- readtext("data/groundtruth1734.csv",
+                      # text_field = "text",
+                      # encoding = "UTF-8")
 
-ids_by_lang <- fromJSON("data/ids_by_lang.json")
-corpus_1734_all <- corpus(avis_1734,
-                          docid_field = "doc_id")
-corpus_1734 <- corpus_subset(corpus_1734_all,
-                             (docvars(corpus_1734_all,"id") %in%
-                                ids_by_lang$de))
+# avis_1734$text <- correct_ocr(avis_1734$text)
+
+# ids_by_lang <- fromJSON("data/ids_by_lang.json")
+#corpus_1734_all <- corpus(avis_1734,
+                          # docid_field = "doc_id")
+# corpus_1734 <- corpus_subset(corpus_1734_all,
+                             # (docvars(corpus_1734_all,"id") %in%
+                                # ids_by_lang$de))
 
 # corpus 1834
 
-avis_1834 <- readtext("data/groundtruth1834.csv",
-                      text_field = "text",
-                      encoding = "UTF-8")
-
-avis_1834$text <- correct_ocr(avis_1834$text)
-
-ids_by_lang <- fromJSON("data/ids_by_lang.json")
-corpus_1834_all <- corpus(avis_1834,
-                          docid_field = "doc_id")
-corpus_1834 <- corpus_subset(corpus_1834_all,
-                             (docvars(corpus_1834_all,"id") %in%
-                                ids_by_lang$de))
+corpus_1834 <- avis_create_corpus("data/groundtruth1834.csv")
 
 corpus_all <- c(corpus_1734, corpus_1834)
 
@@ -48,6 +40,14 @@ mercery_1734 <- mercery$filtrate(corpus_1734,ignore.case = T)
 mercery_1834 <- mercery$filtrate(corpus_1834,ignore.case = T)
 
 mercery_all <- c(mercery_1734, mercery_1834)
+
+texts(mercery_1734)
+texts(mercery_1834)
+
+# attaching result of filter "mercery" as new docvars (no idea, if this is the "right" way to do it, but it works)
+# how to get those docvars back to the main corpus? How to store multiple new "keywords/categories" for a single document?
+mercery_1734_new$categories <- "mercery"
+docvars(mercery_1734_new)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 mercery_kwic <- kwic(mercery_all,
@@ -76,21 +76,24 @@ validation_mercery_all <- validate_filter(corpus_all, mercery_all,
 validation_mercery_all
 
 # Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% mercery_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% mercery_all)]
+doc_ids_mercery <- names(mercery_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_mercery
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_mercery
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_mercery_all$filter_T_hc_T)
-b_t$documents$texts[1:93]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_mercery_all$filter_T_hc_F)
-b_f$documents$texts[1:49]
+
+texts(b_f)
 
 
 
@@ -129,22 +132,24 @@ validation_bag_all <- validate_filter(corpus_all, bag_all,
 validation_bag_all
 
 # Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% bag_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% bag_all)]
+doc_ids_bag <- names(bag_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_bag
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_bag
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_bag_all$filter_T_hc_T)
-b_t$documents$texts[1:93]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_bag_all$filter_T_hc_F)
-b_f$documents$texts[1:49]
 
+texts(b_f)
 
 ## Animal Raw Materials
 animalraw <- tagfilter_animalraw()
@@ -156,7 +161,7 @@ animalraw_all <- c(animalraw_1734, animalraw_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 animalraw_kwic <- kwic(animalraw_all,
-                       pattern = "Pferdhaar",
+                       pattern = "Federen|Pflaum|Flaum|Sohlleder|Sohl-Leder|Zeugleder",
                        valuetype = "regex",
                        ignore.case = T)
 
@@ -176,26 +181,29 @@ textplot_wordcloud(dfm(animalraw_subset_clean),
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
 validation_animalraw_all <- validate_filter(corpus_all, animalraw_all,
-                                            search_col = "adcontent",
-                                            pattern = "01textilien")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_animalraw_all
 
 # Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% animalraw_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% animalraw_all)]
+doc_ids_animalraw <- names(animalraw_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_animalraw
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_animalraw
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_animalraw_all$filter_T_hc_T)
-b_t$documents$texts[1:51]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_animalraw_all$filter_T_hc_F)
-b_f$documents$texts[1:5]
+
+texts(b_f)
 
 
 ## Plant Raw Materials
@@ -228,26 +236,29 @@ textplot_wordcloud(dfm(plantraw_subset_clean),
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
 validation_plantraw_all <- validate_filter(corpus_all, plantraw_all,
-                                           search_col = "adcontent",
-                                           pattern = "01textilien")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_plantraw_all
 
 # Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% plantraw_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% plantraw_all)]
+doc_ids_plantraw <- names(plantraw_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_plantraw
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_plantraw
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_plantraw_all$filter_T_hc_T)
-b_t$documents$texts[1:12]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_plantraw_all$filter_T_hc_F)
-b_f$documents$texts[1:4]
+
+texts(b_f)
 
 
 ## Umbrellas
@@ -280,26 +291,29 @@ textplot_wordcloud(dfm(umbrella_subset_clean),
 # only "yay" and "oops" relevant
 # most FALSE positives are actually correct if counting umbrellas as textiles
 validation_umbrella_all <- validate_filter(corpus_all, umbrella_all,
-                                           search_col = "adcontent",
-                                           pattern = "01textilien")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_umbrella_all
 
 # Filters for TRUE and FALSE positives
-doc_ids_all <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids_all[(doc_ids_all %in% umbrella_all)]
-filter_T_hc_F <- doc_ids_all[(doc_ids_all %notin% umbrella_all)]
+doc_ids_umbrella <- names(umbrella_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_umbrella
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_umbrella
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_umbrella_all$filter_T_hc_T)
-b_t$documents$texts[1:43]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_umbrella_all$filter_T_hc_F)
-b_f$documents$texts[1:121]
+
+texts(b_f)
 
 
 ## Carriages
@@ -312,8 +326,7 @@ carriage_all <- c(carriage_1734, carriage_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 carriage_kwic <- kwic(carriage_all,
-                      pattern = "(1|2|3|4)spännig|Schlitten|(T|D)ro(sch|tsch)ke|Chai(se|s)|Trosque|Wägen|Kutsch//b|Schwanenhäls|
-                      Haußschlitten|Geschell|Berline//b|Kutschen-Kasich|Kutschenkasich",
+                      pattern = "W(a|aa)gen-Winde|W(a|aa)genwinde",
                       valuetype = "regex",
                       ignore.case = T)
 carriage_kwic
@@ -332,27 +345,30 @@ textplot_wordcloud(dfm(carriage_all_clean),
 # found by filter AND hc ("yay!") | found by hc but not the filter ("we will get them, too")
 # found by filter AND NOT by HC ("oops") | neither filter nor hc
 # only "yay" and "oops" relevant
-validation_carriage <- validate_filter(corpus_all, carriage_all,
-                                       search_col = "adcontent",
-                                       pattern = "06ding")
-validation_carriage
+validation_carriage_all <- validate_filter(corpus_all, carriage_all,
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
+validation_carriage_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_1734$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% carriage_1734)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% carriage_1734)]
+doc_ids_carriage <- names(carriage_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_carriage
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_carriage
 
-#TRUE positives
-b_t <- corpus_subset(corpus_1734,
-                     docvars(corpus_1734,"id") %in%
-                       validation_carriage_1734$filter_T_hc_T)
-b_t$documents$texts[1:29]
+# TRUE positives
+b_t <- corpus_subset(corpus_all,
+                     names(corpus_all) %in%
+                       validation_carriage_all$filter_T_hc_T)
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1734,
-                     docvars(corpus_1734,"id") %in%
-                       validation_carriage_1734$filter_T_hc_F)
-b_f$documents$texts[1:2]
+texts(b_t)
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     names(corpus_all) %in%
+                       validation_carriage_all$filter_T_hc_F)
+
+texts(b_f)
 
 # No FALSE positives and TRUE positives all correct!!!
 
@@ -382,26 +398,29 @@ textplot_wordcloud(dfm(pushchair_subset_clean),
 
 ## Validation
 validation_pushchair_all <- validate_filter(corpus_all, pushchair_all,
-                                            search_col = "adcontent",
-                                            pattern = "02hausrat")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_pushchair_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% pushchair_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% pushchair_all)]
+doc_ids_pushchair <- names(pushchair_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_pushchair
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_pushchair
 
-#TRUE positives
+# TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_pushchair_all$filter_T_hc_T)
-b_t$documents$texts[1:4]
 
-#FALSE positives
-b_f <- corpus_subset(corpus_1834,
-                     docvars(corpus_1834,"id") %in%
+texts(b_t)
+
+# FALSE positives
+b_f <- corpus_subset(corpus_all,
+                     names(corpus_all) %in%
                        validation_pushchair_all$filter_T_hc_F)
-b_f$documents$texts[1:54]
+
+texts(b_f)
 
 
 ##  Storage
@@ -431,25 +450,28 @@ textplot_wordcloud(dfm(storage_subset_clean),
 ## Validation
 validation_storage_all <- validate_filter(corpus_all, storage_all,
                                           search_col = "adcontent",
-                                          pattern = "ding")
+                                          pattern = "01textilien")
 validation_storage_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% storage_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% storage_all)]
+doc_ids_storage <- names(storage_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_storage
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_storage
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_storage_all$filter_T_hc_T)
-b_t$documents$texts[1:152]
 
-# FALSE positives: most are correct, but dictionary not suitable for lost and found (because often description how other object lost from a basket)
+texts(b_t)
+
+# FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_storage_all$filter_T_hc_F)
-b_f$documents$texts[1:34]
+
+texts(b_f)
 
 ## Building Components
 building <- tagfilter_building()
@@ -461,7 +483,7 @@ building_all <- c(building_1734, building_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 building_kwic <- kwic(building_all,
-                      pattern = "Fenster-",
+                      pattern = "Gegitter|Gatter|Stiege|Ziegel|Deichel|Steinplatte|Jalousie-Läden|Jalousieläden|Kellerb(ö|o)gen", # steinerner Bogen
                       valuetype = "regex",
                       ignore.case = T)
 building_kwic
@@ -477,26 +499,29 @@ textplot_wordcloud(dfm(building_subset_clean),
 
 ## Validation
 validation_building_all <- validate_filter(corpus_all, building_all,
-                                           search_col = "adcontent",
-                                           pattern = "hausrat")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_building_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% building_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% building_all)]
+doc_ids_building <- names(building_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_building
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_building
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_building_all$filter_T_hc_T)
-b_t$documents$texts[1:76]
 
-# FALSE positives: almost all correctly recognised
+texts(b_t)
+
+# FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_building_all$filter_T_hc_F)
-b_f$documents$texts[1:104]
+
+texts(b_f)
 
 ## Suitcases and Travel Bags
 suitcase <- tagfilter_suitcase()
@@ -524,26 +549,29 @@ textplot_wordcloud(dfm(suitcase_subset_clean),
 
 ## Validation
 validation_suitcase_all <- validate_filter(corpus_all, suitcase_all,
-                                           search_col = "adcontent",
-                                           pattern = "ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_suitcase_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% suitcase_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% suitcase_all)]
+doc_ids_suitcase <- names(suitcase_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_suitcase
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_suitcase
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_suitcase_all$filter_T_hc_T)
-b_t$documents$texts[1:76]
 
-# FALSE positives: all correctly recognised
+texts(b_t)
+
+# FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_suitcase_all$filter_T_hc_F)
-b_f$documents$texts[1:9]
+
+texts(b_f)
 
 ## Measuring instruments
 measure <- tagfilter_measure()
@@ -572,26 +600,28 @@ textplot_wordcloud(dfm(measure_subset_clean),
 ## Validation
 validation_measure_all <- validate_filter(corpus_all, measure_all,
                                           search_col = "adcontent",
-                                          pattern = "02hausrat")
+                                          pattern = "01textilien")
 validation_measure_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% measure_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% measure_all)]
+doc_ids_measure <- names(measure_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_measure
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_measure
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_measure_all$filter_T_hc_T)
-b_t$documents$texts[1:6]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_measure_all$filter_T_hc_F)
-b_f$documents$texts[1:8]
 
+texts(b_f)
 
 ## Trolleys
 trolley <- tagfilter_trolley()
@@ -610,27 +640,29 @@ trolley_kwic
 
 ## Validation
 validation_trolley_all <- validate_filter(corpus_all, trolley_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_trolley_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% trolley_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% trolley_all)]
+doc_ids_trolley <- names(trolley_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_trolley
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_trolley
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_trolley_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_trolley_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
 
+texts(b_f)
 
 
 ##  Health, Cosmetics and Drugstore Products
@@ -643,33 +675,36 @@ health_all <- c(health_1734, health_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 health_kwic <- kwic(health_all,
-                 pattern = phrase("(K|C)(o|ö)(l|ll)ni(sch|sches) Wasser"),
+                 pattern = "Brocke(l|li)-A(mm|m|ml|mml)ung|Brocke(l|li)a(mm|m|ml|mml)ung",
                  valuetype = "regex",
                  ignore.case = T)
 health_kwic
 
 ## Validation
 validation_health_all <- validate_filter(corpus_all, health_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_health_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% health_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% health_all)]
+doc_ids_health <- names(health_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_health
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_health
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_health_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_health_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Weapons
@@ -682,33 +717,36 @@ weapon_all <- c(weapon_1734, weapon_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 weapon_kwic <- kwic(weapon_all,
-                 pattern = "Scheide",
+                 pattern = "Kuge(l|ln)model|Kuge(l|ln)-Model|Stutzer|Pistohl|Ordonnanz-G",
                  valuetype = "regex",
                  ignore.case = T)
 weapon_kwic
 
 ## Validation
 validation_weapon_all <- validate_filter(corpus_all, weapon_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_weapon_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% weapon_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% weapon_all)]
+doc_ids_weapon <- names(weapon_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_weapon
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_weapon
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_weapon_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_weapon_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Shop Equipment
@@ -721,33 +759,36 @@ shopequip_all <- c(shopequip_1734, shopequip_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 shopequip_kwic <- kwic(shopequip_all,
-                 pattern = "Ladengerä(th|t)schaft",
+                 pattern = phrase("Einsatz Gewicht"),
                  valuetype = "regex",
                  ignore.case = T)
 shopequip_kwic
 
 ## Validation
 validation_shopequip_all <- validate_filter(corpus_all, shopequip_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_shopequip_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% shopequip_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% shopequip_all)]
+doc_ids_shopequip <- names(shopequip_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_shopequip
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_shopequip
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_shopequip_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_shopequip_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Tools and Instruments
@@ -760,34 +801,36 @@ tool_all <- c(tool_1734, tool_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 tool_kwic <- kwic(tool_all,
-                 pattern = "Kupferdruckerpre(ss|ß)|Schraubst(o|ö)ck|M(ü|a)hlstein|Wendelbaum|F(u|ü)gbl(o|ö)ch|Drucktisch|
-                 Brennhäu(s|ß)lein|Reibstein",
+                 pattern = phrase("eisernes Rädlein"),
                  valuetype = "regex",
                  ignore.case = T)
 tool_kwic
 
 ## Validation
 validation_tool_all <- validate_filter(corpus_all, tool_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_tool_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% tool_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% tool_all)]
+doc_ids_tool <- names(tool_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_tool
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_tool
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tool_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tool_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Stationary and Paperware
@@ -800,33 +843,36 @@ stationary_all <- c(stationary_1734, stationary_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 stationary_kwic <- kwic(stationary_all,
-                  pattern = "Schreibzeug",
+                  pattern = "Papier",
                   valuetype = "regex",
                   ignore.case = T)
 stationary_kwic
 
 ## Validation
 validation_stationary_all <- validate_filter(corpus_all, stationary_all,
-                                       search_col = "adcontent",
-                                       pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_stationary_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% stationary_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% stationary_all)]
+doc_ids_stationary <- names(stationary_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_stationary
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_stationary
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_stationary_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_stationary_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Jewellery
 jewellery <- tagfilter_jewellery()
@@ -838,33 +884,36 @@ jewellery_all <- c(jewellery_1734, jewellery_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 jewellery_kwic <- kwic(jewellery_all,
-                 pattern = "Bijouteri",
+                 pattern = "Kette",
                  valuetype = "regex",
                  ignore.case = T)
 jewellery_kwic
 
 ## Validation
 validation_jewellery_all <- validate_filter(corpus_all, jewellery_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_jewellery_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% jewellery_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% jewellery_all)]
+doc_ids_jewellery <- names(jewellery_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_jewellery
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_jewellery
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_jewellery_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_jewellery_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Wood
@@ -884,26 +933,29 @@ wood_kwic
 
 ## Validation
 validation_wood_all <- validate_filter(corpus_all, wood_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_wood_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% wood_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% wood_all)]
+doc_ids_wood <- names(wood_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_wood
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_wood
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_wood_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_wood_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Barrels and Bottles
 barrel <- tagfilter_barrel()
@@ -915,33 +967,36 @@ barrel_all <- c(barrel_1734, barrel_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 barrel_kwic <- kwic(barrel_all,
-                 pattern = phrase("Stücklein Fa(s|ß|ss)"),
+                 pattern = "(Ö|Oe)hlst(u|ü)cklein|Z(a|ä)pfen",
                  valuetype = "regex",
                  ignore.case = T)
 barrel_kwic
 
 ## Validation
 validation_barrel_all <- validate_filter(corpus_all, barrel_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_barrel_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% barrel_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% barrel_all)]
+doc_ids_barrel <- names(barrel_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_barrel
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_barrel
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_barrel_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_barrel_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Tobacco and Related Objects
@@ -954,33 +1009,36 @@ tobacco_all <- c(tobacco_1734, tobacco_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 tobacco_kwic <- kwic(tobacco_all,
-                 pattern = "Pfeife|Taba(k|ck|ks|cks)pfeife|Pfeifenkopf|Pfeifenraumer|Pfeifenrohr",
+                 pattern = "Tabattier",
                  valuetype = "regex",
                  ignore.case = T)
 tobacco_kwic
 
 ## Validation
 validation_tobacco_all <- validate_filter(corpus_all, tobacco_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_tobacco_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% tobacco_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% tobacco_all)]
+doc_ids_tobacco <- names(tobacco_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_tobacco
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_tobacco
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tobacco_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tobacco_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Hay and Straw
 hay <- tagfilter_hay()
@@ -992,33 +1050,36 @@ hay_all <- c(hay_1734, hay_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 hay_kwic <- kwic(hay_all,
-                 pattern = "Stroh\\b",
+                 pattern = phrase("Gra(s|ss|ß) auf"),
                  valuetype = "regex",
                  ignore.case = T)
 hay_kwic
 
 ## Validation
 validation_hay_all <- validate_filter(corpus_all, hay_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_hay_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% hay_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% hay_all)]
+doc_ids_hay <- names(hay_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_hay
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_hay
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_hay_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_hay_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Unspecified Wooden Objects
 woodobject <- tagfilter_woodobject()
@@ -1027,37 +1088,39 @@ woodobject_1734 <- woodobject$filtrate(corpus_1734, ignore.case = T)
 woodobject_1834 <- woodobject$filtrate(corpus_1834, ignore.case = T)
 
 woodobject_all <- c(woodobject_1734, woodobject_1834)
-woodobject_ids_all <- c(woodobject_1734, woodobject_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 woodobject_kwic <- kwic(woodobject_all,
-                 pattern = "Holzdecke|H(ö|o)lzenwerk|H(ö|o)lzwerk",
+                 pattern = "Holzw(a|aa)re",
                  valuetype = "regex",
                  ignore.case = T)
 woodobject_kwic
 
 ## Validation
 validation_woodobject_all <- validate_filter(corpus_all, woodobject_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_woodobject_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% woodobject_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% woodobject_all)]
+doc_ids_woodobject <- names(woodobject_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_woodobject
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_woodobject
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_woodobject_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_woodobject_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Dung
@@ -1078,26 +1141,29 @@ dung_kwic
 
 ## Validation
 validation_dung_all <- validate_filter(corpus_all, dung_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_dung_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% dung_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% dung_all)]
+doc_ids_dung <- names(dung_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_dung
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_dung
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_dung_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_dung_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Plants
 plant <- tagfilter_plant()
@@ -1116,26 +1182,29 @@ plant_kwic
 
 ## Validation
 validation_plant_all <- validate_filter(corpus_all, plant_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_plant_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% plant_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% plant_all)]
+doc_ids_plant <- names(plant_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_plant
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_plant
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_plant_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_plant_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 ## Glasses and Optical Instruments
@@ -1148,33 +1217,36 @@ glasses_all <- c(glasses_1734, glasses_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 glasses_kwic <- kwic(glasses_all,
-                 pattern = phrase("optische Instrumente"),
+                 pattern = "Telescop|Optik",
                  valuetype = "regex",
                  ignore.case = T)
 glasses_kwic
 
 ## Validation
 validation_glasses_all <- validate_filter(corpus_all, glasses_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_glasses_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% glasses_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% glasses_all)]
+doc_ids_glasses <- names(glasses_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_glasses
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_glasses
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_glasses_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_glasses_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Soil, Gravel, Lime and Related Goods
 soil <- tagfilter_soil()
@@ -1186,33 +1258,36 @@ soil_all <- c(soil_1734, soil_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 soil_kwic <- kwic(soil_all,
-                 pattern = phrase("G(y|i)ps"),
+                 pattern = "Asphalt|Asche|Mattengrund|Matten-Grund",
                  valuetype = "regex",
                  ignore.case = T)
 soil_kwic
 
 ## Validation
 validation_soil_all <- validate_filter(corpus_all, soil_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_soil_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% soil_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% soil_all)]
+doc_ids_soil <- names(soil_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_soil
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_soil
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_soil_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_soil_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Agriculture
 agriculture <- tagfilter_agriculture()
@@ -1224,34 +1299,36 @@ agriculture_all <- c(agriculture_1734, agriculture_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 agriculture_kwic <- kwic(agriculture_all,
-                 pattern = "Dreschflegel|(Heu|Lad|Lade)gabel|Pfl(u|ü)g|Sense|Rechen|Mattenmesser|Matten-Messer|
-                 Güllenkarren|Heuwagen|Obsthurte|Obstk(o|ö)rb|Rebsteck|Mastbütte|Bienenst(o|ö)ck",
+                 pattern = "Hacken",
                  valuetype = "regex",
                  ignore.case = T)
 agriculture_kwic
 
 ## Validation
 validation_agriculture_all <- validate_filter(corpus_all, agriculture_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_agriculture_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% agriculture_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% agriculture_all)]
+doc_ids_agriculture <- names(agriculture_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_agriculture
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_agriculture
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_agriculture_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_agriculture_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Riding Objects
 riding <- tagfilter_riding()
@@ -1270,26 +1347,29 @@ riding_kwic
 
 ## Validation
 validation_riding_all <- validate_filter(corpus_all, riding_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_riding_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% riding_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% riding_all)]
+doc_ids_riding <- names(riding_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_riding
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_riding
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_riding_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_riding_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Objects Related to Wells and Fountains
 well <- tagfilter_well()
@@ -1301,33 +1381,36 @@ well_all <- c(well_1734, well_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 well_kwic <- kwic(well_all,
-                 pattern = "Wasserstein|Wasser-Stein",
+                 pattern = "Brunnstiefel|Brunn-Stiefel",
                  valuetype = "regex",
                  ignore.case = T)
 well_kwic
 
 ## Validation
 validation_well_all <- validate_filter(corpus_all, well_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_well_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% well_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% well_all)]
+doc_ids_well <- names(well_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_well
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_well
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_well_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_well_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Naturalia
 naturalia <- tagfilter_naturalia()
@@ -1346,26 +1429,29 @@ naturalia_kwic
 
 ## Validation
 validation_naturalia_all <- validate_filter(corpus_all, naturalia_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_naturalia_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% naturalia_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% naturalia_all)]
+doc_ids_naturalia <- names(naturalia_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_naturalia
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_naturalia
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_naturalia_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_naturalia_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Containers
 container <- tagfilter_container()
@@ -1385,26 +1471,29 @@ container_kwic
 
 ## Validation
 validation_container_all <- validate_filter(corpus_all, container_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_container_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% container_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% container_all)]
+doc_ids_container <- names(container_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_container
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_container
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_container_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_container_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Firestarters
 firestart <- tagfilter_firestart()
@@ -1423,26 +1512,29 @@ firestart_kwic
 
 ## Validation
 validation_firestart_all <- validate_filter(corpus_all, firestart_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_firestart_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% firestart_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% firestart_all)]
+doc_ids_firestart <- names(firestart_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_firestart
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_firestart
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_firestart_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_firestart_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Fire Extinguisher
 extinguisher <- tagfilter_extinguisher()
@@ -1461,26 +1553,29 @@ extinguisher_kwic
 
 ## Validation
 validation_extinguisher_all <- validate_filter(corpus_all, extinguisher_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_extinguisher_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% extinguisher_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% extinguisher_all)]
+doc_ids_extinguisher <- names(extinguisher_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_extinguisher
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_extinguisher
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_extinguisher_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_extinguisher_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Fireworks
 firework <- tagfilter_firework()
@@ -1499,26 +1594,29 @@ firework_kwic
 
 ## Validation
 validation_firework_all <- validate_filter(corpus_all, firework_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_firework_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% firework_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% firework_all)]
+doc_ids_firework <- names(firework_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_firework
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_firework
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_firework_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_firework_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Antiques
 antique <- tagfilter_antique()
@@ -1530,33 +1628,36 @@ antique_all <- c(antique_1734, antique_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 antique_kwic <- kwic(antique_all,
-                 pattern = phrase("römische Figur"),
+                 pattern = phrase("römischen Figur"),
                  valuetype = "regex",
                  ignore.case = T)
 antique_kwic
 
 ## Validation
 validation_antique_all <- validate_filter(corpus_all, antique_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_antique_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% antique_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% antique_all)]
+doc_ids_antique <- names(antique_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_antique
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_antique
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_antique_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_antique_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Keys
 key <- tagfilter_key()
@@ -1575,26 +1676,29 @@ key_kwic
 
 ## Validation
 validation_key_all <- validate_filter(corpus_all, key_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_key_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% key_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% key_all)]
+doc_ids_key <- names(key_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_key
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_key
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_key_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_key_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Walking canes
 cane <- tagfilter_cane()
@@ -1614,26 +1718,29 @@ cane_kwic
 
 ## Validation
 validation_cane_all <- validate_filter(corpus_all, cane_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_cane_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% cane_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% cane_all)]
+doc_ids_cane <- names(cane_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_cane
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_cane
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_cane_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_cane_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 
@@ -1648,33 +1755,36 @@ wineobject_ids_all <- c(wineobject_1734, wineobject_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 wineobject_kwic <- kwic(wineobject_all,
-                 pattern = "Wei(nhah|nhäh|nha|nhä)nen|Wein-H(ah|a)nen|Wein-H(äh|ä)nen|Weinkrause|Weinschild",
+                 pattern = "Trotte",
                  valuetype = "regex",
                  ignore.case = T)
 wineobject_kwic
 
 ## Validation
 validation_wineobject_all <- validate_filter(corpus_all, wineobject_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_wineobject_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% wineobject_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% wineobject_all)]
+doc_ids_wineobject <- names(wineobject_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_wineobject
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_wineobject
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_wineobject_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_wineobject_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Ropes
 rope <- tagfilter_rope()
@@ -1693,27 +1803,29 @@ rope_kwic
 
 ## Validation
 validation_rope_all <- validate_filter(corpus_all, rope_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_rope_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% rope_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% rope_all)]
+doc_ids_rope <- names(rope_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_rope
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_rope
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_rope_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_rope_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
 
+texts(b_f)
 ## Objects for Taverns and Inns
 tavernobject <- tagfilter_tavernobject()
 
@@ -1731,26 +1843,29 @@ tavernobject_kwic
 
 ## Validation
 validation_tavernobject_all <- validate_filter(corpus_all, tavernobject_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_tavernobject_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% tavernobject_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% tavernobject_all)]
+doc_ids_tavernobject <- names(tavernobject_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_tavernobject
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_tavernobject
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tavernobject_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_tavernobject_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Animal Feed
 feed <- tagfilter_feed()
@@ -1762,33 +1877,36 @@ feed_all <- c(feed_1734, feed_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 feed_kwic <- kwic(feed_all,
-                 pattern = "Schwei(n|ns)erdäpfel|Schwei(n|ns)-Erdäpfel",
+                 pattern = phrase("zumverfüttern"),
                  valuetype = "regex",
                  ignore.case = T)
 feed_kwic
 
 ## Validation
 validation_feed_all <- validate_filter(corpus_all, feed_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_feed_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% feed_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% feed_all)]
+doc_ids_feed <- names(feed_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_feed
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_feed
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_feed_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_feed_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 ## Misc Objects
 miscobject <- tagfilter_miscobject()
@@ -1800,33 +1918,36 @@ miscobject_all <- c(miscobject_1734, miscobject_1834)
 
 # checking identified ads through analysis of kwic for positive dictionary (no negatives necessary, since already excluded in corpus subset)
 miscobject_kwic <- kwic(miscobject_all,
-                 pattern = "Gegenstände",
+                 pattern = "Magnet|Waarenlager",
                  valuetype = "regex",
                  ignore.case = T)
 miscobject_kwic
 
 ## Validation
 validation_miscobject_all <- validate_filter(corpus_all, miscobject_all,
-                                      search_col = "adcontent",
-                                      pattern = "06ding")
+                                          search_col = "adcontent",
+                                          pattern = "01textilien")
 validation_miscobject_all
 
 # Filters for TRUE and FALSE positives
-doc_ids <- corpus_all$documents[,"id"]
-filter_T_hc_T <- doc_ids[(doc_ids %in% miscobject_all)]
-filter_T_hc_F <- doc_ids[(doc_ids %notin% miscobject_all)]
+doc_ids_miscobject <- names(miscobject_all)
+doc_ids_all <- names(corpus_all)
+filter_T_hc_T <- doc_ids_all %in% doc_ids_miscobject
+filter_T_hc_F <- doc_ids_all %notin% doc_ids_miscobject
 
 # TRUE positives
 b_t <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_miscobject_all$filter_T_hc_T)
-b_t$documents$texts[1:10]
+
+texts(b_t)
 
 # FALSE positives
 b_f <- corpus_subset(corpus_all,
-                     docvars(corpus_all,"id") %in%
+                     names(corpus_all) %in%
                        validation_miscobject_all$filter_T_hc_F)
-b_f$documents$texts[1:10]
+
+texts(b_f)
 
 
 
