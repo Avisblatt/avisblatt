@@ -1,4 +1,42 @@
-summary(corpus_1834)
+# idea avis collection object
+avis_1834 <- AvisCollection$new("data/avis_1834.csv", year = 1834)
+class(avis_1834)
+# contains meta information
+avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
+
+# contains a quanteda corpus
+
+
+
+
+secondhand <- tagfilter_secondhand()
+sh_corpus <- secondhand$filtrate(corpus_1834, ignore.case = T)
+xx <- names(sh_corpus)
+
+
+
+
+
+
+mc$bulk_update_language(lang = "de")
+mc$records$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
+
+mc$records$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a4`$tags
+mc$show_distinct_tags()
+
+
+
+
+
+x <- serialize(list(1,2,3), NULL)
+?serialize()
+
+aa <- serialize(mc, NULL,xdr = FALSE)
+tt <- unserialize(aa)
+
+class(tt)
+tt$records$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
+object.size(tt)
 
 class(corpus_1834)
 
@@ -17,9 +55,6 @@ summary(aa)[,1:4]
 ids <- docvars(corp, identifier)[sel]
 
 
-avis_1834 <- readtext("data/avis_1834.csv",
-                      text_field = "text",
-                      encoding = "UTF-8")
 
 avis_1834$text <- correct_ocr(avis_1834$text)
 

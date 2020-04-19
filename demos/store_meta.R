@@ -12,7 +12,7 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
   initialize = function(id, year = NULL,
                         tags = NULL,
                         language = NULL){
-    self$id <- id
+    self$id <-id
     self$year <- year
     self$tags <- tags
     self$language <- tags
@@ -28,21 +28,31 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
   }
 ))
 
-MetaInfoCollection <- R6Class("MetaInfoCollection",list(
-  records = NULL,
-  initialize = function(ids, year = NULL){
-    l <- lapply(ids, function(x){
+AvisCollection <- R6Class("AvisCollection",list(
+  corpus = NULL,
+  meta = NULL,
+  initialize = function(crps, year = NULL){
+    # either specify path to avisblatt type of .csv
+    # quanteda corpus object
+    if(is.character(crps)){
+      self$corpus <- avis_create_corpus(crps)
+    } else{
+      stopifnot(inherits(crps,"corpus"))
+      self$corpus <- crps
+    }
+
+    l <- lapply(names(self$corpus), function(x){
       MetaInfoRecord$new(id = x, year)
     })
-    names(l) <- ids
-    self$records <- list2env(l)
+    names(l) <- names(self$corpus)
+    self$meta <- list2env(l)
   },
   bulk_update_tags = function(ids = NULL, tags){
     if(is.null(ids)) {
-      list_of_env <- mget(ls(self$records),
-                          self$records)
+      list_of_env <- mget(ls(self$meta),
+                          self$meta)
     } else{
-      list_of_env <- mget(ids, self$records)
+      list_of_env <- mget(ids, self$meta)
     }
 
     names(list_of_env) <- ids
@@ -51,10 +61,10 @@ MetaInfoCollection <- R6Class("MetaInfoCollection",list(
   },
   bulk_update_language = function(ids = NULL, lang){
     if(is.null(ids)) {
-      list_of_env <- mget(ls(self$records),
-                          self$records)
+      list_of_env <- mget(ls(self$meta),
+                          self$meta)
     } else{
-      list_of_env <- mget(ids, self$records)
+      list_of_env <- mget(ids, self$meta)
     }
 
     names(list_of_env) <- ids
@@ -62,12 +72,13 @@ MetaInfoCollection <- R6Class("MetaInfoCollection",list(
     invisible(self)
   },
   show_distinct_tags = function(){
-    l <- unlist(eapply(self$records, function(x) x$tags),
+    l <- unlist(eapply(self$meta, function(x) x$tags),
            recursive = F)
     unique(l)
   }
 
 ))
+
 
 
 # JSON serialize this object
