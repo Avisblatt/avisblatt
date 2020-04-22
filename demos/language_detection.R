@@ -11,8 +11,7 @@ source("R/cleaners.R")
 
 # READ DOCUMENT ############
 # Creates German and French Corpora
-# for groundtruth data (1734, [1754, 1774], 1834)
-groundtruth <- readtext("data/groundtruth*.csv",
+groundtruth <- readtext("data/*.csv",
                         text_field = "text")
 
 groundtruth$text <- correct_ocr(groundtruth$text)
