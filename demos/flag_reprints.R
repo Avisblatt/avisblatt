@@ -3,6 +3,7 @@
 devtools::load_all()
 library(jsonlite)
 library(quanteda)
+library(dplyr)
 
 ### Flagging reprints in the groundtruth years,
 #' distinguishing
@@ -12,6 +13,11 @@ library(quanteda)
 
 
 corpus_raw <- avis_create_corpus("data/*.csv")
+
+corpus_raw <- corpus_subset(corpus_raw,
+                            is.na(corpus_raw$isheader)
+                            &is.na(corpus_raw$noadvert)
+                            )
 
 #' throw out ads with short garbage as text
 #' (less than 10 characters), as they tend to crash
@@ -97,3 +103,38 @@ for (j in (nrow(results_ordered)-50):nrow(results_ordered)){
       "_____________________________________________________",
       sep="\n")
 }
+
+
+#' ----------------------------------------------
+#' analytics
+#' ----------------------------------------------
+
+
+year <- vector(,nrow(results))
+resultsy <- cbind(results,year)
+for (j in 1:nrow(resultsy)){
+  resultsy[j,"year"] <- format(as.Date(corpus_clean[resultsy[j]]$date, format="%Y-%m-%d"),"%Y")
+}
+
+stats_by_year <- as.matrix(table(format(as.Date(corpus_clean$date, format="%Y-%m-%d"),"%Y")))
+stats_by_year <- cbind(stats_by_year, table(resultsy[,"year"]))
+stats_by_year <- cbind(stats_by_year, stats_by_year[,1]-stats_by_year[,2], 1-(stats_by_year[,2]/stats_by_year[,1]))
+stats_by_year <- cbind(stats_by_year, table(unique(resultsy[,c("original","year")])[,2]))
+stats_by_year <- cbind(stats_by_year, stats_by_year[,5]/stats_by_year[,3])
+rereprints <- subset(resultsy, duplicated(resultsy[,"original"]))
+stats_by_year <- cbind(stats_by_year, table(unique(rereprints[,c("original","year")])[,2]))
+stats_by_year <- cbind(stats_by_year, stats_by_year[,7]/stats_by_year[,5])
+stats_by_year <- rbind(stats_by_year, c(
+  sum(stats_by_year[,1]),
+  sum(stats_by_year[,2]),
+  sum(stats_by_year[,3]),
+  sum(stats_by_year[,3])/sum(stats_by_year[,1]),
+  sum(stats_by_year[,5]),
+  sum(stats_by_year[,5])/sum(stats_by_year[,3]),
+  sum(stats_by_year[,7]),
+  sum(stats_by_year[,7])/sum(stats_by_year[,5])
+  )
+)
+colnames(stats_by_year) <- c("total_ads","reprints","originals","of total","reprinted_origs", "of origs", "reprinted > 1x", "of reprinted_origs")
+rownames(stats_by_year)[nrow(stats_by_year)] <- "overall"
+stats_by_year
