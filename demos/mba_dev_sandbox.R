@@ -10,9 +10,19 @@ avis_1834$corpus['0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1']
 # What can we do with these?
 avis_1834$bulk_update_language(lang = "de")
 
+avis_1834$count_records_in_collect()
+
 ids <- ls(avis_1834$meta)[1:3]
 
 avis_1834$bulk_update_tags(ids,tags = c("more","please"))
+
+
+avis_1834$search_tags("mo",regex = T)
+
+grepl("mo",avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`$tags)
+"more" %in% avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`$tags
+
+
 
 
 # TODO:
