@@ -95,6 +95,81 @@ AvisCollection <- R6Class("AvisCollection",list(
       ))
 
 
+write_avis <- function(x,
+                       data_file,
+                       meta_file,
+                       pretty_json = TRUE,
+                       zip = FALSE){
+  # sanity checks
+  stopifnot(inherits(x, "AvisCollection"))
+  stopifnot(inherits(x, "R6"))
+
+  # meta information and data are treated separately
+  # following the swissdata idea (github.com/swissdata/demo)
+  # Meta information to JSON ##############################
+  # turn all environments to lists
+  # environments work with reference and thus better than lists
+  # for in memory updates. lists are easier to handle when writing
+  # to a JSON string.
+  ee <- eapply(x$meta, as.list.environment)
+  # data slots need to be update when collection class
+  # changes as this set helps to distinguish non-data slots
+  # such as functions from data slots...
+  data_slots <- c("id","tags","year","date","language")
+  li <- lapply(ee, function(e){
+    n <- names(e)
+    sel <- n[n %in% data_slots]
+    e[sel]
+  })
+  toJSON(li, pretty = pretty_json)
+  message(sprintf("Meta information written to %s",meta_file))
+
+  fwrite(x$corpus, file = data_file)
+  message(sprintf("Data written to %s",data_file))
+
+
+}
+
+
+m <- write_avis(avis_1834,"avis_1834.json")
+
+
+class(avis_1834$corpus)
+
+data.table::fwrite(avis_1834$corpus,file = "whatever.csv")
+aa <- data.table::fread("data/avis_1834.csv")
+speed <- corpus(aa,docid_field = "id", text_field = "text")
+library(quanteda)
+docvars(speed)
+identical(speed,avis_1834$corpus)
+
+str(speed)
+str(avis_1834)
+str(avis_1834$corpus)
+
+
+library(jsonlite)
+oo1 <- as.list.environment(avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`)
+oo2 <- as.list.environment(avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a10`)
+
+
+
+
+ee <- eapply(avis_1834$meta,as.list.environment)
+ee$`8a5fb9ed-a0f3-569a-ad58-94ae1665ace6/a28`
+
+data_slots <- c("id","tags","year","date","language")
+
+n <- names(ee$`8a5fb9ed-a0f3-569a-ad58-94ae1665ace6/a28`)
+sel <- n[n %in% data_slots]
+
+jstring <- toJSON(lapply(ee,"[", sel))
+class(jstring)
+zz <- fromJSON(jstring)
+zz$`8a5fb9ed-a0f3-569a-ad58-94ae1665ace6/a28`
+toJSON(oo[c("id","tags","year")])
+
+
 
   # JSON serialize this object
   # question remains: serialize as regular JSON or as
