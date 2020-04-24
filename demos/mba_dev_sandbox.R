@@ -1,13 +1,36 @@
 # idea avis collection object
 avis_1834 <- AvisCollection$new("data/avis_1834.csv", year = 1834)
 class(avis_1834)
+avis_1834
 # contains meta information
 avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
-
 # contains a quanteda corpus
+avis_1834$corpus['0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1']
+
+# What can we do with these?
+avis_1834$bulk_update_language(lang = "de")
+
+ids <- ls(avis_1834$meta)[1:3]
+
+avis_1834$bulk_update_tags(ids,tags = c("more","please"))
+
+
+# TODO:
+# remove tag
+# what about similarity
+# search for tags
+
+avis_1834$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
+avis_1834$show_distinct_tags()
 
 
 
+
+all_ids <- names(avis_1834$corpus)
+
+
+
+avis_1834$meta$`29c1a2d2-89bb-5e42-b639-3beef104c240/a13`$add_tag("cool")
 
 secondhand <- tagfilter_secondhand()
 sh_corpus <- secondhand$filtrate(corpus_1834, ignore.case = T)

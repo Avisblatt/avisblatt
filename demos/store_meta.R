@@ -1,8 +1,6 @@
 library(jsonlite)
 library(R6)
 
-sh <- names(sh_corpus)
-
 MetaInfoRecord <- R6Class("MetaInfoRecord", list(
   id = NULL,
   year = NULL,
@@ -31,6 +29,7 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
 AvisCollection <- R6Class("AvisCollection",list(
   corpus = NULL,
   meta = NULL,
+  record_count = NULL,
   initialize = function(crps, year = NULL){
     # either specify path to avisblatt type of .csv
     # quanteda corpus object
@@ -41,11 +40,13 @@ AvisCollection <- R6Class("AvisCollection",list(
       self$corpus <- crps
     }
 
+
     l <- lapply(names(self$corpus), function(x){
       MetaInfoRecord$new(id = x, year)
     })
     names(l) <- names(self$corpus)
     self$meta <- list2env(l)
+    self$record_count <- length(self$corpus)
   },
   bulk_update_tags = function(ids = NULL, tags){
     if(is.null(ids)) {
