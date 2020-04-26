@@ -3,7 +3,7 @@
 devtools::load_all()
 library(jsonlite)
 library(quanteda)
-library(dplyr)
+library(tibble)
 
 # preparing corpus of German ads
 # chose year by modifying csv-file name in line below. Currently possible:

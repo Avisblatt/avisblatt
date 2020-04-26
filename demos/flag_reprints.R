@@ -3,10 +3,9 @@
 devtools::load_all()
 library(jsonlite)
 library(quanteda)
-library(dplyr)
 
-### Flagging reprints in the groundtruth years,
-#' distinguishing
+
+### Flagging reprints, distinguishing
 #' A: (theoretically exactly identical) REPRINTS in the next issue
 #' from
 #' B: (often [slightly] rephrased) RENEWALS in later issues
