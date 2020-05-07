@@ -1,34 +1,22 @@
-# Load libraries and source functions
-# in pre-package state
-library(readtext)
-library(quanteda)
-library(textcat)
+# library(avisblatt)
+# During Development rather run
+devtools::load_all()
 library(jsonlite)
-library(ggplot2)
+library(quanteda)
 library(dplyr)
-source("R/avis_stop.R", encoding = "UTF-8")
-source("R/ocr_corrections.R", encoding = "UTF-8")
-source("R/tagfilters_utils.R", encoding = "UTF-8")
-source("R/tagfilters_household.R", encoding = "UTF-8")
-source("R/tagfilters_main.R", encoding = "UTF-8")
-source("R/cleaners.R")
-source("R/validate_filters.R")
-
 
 # preparing corpus of German ads
 # chose year by modifying csv-file name in line below. Currently possible:
 # groundtruth1734.csv
+# groundtruth1754.csv
 # groundtruth1834.csv
 # groundtruth*.csv for all
-groundtruth <- readtext("data/groundtruth*.csv",
-                      text_field = "text", encoding = "UTF-8")
-groundtruth$text <- correct_ocr(groundtruth$text)
+corpus_groundtruth_all <- avis_create_corpus("data/groundtruth*.csv")
 ids_by_lang <- fromJSON("data/ids_by_lang.json")
-corpus_groundtruth_all <- corpus(groundtruth,
-                          docid_field = "doc_id")
 corpus_groundtruth <- corpus_subset(corpus_groundtruth_all,
-                             (docvars(corpus_groundtruth_all,"id") %in%
-                                ids_by_lang$de))
+                                    (names(corpus_groundtruth_all) %in%
+                                       ids_by_lang$de))
+
 # PICK category and filter by removing # from the pertinent line below
 # reload current version of filters here, so lines ~28-100
 # can be executed as a block after changing original and test dictionary
@@ -55,10 +43,10 @@ category <- "09kirchenstuhl"; original <- tagfilter_churchseat()
 
 #' Examining current filter
 #'
-original_ids <- original$filtrate(corpus_groundtruth,ignore.case = F)
-o <- validate_filter(corpus_groundtruth, original_ids,
-                     search_col = "adcontent",
-                     pattern <- category)
+original_filtered <- original$filtrate(corpus_groundtruth)
+o <- validate_filter(corpus_groundtruth, original_filtered,
+                         search_col = "adcontent",
+                         pattern <- category)
 o
 
 
@@ -69,7 +57,7 @@ o
 tagfilter_test <- function(){
   dict <- list()
   dict$pos <- list(
-    candidate = "Omaha"
+    candidate = "Mannensitz"
   )
   #take over dict$neg from original filter to better gauge potential of candidate
   #disable by adding # at beginning of next line
@@ -80,14 +68,14 @@ tagfilter_test <- function(){
 #' merging original and test filter and prepare validation
 tagfilter_new <- merge_filters(original,
                                tagfilter_test())
-new_ids <- tagfilter_new$filtrate(corpus_groundtruth,ignore.case = F)
-n <- validate_filter(corpus_groundtruth, new_ids,
+new_filtered <- tagfilter_new$filtrate(corpus_groundtruth,ignore.case = F)
+n <- validate_filter(corpus_groundtruth, new_filtered,
                      search_col = "adcontent",
                      pattern <- category)
 
 test <- tagfilter_test()
-test_ids <- test$filtrate(corpus_groundtruth,ignore.case = F)
-t <- validate_filter(corpus_groundtruth, test_ids,
+test_filtered <- test$filtrate(corpus_groundtruth,ignore.case = F)
+t <- validate_filter(corpus_groundtruth, test_filtered,
                      search_col = "adcontent",
                      pattern <- category)
 
@@ -113,15 +101,15 @@ cat(paste("Range (%):\t", o$range, "->", n$range, "| change:", round (n$range-o$
 #' TRUE positives ("yay!") of test
 #' ...useful if one checks for entries who seem more fordict$neg
 yay <- corpus_subset(corpus_groundtruth,
-                     docvars(corpus_groundtruth,"id") %in%
+                     names(corpus_groundtruth) %in%
                        t$filter_T_hc_T)
 yay$documents$texts[1:10]
 
 #- FALSE positives ("oops") of test
 oops <- corpus_subset(corpus_groundtruth,
-                      docvars(corpus_groundtruth,"id") %in%
+                      names(corpus_groundtruth) %in%
                         t$filter_T_hc_F)
-oops$documents$texts[1:10]
+texts(oops[1:10])
 
 
 
@@ -129,25 +117,22 @@ oops$documents$texts[1:10]
 #'
 #' FALSE positives ("oops") of original
 oops <- corpus_subset(corpus_groundtruth,
-                    docvars(corpus_groundtruth,"id") %in%
+                      names(corpus_groundtruth) %in%
                       o$filter_T_hc_F)
-oops$documents$texts[1:10]
+texts(oops[1:10])
 
 #' FALSE negatives ("What are we still missing?") of original
 missing_corpus <- corpus_subset(corpus_groundtruth,
-                                docvars(corpus_groundtruth,"id") %in%
+                                names(corpus_groundtruth) %in%
                                   o$hc_T_filter_F)
 missing_corpus_clean <- missing_corpus %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(stopwords("de")) %>%
   dfm()
-
-missing_corpus$documents$texts[1-10]
-
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
-
+texts(missing_corpus[1:9])
 head(kwic(missing_corpus, pattern = "something"))
 
 
@@ -156,23 +141,20 @@ head(kwic(missing_corpus, pattern = "something"))
 #'
 #' FALSE positives ("oops") of merged/new
 oops <- corpus_subset(corpus_groundtruth,
-                    docvars(corpus_groundtruth,"id") %in%
+                    names(corpus_groundtruth) %in%
                       n$filter_T_hc_F)
-oops$documents$texts[1:10]
+texts(oops[1:10])
 
 #' FALSE negatives ("What are we still missing?") of merged/new
 missing_corpus <- corpus_subset(corpus_groundtruth,
-                                docvars(corpus_groundtruth,"id") %in%
+                                names(corpus_groundtruth) %in%
                                   n$hc_T_filter_F)
 missing_corpus_clean <- missing_corpus %>%
   tokens(remove_punct = TRUE,
          remove_numbers = TRUE) %>%
   tokens_remove(stopwords("de")) %>%
   dfm()
-
 textplot_wordcloud(dfm(missing_corpus_clean),
                    max_words = 100)
-
-missing_corpus$documents$texts[1-10]
-
+texts(missing_corpus[1:10])
 head(kwic(missing_corpus, pattern = "something"))

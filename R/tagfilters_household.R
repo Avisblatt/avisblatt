@@ -10,7 +10,7 @@ tagfilter_bed <- function(){
     date = "Bettag", # holiday
     book = "Schriften|Schreiben", # filters out book ads
     measure = "wiegend", # measurement
-    immo = "Zimmer|Küche|Losament|Kammer|Wohnung|Stüblein|Stube", # filters out immo ads
+    immo = "Zimmer|Küche|Losament|Kammer|Wohnung|Stüblein|Stube", # filters out immo ads (some actual beds are lost by excluding these)
     garden = "Frühbett", # garden object
     household = "Bethpfanne|Betteinguß", # household objects
     alphabet = "Alphabeth", # alphabet
@@ -301,7 +301,7 @@ tagfilter_tableware <- function(){
   dict$pos <- list(
     plate = "Teller",
     tableware = "Geschir|Biergläs|Bierglas|Tasse|Humpe|Becher",
-    material = "Porzel|Porcel|Steingut|Fayence|Krystallwaa|Krystall-Waa|
+    material = "Porzel|Porcel|Steingut|Fayence|Krystallwaa|Krystall-Waa|Steingeschir|Stein-Geschir|
     Zin(n|nen)geschirr|Zin(n|nen)-Geschirr|Zin(n|nen)waare|Zin(n|nen)-Waare|Blechwaare|Blech-Waare",
     jug ="(K|C)anne|(K|C)arafe",
     beverage = "Caffeti(e|è)r|Kaffeti(e|è)r|Kaffeeti(e|è)r|Cr(e|ê)mier"
@@ -372,7 +372,9 @@ tagfilter_toy <- function(){
     general = "Spiel(waa|a)re|Kinderspiel",
     tin_1 = "zinn(erne|ern|erner|ernes) Soldat",
     tin_2 = "Zin(n|nen)soldat|Zin(n|nen)-Soldat",
-    tin_3 = "Zin(n|nen)w(waa|a)ren zum Aufstellen"
+    tin_3 = "Zin(n|nen)w(waa|a)ren zum Aufstellen",
+    tin_4 = "Zin(n|nen)w(waa|a)ren zumAufstellen",
+    tin_5 = "Zin(n|nen)w(waa|a)renzum Aufstellen"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -391,7 +393,7 @@ tagfilter_game <- function(){
     pocketgame = "Taschenspiel",
     domino = "Domino",
     lotto = "Lottospiel",
-    cards = "Spielkarten|Whist",
+    cards = "Spielkarten|Whist|Trocquen-Kart|Spiel-Kart",
     dice = "Würfelspiel",
     bowling = "Kegelspiel|Kegelries",
     general = "Spiele"
@@ -424,14 +426,17 @@ tagfilter_kitchen <- function(){
   dict$pos <- list(
     distilling = "Brennhafen",
     washingup = "Wasserstein",
-    preparation = "Mörser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
-    Ca(ff|f)ebrett",
-    cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir|Pfanne|Pfännlein",
-    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffe(e-D|ed)ampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
-    storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Zucker(dose|buchs)|Kühlstand|Krautstand|Fischtrog|
-    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit|Wasserzuber|Fischbeck(i|e)n",
+    preparation = "M(ö|o)rser|Wahlholz|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
+    Ca(ff|f)ebrett|(T|Th)eema(sch|ch)ine|(T|Th)ee-Ma(sch|ch)ine",
+    tea = "(T|Th)ee Ma(sch|ch)ine",
+    bred = "Bro(d|t) Tr(ö|o)g",
+    cooking = "Kochlöffel|Kochhafen|Schwenkkesse|Kochgeschir|Pfanne|Pfännlein|Kunsthafe",
+    cooker = "Kaffeh(ee|e)rd|Sparh(ee|e)rd|Kochhafen|Kaffee-Dampfmaschine|Kaffeedampfmaschine|Braten(ö|o)fe|Dre(y|i)fu(ß|ss)",
+    storage ="Salzfäss|Salzfass|Milchflasche|Fleischbütte|Sauerkrautstand|Sauerkraut-Stand|Zucker(dose|buchs)|Kühlstand|Krautstand|Fischtrog|
+    Bro(d|t)korb|Bro(d|t)körb|T(hee|hée|ee)-Boit|Wasserzuber|Fischbeck(i|e)n|Bro(d|t)-Tr(ö|o)g",
+    fish = "Brunn zu (Fisch|Krebs)",
     pan = "Casserolle|Bressière|Daubière|Bratenwender|Federbrä(t|th)er",
-    baking = "Mödel|Waffleneisen|Gugelhopfform",
+    baking = "Mödel|Waffleneisen|Wafflen-Eisen|Gugelhopfform|(Gugelhopf|Biscuit)-Form",
     press = "Pre(ss|ß)spindel|Pre(ss|ß)-Spindel|Pre(ss|ß)stang|Pre(ss|ß)-Stang|Handpre(ss|ß)|Stockpre(ss|ß)",
     mill = "(Oe|Ö)lmühl|Erdäpfelmühle|Erdäpfel-Mühle|(K|C)a(ff|f)emühle|(K|C)a(ff|f)e-Mühle|Kirschenmühle|Kirschen-Mühle|
     Mahlmühle|Mahl-Mühle"
@@ -487,14 +492,14 @@ tagfilter_instrument <- function(){
   dict <- list()
   dict$pos <- list(
     tuning = "Stimmgabel",
-    keyboard = "Flügel|Piano|Clavier|Klavier|Spinet|Spi(nn|n)eth",
+    keyboard = "Flügel|Piano|(C|K)lavier|Spi(n|nn)et",
     drum = "Trommel", # maybe exclude here drums specifically for children (toys)?
     wind = "Flöte|Clarinet|Fagot|Trompet|Oboe|Posaune|Posth(o|ö)rn|Waldh(o|ö)rn",
-    guitar = "Gui(t|tt)ar",
+    guitar = "G(ui|i)(t|tt)ar",
     string = "Violin|Contrebass|Cell(o|e)|Harfe",
     resin = "Colophonium|Geigenharz",
     strings = "Saiten",
-    organ = "Aeoloti(k|c)on|Harmonika|Haus(ö|o)rgel",
+    organ = "Aeoloti(k|c)on|Harmonika|Haus(ö|o)rgel|Clavicordium",
     misc = "Instrument"
   )
   dict$neg <- list(
@@ -513,8 +518,8 @@ tagfilter_instrument <- function(){
     domestic = "Sticktrommel", # instrument for embroidery (see domestic appliances)
     immo = "Flügelgebäude|Fensterflügel|Fenster|Parcelle", # description of certain kind of building or building material
     food = "Geflügel", # chicken and oder poultry
-    print = "abonniren|Magazin|Composition|Ges(a|ä)ng|Auszüg|Auszug|Heft|Begleitung", # excludes printed matter (musical notes)
-    profession = "Unterricht|lecon" # excludes work-related ads (music teaching)
+    print = "abonniren|Magazin|Composition|Ges(a|ä)ng|Auszüg|Auszug|Heft|Begleitung", # excludes printed matter (musical notes), "Gesang" also excludes some relevant ads
+    profession = "le(c|ç)on" # excludes work-related ads (music teaching), "Unterricht" other possibility, but excludes also some relevant ads
 
   )
 
@@ -603,7 +608,8 @@ tagfilter_divider <- function(){
 tagfilter_petobject <- function(){
   dict <- list()
   dict$pos <- list(
-    bird = "Paarhäus|Käfig|Paarh(a|ä)us|Anh(a|ä)ngköfig|Flugbret|Maisenschlag|Taubennest|Taubenschlag|Vogelschlag",
+    bird = "Käfig|Paarh(a|ä)(u|ü)(s|ß)|Paar-h(a|ä)(u|ü)(s|ß)|Anh(e|a|ä)n(g|ck|c|k)k(ö|ä|e)fi(g|ch)|Flugbret|
+    Maisenschlag|Taubennest|Tauben-Nest|Taubenschlag|Vogel(schlag|käfig|käfich)",
     dog ="Hundesst(ä|a)ll|Hundest(ä|a)ll|Hundsst(ä|a)ll|Halsband",
     fish = "Goldfischglas"
   )
