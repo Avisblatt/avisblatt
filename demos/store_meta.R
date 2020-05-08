@@ -96,13 +96,16 @@ AvisCollection <- R6Class("AvisCollection",list(
 
 
 write_avis <- function(x,
-                       data_file,
-                       meta_file,
+                       name_on_disk,
                        pretty_json = TRUE,
                        zip = FALSE){
   # sanity checks
   stopifnot(inherits(x, "AvisCollection"))
   stopifnot(inherits(x, "R6"))
+
+  # name of the two files
+  data_file <- paste0(name_on_disk, ".csv")
+  meta_file <- paste0(name_on_disk, ".json")
 
   # meta information and data are treated separately
   # following the swissdata idea (github.com/swissdata/demo)
@@ -112,7 +115,7 @@ write_avis <- function(x,
   # for in memory updates. lists are easier to handle when writing
   # to a JSON string.
   ee <- eapply(x$meta, as.list.environment)
-  # data slots need to be update when collection class
+  # data slots need to be updated when collection class
   # changes as this set helps to distinguish non-data slots
   # such as functions from data slots...
   data_slots <- c("id","tags","year","date","language")
@@ -121,17 +124,32 @@ write_avis <- function(x,
     sel <- n[n %in% data_slots]
     e[sel]
   })
-  toJSON(li, pretty = pretty_json)
+
+  writeLines(
+    toJSON(li, pretty = pretty_json,
+           auto_unbox = TRUE,
+           null = "null"),
+    meta_file
+    )
   message(sprintf("Meta information written to %s",meta_file))
 
-  fwrite(x$corpus, file = data_file)
+  dt <- data.table(collection_text = texts(x$corpus),
+             docvars(x$corpus))
+  fwrite(dt, file = data_file)
   message(sprintf("Data written to %s",data_file))
 
-
+  if(zip){
+    zip_file <- paste0(name_on_disk,".zip")
+    zip(zip_file, c(data_file, meta_file))
+    file.remove(data_file)
+    file.remove(meta_file)
+    message("Zip archive containing data and meta data created.")
+  }
 }
 
 
-m <- write_avis(avis_1834,"avis_1834.json")
+
+m <- write_avis(avis_1834,"collection_1834", zip = T)
 
 
 class(avis_1834$corpus)
