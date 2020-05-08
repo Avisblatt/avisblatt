@@ -1,5 +1,5 @@
 # idea avis collection object
-avis_1834 <- AvisCollection$new("data/avis_1834.csv", year = 1834)
+avis_1834 <- AvisCollection$new("../data/raw_data/orig_1834.csv", year = 1834)
 class(avis_1834)
 avis_1834
 # contains meta information
