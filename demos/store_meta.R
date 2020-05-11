@@ -7,16 +7,20 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
   language = NULL,
   date = NULL,
   tags = NULL,
-  initialize = function(id, year = NULL,
+  initialize = function(id,
+                        year = NULL,
+                        date = NULL,
                         tags = NULL,
                         language = NULL){
     self$id <-id
     self$year <- year
+    self$date <- date
     self$tags <- tags
     self$language <- tags
   },
   add_tag = function(tags){
-    self$tags <- unique(c(self$tags,tags))
+    self$tags <- unique(c(self$tags, tags))
+    invisible(self)
   },
   overwrite_tag = function(tags){
     self$tags <- unique(tags)
@@ -30,23 +34,38 @@ AvisCollection <- R6Class("AvisCollection",list(
   corpus = NULL,
   meta = NULL,
   record_count = NULL,
-  initialize = function(crps, year = NULL){
+  initialize = function(crps,
+                        meta_list = NULL,
+                        year = NULL){
     # either specify path to avisblatt type of .csv
     # quanteda corpus object
     if(inherits(crps,"corpus")){
       self$corpus <- crps
-    } else if(is.character){
+    } else if(is.character(crps)){
       self$corpus <- avis_create_corpus(crps)
     } else{
       stop("unsupported class. collections can only be initialized from Corpus or links to
            .csvs containing corpora.")
     }
 
-    l <- lapply(names(self$corpus), function(x){
-      MetaInfoRecord$new(id = x, year)
-    })
-    names(l) <- names(self$corpus)
-    self$meta <- list2env(l)
+    if(is.null(meta_list)){
+      l <- lapply(names(self$corpus), function(x){
+        MetaInfoRecord$new(id = x, year)
+      })
+      names(l) <- names(self$corpus)
+      self$meta <- list2env(l)
+    } else{
+      l <- lapply(meta_list, function(x){
+        MetaInfoRecord$new(id = x$id,
+                           tag = x$tag,
+                           date = x$date,
+                           language = x$language,
+                           year = x$year
+                           )
+      })
+      names(l) <- names(meta_list)
+      self$meta <- list2env(l)
+    }
   },
   count_records_in_collect = function(){
     length(self$corpus)
@@ -93,13 +112,15 @@ AvisCollection <- R6Class("AvisCollection",list(
     names(e)[unlist(e)]
   }
 
-      ))
+))
+
+
 
 
 write_collection <- function(x,
-                       name_on_disk,
-                       pretty_json = TRUE,
-                       zip = FALSE){
+                             name_on_disk,
+                             pretty_json = TRUE,
+                             zip = FALSE){
   # sanity checks
   stopifnot(inherits(x, "AvisCollection"))
   stopifnot(inherits(x, "R6"))
@@ -131,13 +152,13 @@ write_collection <- function(x,
            auto_unbox = TRUE,
            null = "null"),
     meta_file
-    )
+  )
   message(sprintf("Meta information written to %s",meta_file))
 
   dt <- data.table(
     id = names(x$corpus),
     collection_text = texts(x$corpus),
-             docvars(x$corpus))
+    docvars(x$corpus))
   fwrite(dt, file = data_file)
   message(sprintf("Data written to %s",data_file))
 
@@ -150,18 +171,32 @@ write_collection <- function(x,
   }
 }
 
+name_on_disk = "collection_1834.csv"
+
 read_collection <- function(name_on_disk){
   data_file <- paste0(name_on_disk, ".csv")
   meta_file <- paste0(name_on_disk, ".json")
 
   dt <- fread(data_file)
   crps <- corpus(dt, docid_field = "id",
-         text_field = "collection_text")
-  ac <- AvisCollection$new(crps)
+                 text_field = "collection_text")
+  mi <- fromJSON(meta_file)
+  ac <- AvisCollection$new(crps, mi)
+  ac
+}
 
 
-  }
+io <- read_collection("collection_1834")
+identical(io$corpus,
+          avis_1834$corpus,
+          ignore.environment = TRUE)
 
 
+str(avis_1834$meta)
 
+io$count_records_in_collect()
+io$search_tags("more")
+
+
+io$meta$`0066a6d4-fcaf-5b7d-b7aa-68e3d971725d/a1`
 m <- write_collection(avis_1834,"collection_1834")
