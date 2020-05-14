@@ -11,7 +11,8 @@ avis_create_corpus <- function(f,
                                docid_field = "id",
                                encoding = "UTF-8",
                                apply_ocr_correct = TRUE){
-  txt <- fread(f)
+  txt <- fread(f,
+               encoding = encoding)
 
   if(apply_ocr_correct){
     txt$text <- correct_ocr(txt$text)
@@ -19,6 +20,5 @@ avis_create_corpus <- function(f,
 
   corpus(txt,
          text_field = text_field,
-         docid_field = docid_field,
-         encoding = encoding)
+         docid_field = docid_field)
 }

@@ -42,7 +42,7 @@ write_collection <- function(x,
 
   dt <- data.table(
     id = names(x$corpus),
-    collection_text = texts(x$corpus),
+    text = texts(x$corpus),
     docvars(x$corpus))
   fwrite(dt, file = data_file)
   message(sprintf("Data written to %s",data_file))
