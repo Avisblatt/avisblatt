@@ -8,7 +8,7 @@ Depends:
     R (>= 3.5),
 Imports:
     jsonlite (>= 1.1),
-    readtext,
+    R6,
     data.table,
     dplyr,
     quanteda (>= 2.0)
@@ -22,5 +22,5 @@ URL: https://github.com/mbannert/avisblatt
 BugReports: https://github.com/mbannert/avisblatt/issues
 LazyData: true
 Maintainer: 'Matthias Bannert' <matthias.bannert@gmail.com>
-RoxygenNote: 7.0.0
+RoxygenNote: 7.1.0
 Encoding: UTF-8
