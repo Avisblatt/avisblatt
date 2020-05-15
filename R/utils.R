@@ -44,7 +44,7 @@ write_collection <- function(x,
     id = names(x$corpus),
     text = texts(x$corpus),
     docvars(x$corpus))
-  fwrite(dt, file = data_file)
+  fwrite(dt, file = data_file, quote = TRUE)
   message(sprintf("Data written to %s",data_file))
 
   if(zip){
@@ -66,7 +66,7 @@ read_collection <- function(name_on_disk){
 
   dt <- fread(data_file)
   crps <- corpus(dt, docid_field = "id",
-                 text_field = "collection_text")
+                 text_field = "text")
   mi <- fromJSON(meta_file)
   ac <- AvisCollection$new(crps, mi)
   ac
