@@ -77,6 +77,8 @@ AvisCollection <- R6Class("AvisCollection", list(
 
 
     if(is.null(meta_list)){
+      dates <- as.Date(docvars(self$corpus)$date)
+      names(dates) <- names(self$corpus)
       l <- lapply(names(self$corpus), function(x){
         # avoid errors because of non-existing docvar
         # transformation which might be the case most
@@ -86,10 +88,10 @@ AvisCollection <- R6Class("AvisCollection", list(
           # remove vector names as idx based on vector length
           # is attached and be confusing w/o any added value
           names(dv_vec) <- NULL
-          MetaInfoRecord$new(id = x, date,
+          MetaInfoRecord$new(id = x, date = dates[x],
                              tags_manual = dv_vec)
         } else {
-          MetaInfoRecord$new(id = x, date)
+          MetaInfoRecord$new(id = x, date = dates[x])
         }
       })
       names(l) <- names(self$corpus)
@@ -98,7 +100,7 @@ AvisCollection <- R6Class("AvisCollection", list(
       l <- lapply(meta_list, function(x){
         MetaInfoRecord$new(id = x$id,
                            tags = x$tag,
-                           date = x$date,
+                           date = as.Date(x$date),
                            language = x$language,
                            tags_manual = x$tags_manual)
       })
