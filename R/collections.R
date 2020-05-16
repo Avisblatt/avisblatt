@@ -10,6 +10,7 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
                         tags = NULL,
                         tags_manual = NULL,
                         language = NULL){
+    names(date) <- NULL
     self$id <-id
     self$date <- date
     self$tags <- tags
@@ -25,6 +26,9 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
   },
   set_language = function(language){
     self$language <- unique(language)
+  },
+  get_date = function(){
+    self$date
   }
 ))
 
@@ -33,7 +37,6 @@ MetaInfoRecord <- R6Class("MetaInfoRecord", list(
 AvisCollection <- R6Class("AvisCollection", list(
   corpus = NULL,
   meta = NULL,
-  record_count = NULL,
   docvars_to_meta = NULL,
   transform_docvars = NULL,
   initialize = function(crps,
@@ -56,9 +59,10 @@ AvisCollection <- R6Class("AvisCollection", list(
       # find out which columns to keep, cause
       # we want only to remove the information from corpus
       # will be transferred to meta information
-      keep_cols <- setdiff(names(docvars(self$corpus)), docvars_to_meta)
+      keep_cols <- c("docname_", "docid_", "segid_",
+                     setdiff(names(docvars(self$corpus)), docvars_to_meta))
       dv_list <- as.list(docvars(self$corpus)[,docvars_to_meta])
-      attr(self$corpus, "docvars") <- docvars(self$corpus)[, keep_cols]
+      attr(self$corpus, "docvars") <- attr(self$corpus, "docvars")[,keep_cols]
 
 
       # TODO discuss whether we want to
@@ -108,8 +112,13 @@ AvisCollection <- R6Class("AvisCollection", list(
       self$meta <- list2env(l)
     }
   },
-  count_records_in_collect = function(){
+  count_records = function(){
     length(self$corpus)
+  },
+  count_records_by_date = function(){
+    dt_date <- data.table(date = do.call("c", lapply(self$meta,
+                                 function(x) x$get_date())))
+    dt_date[, N := .N, by = dt_date]
   },
   bulk_update_tags = function(ids = NULL, tags){
     if(is.null(ids)) {
@@ -157,6 +166,11 @@ AvisCollection <- R6Class("AvisCollection", list(
       })
     }
     names(e)[unlist(e)]
+  },
+  subset_collect = function(ids){
+    self$corpus <- self$corpus[ids]
+    self$meta <- mget(ids, envir = self$meta)
+    invisible(self)
   }
 
 ))
