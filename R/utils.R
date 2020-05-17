@@ -7,7 +7,7 @@ write_collection <- function(x,
                              pretty_json = TRUE,
                              zip = FALSE){
   # sanity checks
-  stopifnot(inherits(x, "AvisCollection"))
+  stopifnot(inherits(x, "Collection"))
   stopifnot(inherits(x, "R6"))
 
   # name of the two files

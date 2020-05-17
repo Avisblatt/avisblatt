@@ -28,7 +28,7 @@ clean_manual_tags <- function(x){
 
 
 
-collection <- R6Class("collection", list(
+Collection <- R6Class("Collection", list(
   corpus = NULL,
   meta = NULL,
   initialize = function(crps,
@@ -144,9 +144,28 @@ collect$list_records()
 collect$count_records_by_date(ids=ii,level = "week")
 collect$add_language(lang = "de")
 
-collect$meta
+c2$meta
+#
+# https://stackoverflow.com/questions/15673662/applying-a-function-to-each-row-of-a-data-table
 
 
+ll <- as.pairlist(as.list(c2$meta))
+ll <- as.list(c2$meta)
+library(jsonlite)
+?as.list()
+toJSON(ll,pretty = TRUE)
+ll[1]
+
+ll$date
+
+list(
+  date = c2$meta$date,
+  manual = c2$meta$tags_manual)
+
+
+ll <- as.list(collect$meta[,list(date,tags,language)])
+
+ll$date
 
 
 format(as.Date("2018-12-20"),"%V")
