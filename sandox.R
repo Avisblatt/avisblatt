@@ -124,19 +124,38 @@ Collection <- R6Class("Collection", list(
 ))
 
 
-c2 <- collection$new("../avis-data/raw_data/orig_1834.csv",
+c2 <- Collection$new("../avis-data/raw_data/orig_1834.csv",
                           docvars_to_meta = c("adcontent","adtype"),
                           transform_docvars = clean_manual_tags)
+
+write_collection(c2, "test_record")
 
 dd <- c2$search_tags("drucksachen",search_manual = T)
 
 c2$count_records_by_date(dd,level = "month")
+
+c2$meta
+
+dtcols <- setdiff(names(c2$meta),"id")
+dt_chunks <- split(c2$meta[, ..dtcols], as.factor(1:nrow(c2$meta)))
+names(dt_chunks) <- c2$meta$id
+
+
+dt_chunks$`80375e92-f57f-5106-be2b-cca6b76d6ff2/a28`
+j <- toJSON(dt_chunks, pretty=TRUE)
+
+d <- c2$meta
+
+d[,..dtcols]
+
 
 collect <- collection$new(corp)
 tt <- list(c("this","and","that"),
            c("was","missing"))
 
 ii <- names(corp)[1:2]
+
+
 
 collect$add_tags(ii,tt)
 

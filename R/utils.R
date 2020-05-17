@@ -21,19 +21,13 @@ write_collection <- function(x,
   # environments work with reference and thus better than lists
   # for in memory updates. lists are easier to handle when writing
   # to a JSON string.
-  ee <- eapply(x$meta, as.list.environment)
-  # data slots need to be updated when collection class
-  # changes as this set helps to distinguish non-data slots
-  # such as functions from data slots...
-  data_slots <- c("id","tags","date","language")
-  li <- lapply(ee, function(e){
-    n <- names(e)
-    sel <- n[n %in% data_slots]
-    e[sel]
-  })
-
+  message("Processing data description...")
+  dtcols <- setdiff(names(x$meta),"id")
+  dt_chunks <- split(x$meta[, ..dtcols], as.factor(1:nrow(x$meta)))
+  names(dt_chunks) <- x$meta$id
+  j <- toJSON(dt_chunks, pretty=TRUE)
   writeLines(
-    toJSON(li, pretty = pretty_json,
+    toJSON(dt_chunks, pretty = pretty_json,
            auto_unbox = TRUE,
            null = "null"),
     meta_file
