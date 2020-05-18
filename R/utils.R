@@ -67,6 +67,7 @@ read_collection <- function(name_on_disk, meta_info_only = FALSE){
   mi <- fromJSON(meta_file)
   d <- data.table::rbindlist(mi)
   d[, id := names(mi)]
+  d[, date := as.Date(date)]
   setcolorder(d, neworder = c("id",
                               setdiff(names(d),"id")))
   if(meta_info_only){

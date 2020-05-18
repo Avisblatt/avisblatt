@@ -42,6 +42,7 @@ Collection <- R6Class("Collection", list(
 
         names(dv_list) <- names(self$corpus)
       }
+
     } else {
       self$corpus <- NULL
     }
@@ -53,7 +54,7 @@ Collection <- R6Class("Collection", list(
         id = names(self$corpus),
         date = as.Date(docvars(self$corpus, "date")),
         tags = list(),
-        tags_manual = dv_list,
+        tags_manual = ifelse(exists("dv_list"),dv_list, list()),
         language = NA_character_
       )
     }
