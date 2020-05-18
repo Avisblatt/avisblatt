@@ -50,20 +50,32 @@ write_collection <- function(x,
   }
 }
 
-#' @importFrom data.table fread
+#' @import data.table
 #' @importFrom jsonlite fromJSON
 #' @importFrom quanteda corpus
 #' @export
-read_collection <- function(name_on_disk){
+read_collection <- function(name_on_disk, meta_info_only = FALSE){
   data_file <- paste0(name_on_disk, ".csv")
   meta_file <- paste0(name_on_disk, ".json")
 
-  dt <- fread(data_file)
-  crps <- corpus(dt, docid_field = "id",
-                 text_field = "text")
+  if(!meta_info_only){
+    dt <- fread(data_file)
+    crps <- corpus(dt, docid_field = "id",
+                   text_field = "text")
+  }
+
   mi <- fromJSON(meta_file)
-  ac <- AvisCollection$new(crps, mi)
-  ac
+  d <- data.table::rbindlist(mi)
+  d[, id := names(mi)]
+  setcolorder(d, neworder = c("id",
+                              setdiff(names(d),"id")))
+  if(meta_info_only){
+    collect <- Collection$new(NULL, d)
+  } else {
+    collect <- Collection$new(crps, d)
+  }
+
+  collect
 }
 
 
@@ -94,6 +106,16 @@ get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
   )
 }
 
-
+#' Clean up Human Tags (groundtruth)
+#'
+#' Removes leading numbers from tag and turn comma separated strings
+#' into true character vectors.
+#'
+#' @param x character vector or list of tags.
+#' @export
+clean_manual_tags <- function(x){
+  unique(gsub("(^[0-9]{2})(.+)","\\2",
+              unlist(strsplit(x, ","))))
+}
 
 
