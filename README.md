@@ -1,18 +1,15 @@
-# avisblatt source code repository (non-public)
+# {avisblatt} R package 
 
-This is the source code repository of the avisblatt group. 
+## Structure of the Avisblatt GH Organization
 
-**Note**: Make sure you are familiar with the project's [developer wiki](https://github.com/mbannert/avisblatt/wiki/Avisblatt-Developer-Documentation) before you start working. Also make sure to document new workflows in the wiki when you introduce them. A current status documentation is important - even if the workflow is preliminary. 
+The avisblatt project constists of 3 repositories: 
 
-## Structure of the Repository
-
-- R/ contains custom function definitions written by the group
-- notebooks/ contains sources and rendered notebooks (as html) that show how to run code and interpret results.
-- demos/ contains commented demonstrations similar to the repositories minus the rendered output. These are meant to get adapted to different use cases or used as a blueprint for new analysis. 
-- data/ data folder that stores aggregated output data as well is chunks of the inputs that make examples reproduvible
+- avisblatt package source code repository
+- avis-data 
+- avis-analysis
 
 
-## Resources
+## Related Reads
 
 - [quanteda](https://quanteda.io)
 - [quanteda tutorials](https://tutorials.quanteda.io)
