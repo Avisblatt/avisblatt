@@ -50,11 +50,20 @@ Collection <- R6Class("Collection", list(
     # meta information can be passed on directly when read from
     # a file before...
     if(is.null(meta_table)){
+
+      # ifelse is not for vectors !
+      # use if() else here.
+      if(exists("dv_list")){
+        tm <- dv_list
+      } else{
+        tm <- list()
+      }
+
       meta_table <- data.table(
         id = names(self$corpus),
         date = as.Date(docvars(self$corpus, "date")),
         tags = list(),
-        tags_manual = ifelse(exists("dv_list"),dv_list, list()),
+        tags_manual = tm,
         language = NA_character_
       )
     }
