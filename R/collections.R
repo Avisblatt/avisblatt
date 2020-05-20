@@ -95,9 +95,11 @@ Collection <- R6Class("Collection", list(
     } else if(level == "year"){
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")))]
     } else if(level == "month"){
-      dt[, .(N = .N), by = list(month = format(date, "%Y-%m"))]
+      dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
+                                month = as.numeric(format(date, "%m")))]
     } else if(level == "week"){
-      dt[, .(N = .N), by = list(week = format(date, "%Y-%V"))]
+      dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
+                                week = as.numeric(format(date, "%V")))]
     } else{
       message("Only supports year, month and week ased aggregation.")
     }
