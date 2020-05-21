@@ -111,9 +111,9 @@ Collection <- R6Class("Collection", list(
   },
   show_distinct_tags = function(manual = FALSE){
     if(manual){
-      unique(unlist(coolio$meta$tags_manual))
+      unique(unlist(self$meta$tags_manual))
     } else{
-      unique(unlist(coolio$meta$tags))
+      unique(unlist(self$meta$tags))
     }
   },
   subset_collect = function(ids){
