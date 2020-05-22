@@ -7,6 +7,7 @@ Collection <- R6Class("Collection", list(
   meta = NULL,
   initialize = function(crps,
                         meta_table = NULL,
+                        preprocess_docvars = NULL,
                         docvars_to_meta = NULL,
                         transform_docvars = NULL){
     if(!is.null(crps)){
@@ -17,6 +18,14 @@ Collection <- R6Class("Collection", list(
       } else{
         stop("unsupported class. collections can only be initialized from Corpus or links to
            .csvs containing corpora.")
+      }
+
+      if(!is.null(preprocess_docvars)){
+        # freizo exports are not really homogeneous
+        # this to standardize these inputs in order to 
+        # handle them independently of the period these inputs 
+        # were composed. Account for the woes caused by manual work ... 
+        self$corpus <- pre_process_docvars(self$corpus)
       }
 
       if(!is.null(docvars_to_meta)){
@@ -59,8 +68,17 @@ Collection <- R6Class("Collection", list(
         tm <- list()
       }
 
+      if("isheader" %in% names(docvars(self$corpus))){
+        is_h <- docvars(self$corpus, "isheader")
+        is_h[is.na(is_h)] <- 0
+        is_h <- is_h
+      } else{
+        is_h <- NA
+      }
+
       meta_table <- data.table(
         id = names(self$corpus),
+        isheader = as.logical(is_h),
         date = as.Date(docvars(self$corpus, "date")),
         tags = list(),
         tags_manual = tm,
@@ -115,6 +133,9 @@ Collection <- R6Class("Collection", list(
     } else{
       unique(unlist(self$meta$tags))
     }
+  },
+  get_headers = function(){
+    self$meta[is_header, id]
   },
   subset_collect = function(ids){
     # this should be used with deep clone
