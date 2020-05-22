@@ -135,7 +135,7 @@ Collection <- R6Class("Collection", list(
     }
   },
   get_headers = function(){
-    self$meta[is_header, id]
+    self$meta[(isheader), id]
   },
   subset_collect = function(ids){
     # this should be used with deep clone
