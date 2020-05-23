@@ -171,10 +171,10 @@ tagfilter_bookstore <- function(){
   dict$pos <- list(
     bookstore_1 = "Buchhandlung",
     bookstore_2 = "Buchhandlulg", # can be deleted, if ocr correction works
-    bookstore_3 = "Buch- handlung",
+    bookstore_3 = "Buch- handlung"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
   create_filter_output(dict)
-}      
+}

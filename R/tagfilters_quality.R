@@ -1,3 +1,4 @@
+#' @export
 tagfilter_secondhand <- function(){
   # secondhand items can often be identified by specific phrases and wordings
   # but absence of these phrases does not mean absence of secondhand items

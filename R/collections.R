@@ -22,9 +22,9 @@ Collection <- R6Class("Collection", list(
 
       if(!is.null(preprocess_docvars)){
         # freizo exports are not really homogeneous
-        # this to standardize these inputs in order to 
-        # handle them independently of the period these inputs 
-        # were composed. Account for the woes caused by manual work ... 
+        # this to standardize these inputs in order to
+        # handle them independently of the period these inputs
+        # were composed. Account for the woes caused by manual work ...
         self$corpus <- pre_process_docvars(self$corpus)
       }
 
@@ -87,11 +87,26 @@ Collection <- R6Class("Collection", list(
     }
     self$meta <- meta_table
   },
-  add_tags = function(ids = NULL, tag_list){
-    # TODO: append option
-    if(is.null(ids)) return(self$meta[, tags := tag_list])
-    self$meta[id %in% ids, tags := tag_list]
+  add_tags = function(ids = NULL, tags_vec, overwrite = FALSE){
+    if(is.null(ids)){
+      if(overwrite){
+        return(self$meta[, tags := tag_vec])
+      } else {
+        return(self$meta[, tags := current_tag])
+      }
+    }
 
+
+
+    if(!overwrite){
+      current_tag <- self$meta[id %in% ids, tags]
+      current_tag <- lapply(current_tag, function(x, tags_vec){
+        unique(c(x, tags_vec))
+      }, tags_vec = tags_vec)
+      self$meta[id %in% ids, tags := current_tag]
+    } else {
+      self$meta[id %in% ids, tags := tags_vec]
+    }
   },
   add_language = function(ids = NULL, lang){
     if(is.null(ids)) return(self$meta[, language := lang])
@@ -122,6 +137,20 @@ Collection <- R6Class("Collection", list(
       message("Only supports year, month and week ased aggregation.")
     }
 
+  },
+  apply_tagfilters = function(flist, nms = NULL){
+    if(is.null(names(flist))) stop("List of filter functions needs to be named (using the names of the function).")
+    if(!is.null(nms) & length(nms) != length(flist)) stop("There have to be as many tag labels as tags.")
+    if(is.null(nms)){
+      nms <- gsub("tagfilter_", "", names(flist))
+    }
+    e <- sprintf("names(flist$%s$filtrate(self$corpus))", names(flist))
+    out <- lapply(e,function(x) eval(parse(text = x)))
+    names(out) <- nms
+    lapply(names(out),function(x){
+      self$add_tags(out[[x]], x)
+    })
+    invisible(self)
   },
   search_tags = function(search, search_manual = FALSE){
     if(search_manual) return(self$meta[grepl(search, self$meta$tags_manual), id])
