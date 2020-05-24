@@ -121,17 +121,17 @@ Collection <- R6Class("Collection", list(
       dt <- dt[id %in% ids,]
     }
     if(is.null(level)){
-      dt[, .(N = .N), by = date]
+      dt[, .(N = .N), by = date][order(date)]
     } else if(level == "year"){
-      dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")))]
+      dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")))][order(year)]
     } else if(level == "month"){
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
-                                month = as.numeric(format(date, "%m")))]
+                                month = as.numeric(format(date, "%m")))][order(year, month)]
     } else if(level == "week"){
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
-                                week = as.numeric(format(date, "%V")))]
+                                week = as.numeric(format(date, "%V")))][order(year, week)]
     } else{
-      message("Only supports year, month and week ased aggregation.")
+      message("Only supports year, month and week based aggregation.")
     }
 
   },
