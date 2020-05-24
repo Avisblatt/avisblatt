@@ -7,15 +7,19 @@
 #' seperating French and German when looking for French texts.
 #'
 #' @param corp quanteda corpus object
-#' @param lang character language to detect, defaults to french.
+#' @param lang character language to detect, defaults to NULL, simply returning results for all elements / all detected languages.
 #' @return document ids of language
 #' @importFrom textcat textcat
 #' @export
-detect_lang <- function(corp, lang = "french"){
-  pos <- which(textcat(corp$documents[,"texts"]) == lang)
-  corp$documents[pos,"id"]
-}
+detect_lang <- function(corp, lang = NULL){
+  if(is.null(lang)){
+    textcat(corp)
+  } else {
+    pp <- which(textcat(corp) == lang)
+    names(corp[pp])
+  }
 
+}
 
 
 
