@@ -95,9 +95,6 @@ Collection <- R6Class("Collection", list(
         return(self$meta[, tags := current_tag])
       }
     }
-
-
-
     if(!overwrite){
       current_tag <- self$meta[id %in% ids, tags]
       current_tag <- lapply(current_tag, function(x, tags_vec){

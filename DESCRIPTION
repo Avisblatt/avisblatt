@@ -10,7 +10,6 @@ Imports:
     jsonlite (>= 1.1),
     R6,
     data.table,
-    dplyr,
     quanteda (>= 2.0)
 Suggests:
     knitr,
