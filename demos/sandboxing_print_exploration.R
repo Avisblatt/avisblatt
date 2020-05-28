@@ -57,13 +57,22 @@ df_combined$year <- as.integer(sDate[,1])
 df_combined$month <- as.integer(sDate[,2])
 df_combined$day <- as.integer(sDate[,3])
 
+
+## count and print all ads for every year available to be able to relate frequency of specific ads to total amount of ads
+
+for(iYear in (df_combined$year)){
+  ads_per_year <- length(which(df_combined$year == iYear))
+write.table(ads_per_year,paste(iYear,ads_per_year),sep = ",")
+}
+
 ## for years available:
 ## Frequency of adtypes that include 05drucksachen
 
 ## Either: make local subset for frequency count of one year:
 ## df_1734 <- subset(df_combined, year == 1734)
 ## Then work with df_1734 for the time being.
-##
+
+
 
 ## Or subset frequency for all existing groundtruth years:
 for(iYear in unique(df_combined$year)){
@@ -76,6 +85,7 @@ for(i in c(1:nrow(df_freq_loc))){
   df_freq_loc[i,]$frequency <- length(which(df_loc$adcontent == df_freq_loc[i,]$tags))
 }
 df_freq_loc <- df_freq_loc[order(df_freq_loc$frequency, decreasing = TRUE),]
+
 print(knitr::kable(
 df_freq_loc,
 col.names = c("Kategorie", "Anzahl"),
@@ -84,7 +94,7 @@ caption = paste("Vorkommen",iYear,sep=" ")
 write.table(df_freq_loc,paste(sFolder,"temp/frequency_",iYear,".csv",sep=""),sep = ",")
 }
 
-## correct OCR and stop words; get rid of weirdly decoded "etc." symbol
+## correct OCR and stop words for top feauture analysis; get rid of weirdly decoded "etc." symbol
 df_loc$text <- correct_ocr(df_loc$text)
 df_loc$text <- gsub("\ua75bc", "etc",df_loc$text)
 
@@ -112,26 +122,59 @@ escape = TRUE
 
 
 ## Some plots
+# plotting relative frequencies for one specific year
 
-freq_per_week <- data.frame(week = unique(df_combined[df_combined$year == 1734,]$date))
-freq_per_week <- cbind(freq_per_week,frequency=rep(0,nrow(freq_per_week)))
+# 1734
+freq_per_week_1734 <- data.frame(week = unique(df_combined[df_combined$year == 1734,]$date))
+freq_per_week_1734 <- cbind(freq_per_week_1734,frequency=rep(0,nrow(freq_per_week)))
 ## Fill frequency table freq_per_week
-for(i in c(1:nrow(freq_per_week))){
-  freq_per_week[i,]$frequency <- length(df_combined[df_combined$date == freq_per_week[i,]$week,]$adcontent)
+for(i in c(1:nrow(freq_per_week_1734))){
+  freq_per_week_1734[i,]$frequency <- length(df_combined[df_combined$date == freq_per_week[i,]$week,]$adcontent)/nrow(subset(df_combined,year == 1734 & adcontent == "05drucksachen"))
 }
 
-barplot(freq_per_week$frequency,names.arg = freq_per_week$week)
-
-###
-freq_per_week <- data.frame(week = unique(df_combined$date))
-freq_per_week <- cbind(freq_per_week,frequency=rep(0,nrow(freq_per_week)))
+#1754
+freq_per_week_1754 <- data.frame(week = unique(df_combined[df_combined$year == 1754,]$date))
+freq_per_week_1754 <- cbind(freq_per_week_1754,frequency=rep(0,nrow(freq_per_week)))
 ## Fill frequency table freq_per_week
 for(i in c(1:nrow(freq_per_week))){
-  freq_per_week[i,]$frequency <- length(df_combined[df_combined$date == freq_per_week[i,]$week,]$adcontent)
+  freq_per_week_1754[i,]$frequency <- length(df_combined[df_combined$date == freq_per_week[i,]$week,]$adcontent)/nrow(subset(df_combined,year == 1754 & adcontent == "05drucksachen"))
 }
 
-barplot(freq_per_week$frequency,names.arg = freq_per_week$week)
+#1834
+freq_per_week_1834 <- data.frame(week = unique(df_combined[df_combined$year == 1834,]$date))
+freq_per_week_1834 <- cbind(freq_per_week_1834,frequency=rep(0,nrow(freq_per_week)))
+## Fill frequency table freq_per_week
+for(i in c(1:nrow(freq_per_week_1834))){
+  freq_per_week_1834[i,]$frequency <- length(df_combined[df_combined$date == freq_per_week[i,]$week,]$adcontent)/nrow(subset(df_combined,year == 1734 & adcontent == "05drucksachen"))
+}
 
+p <- ggplot(freq_per_week_1734, aes(x = week, y= frequency)) +
+  geom_bar(stat = "identity")
+p
+#  ggplot(freq_per_week_1754, aes(x = week, y= frequency)) +
+#  ggplot(freq_per_week_1834, aes(x = week, y= frequency)) +
+
+### for several years, one after the other
+vYear <- unique(df_combined$year)
+## Fill frequency table freq_per_week
+for(iYear in vYear){
+  freq_per_week <- data.frame(week = sort(unique(df_combined[df_combined$year == iYear,]$date)))
+  freq_per_week <- cbind(freq_per_week,frequency=rep(0,nrow(freq_per_week)))
+  for(iRow in c(1:nrow(freq_per_week))){
+    sWeek <-  freq_per_week[iRow,]$week
+    vAds_per_week <- df_combined[df_combined$date == sWeek,]$adcontent
+    freq_per_week[iRow,]$frequency <- length(which(grepl("05", vAds_per_week)))
+  }
+  write.table(freq_per_week,paste("temp/freq_per_week_",iYear,".csv",sep=""),sep=",")
+  png(filename=paste("temp/", iYear, "_sorted.png", sep = ""))
+  barplot(freq_per_week$frequency,names.arg = freq_per_week$week)
+  dev.off()
+  png(filename=paste("temp/", iYear, "_ggplot_sorted.png", sep = ""))
+  p <- ggplot(freq_per_week, aes(x = week, y= frequency)) +
+    geom_bar(stat = "identity")
+  print(p)
+  dev.off()
+}
 
 #### Notes for me
 ## other way for obtaining a subset of drucksachen
