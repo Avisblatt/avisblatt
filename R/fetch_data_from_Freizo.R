@@ -1,9 +1,15 @@
 #' fetch tsv from Freizo, preprocess, store as csv
 
-library(data.table)
+#' available years
+#' 1729, 1734, 1744, 1754, 1764,
+#' 1774, 1784, 1794, 1799, 1804,
+#' 1834
 
-#years <- c(1729, 1734, 1744, 1754, 1764, 1774, 1784, 1794, 1799, 1804, 1834)
-years <- c(1744)
+library(data.table)
+library(jsonlite)
+years <- c(1729:1738)
+available_years <- vector()
+
 #' number of columns varies, last columns (iiif-links)
 #' not named yet (DF is on it). This breaks FREAD
 #' in all years but 1744
@@ -31,31 +37,37 @@ for (j in seq_along(years)){
     newcol <- paste("image", k-39, sep="")
     setnames(tsv, oldcol, newcol)
   }
-
   #' groundtruth years still have some unmotivated
   #' linebreaks (DF is on it). Deleting such lines
   #' for now. This can go once DF has fixed it.
   setkey(tsv,id)
-  tsv <- tsv[!"http?"]
-
-  #stripping and cropping
-  tsv$id <- gsub("https://avisblatt.freizo.org/iiif/anno/", "", tsv$id)
-  tsv$text <- gsub("<p>", "", tsv$text)
-  tsv$text <- gsub("</p>", "", tsv$text)
+  tsv <- tsv[id %like% "http"]
 
   #throwing out lines without text
   setkey(tsv,text)
   tsv <- tsv[!""]
+  tsv <- tsv[!is.na(text)]
 
-  # throwing out lines generated in comparing different recognition procedures in Transkribus
-  # may want to disable this for studying the recognition processes using R
-  setkey(tsv,set)
-  tsv <- tsv[!"test"]
+  if(nrow(tsv)>0) {
+    #stripping and cropping
+    tsv$id <- gsub("https://avisblatt.freizo.org/iiif/anno/", "", tsv$id)
+    tsv$text <- gsub("<p>", "", tsv$text)
+    tsv$text <- gsub("</p>", "", tsv$text)
 
-  # throwing out duplicates
-  setkey(tsv,id)
-  unique(tsv)
+    # throwing out lines generated in comparing different recognition procedures in Transkribus
+    # may want to disable this for studying the recognition processes using R
+    setkey(tsv,set)
+    tsv <- tsv[!"test"]
 
-  filename <- paste("..\\avis-data\\raw_data\\original_", y, ".csv", sep="")
-  write.csv(tsv, file = filename)
+    # throwing out duplicates
+    setkey(tsv,id)
+    unique(tsv)
+
+    filename <- paste("..\\avis-data\\raw_data\\original_", y, ".csv", sep="")
+    write.csv(tsv, file = filename)
+    available_years <- c(available_years, y)
+  }
 }
+
+write_json(available_years,
+             path =  "../avis-data/raw_data/available_years.json")
