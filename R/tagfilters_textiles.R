@@ -3,20 +3,20 @@
 tagfilter_clothing <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "[K|k]leid|[K|k]leyd|[R|r]ock|[R|r]öck|[Ä|ä]rmel|Weste",
-    apron = "[T|t]scho[b|p|pp]en|Fürtuch",
-    trousers = "[H|h]ose",
-    dress = "[J|j]unte|[J|j]undte|Juppe|Jüppe",
-    shirt = "[H|h]emd|[H|h]embd|[C|c]hemise|[K|k]amisol|[K|k]amisohl|[C|c]amisol|[C|c]amisohl"
+    general = "Kleid|Kleyd|Rock|Röck|Ärmel|Weste",
+    apron = "Tscho(b|p|pp)en|Fürtuch",
+    trousers = "Hose",
+    dress = "Jun(t|dt)e|J(u|ü)ppe",
+    shirt = "Hem(d|db)|Chemise|(C|K)amis(o|oh)l"
   )
   dict$neg <- list(
     activity_1 = "Kleider machen", # activity with clothes, v1
-    activity_2 = "Kleider w[a|ä]schen", # activity with clothes, v2
+    activity_2 = "Kleider w(a|ä)schen", # activity with clothes, v2
     activity_3 = "Kleider glätten", # activity with clothes, v3
     activity_4 = "Kleider nähen", # activity with clothes, v4
     activity_5 = "Kleider putzen", # activity with clothes, v5
     activity_6 = "Kleider zu machen", # activity with clothes, v6
-    activity_7 = "Kleider zu w[a|ä]schen", # activity with clothes, v7
+    activity_7 = "Kleider zu w(a|ä)schen", # activity with clothes, v7
     activity_8 = "Kleider zu glätten", # activity with clothes, v8
     activity_9 = "Kleider zu nähen", # activity with clothes, v9
     activity_10 = "Kleider zu putzen", # activity with clothes, v10
@@ -92,8 +92,8 @@ tagfilter_uniform <- function(){
 tagfilter_underwear <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "Lingerie|Leibchen|Unterärmel|Unterkleid|Unterrock|Unterröck",
-    corset = "Korset|Corset",
+    general = "Lingerie|Leibchen|Unterärmel|Unterkleid|Unterrock|Unterröck|Leiber",
+    corset = "Korset|Corset|Br(u|ü)ste",
     socks = "Socke|Strumpf|Strümpf"
   )
   dict$neg <- list(
@@ -101,7 +101,7 @@ tagfilter_underwear <- function(){
     book = "Heft|Kalender", # excludes related prints
     service = "Kundenhäuser|Kundenhaus", # excludes ads for related services
     board = "Kost", # excludes ads for board with additional services
-    profession = "Strumpfw[ä|e]b|Strumpffw[ä|e]b|Strumpfausbreit|Strumpffach|Str[u|ü]mpf-Fabri|Str[u|ü]mpff-Fabri", # profession of making stockings, also excludes tools for profession (e.g. Strumpfweber-Stuhl)
+    profession = "Strumpfw(ä|e)b|Strumpffw(ä|e)b|Strumpfausbreit|Strumpffach|Str(u|ü)mpf-Fabri|Str(u|ü)mpff-Fabri", # profession of making stockings, also excludes tools for profession (e.g. Strumpfweber-Stuhl)
     raw = "Strumpfwolle|Strümpfwolle|Strumpf-Wolle|Strümpf-Wolle" # yarn for making socks
   )
   create_filter_output(dict)
@@ -131,13 +131,14 @@ tagfilter_outerwear <- function(){
 tagfilter_costume <- function(){
   dict <- list()
   dict$pos <- list(
-    carneval = "Milchjoggi|Fastnachtkleid|Fastnachtskleid|Polichinel-Kleid|Polichinelkleid|Maskenkleid",
+    carneval = "Milchjogg(el|i)|Fastnachtkleid|Fastnachtskleid|Polichinel-Kleid|Polichinelkleid|Maskenkleid|
+    Bauern-Jogg(el|i)|Bauernjogg(el|i)|Milchbrentl|Ritter-Rüstung|Ritterrüstung|Tschakko",
     shroud = "Todtenröck|Todtenrock|Totenröck|Todtenrock",
-    costume = "Bauerntrocht|-Tracht",
+    costume = "Bauerntr(o|a)cht|-Tracht",
     baptism = "Taufzeug"
   )
   dict$neg <- list(
-    looking = "[b|B]etracht" # verbs and nouns meaning "looking at" conatining "tracht"
+    looking = "(b|B)etracht" # verbs and nouns meaning "looking at" conatining "tracht"
   )
   create_filter_output(dict)
 }
@@ -150,10 +151,10 @@ tagfilter_costume <- function(){
 tagfilter_shoes <- function(){
   dict <- list()
   dict$pos <- list(
-    slippers = "[P|p]antoffel|Chauffe-pied",
-    shoes = "[S|s]chuh|[S|s]chüh",
-    boots = "[S|s]tiefel|Stüfel",
-    soles = "[S|s]ohle|[S|s]öhle"
+    slippers = "Pantoffel|Chauffe-pied",
+    shoes = "Schuh|Schüh",
+    boots = "St(ie|ü)fel",
+    soles = "S(o|ö)hle"
   )
   dict$neg <- list(
     immo = "Liegenschaft", # filters out immo ads with measurements in "Schuh"
@@ -161,12 +162,12 @@ tagfilter_shoes <- function(){
     polish = "Wichse", # shoe polish
     fountain = "Brunnstiefel|Ziehbrunn", # fountains (one part is also called "Schuh")
     name = "Guldenschuh", # family name
-    accessoire = "[H|h]andschuh|[H|h]andschüh", # textile accessoires (gloves)
-    work = "Schuhmacher|Schuster|Schuhster", # occupations concerned with making shoes
-    # PROBLEM: sometimes filters out relevant ads - exclusion of work and immo ads probably better solution
+    accessoire = "Handschuh|Handschüh", # textile accessoires (gloves)
+    # work = "Schuhmacher|Schuster|Schuhster", # occupations concerned with making shoes
+    # newly excluded, PROBLEM: sometimes filters out relevant ads - exclusion of work and immo ads probably better solution
     misc = "Radschuh|Schuhkraft|Schuhknech", # other objects and nouns containing "schuh"
-    measure_1a = "Schuh\\s[lang|breit|dick|hoch|weit|Länge|hohe]", # removes "Schuh" as measurement, version 1a
-    measure_1b = "Schuhe\\s[lang|breit|dick|hoch|weit|Länge|hohe]", # removes "Schuh" as measurement, version 1b
+    measure_1a = "Schuh\\s(lang|breit|dick|hoch|weit|Länge|hohe)", # removes "Schuh" as measurement, version 1a
+    measure_1b = "Schuhe\\s(lang|breit|dick|hoch|weit|Länge|hohe)", # removes "Schuh" as measurement, version 1b
     measure_2 = "Schuh\\s\\d", # removes "Schuh" as measurement, version 2
     measure_3 = "Nürnberger Maß", # removes "Schuh" as measurement, version 3
     measure_4 = "franz. Maß", # removes "Schuh" as measurement, version 4
@@ -207,7 +208,7 @@ tagfilter_hand <- function(){
   dict <- list()
   dict$pos <- list(
     muff = "Schlupfer|Schlüpfer|Schlupffer|Schlüpffer",
-    gloves = "Handsch[u|ü]h"
+    gloves = "Handsch(u|ü)h"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
@@ -243,14 +244,14 @@ tagfilter_neck <- function(){
 tagfilter_headdress <- function(){
   dict <- list()
   dict$pos <- list(
-    wig = "Perruck|Perrück|Perück|Peruck|H[a|aa]r-Tours",
+    wig = "Perruck|Perrück|Perück|Peruck|H(a|aa)r-Tours",
     cap = "Kappe|Capotte|Bonnet|Mütze",
     general = "Hut|Hüt|Chapeau",
     straw = "Strohhut|Strohhüt",
     female = "Haube|Häubchen|Kopfputz"
   )
   dict$neg <- list(
-    animal = "[D|T]aube", # description of animal with "kappe"
+    animal = "(D|T)aube", # description of animal with "kappe"
     mind = "zu//shüte", # minding something/someone (usally children)
     plant = "Zuckerhut", # name of a plant
     dump = "hütten", # verbs meaning dumping something
@@ -264,7 +265,7 @@ tagfilter_headdress <- function(){
     work = "Gesell|Profeßion|Kamerdiener", # filters out work ads
     other = "Hüter", # supervisor
     verb_1 = "\\sthut", # verbs (doing)
-    verb_2 = "sch[u|ü]tten|schutt[e|i]n|schütt[e|i]n|Schut", # to throw smth
+    verb_2 = "sch(u|ü)tten|schutt(e|i)n|schütt(e|i)n|Schut", # to throw smth
     hut = "Hütte", # small house, hut
     object = "Fingerhut|Fingerhüt|Strumpfwoll|Strümpfwoll|Strumpf-Woll|Strümpf-Woll|Zündhütchen|Schutt" # other objects including "hut" or "strumpf"
   )
@@ -284,8 +285,8 @@ tagfilter_texmaterial <- function(){
   dict <- list()
   dict$pos <- list(
     atlas = "gestreifter Atlas",
-    unclear = "Nappes|Senpareille|Napolitain|Circassien|Stramin|Alépin|Etamin|Kamelott",
-    fur = "Pelz|Marder|Zobel|Steinmarder",
+    unclear = "Nappes|Senpareille|Napolitain|Circassien|Stramin|Etamin|Kamelott|Altan",
+    fur = "Pelz|Marder|Zobel|Steinmarder|Fehlin",
     marcelline = "Marcelin",
     muslin = "Mousselin",
     lace = "Neiges|Spitzlein|Spitze",
@@ -300,20 +301,20 @@ tagfilter_texmaterial <- function(){
     wicker = "Wiener Rohr",
     cotton = "Linon|Baumwoll",
     linnen_1 = "leinenes Gewebe", # does not seem to work- why? is the space between the problem?
-    linnen_2 = "Leinenzeug|Futter-Leinen|Halbleinen|leinenes|Steifleinen|leinener|Leinenwaaren|Leinenplunder|halbleinen|Leinenb[a|ä]nd",
+    linnen_2 = "Leinenzeug|Futter-Leinen|Halbleinen|leinenes|Steifleinen|leinener|Leinenwaaren|Leinenplunder|halbleinen|Leinenb(a|ä)nd",
     printed = "Indienne|Cattun|Persienne",
     tulle = "Tull|Thulle|Bobinet|Gaze",
     oilcloth = "Wachstuch|Wachstüch|Wachstaffet|Wachslappen",
     merino = "Mérino|Merino",
     flax = "Flachs",
-    wool = "Wollenband|-Wolle|\\bWollenwaare|Thibet|Alépin"
+    wool = "Wollenband|-Wolle|\\bWollenwaare|Thibet|Alépin|Wolle"
   )
   dict$neg <- list(
     book = "Bücher|Buch|Gespräch", # excludes ads for prints
     death = "Ehefrau|beerdigt", # excludes death notices
-    umbrella = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
+    umbrella = "Paraplu(i|y|v)|Regenschirm|Pareplu(i|y|v)|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
     immo = "Losament|Wohnung|Ziehbrunn", # filters out immo ads
-    stone = "Alabast[e|a]r|Bernstein", # kind of stones
+    stone = "Alabast(e|a)r|Bernstein", # kind of stones
     bastard = "Bastard", # child out of wedlock
     name = "Sebastian|Sebast", # first name
     animal = "Seidenkaninchen", # certain kind of
@@ -349,18 +350,18 @@ tagfilter_cloth <- function(){
     immo = "Juchart", # excludes immo ads
     election = "Wahl", # excludes election notices
     other = "Ratte|Schriften|Bibliothek|Feuerzeug|Rosenöl", # excludes other unrelated objects
-    bag = "T[a|ä]sch|Seckel|Beutel|S[ä|a]ck|Ridicule", # excludes bags and purses
-    umbrella = "Paraplu[i|y|v]|Regenschirm|Pareplu[i|y|v]|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
+    bag = "T(a|ä)sch|Seckel|Beutel|S(ä|a)ck|Ridicule", # excludes bags and purses
+    umbrella = "Paraplu(i|y|v)|Regenschirm|Pareplu(i|y|v)|Sonnenschirm|Ombrelle|Parasol|Parresol", # excludes umbrellas, since they are not only textile objects
     horse = " Pferdtzeug|Reitzeug", # objects for riding etc.
     ocr = "aufhaltetofferirt", # ocr mistake (whitespace missing)
-    work = "Zeugni[s|ß]|tüchtig|Leumundszeug|Lehrling|Bedingnis|Lehre|Ladendiener|Reisender|ledig", # filters out work advertisements
+    work = "Zeugni(s|ß)|tüchtig|Leumundszeug|Lehrling|Bedingnis|Lehre|Ladendiener|Reisender|ledig", # filters out work advertisements
     occupation = "Zeugwar|Tuchhandler|Tuchscherer|putzen|Flecken|nähen|stricken", # Occupation "Zeugwart" containing "zeug"
     verb = "überzeug|restera", # verbs containing "zeug" or "rest"
     household = "Bettzeug|Tischzeug|Preß|Lampe|Betteinguß|Tapete", # household textiles and objects
     noun = "bezeug|erzeug", # nouns containing "zeug"
-    tool = "Werkzeug|Werkszeug|Werckzeug|W[e|ä]bstuhl|W[e|ä]bstühl|Presse", # tool
+    tool = "Werkzeug|Werkszeug|Werckzeug|W(e|ä)bstuhl|W(e|ä)bstühl|Presse", # tool
     place = "Zeughaus|Zeug-Hauß", # name of a house in Basel
-    paper = "Papierrest|Rei[ß|ss]zeug|Schreibzeug", # scrap paper, writing and painting tools
+    paper = "Papierrest|Rei(ß|ss)zeug|Schreibzeug", # scrap paper, writing and painting tools
     date = "Jahrestermin" # refers to a date
   )
 
@@ -381,8 +382,8 @@ tagfilter_yarn <- function(){
   )
   dict$neg <- list(
     print = "Buch|Bücher", # excludes print ads
-    hunt = "Jagd|Jagds[ä|a]ck|Fischgarn", # hunting with yarn
-    tool = "Fadenz[ä|a]hler|Oehren|Waarenzähler", # tool for counting threads, needles for yarn
+    hunt = "Jagd|Jagds(ä|a)ck|Fischgarn", # hunting with yarn
+    tool = "Fadenz(ä|a)hler|Oehren|Waarenzähler", # tool for counting threads, needles for yarn
     adjectives = "garnies|garniert|garnirt|garnie|fadene|garnire", # adjectives for decorated with
     decoration = "Garnitur|Garnirung", # decoration on objects
     deco_description = "Faden durchwirkt", # decorated with yarn, not yarn itself

@@ -3,10 +3,10 @@
 tagfilter_saleoffer <- function(){
   dict <- list()
   dict$pos <- list(
-    saleoffer_1 = "zum Verkauf angetragen",
-    saleoffer_2 = "Alte Verkauf-Artikel",
-    saleoffer_3 = "Neue Verkauf-Artikel",
-    saleoffer_add_2 = "Nachtrag zum Verkauf"
+    saleoffer_1 = "zum Verkau(f|ff) angetragen",
+    saleoffer_2 = "Alte Verkau(f|ff)-Artikel",
+    saleoffer_3 = "Neue Verkau(f|ff)-Artikel",
+    saleoffer_add_2 = "Nachtrag zum Verkau(f|ff)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -19,7 +19,7 @@ tagfilter_saleoffer <- function(){
 tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
-    saledemand_1 = "(zu|zum) kaufen begehrt",
+    saledemand_1 = "(zu|zum) kau(f|ff)en begehrt",
     saledemand_add_1 = "Nachtrag (zu|zum) kaufen begehrt" # delete this if saledemand_1 works
     )
   dict$neg <- list(
@@ -33,8 +33,8 @@ tagfilter_saledemand <- function(){
 tagfilter_lendoffer <- function(){
   dict <- list()
   dict$pos <- list(
-    lendoffer_1 = "zum Ausleihen offerirt", # maybe shorten to "zum Ausleihen"
-    lendoffer_add_1 = "Nachtrag zum Ausleihen"
+    lendoffer_1 = "zum Ausl(ei|y)hen (offerirt|anerbo(tt|t)en)", # maybe shorten to "zum Ausleihen"
+    lendoffer_add_1 = "Nachtrag zum Ausl(ei|y)hen"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -47,7 +47,8 @@ tagfilter_lendoffer <- function(){
 tagfilter_lenddemand <- function(){
   dict <- list()
   dict$pos <- list(
-    lenddemand_1 = "zu entlehnen begehrt"
+    lenddemand_1 = "(zu|zum) entlehnen begehrt",
+    lenddemand_2 = "(zu|zum) entlehnen wird begehrt"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -60,7 +61,7 @@ tagfilter_lenddemand <- function(){
 tagfilter_lostandfound <- function(){
   dict <- list()
   dict$pos <- list(
-    lostandfound_1 = "Verlorne und gefundene Sachen", # maybe shorten to include titles with ocr mistakes
+    lostandfound_1 = "(Verl(o|oh)rne|Verl(oh|o)ren) und gefundene Sachen", # maybe shorten to include titles with ocr mistakes
     lostandfound_add_1 = "Nachtrag zum Verlohren"
     )
   dict$neg <- list(
@@ -74,7 +75,8 @@ tagfilter_lostandfound <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "Verstorben und begrabe(n|m)"
+    death_1 = "Verstorben und begrabe(n|m)",
+    death_2 = "Verstorb(en|ene)"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -87,7 +89,9 @@ tagfilter_death <- function(){
 tagfilter_marriage <- function(){
   dict <- list()
   dict$pos <- list(
-    marriage_1 = "Getraute Ehen"
+    marriage_1 = "Getraute Ehen",
+    marriage_2 = "Copulirte",
+    marriage_3 = "ehelich getraut worden"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -97,10 +101,11 @@ tagfilter_marriage <- function(){
 
 #' Dictionary labour and information (Title)
 #' @export
-tagfilter_labourandinfo <- function(){
+tagfilter_labourinfo <- function(){
   dict <- list()
   dict$pos <- list(
-    labourandinfo_1 = "ost, Information und Bedienungen" # maybe shorten/different variations to include those with ocr mistakes
+    labourandinfo_1 = "ost, Information und Bedienungen", # maybe shorten/different variations to include those with ocr mistakes
+    labourandinfo_2 = "zu verschiedenen Geschäften und Bedienungen angetragen und begehrt" # only occurs in 1734, I think
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -113,7 +118,8 @@ tagfilter_labourandinfo <- function(){
 tagfilter_auctions <- function(){
   dict <- list()
   dict$pos <- list(
-    auctions_1 = "G(a|ä)nten"
+    auctions_1 = "G(a|ä)nten",
+    auctions_2 = "G(a|ä)nt"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -172,6 +178,32 @@ tagfilter_bookstore <- function(){
     bookstore_1 = "Buchhandlung",
     bookstore_2 = "Buchhandlulg", # can be deleted, if ocr correction works
     bookstore_3 = "Buch- handlung"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Travel (Title)
+#' @export
+tagfilter_travel <- function(){
+  dict <- list()
+  dict$pos <- list(
+    travel_1 = "Gelegenheit für reisende Pers(o|oh)nen"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Exchange (Title)
+#' @export
+tagfilter_exchange <- function(){
+  dict <- list()
+  dict$pos <- list(
+    exchange_1 = "Zum (Vertauschen|Tauschen)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
