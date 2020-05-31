@@ -352,8 +352,7 @@ tagfilter_print <- function(){
 #' @export
 tagfilter_household_goods <- function(){
   merge_filters(tagfilter_bed(),
-                tagfilter_household_textile(),
-                tagfilter_seat(),
+                tagfilter_textile(),
                 tagfilter_cabinet(),
                 tagfilter_stove(),
                 tagfilter_mirror(),
