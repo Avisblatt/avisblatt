@@ -4,12 +4,12 @@
 \alias{detect_lang}
 \title{Return all Document IDs of a Particular Language}
 \usage{
-detect_lang(corp, lang = "french")
+detect_lang(corp, lang = NULL)
 }
 \arguments{
 \item{corp}{quanteda corpus object}
 
-\item{lang}{character language to detect, defaults to french.}
+\item{lang}{character language to detect, defaults to NULL, simply returning results for all elements / all detected languages.}
 }
 \value{
 document ids of language
