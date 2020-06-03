@@ -101,7 +101,7 @@ tagfilter_marriage <- function(){
 
 #' Dictionary labour and information (Title)
 #' @export
-tagfilter_labourinfo <- function(){
+tagfilter_labourandinfo <- function(){
   dict <- list()
   dict$pos <- list(
     labourandinfo_1 = "ost, Information und Bedienungen", # maybe shorten/different variations to include those with ocr mistakes
