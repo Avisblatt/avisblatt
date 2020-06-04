@@ -1,3 +1,8 @@
+
+#' Merge One or More Collections Into a One Large Collection
+#'
+#'
+#'
 #' @param c_list list of collections. Every element needs to be a 'collection'
 #' object from the avisblatt R package.
 #' @export
