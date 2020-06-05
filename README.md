@@ -20,7 +20,7 @@ devtools::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
 in an R session. Because this repository is currently private, you will need an access token to do so. Here's how 
 to generate a [GitHub access](https://github.com/settings/tokens) token.
 
-Note: If you have troubling installing {devtools} or are not an avisblatt package developer you can use the {remotes} package which has fewer dependencies and is easy to install. 
+Note: If you have trouble installing {devtools} or are not an {avisblatt} package developer you can use the {remotes} package which has fewer dependencies and is easy to install. 
 
 
 ```
