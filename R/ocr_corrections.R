@@ -5,6 +5,23 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Tatack","Taback",x)
+  x <- gsub("Tatack","Taback",x)
+  x <- gsub("Kinchensitz","Kirchensitz",x)
+  x <- gsub("Gestndsbett","Gesindsbett",x)
+  x <- gsub("Drckbett","Deckbett",x)
+  x <- gsub("Eltsabeth","Elisabeth",x)
+  x <- gsub("Daonds-Harfe","Davids-Harfe",x)
+  x <- gsub("Dapids-Harfe","Davids-Harfe",x)
+  x <- gsub("Favence","Fayence",x)
+  x <- gsub("Fayenee","Fayence",x)
+  x <- gsub("Maiorica","Maiolica",x)
+  x <- gsub("Ercellentz","Excellentz",x)
+  x <- gsub("ercellent","excellent",x)
+  x <- gsub("excellenr","excellent",x)
+  x <- gsub("Klerder","Kleider",x)
+  x <- gsub("Matraaen","Matratzen",x)
+  x <- gsub("Strumypff","Strumpff",x)
   x <- gsub("albeiter","arbeiter",x)
   x <- gsub("floretsetdene","floretseidene",x)
   x <- gsub("sloretseide","floretseide",x)
