@@ -567,8 +567,7 @@ tagfilter_barrel <- function(){
   dict$pos <- list(
     bottle = "Bouteille(n|s)|Pi(è|e|é)ces|Gutter|Selterserwasser-Kr(ü|u)ge",
     barrel_1 = "Fa(ss|ß)\\b|Fä(ss|ß)er\\b|(Ö|Oe)hlst(u|ü)cklein",
-    barrel_2 = "Stücklein Fa(s|ß|ss)",
-    barrel_2 = "Stucklein Fa(s|ß|ss)"
+    barrel_2 = "St(ü|u)cklein Fa(s|ß|ss)"
     )
   dict$neg <- list(
     immo_1 = "Losament|Stube", # excludes immo ads, v1
@@ -741,7 +740,7 @@ tagfilter_agriculture <- function(){
     name = "Pflugg(ä|a)", # place name
     ocr = "senseit|wachsense", # ocr mistakes (contain "sense")
     name = "Rechenmacher", # family name
-    other = "Rechenscha(f|ff)t|Rechenrat|Rechenmeister", # no objects
+    other = "Rechenscha(f|ff)t|Rechen(meister|schul|rat)", # no objects
     verb = "sprechen|brechen", # berbs containing "rechen"
     maths = "Rechen(kunst|tafel)|Rechen-(Tafel|Kunst)" # mathematics
   )
@@ -787,7 +786,7 @@ tagfilter_well <- function(){
 tagfilter_naturalia <- function(){
   dict <- list()
   dict$pos <- list(
-    naturalia = "Muscheln|Schmetterling",
+    naturalia = "Muscheln|Schmetterling", # "Muscheln" can also be a material, e.g. describing buttons
     minerals = "Versteinerung|Mineralien"
   )
   dict$neg <- list(
@@ -808,7 +807,7 @@ tagfilter_container <- function(){
     name_1 = "Fr. Böcklin", # family name, v1
     name_2 = "Fr.Böcklin", # family name, v2
     name_3 = "Seimer", # family name, v3
-    place = "Arlesheimer|Türckheimer", # place names
+    place = "Arlesheimer|Türckheimer|H(e|ä)genheim|Ma(n|nn)heim", # place names
     cash = "Gel(d|t)trog", # object for holding cash
     fire = "Feuereimer|Feuer-Eimer", # fire prevention
     well = "Brunntrog", # well
@@ -890,7 +889,7 @@ tagfilter_key <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Walking Canes
+#' Dictionary Walking Canes # why is "spanisch rohr" not in this?
 #' @export
 tagfilter_cane <- function(){
   dict <- list()

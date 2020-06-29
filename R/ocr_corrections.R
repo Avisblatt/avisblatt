@@ -5,6 +5,7 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("zuberläßig","zuverläßig",x)
   x <- gsub("Rechenhunst","Rechenkunst",x)
   x <- gsub("Jonesessel","Joncsessel",x)
   x <- gsub("Revetir","Repetir",x)
