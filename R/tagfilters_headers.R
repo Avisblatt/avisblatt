@@ -18,7 +18,7 @@ tagfilter_saleoffer <- function(){
 tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
-    saledemand = "\\bkau(f|ff)en"
+    saledemand = "\\bkau(f|ff)en|zukau(f|ff)en"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -85,7 +85,7 @@ tagfilter_death <- function(){
 tagfilter_marriage <- function(){
   dict <- list()
   dict$pos <- list(
-    marriage = "Ehe|copul(i|ie)rt|ehelich|getraut"
+    marriage = "\\bEhe\\b|copul(i|ie)rt|ehelich|getraut"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -205,7 +205,7 @@ tagfilter_exchange <- function(){
 tagfilter_charityheader <- function(){
   dict <- list()
   dict$pos <- list(
-    charityheader_2 = "Arme|Kran(k|ck)e|Mitleiden|gutherzig|Seelsorger|Barmherzigkeit|Liebe|Beysteur"
+    charityheader_2 = "Arme|Kran(k|ck)e|Mitleiden|gutherzig|Seelsorger|Barmherzigkeit|Beysteur"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
