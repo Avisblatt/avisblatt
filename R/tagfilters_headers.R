@@ -3,15 +3,9 @@
 tagfilter_saleoffer <- function(){
   dict <- list()
   dict$pos <- list(
-    saleoffer_1 = "zum Verkau(f|ff) (angetragen|offer(i|ie)rt)",
-    saleoffer_2 = "Alte Verkau(f|ff)-Artikel",
-    saleoffer_3 = "Neue Verkau(f|ff)-Artikel",
-    saleoffer_4 = "Zum Kaufen,", # should only find saleoffers, but maybe also some sale demand included (has to be tested)
-    saleoffer_5 = "Zum Verkaufen",
-    saleoffer_6 = "zum Verkauf(angetragen|offer(i|ie)rt)",
-    saleoffer_7 = "P.S. zu (verk|k)au(ff|f)en",
-    saleoffer_8 = "verlangt zu kau(ff|f)en",
-    saleoffer_add_1 = "Nachtrag zum Verkau(f|ff)"
+    saleoffer_1 = "Verkau(f|ff)",
+    saleoffer_2 = "Zum Verkauf",
+    saleoffer_3 = "verkau(ff|f)en"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -24,10 +18,7 @@ tagfilter_saleoffer <- function(){
 tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
-    saledemand_1 = "(zu|zum) kau(f|ff)en begehr",
-    saledemand_2 = "kau(ff|f)enbegehr",
-    saledemand_3 = "(begehrt|verlangt) annoch zu kau(ff|f)en",
-    saledemand_4 = "(begehrt|verlangt) zu kau(ff|f)en"
+    saledemand = "\\bkau(f|ff)en"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -40,10 +31,7 @@ tagfilter_saledemand <- function(){
 tagfilter_lendoffer <- function(){
   dict <- list()
   dict$pos <- list(
-    lendoffer_1 = "(Au(s|ß)|Ver|Ent)l(ei|ey)hen (offer(i|ie)rt|anerbo(tt|t)en)", # maybe shorten to "zum Ausleihen"
-    lendoffer_2 = "(Au(s|ß)|Ver|Ent)l(ei|ey)hen(offer(i|ie)rt|anerbo(tt|t)en)",
-    lendoffer_3 = "z(um|u) (Au(s|ß)|Ver|Ent)l(ei|ey)hen",
-    lendoffer_add_1 = "Nachtrag zum (Au(s|ß)|Ver)l(ei|y)hen"
+    lendoffer = "(au(s|ß)|ver|ent)l(ei|ey)hen"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -56,9 +44,7 @@ tagfilter_lendoffer <- function(){
 tagfilter_lenddemand <- function(){
   dict <- list()
   dict$pos <- list(
-    lenddemand_1 = "(entl|l)ehnen (begehr|gesuch)",
-    lenddemand_2 = "(entl|l)lehnen wird (begehrt|gesuch)",
-    lenddemand_3 = "lehnen(beger|gesuch)"
+    lenddemand = "(entl|l)ehnen"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -86,8 +72,7 @@ tagfilter_lostandfound <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "erstorbe|begrabe(n|m)|beerdigt|gestorben", # "erstorbe" without the "v", because a lot of ocr mistakes
-    death_2 = "Todes-Anzeig"
+    death_1 = "erstorbe|begrabe(n|m)|beerdigt|gestorben|Todes" # "erstorbe" without the "v", because a lot of ocr mistakes
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -100,9 +85,7 @@ tagfilter_death <- function(){
 tagfilter_marriage <- function(){
   dict <- list()
   dict$pos <- list(
-    marriage_1 = "Ehe",
-    marriage_2 = "copulirt",
-    marriage_3 = "ehelich|getraut"
+    marriage = "Ehe|copul(i|ie)rt|ehelich|getraut"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -115,7 +98,7 @@ tagfilter_marriage <- function(){
 tagfilter_labourandinfo <- function(){
   dict <- list()
   dict$pos <- list(
-    labourandinfo_1 = "Kost|Information|Bedienung|Bediente"
+    labourandinfo_1 = "Kost|Information|Bedienung|Bediente|Dienst"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -128,8 +111,7 @@ tagfilter_labourandinfo <- function(){
 tagfilter_auctions <- function(){
   dict <- list()
   dict$pos <- list(
-    auctions_1 = "G(a|ä)nten",
-    auctions_2 = "G(a|ä)nt"
+    auctions_1 = "G(a|ä)nt"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -142,9 +124,8 @@ tagfilter_auctions <- function(){
 tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
-    news_1 = "(Allerhand|Allerha nd) Nachrichten",
-    news_2 = "Allerhand-Nachrichten",
-    news_add_1 = "Nachtrag zu den Nachrichten"
+    news_1= "Allerhand|Nachrichten",
+    news_2 = "Allerha nd"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -157,10 +138,8 @@ tagfilter_othernews <- function(){
 tagfilter_official <- function(){
   dict <- list()
   dict$pos <- list(
-    official_1 = "Kundmachung",
-    official_2 = "Bekannt machung",
-    official_3 = "K u n d m a ch u n g" # regex for white space between every letter?
-  )
+    official = "machung"
+    )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
@@ -172,8 +151,8 @@ tagfilter_official <- function(){
 tagfilter_taxes <- function(){
   dict <- list()
   dict$pos <- list(
-    taxes_1 = "B r o d-T (ä|a)(x|r)", # white space?
-    taxes_2 = "B r o d- T (ä|a) (x|r)" # white space?
+    taxes_1 = "B r o (d|t)",
+    taxes_2 = "Ta(x|r)|Bro(d|t)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -186,8 +165,8 @@ tagfilter_taxes <- function(){
 tagfilter_bookstore <- function(){
   dict <- list()
   dict$pos <- list(
-    bookstore = "Buchhandlung",
-    books = "Bücher"
+    bookstore = "Buch(handlung|händler|drucker)",
+    books = "Bücher|Buch"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -200,7 +179,7 @@ tagfilter_bookstore <- function(){
 tagfilter_travel <- function(){
   dict <- list()
   dict$pos <- list(
-    travel_1 = "reisende"
+    travel_1 = "reisend"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -213,7 +192,7 @@ tagfilter_travel <- function(){
 tagfilter_exchange <- function(){
   dict <- list()
   dict$pos <- list(
-    exchange_1 = "Vertauschen|Tauschen"
+    exchange_1 = "tauschen"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -226,8 +205,7 @@ tagfilter_exchange <- function(){
 tagfilter_charityheader <- function(){
   dict <- list()
   dict$pos <- list(
-    charityheader_1 = "Arme und Kran(k|ck)e",
-    charityheader_2 = "Mitleiden|gutherzig|Seelsorger|Barmherzigkeit|Liebe|Beysteur"
+    charityheader_2 = "Arme|Kran(k|ck)e|Mitleiden|gutherzig|Seelsorger|Barmherzigkeit|Liebe|Beysteur"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -253,7 +231,7 @@ tagfilter_foreigners <- function(){
 tagfilter_merkwuerdig <- function(){
   dict <- list()
   dict$pos <- list(
-    merkwuerdig_1 = "Mer(ck|k)würdigkeit|würdigkeit"
+    merkwuerdig_1 = "würdigkeit"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -280,6 +258,19 @@ tagfilter_prices <- function(){
   dict <- list()
   dict$pos <- list(
     prices_1 = "Prei(s|ß)"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Election (Header)
+#' @export
+tagfilter_election <- function(){
+  dict <- list()
+  dict$pos <- list(
+    election = "Besetzung|(Ä|Ae)mt"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
