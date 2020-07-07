@@ -8,7 +8,7 @@ tagfilter_saleoffer <- function(){
     saleoffer_3 = "verkau(ff|f)en"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    double = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en)" # both sale- and lendoffer
   )
   create_filter_output(dict)
 }
@@ -21,7 +21,7 @@ tagfilter_saledemand <- function(){
     saledemand = "\\bkau(f|ff)en|zukau(f|ff)en"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    double = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en)" # both sale- and lenddemand
   )
   create_filter_output(dict)
 }
@@ -34,7 +34,7 @@ tagfilter_lendoffer <- function(){
     lendoffer = "(au(s|ß)|ver|ent)l(ei|ey)hen"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    double = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en)" # both sale- and lendoffer
   )
   create_filter_output(dict)
 }
@@ -62,7 +62,7 @@ tagfilter_lostandfound <- function(){
     stolen = "gesto(hl|l)en"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    double = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en)" # both sale- and lenddemand
   )
   create_filter_output(dict)
 }
@@ -85,8 +85,9 @@ tagfilter_death <- function(){
 tagfilter_marriage <- function(){
   dict <- list()
   dict$pos <- list(
-    marriage = "\\bEhe\\b|copul(i|ie)rt|ehelich|getraut"
-    )
+    marriage_1 = "\\bEhe\\b|copul(i|ie)rt|ehelich|getraut",
+    marriage_2 = "(C|Co|Copu|Copulir|Cop) (o|op|lir|pu|u|te)"
+  )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
@@ -95,11 +96,11 @@ tagfilter_marriage <- function(){
 
 #' Dictionary labour and information (Header)
 #' @export
-tagfilter_labourandinfo <- function(){
+tagfilter_labourinfo <- function(){
   dict <- list()
   dict$pos <- list(
-    labourandinfo_1 = "Kost|Information|Bedienung|Bediente|Dienst"
-    )
+    labourinfo_1 = "Kost|Information|Bedienung|Bediente|Dienst|Jungen"
+  )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
@@ -278,3 +279,34 @@ tagfilter_election <- function(){
   create_filter_output(dict)
 }
 
+
+#' Dictionary Demand (unclear if for sale or to lend) (Header)
+#' @export
+tagfilter_demand <- function(){
+  dict <- list()
+  dict$pos <- list(
+    demand_1 = "(dergleichen|item|ferne(r|rs)) begehrt",
+    demand_2 = "(dergleichen|item|ferne(r|rs)|dann) (.*) begehrt",
+    demand_3 = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en) begehrt"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Offer (unclear if for sale or to lend) (Header)
+#' @export
+tagfilter_offer <- function(){
+  dict <- list()
+  dict$pos <- list(
+    offer_1 = "(dergleichen|item|ferne(r|rs)) o(ff|f)er(i|ie)rt",
+    offer_2 = "(dergleichen|item|ferne(r|rs)|dann) (.*[^Verleyhen]) o(ff|f)er(i|ie)rt",
+    offer_3 = "zu (kau(ff|f)en|entlehnen) oder zu (entlehnen|kau(f|ff)en) o(ff|f)er(i|ie)rt",
+    offer_4 = "(wird|werden) o(ff|f)er(i|ie)rt"
+  )
+  dict$neg <- list(
+    labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
+  )
+  create_filter_output(dict)
+}
