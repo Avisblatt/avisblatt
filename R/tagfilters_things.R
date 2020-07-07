@@ -10,6 +10,7 @@ tagfilter_mercery <- function(){
     button = "Kn(o|ö)pf"
   )
   dict$neg <- list(
+    cleaning = "Schnallenbürste", # cleaning utensil
     work = "Lehre", # excludes work ads
     clothes = "Kn(o|ö)p(f|ff)l(o|ö)ch", # descriptions of clothes
     immo = "Losament|Gelegenheit", # excludes immo ads
@@ -31,22 +32,25 @@ tagfilter_bag <- function(){
     rucksack = "Felleisen"
   )
   dict$neg <- list(
+    textile = "Sackzwilch", # textiles
+    profession = "Säckler", # profession
     immo = "Wohnung|Losament|Gelegenheit", # excludes immo ads
-    bed = "Strohs(ä|a)ck", # bedding
+    bigbags = "(Stroh|Korn|Be(t|th|tt)|Wa(i|y)d)s(ä|a)ck", # big bags (bedding, straw, corn)
     measure_1 = "\\d.\\sSäck", # removes "Säck" as measurement, v1
     measure_2 = "\\d\\sSäck", # removes "Säck" as measurement, v2
     measure_3 = "\\d.\\sSack", # removes "Sack" as measurement, v3
     measure_4 = "\\d\\sSack", # removes "Sack" as measurement, v4
     measure_5 = "hundert Säck", # removes "Säck" as measurement, v5
+    measure_6 = "sackweis", # removes "Sack" as measurement, v6
     fruit = "Früchte", # filters out ads with bags of fruit
     coffee = "Kaffee", # filters out ads with bags of coffee
     cloth = "Beuteltuch", # cloth for bags
     place = "Säckingen", # placename
     potato = "Erdäpfel", # filters out ads with bags of potatoes
-    oat = "Habersäck", # bags of oats
-    travel = "Fußsäck|Nachtsäck", # leather blanket for carriage passengers and sleeping bags
-    books = "Taschenkalender|Taschenbuch|Taschenbüch|Hauskalender", # pocket books and calendars
-    pocketsize = "Taschen-Perspektiv|Taschenspiel|Taschenfeuer|(Taschen|Sack)uhr|(Taschen|Sack)-Uhr|Taschen-Latern|Taschenlatern|Taschenmesser|Federmesser", # pocketsize versions of other objects
+    oat = "Habers(ä|a)ck", # bags of oats
+    travel = "(Fu(ß|ss)|Nacht)s(ä|a)ck", # leather blanket for carriage passengers and sleeping bags
+    books = "(Taschen|Haus|Sack)((k|c)alender|b(u|ü)ch)|(Taschen|Haus|Sack)-((k|c)alender|b(u|ü)ch)", # pocket books and calendars
+    pocketsize = "Taschen-Perspektiv|Taschenspiel|Taschenfeuer|(Taschen|Sack)(uhr|pist(o|oh)le)|(Taschen|Sack)-(Uhr|Pist(o|oh)le)|Taschen-Latern|Taschenlatern|(Taschen|Sack|Feder)messer", # pocketsize versions of other objects
     administration = "Seckelmeister|Seckelrechnung|Seckel-", # administrative positions and words containing "Seckel"
     description = "Taschenformat|Taschenform" # description of pocketsize of an object
   )
@@ -71,11 +75,14 @@ tagfilter_animalraw <- function(){
 
   )
   dict$neg <- list(
+    animal = "Federen-Pudel", # kind of dog
+    bedding = "Deckbett", # bedding
+    adjective = "flaumen(es|e)", # adjective/ description
     carriage = "Chaise", # description of carriages ("Federen")
     upholstery = "ausgepolstert", # removes upholstery containing horsehair
     household = "Roßhaarsieb", # strainer from horsehair
     garment = "Roßhaar-Cravat|roßhaarne\\s|roßhaarene\\s", # garments from horsehair
-    plums = "Pflaumen\\s" # plums
+    plums = "Pflaumen\\s|Pflaumenb(a|ä)um" # plums
   )
   create_filter_output(dict)
 
@@ -140,7 +147,7 @@ tagfilter_carriage <- function(){
     mail = "Post(a|aa|ä)gen|Postkutsche|Post-Anzeige|Postanzeige|Post-Chaise|Postillon", # mail coach
     measure_1 = "W(a|aa|ä)gen voll", # measurement of something in coaches, v1
     measure_2 = "Grube|w(a|aa|ä)genwei(s|ß)|Heu|Emd|verwährt", # carloads and objects measured in carloads
-    measure_3 = "Loth wägen", # measure v3
+    measure_3 = "(Loth|Pfund) wägen", # measure v3
     scale = "Schnell-W(a|aa|ä)g|Schnellw(a|aa|ä)g|Waagbalcken|Romaine", # scales
     tool = "W(a|aa|ä)genwinde|W(a|aa|ä)gen-Winde|Winde|Zentner", # tool for lift heavy loads
     lost_1 = "ab einem W(a|aa)gen", # losing something from a carriage, v1
@@ -163,12 +170,13 @@ tagfilter_carriage <- function(){
     travel_6 = "gewidmet|Einkehr", # travel by carriage, v6
     travel_7 = "dahin gehend", # travel by carriage, v7
     travelcompanion = "Reisegesellscha(f|ff)t|Comagnie|Gesellschafft|Gelegenheit|Compagnie", # searching and offering of company
-    other = "Pantzer|Flaschenkette", # other small objects
-    ocr = "wägenkann", # ocr mistake
+    other = "Pantzer|Flaschenkette|Goldwaage", # other small objects
+    ocr_1 = "wägenkann|wagenoder|Wagenvoll", # ocr mistake
+    name = "Mr. Poaumarchais", # name
     verb_2 = "zu wägen", # verbs
     noobject = "wägende|Wagenhau(ß|s)", # no objects
     toy = "Kinder-|Kinder(chais|wag|kutsch)", # excludes toy carriges for children
-    animal = "Chaise-Pferd|Reisepferd|Chaisepferd" # horses for drawing carriages,
+    animal = "(Chaise|Cabriolet)-Pferd|(Reise|Chaise|Cabriolet)pferd|Wagenro(s|ß)" # horses for drawing carriages,
   )
   create_filter_output(dict)
 }
@@ -198,13 +206,16 @@ tagfilter_storage <- function(){
     tub = "Trog\\b"
   )
   dict$neg <- list(
-    place = "Goldküste", # placename
+    handbag = "(Strick|Pist(o|oh)len|Geld|Weiber|Mantel|Nac(ht|h)|Mantel|Pist(o|oh)lenhulftern)s(a|ä)ck|(Strick|Pist(o|oh)len|Geld|Weiber|Mantel|Nac(ht|h)|Mantel|Pist(o|oh)lenhulftern)-s(a|ä)ck",
+    pocketsize = "Sack(fl(a|ä)sch|puffert)|Sack-(fl(a|ä)sch|puffert)", # pocketsize objects
+    place_1 = "Goldküste", # placename, v1
+    place_2 = "zum Korb", # placename, v2
     death = "beerdigt", # death notices
     bed = "Strohs(ä|a)ck", # bedding
-    book = "Buchdrucker|Bibel", # filters out book ads
+    book = "Buchdrucker|Bibel|Sack((k|c)alender|b(u|ü)ch)|Sack-((k|c)alender|b(u|ü)ch)", # filters out book ads
     carriage = "Chaise|Schäse", # excludes carriages with baskets or boxes
     stroller = "Kinderwagen|Kinderwäg", # excludes strollers with baskets
-    pocketknife = "Sackmesser", # pocketknife
+    pocketsize = "Sackmesser|Sack-Fernr(o|ö)hr", # pocketsize objects
     travel= "Fussack|Fußsack|Reissack|Reisesack|Reis-Sack|Reise-Sack", # foot rest for carriages and bags for travel
     bed = "Strohsack|Bettsack|Nachtsack", # bag full of straw, used as bedding
     textile = "Sacktuch", # textile
@@ -228,10 +239,11 @@ tagfilter_storage <- function(){
     measure_15 = "Sack um", # number of bags of something, v 15
     measure_16 = "Sack von", # number of bags of something, v 16
     measure_17 = "Sackvon", # number of bags of something, v 17
-    measure_18 = "sackweis", # number of bags of something, v 18
+    measure_18 = "(s(a|ä)ck|korb)(weis|voll)", # number of bags of something, v 18
+    measure_19 = "halbe(n|r) Sack", # number of bags of something, v 19
     beehive = "Bienenkorb|Bienenkörb", # bee hives
     stroller = "Korbwage|Korbwäge", # strollers and prams (own category)
-    profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden", # professions and shops
+    profession = "Korbmacher|Korbhändler|Korbladen|KorbLaden|Säckler\\b|S(a|ä)cktr(a|ä)ger", # professions and shops
     cabinet = "Bücherkäst|Glaskäst", # differet kinds of cabinets
     watch_1 = "Sackuhr|Sack-Uhr", # pocketwatch, v1
     watch_2 = "Sack Uhr", # pocketwatch, v1
@@ -240,7 +252,7 @@ tagfilter_storage <- function(){
     light = "Sackfeuer|Sacklatern", # pocket lighter and lantern
     graveyard = "Gottesacker", # graveyard
     other = "Korbgitter", # unknwon object, but no storage
-    textile = "Sacktuch|Sacktüch" # name for specific kind of cloth
+    textile = "Sack(t(u|ü)ch|zwilch)" # name for specific kind of cloth
 
 
   )
@@ -269,6 +281,14 @@ tagfilter_building <- function(){
     pipe = "Rohr"
   )
   dict$neg <- list(
+    unknown = "Beinrohr", # unknown object, but no building material
+    curch = "Kirchenthür", # church doors
+    person = "Ziegel-Jgfr", # name
+    factory = "Manufaktüre", # factory
+    food = "Blatten-Kraut", # food
+    gun = "Luntenrohr", # weapons
+    tobacco = "(Taba(ck|k|kk)|Pfeifen)rohr|(Taba(ck|k|kk)|Pfeifen)-Rohr", # tobacco objects
+    knitting = "Strickrohrlein", # knitting objects
     verb = "gestiegen", # verb containing "stiege"
     news = "Pulver-Mühl|Stockwerck|Mordthat", # excludes news containing "Hauß" and "Fenster"
     umbrella = "Parapluie", # descriptions of umbrellas with "rohr"
@@ -287,14 +307,14 @@ tagfilter_building <- function(){
     book = "Kupfferblatt", # book ads
     weapon = "Flin(th|t)e", # weapons with a "rohr"
     tool = "Glaserwerckzeug", # tools
-    tobacco = "Bla(ß|ss|s)rohr-Steck|Pfeifenrohr", # tobacco utensil
+    tobacco = "Bla(ß|ss|s)rohr|Pfeifenrohr", # tobacco utensil
     walking = "Spannisc(h|he|hes) Rohr", # walking cane
     adjective = "glatt", # containing "latt"
     divider = "Scheidwand", # excludes doors as part of room dividers
     cabinet = "Kasten", # excludes doors as a part of cabinets
     immo = "Ladenthüre|beschlüssig|beschlossen|Estrich|Küche|Hinterthür|Fasnachtfronfast", # words indicating immo-ads
     ocr = "dieletze", # ocr mistakes
-    place_1 = "Ziegelh(oo|o)f", # places in Basel
+    place_1 = "Ziegelh(oo|o)f|Ziegel-Hütte", # places in Basel
     place_2 = "Stiege hoch" # description of location of something
 
   )
@@ -309,7 +329,7 @@ tagfilter_suitcase <- function(){
   dict <- list()
   dict$pos <- list(
     suitcase = "(K|C)off(er|re)",
-    travelbag = "Rei(ss|se|ß|s)(a|ä)ck|Rei(s|ss|se|ß)-S(a|ä)ck|Rei(ss|ß|s|se)zeug"
+    travelbag = "Rei(ss|se|ß|s)(a|ä)ck|Rei(s|ss|se|ß)-S(a|ä)ck"
   )
   dict$neg <- list(
     place = "Karrenhof", # placename
@@ -348,7 +368,11 @@ tagfilter_trolley <- function(){
     objects = "Wagenkette|(Leit|Zug)seil"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    child = "Laufkarren", # toy for a child ########### has to be added to toys or strollers ###########
+    rope = "Leitseiler", # rope
+    profession = "Bibliothekar", # professions
+    measure_1 = "Karrenvoll", # measure v1
+    measure_2 = "Karren voll" # measure v2
   )
   create_filter_output(dict)
 }
@@ -391,6 +415,8 @@ tagfilter_health <- function(){
     polish = "Schmiere|Wichse|Schella(ck|k)"
   )
   dict$neg <- list(
+    noobject = "Gegend\\b|Mittelsorte", # no objects
+    adjectives = "mittellos", # adjectives
     food = "Cacao|Kaffee", # food in form of powder
     object = "Mittelstück|Pulverh(o|ö)rn|Pulverflaschen", # other objects
     book = "Abhandlung|Jahrb(u|ü)ch", # excludes book titles
@@ -424,7 +450,10 @@ tagfilter_weapon <- function(){
     sheath = "Scheide"
   )
   dict$neg <- list(
-    other = "Abscheiden|unterscheiden|bescheiden|Scheideweg", # no objects (containing "scheide")
+    adjective = "responsabel", # contains "sabel
+    storage = "(Zucker|Ble(i|y)|Pfund)büchs", # storage (Büchse)
+    tobacco = "T(o|a)ba(ck|k|kk|c)", # tobacco stored in boxes (Büchse)
+    other = "Markscheide|Abscheide|unterscheiden|bescheiden|Scheideweg", # no objects (containing "scheide")
     profession = "Scheidenmacher" # profession
   )
   create_filter_output(dict)
@@ -446,6 +475,8 @@ tagfilter_shopequip <- function(){
     general = "Handelsutensil|Ladengerä(th|t)scha(f|ff)t"
   )
   dict$neg <- list(
+    noobject = "(Waisen|Gesellschafts)-Cassa|Cassa-Stifter", # no objects
+    finance = "Capitalien", # finance ads
     storage = "Cassette|Cassettlein" # other storage objects
   )
   create_filter_output(dict)
@@ -478,7 +509,12 @@ tagfilter_tool <- function(){
     general = "Wer(k|c|ck)zeug|Quincaillerie"
   )
   dict$neg <- list(
-
+    name = "Rothenhammer", # family name
+    noobjects = "Proportional-Zirkel|Zirkels\\b", # no objects
+    adjective = "zirkelrund", # adjectives
+    place = "blaue(n|r) Hammer", # house name
+    immo = "Hammerschmidte", # immo ads
+    music = "Hammer(c|k)laver", # muscial instrument
     strawberry = "Frambose", # strawberries and liquors (french)
     adjective = "ungehobelt" # description of wood
   )
@@ -506,7 +542,12 @@ tagfilter_stationary <- function(){
     general = "Schreibzeug"
   )
   dict$neg <- list(
-    profession = "Tuchscheer", # profession
+    ocr = "höchstinter|sätintert", # ocr mistakes
+    book = "Gesangbuch", # filters out book ads
+    light = "Lichtscheer", # scissors to cut candle wicks
+    tobacco = "T(o|a)ba(k|kk|c|ck)", # tobacco objects (can be from paper)
+    noobject = "Dintenfleck|gepinselt|W(a|ä)schere(i|y)|dinter(e|é)t", # no objects
+    profession = "Tuchscheer|Scheerer", # professions
     garden = "(Haag|Baum)scheere|(Haag|Baum)-Scheere" # for cutting plants
   )
   create_filter_output(dict)
@@ -546,14 +587,17 @@ tagfilter_wood <- function(){
 # maybe include "hol(tz|z)" and "Klafter", but negatives are tricky
   )
   dict$neg <- list(
+    name = "Hr Pfähler", # family name
+    official = "Begehren", # official ads containing wood (z.B. Bauholz-Begehren)
+    measure = "führlin(g|gs)wei(s|ß)", # measurement
     copper = "Kup(ff|f)er(b|p)latte", # copper prints
     description = "unter Platten", # description of furniture
     adjective = "glatte", # adjective
     stone = "Marmor-Platte|Marmorplatte|Sandsteinplatte|Sandstein-Platte", # type of stones
     textiles = "Glatten|Bastplatten|Garn", # type of textiles
     ocr = "dieLehre", # ocr mistakes
-    verb = "zuwellen", # verbs
-    place_1 = "Schwar(z|tz)enpfahl|Schwar(z|tz)pfahl|Schwar(z|tz)en-Pfahl|Grünpfahlg(a|ä)", # placenames
+    verb = "(zu|versch)wellen", # verbs
+    place_1 = "Schwar(z|tz)enpfahl|Schwar(z|tz)pfahl|Schwar(z|tz)en-Pfahl|Grünpfahlg(a|ä)|Pfahlg(a|ä)", # placenames
     place_2 = "Schwar(z|tz)en Pfahl", # placenames
     immo = "Brennhol(tz|z)-Magazin|Behausung|Losament|Kammer|Stube" # placeholder
   )
@@ -570,7 +614,10 @@ tagfilter_barrel <- function(){
     barrel_2 = "St(ü|u)cklein Fa(s|ß|ss)"
     )
   dict$neg <- list(
-    immo_1 = "Losament|Stube", # excludes immo ads, v1
+    textile = "Canafaß", # specific kind of textile
+    measure_1 = "à piece", # measure, v1
+    measure_2 ="vom Fa(s|ß)", # measure, v2
+    immo_1 = "Losament|Stube", # excludes immo ads, v1 (Keller doesn't work as a negative, bc often Keller and Fässer are sold together)
     immo_2 = "Platz für", # excludes immo ads, v2
     wood = "(D|T)augenhol(tz|z)", # wood for barrels
     carneval = "Fa(ss|ß)nacht", # carneval
@@ -592,7 +639,11 @@ tagfilter_tobacco <- function(){
     Taba(r|k|ck|ks|cks|c|cs)ti(e|è)r"
   )
   dict$neg <- list(
-    immo = "Losament|Kuchin|Küche|Stube" # filters out immo ads
+    unknwon = "Pfeifenerde", # unknown object (keep it in?)
+    birds_1 = "zum Paaren", # ads for birds with descriptions (Pfeifen), v1
+    birds_2 = "schön pfeifen", # ads for birds with descriptions (Pfeifen), v2
+    birds_3 = "pfeifend", #ads for birds with descriptions (Pfeifen), v3
+    immo = "Losament|Kuchin|Küche|Stube|Mühle" # filters out immo ads
   )
   create_filter_output(dict)
 }
@@ -608,8 +659,15 @@ tagfilter_hay <- function(){
     pasture_2 = "Gra(s|ss|ß) auf"
   )
   dict$neg <- list(
+    trolley = "Heu-W(ä|a)ge", # trolley for hay/straw
+    seeds = "Kleesaamen|Klee-Saamen", # seeds
+    hat = "Stroh-H(ü|u)(t|th)", # straw hats
+    textile = "Stroh-Decke", # textiles
+    profession = "Stroh-Arbeiten|Stroh-Schneidstuhl", # professions using straw
+    noobject = "Kleebau", # no objects
+    name = "Kleemann", # family name
     objects = "Stroh-(Sessel|Sack)|Stroh(sack|sessel)|Rockstroh|Stroh-Bord", # objects out of straw
-    ocr = "französischeu|Kücheu", # ocr mistakes
+    ocr = "öffentlicheu|französischeu|Kücheu", # ocr mistakes
     place = "auf dem Heu" # placename (Heuberg, finds those not in one word)
   )
   create_filter_output(dict)
@@ -635,7 +693,7 @@ tagfilter_woodobject <- function(){
 tagfilter_dung <- function(){
   dict <- list()
   dict$pos <- list(
-    dung_1 = "(K(ü|u)h|Pfer(d|de)|Schwei(n|ne)|Tauben|Ziegen)(bau|mist)", # possibly add "\\bBau\\b", but a lot of negatives at this point
+    dung_1 = "(K(ü|u)h|Pfer(d|de)|Schwei(n|ne)|Tauben|Ziegen|Sch(a|aa)f)(bau|mist)", # possibly add "\\bBau\\b", but a lot of negatives at this point
     dung_2 = "verwährter Bau"
   )
   dict$neg <- list(
@@ -663,6 +721,10 @@ tagfilter_plant <- function(){
 
   )
   dict$neg <- list(
+    measure = "baumweis", # measurement of wood
+    noobject = "Baumbach(t|n)|Pflanzen-System",
+    food = "Baumö(hl|l)", # food
+    activity = "(Baum|Be)schneiden", # cutting trees
     name_1 = "Wittwe Nägelin", # family name 1
     name_2 = "Jakob Nägelin", # family name 2
     name_3 = "Adam Nägelin", # family name 3
@@ -677,9 +739,9 @@ tagfilter_plant <- function(){
     Brosamen|Pflanzenschleim|Wendelbaum|Wendel-Baum|Brennbaum|Schlagb(a|ä)um|Baum-Garten", # other object, v1
     other_2 = "Baum Trotte", # other objects, v2
     place_1 = "Maulbaum|Bauma\\b", # place names, v1
-    place_2 = "dem Bäumlein", # place names, v2
+    place_2 = "(dem|am|ans|vom) B(ä|a)umlein", # place names, v2
     immo = "Matten|Feld|Baumgarten|Liegenscha(f|ff)t|Losamen|Wohnh(a|ä)us|Wohnung|Wirtshaus|Scheuer|Juchart", # excludes immo ads with plants
-    description = "nu(ß|ss)b(ä|a)umern|nu(ß|ss)b(ä|a)umen|baumrund|kirschbaum|Nu(ss|ß)baumhol(tz|z)|Buchsbaumhol(tz|z)|Nu(ß|ss)baumgehäus" # description of furniture and clothes
+    description = "nu(ss|ß)baumnen|kirschbaumholzen|nu(ß|ss)baumesteller|(birn|nu(ß|ss)|kirsch)b(ä|a)um(ern|en)|baumrund|(Nu(ss|ß)|Buchs)baum(hol(tz|z)|gehäus)" # description of furniture and clothes
   )
   create_filter_output(dict)
 }
@@ -690,7 +752,7 @@ tagfilter_glasses <- function(){
   dict <- list()
   dict$pos <- list(
     glasses = "Brille|(Augen|Lese)gl(a|ä)s",
-    lens = "Luppe",
+    lens = "Luppe|Augenspiegel",
     opera = "Lorgnette|Perspektiv|Lorgnon",
     telescope = "Telescop|Fernr(o|ö)hr",
     microscope = "Micros(c|k)op",
@@ -711,9 +773,9 @@ tagfilter_soil <- function(){
   dict <- list()
   dict$pos <- list(
     soil = "(Garten|Matten)grund|(Garten|Matten)-Grund",
-    gravel = "Birsgrien|Kieselsteine|Asphalt",
+    gravel = "Birsgrien|Kieselstein|Asphalt",
     lime = "Kal(k|ch)",
-    red = "ro(t|th)e W(aa|a)re",
+    red = "ro(t|th)e W(aa|a)r",
     plaster_1 = "gebr(an|au)nter G(y|i)ps",
     ash = "(gute|buchene) Asch(e|en)\\b"
   )
@@ -737,12 +799,14 @@ tagfilter_agriculture <- function(){
     animal = "Mastbütte|Bienenst(o|ö)ck"
   )
   dict$neg <- list(
+    french = "senseignent", # french containing "sense"
+    trolley = "Heuwagen", # trolley for hay
     name = "Pflugg(ä|a)", # place name
-    ocr = "senseit|wachsense", # ocr mistakes (contain "sense")
+    ocr = "senseit|wachsense|sorechen", # ocr mistakes (contain "sense")
     name = "Rechenmacher", # family name
-    other = "Rechenscha(f|ff)t|Rechen(meister|schul|rat)", # no objects
-    verb = "sprechen|brechen", # berbs containing "rechen"
-    maths = "Rechen(kunst|tafel)|Rechen-(Tafel|Kunst)" # mathematics
+    other = "Rechenscha(f|ff)t|Rechen(räth|kun(s|f)t|meister|schul|rat)|Rechen-Räth", # no objects
+    verb = "erfrechen|sprechen|brechen|(ent|gut)sprechen", # berbs containing "rechen"
+    maths = "Rechen(kunst|tafel|buch)|Rechen-(Tafel|Kunst|Buch)" # mathematics
   )
   create_filter_output(dict)
 }
@@ -769,13 +833,13 @@ tagfilter_riding <- function(){
 tagfilter_well <- function(){
   dict <- list()
   dict$pos <- list(
-    well = "(Brun(n|nen)|Wasser)stein|(Brun(n|nen)|Wasser)-Stein|Brun(n|nen)trog|Brun(n|nen)-Stein|Brun(n|nen)-Trog|
-    Brunnstiefel|Brunn-Stiefel",
+    well = "(Br(u|ü)n(n|nen)|Wasser)stein|(Brun(n|nen)|Wasser)-Stein|Br(u|ü)n(n|nen)trog|Br(u|ü)n(n|nen)-Stein|Br(u|ü)n(n|nen)-Trog|
+    Br(u|ü)n(n|nen)stiefel|Br(u|ü)n(n|nen)-Stiefel",
     pump = "Wasserpumpe|Wasser-Pumpe",
-    parts = "Zu(ge|be)hörde zu einem (Ziehbrunn|Brunn|Wasser)"
+    parts = "Zu(ge|be)hörde zu einem (Ziehbrunn|Br(u|ü)n(n|nen)|Wasser)"
   )
   dict$neg <- list(
-    immo = "Wohnung|Kammer|Losament|Stube|Küche|Laden|beziehen|Fronfast|Keller|Zimmer" # excludes immo ads
+    immo = "Wohnung|Kammer|Losament|Stube|Küche|Laden|beziehen|Fronfast|Keller|Zimmer|Hof|Höflein|Haus|H(aü|äu|au)slein" # excludes immo ads
   )
   create_filter_output(dict)
 }
@@ -790,7 +854,8 @@ tagfilter_naturalia <- function(){
     minerals = "Versteinerung|Mineralien"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    books = "Anweisung", # book titles containing naturalia
+    buttons = "Kn(o|ö)pf" # buttons from naturalia material
   )
   create_filter_output(dict)
 }
@@ -803,17 +868,18 @@ tagfilter_container <- function(){
     container = "Z(u|ü)ber|Eimer|Trog|B(ö|o|u)(ck|k|ckt|kt)(lin|re)"
   )
   dict$neg <- list(
+    measure = "z(u|ü)berweis", # measuring something in "Züber"
     ocr = "beimerian", # ocr mistake
     name_1 = "Fr. Böcklin", # family name, v1
     name_2 = "Fr.Böcklin", # family name, v2
     name_3 = "Seimer", # family name, v3
-    place = "Arlesheimer|Türckheimer|H(e|ä)genheim|Ma(n|nn)heim", # place names
+    place = "Rirheim|Blotzheim|Regisheim|Hochheim|M(ü|üh)(l|ll)heim|Pforzheim|Arlesheimer|Türckheimer|H(e|ä)genheim|Ma(n|nn)heim", # place names
     cash = "Gel(d|t)trog", # object for holding cash
     fire = "Feuereimer|Feuer-Eimer", # fire prevention
     well = "Brunntrog", # well
     other = "Geheimerat|Zubereitung", # no objects
     trolley = "Trogkarren", # trolley
-    verbs = "betrogen|zubereite|hinzuberuf" # verbs
+    verbs = "berichten|betrogen|zubereite|hinzuberuf" # verbs
   )
   create_filter_output(dict)
 }
@@ -838,8 +904,8 @@ tagfilter_extinguisher <- function(){
   dict <- list()
   dict$pos <- list(
     extinguisher = "Feuerspritze|Feuer-Spritze",
-    bucket_1 = "Feuereimer|Feuer-Eimer",
-    bucket_2 = "Feuer Eimer"
+    bucket_1 = "(Feuer|Lösch)(eimer|trog|z(u|ü)ber)|(Feuer|Lösch)-(eimer|trog|z(u|ü)ber)",
+    bucket_2 = "Feuer (Eimer|Trog|Z(u|ü)ber)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -889,15 +955,16 @@ tagfilter_key <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Walking Canes # why is "spanisch rohr" not in this?
+#' Dictionary Walking Canes
 #' @export
 tagfilter_cane <- function(){
   dict <- list()
   dict$pos <- list(
-    cane = "Spazierst(o|ö)ck"
+    cane_1 = "Spazierst(o|ö)ck",
+    cane_2 = "spanisc(h|he|hes|her) R(o|ö)hr"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    other = "Blasrohr" # other objects
   )
   create_filter_output(dict)
 }
@@ -912,7 +979,7 @@ tagfilter_wineobject <- function(){
     consumption = "Wei(nhah|nhäh|nha|nhä)nen|Wein-H(ah|a)nen|Wein-H(äh|ä)nen|Wein(krause|schild)"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    verb = "abz(a|ä)pfen" # verbs
   )
   create_filter_output(dict)
 }
@@ -972,7 +1039,7 @@ tagfilter_miscobject <- function(){
     magnets = "Magnet"
   )
   dict$neg <- list(
-    other = "Berathungsgegenständ|magnetisch|Magnetismus" # no objects
+    other = "Gedanken|B(u|ü)ch|Brief|Berathungsgegenständ|magnetisch|Magnetismus|Obligation" # no objects
   )
   create_filter_output(dict)
 }
