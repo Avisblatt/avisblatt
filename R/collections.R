@@ -168,6 +168,19 @@ Collection <- R6Class("Collection", list(
     # otherwise the current collection istance is subsetted!
     self$corpus <- self$corpus[ids]
     self$meta <- self$meta[id %in% ids,]
+  },
+  remove_records = function(ids, verbose = TRUE){
+    # very similar to subset, but just a negative selection
+    prev_l <- length(self$corpus)
+    keep_tf <- names(self$corpus)[!(names(self$corpus) %in% ids)]
+    self$corpus <- self$corpus[keep_tf]
+    current_l <- length(self$corpus)
+    self$meta <- self$meta[!(id %in% ids),]
+    if(verbose){
+      message(sprintf("%d record(s) removed from the collection.",
+                      prev_l - current_l))
+    }
+
   }
 
 ))
