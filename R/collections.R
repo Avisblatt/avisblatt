@@ -89,20 +89,35 @@ Collection <- R6Class("Collection", list(
   },
   add_tags = function(ids = NULL, tags_vec, overwrite = FALSE){
     if(is.null(ids)){
-      if(overwrite){
-        return(self$meta[, tags := tag_vec])
-      } else {
-        return(self$meta[, tags := current_tag])
-      }
-    }
-    if(!overwrite){
+      current_tag <- self$meta[, tags]
+    } else{
       current_tag <- self$meta[id %in% ids, tags]
-      current_tag <- lapply(current_tag, function(x, tags_vec){
-        unique(c(x, tags_vec))
-      }, tags_vec = tags_vec)
-      self$meta[id %in% ids, tags := current_tag]
-    } else {
-      self$meta[id %in% ids, tags := tags_vec]
+    }
+
+    # simplest case, no ids assumes all tags get replaced by
+    # tag vector specified.
+    if(overwrite & is.null(ids)){
+      return(self$meta[, tags := tags_vec])
+    }
+
+    # only those tags of the ids specified in the ids
+    # vector get replaced
+    if(overwrite & !is.null(ids)){
+      return(self$meta[id %in% ids, tags := tags_vec])
+    }
+
+    # we can run this for all cases because of the
+    # above return statements, simply appends
+    # tag vector to whatever current tag is w/o overwriting
+    current_tag <- lapply(current_tag, function(x, tags_vec){
+      unique(c(x, tags_vec))
+    }, tags_vec = tags_vec)
+
+
+    if(is.null(ids)){
+      return(self$meta[, tags := current_tag])
+    } else{
+      return(self$meta[id %in% ids, tags := current_tag])
     }
   },
   add_language = function(ids = NULL, lang){
@@ -149,9 +164,12 @@ Collection <- R6Class("Collection", list(
     })
     invisible(self)
   },
-  search_tags = function(search, search_manual = FALSE){
-    if(search_manual) return(self$meta[grepl(search, self$meta$tags_manual), id])
-    self$meta[grepl(search, self$meta$tags), id]
+  search_tags = function(search, search_type = c("tags","manual","header")){
+    match.arg(search_type)
+    switch(search_type,
+           tags = self$meta[grepl(search, self$meta$tags), id],
+           manual = self$meta[grepl(search, self$meta$tags_manual), id],
+           header = self$meta[grepl(search, self$meta$tags_section), id])
   },
   show_distinct_tags = function(manual = FALSE){
     if(manual){
