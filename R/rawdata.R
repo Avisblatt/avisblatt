@@ -59,6 +59,38 @@ RawData <- R6Class("RawData", list(
       # atm, but shouldn't! This asks for more freizo corrections.
       self$data <- self$data[!(duplicated(id)),]
 
+
+      # I moved the throwing out of lines up here, to be applied
+      # before clean formatting and reading order calculation
+      # (no need and potential source of problems to process
+      # the records that are to be dropped) (AE)
+      # ...and somehow this seems also to cure the problem that
+      # cleaning, mast/table dropping, and reading order creation
+      # work for gt-years 1734 and 1774, but not 1754 and 1834
+
+      # Doesn't render line 60 this one useless? (AE)
+      if(remove_duplicates){
+        self$data <- unique(self$data)
+      }
+
+
+      if(remove_test_data){
+        setkey(self$data,name)
+        self$data <- self$data[!test_users]
+        # I added the next line as "test" is found in the set, not name column (AE)
+        setkey(self$data,set)
+        self$data <- self$data[!"test"]
+      }
+
+      if(remove_invalid_data){
+        # throwing out lines not referring to ads
+        setkey(self$data,set)
+        self$data <- self$data[!"tables"]
+        self$data <- self$data[!"mast"]
+      }
+
+
+
       if(clean_formatting){
         if(!("textutils" %in% rownames(installed.packages()))){
           stop("Package textutils is not installed. Please install the package from CRAN or set clean_formatting to FALSE.")
@@ -121,28 +153,6 @@ RawData <- R6Class("RawData", list(
 
         # make sure coords data.table has the some order of rows as the initital dataset
         self$data$readingorder <- coords_ordered[(match(self$data$id, coords_ordered$id)), "readingorder"]
-      }
-
-      if(remove_test_data){
-        setkey(self$data,name)
-        self$data <- self$data[!test_users]
-        self$data <- self$data[!"test"]
-      }
-
-      if(remove_invalid_data){
-        # can't reproduce this check... talk to Alex.
-        # setkey(self$data,isodate)
-        # self$data <- self$data[!"--00"]
-        # self$data <- self$data[!is.na(isodate)]
-
-        # throwing out lines not referring to ads
-        setkey(self$data,set)
-        self$data <- self$data[!"tables"]
-        self$data <- self$data[!"mast"]
-      }
-
-      if(remove_duplicates){
-        self$data <- unique(self$data)
       }
 
       if(drop_na_cols){
