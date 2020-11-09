@@ -178,8 +178,15 @@ Collection <- R6Class("Collection", list(
       unique(unlist(self$meta$tags))
     }
   },
-  get_headers = function(){
-    self$meta[(isheader), id]
+  get_headers = function(text = FALSE){
+    if(text){
+      if(is.null(self$corpus)){
+        stop("Collection has been read with meta info only. Use meta_info_only = TRUE in read_collections to be able to get header texts")
+        } else{
+      texts(corpus_subset(self$corpus, isheader == TRUE))}
+    } else{
+      self$meta[(isheader), id]
+    }
   },
   subset_collect = function(ids){
     # this should be used with deep clone

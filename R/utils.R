@@ -59,7 +59,7 @@ read_collection <- function(name_on_disk, meta_info_only = FALSE){
   meta_file <- paste0(name_on_disk, ".json")
 
   if(!meta_info_only){
-    dt <- fread(data_file)
+    dt <- fread(data_file, encoding="UTF-8")
     crps <- corpus(dt, docid_field = "id",
                    text_field = "text")
   }

@@ -96,3 +96,6 @@ remotes::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
 | 2020-11-05 12:33:57 | 1754 | SUCCESS | Step 2 of 2 (processing) ok. |
 | 2020-11-05 12:39:22 | 1754 | SUCCESS | Step 2 of 2 (processing) ok. |
 | 2020-11-05 12:49:42 | 1834 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2020-11-06 17:46:27 | 1824 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2020-11-06 17:55:47 | 1844 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2020-11-06 18:44:38 | 1844 | SUCCESS | Step 2 of 2 (processing) ok. |
