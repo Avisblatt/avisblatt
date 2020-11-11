@@ -171,6 +171,47 @@ Collection <- R6Class("Collection", list(
            manual = self$meta[grepl(search, self$meta$tags_manual), id],
            header = self$meta[grepl(search, self$meta$tags_section), id])
   },
+  search_tags2 = function(tagslist = "", headerlist = "", manualtagslist = ""){
+    tags <- self$meta[grepl(tagslist[1], self$meta$tags), id]
+    if(length(tagslist) > 1){
+      for (i in 2:length(tagslist)){
+        tags <- intersect(tags, self$meta[grepl(tagslist[i], self$meta$tags), id])
+      }
+    }
+    header <- self$meta[grepl(headerlist[1], self$meta$tags_section), id]
+    if(length(headerlist) > 1){
+      for (i in 2:length(headerlist)){
+        header <- intersect(header, self$meta[grepl(headerlist[i], self$meta$tags_section), id])
+      }
+    }
+    manual <- self$meta[grepl(manualtagslist[1], self$meta$tags_manual), id]
+    if(length(manualtagslist) > 1){
+      for (i in 2:length(manualtagslist)){
+        manual <- intersect(manual, self$meta[grepl(manualtagslist[i], self$meta$tags_manual), id])
+      }
+    }
+    intersect(tags, intersect(manual, header))
+  },
+  get_reprints = function(status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+    match.arg(status)
+    switch(status,
+           reprinted_orig = self$meta[grepl("original", self$meta$reprint_of), id],
+           unreprinted_orig = self$meta[grepl("none", self$meta$reprint_of), id],
+           no_reprints = self$meta[grepl("original|none", self$meta$reprint_of), id],
+           # and finally reprints, i.e. all that is not "NA", "none", "original",
+           # i.e. does not start with N, n or o
+           reprints = self$meta[grepl("^[^Nno]", self$meta$reprint_of), id])
+  },
+  select_reprints = function(ids = NULL, status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+    match.arg(status)
+    switch(status,
+           reprinted_orig = intersect(ids, self$meta[grepl("original", self$meta$reprint_of), id]),
+           unreprinted_orig = intersect(ids, self$meta[grepl("none", self$meta$reprint_of), id]),
+           no_reprints = intersect(ids, self$meta[grepl("original|none", self$meta$reprint_of), id]),
+           # and finally reprints, i.e. all that is not "NA", "none", "original",
+           # i.e. does not start with N, n or o
+           reprints = intersect(ids, self$meta[grepl("^[^Nno]", self$meta$reprint_of), id]))
+  },
   show_distinct_tags = function(manual = FALSE){
     if(manual){
       unique(unlist(self$meta$tags_manual))
