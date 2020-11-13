@@ -82,6 +82,8 @@ Collection <- R6Class("Collection", list(
         date = as.Date(docvars(self$corpus, "date")),
         tags = list(),
         tags_manual = tm,
+        ntokens = ntoken(texts(self$corpus)),
+        nchar = nchar(texts(self$corpus)),
         language = NA_character_
       )
     }
@@ -164,6 +166,47 @@ Collection <- R6Class("Collection", list(
     })
     invisible(self)
   },
+  get_headers = function(text = FALSE){
+    if(text){
+      if(is.null(self$corpus)){
+        stop("Collection has been read with meta info only. Use meta_info_only = TRUE in read_collections to be able to get header texts")
+      } else{
+        texts(corpus_subset(self$corpus, isheader == TRUE))}
+    } else{
+      self$meta[(isheader), id]
+    }
+  },
+  get_reprints = function(status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+    match.arg(status)
+    switch(status,
+           reprinted_orig = self$meta[grepl("original", self$meta$reprint_of), id],
+           unreprinted_orig = self$meta[grepl("none", self$meta$reprint_of), id],
+           no_reprints = self$meta[grepl("original|none", self$meta$reprint_of), id],
+           # and finally reprints, i.e. all that is not "NA", "none", "original",
+           # i.e. does not start with N, n or o
+           reprints = self$meta[grepl("^[^Nno]", self$meta$reprint_of), id])
+  },
+  select_reprints = function(ids = NULL, status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+    match.arg(status)
+    switch(status,
+           reprinted_orig = intersect(ids, self$meta[grepl("original", self$meta$reprint_of), id]),
+           unreprinted_orig = intersect(ids, self$meta[grepl("none", self$meta$reprint_of), id]),
+           no_reprints = intersect(ids, self$meta[grepl("original|none", self$meta$reprint_of), id]),
+           # and finally reprints, i.e. all that is not "NA", "none", "original",
+           # i.e. does not start with N, n or o
+           reprints = intersect(ids, self$meta[grepl("^[^Nno]", self$meta$reprint_of), id]))
+  },
+  select_by_length = function(ids = NULL, min = 0, max = 1000000, unit = "tokens"){
+    if(unit == "tokens"){
+      ids <- intersect(ids, self$meta[ntokens >= min, id])
+      intersect(ids, self$meta[ntokens <= max, id])
+    } else if(unit == "char"){
+      ids <- intersect(ids, self$meta[nchar >= min, id])
+      intersect(ids, self$meta[nchar <= max, id])
+    } else{
+      message("Unit must be 'tokens' (default) or 'char' for characters")
+    }
+  },
   search_tags = function(search, search_type = c("tags","manual","header")){
     match.arg(search_type)
     switch(search_type,
@@ -192,41 +235,11 @@ Collection <- R6Class("Collection", list(
     }
     intersect(tags, intersect(manual, header))
   },
-  get_reprints = function(status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
-    match.arg(status)
-    switch(status,
-           reprinted_orig = self$meta[grepl("original", self$meta$reprint_of), id],
-           unreprinted_orig = self$meta[grepl("none", self$meta$reprint_of), id],
-           no_reprints = self$meta[grepl("original|none", self$meta$reprint_of), id],
-           # and finally reprints, i.e. all that is not "NA", "none", "original",
-           # i.e. does not start with N, n or o
-           reprints = self$meta[grepl("^[^Nno]", self$meta$reprint_of), id])
-  },
-  select_reprints = function(ids = NULL, status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
-    match.arg(status)
-    switch(status,
-           reprinted_orig = intersect(ids, self$meta[grepl("original", self$meta$reprint_of), id]),
-           unreprinted_orig = intersect(ids, self$meta[grepl("none", self$meta$reprint_of), id]),
-           no_reprints = intersect(ids, self$meta[grepl("original|none", self$meta$reprint_of), id]),
-           # and finally reprints, i.e. all that is not "NA", "none", "original",
-           # i.e. does not start with N, n or o
-           reprints = intersect(ids, self$meta[grepl("^[^Nno]", self$meta$reprint_of), id]))
-  },
   show_distinct_tags = function(manual = FALSE){
     if(manual){
       unique(unlist(self$meta$tags_manual))
     } else{
       unique(unlist(self$meta$tags))
-    }
-  },
-  get_headers = function(text = FALSE){
-    if(text){
-      if(is.null(self$corpus)){
-        stop("Collection has been read with meta info only. Use meta_info_only = TRUE in read_collections to be able to get header texts")
-        } else{
-      texts(corpus_subset(self$corpus, isheader == TRUE))}
-    } else{
-      self$meta[(isheader), id]
     }
   },
   subset_collect = function(ids){
