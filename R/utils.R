@@ -54,11 +54,11 @@ write_collection <- function(x,
 #' @importFrom jsonlite fromJSON
 #' @importFrom quanteda corpus
 #' @export
-read_collection <- function(name_on_disk, meta_info_only = FALSE){
+read_collection <- function(name_on_disk, just_meta = FALSE){
   data_file <- paste0(name_on_disk, ".csv")
   meta_file <- paste0(name_on_disk, ".json")
 
-  if(!meta_info_only){
+  if(!just_meta){
     dt <- fread(data_file, encoding="UTF-8")
     crps <- corpus(dt, docid_field = "id",
                    text_field = "text")
@@ -70,7 +70,7 @@ read_collection <- function(name_on_disk, meta_info_only = FALSE){
   d[, date := as.Date(date)]
   setcolorder(d, neworder = c("id",
                               setdiff(names(d),"id")))
-  if(meta_info_only){
+  if(just_meta){
     collect <- Collection$new(NULL, d)
   } else {
     collect <- Collection$new(crps, d)
@@ -79,7 +79,19 @@ read_collection <- function(name_on_disk, meta_info_only = FALSE){
   collect
 }
 
-
+#' shortcut to read & merge multiple years to one working collection
+gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
+  AVIS_YEARS <- as.numeric(AVIS_YEARS)
+  number_of_years <- length(AVIS_YEARS)
+  fn <- paste(path, AVIS_YEARS[1], sep = "")
+  c_all <- read_collection(fn, just_meta)
+  for (i in AVIS_YEARS[2:number_of_years]){
+    fn <- paste(path, i, sep = "")
+    coll <- read_collection(fn, just_meta)
+    c_all <- merge_collections(c(c_all, coll))
+  }
+  c_all
+}
 
 #' Might want to deprecate this with quanteda 2.0
 #' @export

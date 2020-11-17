@@ -169,29 +169,31 @@ Collection <- R6Class("Collection", list(
   get_headers = function(text = FALSE){
     if(text){
       if(is.null(self$corpus)){
-        stop("Collection has been read with meta info only. Use meta_info_only = TRUE in read_collections to be able to get header texts")
+        stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to get header texts")
       } else{
         texts(corpus_subset(self$corpus, isheader == TRUE))}
     } else{
       self$meta[(isheader), id]
     }
   },
-  get_reprints = function(status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+  get_reprints = function(status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints", "other")){
     match.arg(status)
     switch(status,
            reprinted_orig = self$meta[grepl("original", self$meta$reprint_of), id],
            unreprinted_orig = self$meta[grepl("none", self$meta$reprint_of), id],
            no_reprints = self$meta[grepl("original|none", self$meta$reprint_of), id],
+           other = self$meta[is.na(c_all$meta$reprint_of), id],
            # and finally reprints, i.e. all that is not "NA", "none", "original",
            # i.e. does not start with N, n or o
            reprints = self$meta[grepl("^[^Nno]", self$meta$reprint_of), id])
   },
-  select_reprints = function(ids = NULL, status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints")){
+  select_reprints = function(ids = NULL, status = c("reprinted_orig","unreprinted_orig", "no_reprints", "reprints", "other")){
     match.arg(status)
     switch(status,
            reprinted_orig = intersect(ids, self$meta[grepl("original", self$meta$reprint_of), id]),
            unreprinted_orig = intersect(ids, self$meta[grepl("none", self$meta$reprint_of), id]),
            no_reprints = intersect(ids, self$meta[grepl("original|none", self$meta$reprint_of), id]),
+           other = self$meta[grepl("NA", self$meta$reprint_of), id],
            # and finally reprints, i.e. all that is not "NA", "none", "original",
            # i.e. does not start with N, n or o
            reprints = intersect(ids, self$meta[grepl("^[^Nno]", self$meta$reprint_of), id]))
@@ -205,6 +207,31 @@ Collection <- R6Class("Collection", list(
       intersect(ids, self$meta[nchar <= max, id])
     } else{
       message("Unit must be 'tokens' (default) or 'char' for characters")
+    }
+  },
+  select_text = function(ids = null, searchlist = ""){
+    if(is.null(self$corpus)){
+      stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    } else{
+      if(length(searchlist) > 0){
+        for (i in 1:length(searchlist)){
+          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus)), id])
+        }
+      }
+      ids
+    }
+  },
+  search_text = function(searchlist = ""){
+    if(is.null(self$corpus)){
+      stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    } else{
+      ids <- self$meta[grepl(searchlist[1], texts(self$corpus)), id]
+      if(length(searchlist) > 1){
+        for (i in 2:length(searchlist)){
+          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus)), id])
+        }
+      }
+      ids
     }
   },
   search_tags = function(search, search_type = c("tags","manual","header")){
