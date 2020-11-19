@@ -90,14 +90,13 @@ RawData <- R6Class("RawData", list(
       }
 
 
-
       if(clean_formatting){
         if(!("textutils" %in% rownames(installed.packages()))){
           stop("Package textutils is not installed. Please install the package from CRAN or set clean_formatting to FALSE.")
         }
 
         # sanitize line breaks
-        self$data[,text := gsub("-\\\\n", " ", text)]
+        self$data[,text := gsub("-\\\\n", "", text)]
         self$data[,text := gsub("\\\\n", " ", text)]
 
         # strip ids and HTML
