@@ -141,6 +141,9 @@ Collection <- R6Class("Collection", list(
       dt[, .(N = .N), by = date][order(date)]
     } else if(level == "year"){
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")))][order(year)]
+    } else if(level == "quarter"){
+      dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
+                                quarter = ceiling(as.numeric(format(date, "%m"))/3))][order(year, quarter)]
     } else if(level == "month"){
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
                                 month = as.numeric(format(date, "%m")))][order(year, month)]
@@ -148,9 +151,8 @@ Collection <- R6Class("Collection", list(
       dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
                                 week = as.numeric(format(date, "%V")))][order(year, week)]
     } else{
-      message("Only supports year, month and week based aggregation.")
+      message("Only supports 'year', 'quarter', 'month' and 'week' based aggregation.")
     }
-
   },
   apply_tagfilters = function(flist, nms = NULL){
     if(is.null(names(flist))) stop("List of filter functions needs to be named (using the names of the function).")
@@ -198,6 +200,21 @@ Collection <- R6Class("Collection", list(
            # i.e. does not start with N, n or o
            reprints = intersect(ids, self$meta[grepl("^[^Nno]", self$meta$reprint_of), id]))
   },
+  select_by_date = function(ids = NULL,
+                            min = "1729-01-01", max = "1844-12-31"){
+    min_is_date <- tryCatch(!is.na(as.Date(min, format = "%Y-%m-%d")),
+                            error = function(err) {FALSE})
+    max_is_date <- tryCatch(!is.na(as.Date(max, format = "%Y-%m-%d")),
+                            error = function(err) {FALSE})
+    if (min_is_date & max_is_date){
+      min <- as.Date(min)
+      max <- as.Date(max)
+      ids <- intersect(ids, self$meta[date >= min, id])
+      intersect(ids, self$meta[date <= max, id])
+    } else{
+      message("If giving a min or max date, it must be in format YYYY-MM-DD.")
+    }
+  },
   select_by_length = function(ids = NULL, min = 0, max = 1000000, unit = "tokens"){
     if(unit == "tokens"){
       ids <- intersect(ids, self$meta[ntokens >= min, id])
@@ -241,22 +258,22 @@ Collection <- R6Class("Collection", list(
            manual = self$meta[grepl(search, self$meta$tags_manual), id],
            header = self$meta[grepl(search, self$meta$tags_section), id])
   },
-  search_tags2 = function(tagslist = "", headerlist = "", manualtagslist = ""){
-    tags <- self$meta[grepl(tagslist[1], self$meta$tags), id]
-    if(length(tagslist) > 1){
-      for (i in 2:length(tagslist)){
+  search_tags2 = function(tagslist = NA, headerlist = NA, manualtagslist = NA){
+    tags <- self$meta$id
+    header <- tags
+    manual <- tags
+    if(!is.na(tagslist)){
+      for (i in 1:length(tagslist)){
         tags <- intersect(tags, self$meta[grepl(tagslist[i], self$meta$tags), id])
       }
     }
-    header <- self$meta[grepl(headerlist[1], self$meta$tags_section), id]
-    if(length(headerlist) > 1){
-      for (i in 2:length(headerlist)){
+    if(!is.na(headerlist)){
+      for (i in 1:length(headerlist)){
         header <- intersect(header, self$meta[grepl(headerlist[i], self$meta$tags_section), id])
       }
     }
-    manual <- self$meta[grepl(manualtagslist[1], self$meta$tags_manual), id]
-    if(length(manualtagslist) > 1){
-      for (i in 2:length(manualtagslist)){
+    if(!is.na(manualtagslist)){
+      for (i in 1:length(manualtagslist)){
         manual <- intersect(manual, self$meta[grepl(manualtagslist[i], self$meta$tags_manual), id])
       }
     }
