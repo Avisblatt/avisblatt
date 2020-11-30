@@ -184,7 +184,7 @@ Collection <- R6Class("Collection", list(
            reprinted_orig = self$meta[grepl("original", self$meta$reprint_of), id],
            unreprinted_orig = self$meta[grepl("none", self$meta$reprint_of), id],
            no_reprints = self$meta[grepl("original|none", self$meta$reprint_of), id],
-           other = self$meta[is.na(c_all$meta$reprint_of), id],
+           other = self$meta[is.na(self$meta$reprint_of), id],
            # and finally reprints, i.e. all that is not "NA", "none", "original",
            # i.e. does not start with N, n or o
            reprints = self$meta[grepl("^[^Nno]", self$meta$reprint_of), id])
