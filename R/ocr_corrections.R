@@ -5,6 +5,22 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("be\\sstens","bestens",x)
+  x <- gsub("Josepl","Joseph",x)
+  x <- gsub("fungfer","Jungfer",x)
+  x <- gsub("Emauuel","Emanuel",x)
+  x <- gsub("Frmu\\b","Frau\\b",x)
+  x <- gsub("Fral\\b","Frau\\b",x)
+  x <- gsub("Hern","Herrn",x)
+  x <- gsub("Franu\\b","Frau\\b",x)
+  x <- gsub("Fran\\b","Frau\\b",x)
+  x <- gsub("Endiaung","Endigung",x)
+  x <- gsub("Hermn","Herrn",x)
+  x <- gsub("Herin","Herrn",x)
+  x <- gsub("Chee\\b","Chez\\b",x)
+  x <- gsub("Blnmen","Blumen",x)
+  x <- gsub("Zerr\\b","Herr\\b",x)
+  x <- gsub("Madlame","Madame",x)
   x <- gsub("Mfr.","Mstr.",x)
   x <- gsub("lnformation","Information",x)
   x <- gsub("lnsormation","Information",x)
