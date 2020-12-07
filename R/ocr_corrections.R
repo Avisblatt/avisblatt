@@ -389,5 +389,6 @@ correct_ocr <- function(x){
   x <- gsub("ubseript","ubscript",x)
   # V and P seem to be mixed at times
   x <- gsub("Peränd","Veränd",x)
+  x <- gsub("sauderm","sauberm",x)
   x
   }

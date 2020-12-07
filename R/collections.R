@@ -232,7 +232,7 @@ Collection <- R6Class("Collection", list(
     } else{
       if(length(searchlist) > 0){
         for (i in 1:length(searchlist)){
-          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus)), id])
+          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus), perl = TRUE), id])
         }
       }
       ids
@@ -242,7 +242,7 @@ Collection <- R6Class("Collection", list(
     if(is.null(self$corpus)){
       stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
     } else{
-      ids <- self$meta[grepl(searchlist[1], texts(self$corpus)), id]
+      ids <- self$meta[grepl(searchlist[1], texts(self$corpus), perl = TRUE), id]
       if(length(searchlist) > 1){
         for (i in 2:length(searchlist)){
           ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus)), id])

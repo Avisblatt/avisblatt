@@ -89,13 +89,13 @@ RawData <- R6Class("RawData", list(
         self$data <- self$data[!"mast"]
       }
 
-
       if(clean_formatting){
         if(!("textutils" %in% rownames(installed.packages()))){
           stop("Package textutils is not installed. Please install the package from CRAN or set clean_formatting to FALSE.")
         }
 
         # sanitize line breaks
+        self$data[,text := gsub("([A-Z][a-z])\\\\n([a-z]\\w)", "\\1\\2", text)] # catch some missing hyphens
         self$data[,text := gsub("-\\\\n", "", text)]
         self$data[,text := gsub("\\\\n", " ", text)]
 
@@ -107,6 +107,13 @@ RawData <- R6Class("RawData", list(
         # Decode HTML (stuff like &amp; -> &)
         self$data[, text := textutils::HTMLdecode(text)]
         self$data[, rnotes := textutils::HTMLdecode(rnotes)]
+
+        # apply ocr corrections
+        self$data[, text := correct_ocr(self$data$text)]
+
+        # remove redundant blanks
+        self$data[,text := purge_spacing(text)]
+        self$data[,text := gsub(" {2,}", " ", text)]
       }
 
       if(self$year %in% gt_years){

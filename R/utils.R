@@ -80,7 +80,7 @@ read_collection <- function(name_on_disk, just_meta = FALSE){
   collect
 }
 
-#' shortcut to read & merge multiple years to one working collection
+# shortcut to read & merge multiple years to one working collection
 gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
   AVIS_YEARS <- as.numeric(AVIS_YEARS)
   number_of_years <- length(AVIS_YEARS)
@@ -93,6 +93,55 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   }
   c_all
 }
+
+
+#' Clean up Human Tags (groundtruth)
+#'
+#' Removes leading numbers from tag and turn comma separated strings
+#' into true character vectors.
+#'
+#' @param x character vector or list of tags.
+#' @export
+clean_manual_tags <- function(x){
+  unique(gsub("(^[0-9]{2})(.+)","\\2",
+              unlist(strsplit(x, ","))))
+}
+
+
+purge_spacing <- function(txtlist){
+  splits <- strsplit(txtlist, "\\s")
+  more_than_1 <- lapply(splits, grepl, pattern = "\\S{2,}")
+  single_digit <- lapply(splits, grepl, pattern = "^\\d{1}$")
+  not_single_letter <- mapply("|", single_digit, more_than_1, SIMPLIFY = FALSE)
+  not_single_letter_shifted <- mapply(c, FALSE, not_single_letter, SIMPLIFY = FALSE)
+  not_single_letter_shifted <- lapply(not_single_letter_shifted, head, -1, SIMPLIFY = FALSE)
+  tf <- mapply("|", not_single_letter, not_single_letter_shifted, SIMPLIFY = FALSE)
+  # cumsum is an elegant way to keep track of T/F swaps
+  tfcs <- lapply(tf, cumsum)
+  out <- mapply(split, splits, tfcs)
+  # reconstruct
+  out <- lapply(out, sapply, paste, collapse = "")
+  unlist(lapply(out, paste, collapse = " "))
+}
+
+
+#' Might want to deprecate this with quanteda 2.0
+#' @export
+get_text_by_id <- function(corp, ids, n = NULL,
+                           identifier = "id",
+                           txt = "texts"){
+  tf <- docvars(corp, identifier) %in%
+    ids
+
+  if(is.null(n)) {
+    return(corp$documents[,txt][tf])
+  }
+
+  corp$documents[,txt][tf][1:n]
+
+
+}
+
 
 #' Might want to deprecate this with quanteda 2.0
 #' @export
@@ -118,18 +167,6 @@ get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
   corpus_subset(corp,
                 (docvars(corp, idvar) %in% ids)
   )
-}
-
-#' Clean up Human Tags (groundtruth)
-#'
-#' Removes leading numbers from tag and turn comma separated strings
-#' into true character vectors.
-#'
-#' @param x character vector or list of tags.
-#' @export
-clean_manual_tags <- function(x){
-  unique(gsub("(^[0-9]{2})(.+)","\\2",
-              unlist(strsplit(x, ","))))
 }
 
 
