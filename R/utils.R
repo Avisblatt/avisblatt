@@ -22,6 +22,7 @@ write_collection <- function(x,
   # for in memory updates. lists are easier to handle when writing
   # to a JSON string.
   x$meta$reprint_of[is.na(x$meta$reprint_o)] <- "NA" #otherwise json items have different numbers of columns
+  x$meta$language[is.na(x$meta$language)] <- "NA" #otherwise json items have different numbers of columns
   message("Processing data description...")
   dtcols <- setdiff(names(x$meta),"id")
   dt_chunks <- split(x$meta[, ..dtcols], as.factor(1:nrow(x$meta)))
