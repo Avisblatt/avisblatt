@@ -5,6 +5,14 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Vei\\b","Bei\\b",x)
+  x <- gsub("Melster","Meister",x)
+  x <- gsub("Monhieur","Monsieur",x)
+  x <- gsub("Lndenmeyers","Lindenmeyers",x)
+  x <- gsub("Zerr","Herr",x)
+  x <- gsub("Ifelin","Iselin",x)
+  x <- gsub("Hermn","Herrn",x)
+  x <- gsub("fungfer","Jungfer",x)
   x <- gsub("be\\sstens","bestens",x)
   x <- gsub("Josepl","Joseph",x)
   x <- gsub("fungfer","Jungfer",x)
