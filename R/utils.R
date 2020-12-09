@@ -27,7 +27,6 @@ write_collection <- function(x,
   dtcols <- setdiff(names(x$meta),"id")
   dt_chunks <- split(x$meta[, ..dtcols], as.factor(1:nrow(x$meta)))
   names(dt_chunks) <- x$meta$id
-  j <- toJSON(dt_chunks, pretty=TRUE)
   writeLines(
     toJSON(dt_chunks, pretty = pretty_json,
            auto_unbox = TRUE,
@@ -87,10 +86,12 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   number_of_years <- length(AVIS_YEARS)
   fn <- paste(path, AVIS_YEARS[1], sep = "")
   c_all <- read_collection(fn, just_meta)
-  for (i in AVIS_YEARS[2:number_of_years]){
+  if(number_of_years > 1){
+    for (i in AVIS_YEARS[2:number_of_years]){
     fn <- paste(path, i, sep = "")
     coll <- read_collection(fn, just_meta)
     c_all <- merge_collections(c(c_all, coll))
+    }
   }
   c_all
 }

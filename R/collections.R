@@ -245,7 +245,7 @@ Collection <- R6Class("Collection", list(
       ids <- self$meta[grepl(searchlist[1], texts(self$corpus), perl = TRUE), id]
       if(length(searchlist) > 1){
         for (i in 2:length(searchlist)){
-          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus)), id])
+          ids <- intersect(ids, self$meta[grepl(searchlist[i], texts(self$corpus), perl = TRUE), id])
         }
       }
       ids
@@ -258,21 +258,21 @@ Collection <- R6Class("Collection", list(
            manual = self$meta[grepl(search, self$meta$tags_manual), id],
            header = self$meta[grepl(search, self$meta$tags_section), id])
   },
-  search_tags2 = function(tagslist = NA, headerlist = NA, manualtagslist = NA){
+  search_tags2 = function(tagslist = NULL, headerlist = NULL, manualtagslist = NULL){
     tags <- self$meta$id
     header <- tags
     manual <- tags
-    if(!is.na(tagslist)){
+    if(!is.null(tagslist)){
       for (i in 1:length(tagslist)){
         tags <- intersect(tags, self$meta[grepl(tagslist[i], self$meta$tags), id])
       }
     }
-    if(!is.na(headerlist)){
+    if(!is.null(headerlist)){
       for (i in 1:length(headerlist)){
         header <- intersect(header, self$meta[grepl(headerlist[i], self$meta$tags_section), id])
       }
     }
-    if(!is.na(manualtagslist)){
+    if(!is.null(manualtagslist)){
       for (i in 1:length(manualtagslist)){
         manual <- intersect(manual, self$meta[grepl(manualtagslist[i], self$meta$tags_manual), id])
       }
@@ -288,7 +288,7 @@ Collection <- R6Class("Collection", list(
   },
   subset_collect = function(ids){
     # this should be used with deep clone
-    # otherwise the current collection istance is subsetted!
+    # otherwise the current collection instance is subsetted!
     self$corpus <- self$corpus[ids]
     self$meta <- self$meta[id %in% ids,]
   },
