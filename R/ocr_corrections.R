@@ -5,6 +5,8 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("Korn\\smesser","Kornmesser",x)
+  x <- gsub("Schnei\\sder","Schneider",x)
   x <- gsub("Vei\\b","Bei\\b",x)
   x <- gsub("Melster","Meister",x)
   x <- gsub("Monhieur","Monsieur",x)
