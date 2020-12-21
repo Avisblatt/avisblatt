@@ -1,5 +1,5 @@
 #' @importFrom jsonlite fromJSON toJSON
-#' @importFrom quanteda corpus docvars texts
+#' @importFrom quanteda corpus docvars texts textstat_dist
 #' @import data.table
 #' @export
 write_collection <- function(x,
@@ -21,8 +21,6 @@ write_collection <- function(x,
   # environments work with reference and thus better than lists
   # for in memory updates. lists are easier to handle when writing
   # to a JSON string.
-  x$meta$reprint_of[is.na(x$meta$reprint_o)] <- "NA" #otherwise json items have different numbers of columns
-  x$meta$language[is.na(x$meta$language)] <- "NA" #otherwise json items have different numbers of columns
   message("Processing data description...")
   dtcols <- setdiff(names(x$meta),"id")
   dt_chunks <- split(x$meta[, ..dtcols], as.factor(1:nrow(x$meta)))
@@ -30,7 +28,8 @@ write_collection <- function(x,
   writeLines(
     toJSON(dt_chunks, pretty = pretty_json,
            auto_unbox = TRUE,
-           null = "null"),
+           null = "null",
+           na = "string"),
     meta_file
   )
   message(sprintf("Meta information written to %s",meta_file))
@@ -125,6 +124,38 @@ purge_spacing <- function(txtlist){
   out <- lapply(out, sapply, paste, collapse = "")
   unlist(lapply(out, paste, collapse = " "))
 }
+
+
+advert_distance <- function(corpus_a, corpus_b){
+  if (!is.corpus(corpus_a)|!is.corpus(corpus_b)){
+    stop("This function requires (exactly) two quanteda corpora.")
+  }
+
+  # Use quanteda's textstat_dist to measure similarity
+  # -> lower values, smaller distance / greater similarity
+  dfm_a <- dfm(corpus_a)
+  dfm_b <- dfm(corpus_b)
+  uncorr_dist <- textstat_dist(dfm_a, dfm_b)
+  #
+  # BUT: textstat_dist does not work independent
+  # of ad text length: e.g,
+  # quasi identical long ads can have from 5 to 8,
+  # while two short ads with dist = 2.5 might not be remotely similiar.
+  #
+  # Dividing dist by log(adlength*const) much better
+  # const = 1/7 works well
+  # threshold = 1.51 seems best to
+  # separate pair of ads that should be considered identical ("reprints")
+  # from those who are not (>=1.51)
+  lengths_a <- as.vector(nchar(texts(corpus_a)))
+  m_a <- matrix(lengths_a, nrow(uncorr_dist), ncol(uncorr_dist))
+  lengths_b <- as.vector(nchar(texts(corpus_a)))
+  m_b <- matrix(lengths_b, nrow(uncorr_dist), ncol(uncorr_dist), byrow = TRUE)
+  # the resulting distance measure is independent of ad length
+  # and < 1 if identity should be assumed:
+  uncorr_dist / log(pmin(m_a,m_b) / 7) / 1.51
+}
+
 
 
 #' Might want to deprecate this with quanteda 2.0
