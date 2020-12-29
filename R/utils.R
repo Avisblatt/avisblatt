@@ -126,35 +126,56 @@ purge_spacing <- function(txtlist){
 }
 
 
-advert_distance <- function(corpus_a, corpus_b){
+
+advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   if (!is.corpus(corpus_a)|!is.corpus(corpus_b)){
     stop("This function requires (exactly) two quanteda corpora.")
   }
 
-  # Use quanteda's textstat_dist to measure similarity
+  # STEP 1
+  # Use quanteda's textstat_dist to measure distance
   # -> lower values, smaller distance / greater similarity
-  dfm_a <- dfm(corpus_a)
-  dfm_b <- dfm(corpus_b)
-  uncorr_dist <- textstat_dist(dfm_a, dfm_b)
-  #
-  # BUT: textstat_dist does not work independent
-  # of ad text length: e.g,
-  # quasi identical long ads can have from 5 to 8,
-  # while two short ads with dist = 2.5 might not be remotely similiar.
-  #
-  # Dividing dist by log(adlength*const) much better
-  # const = 1/7 works well
-  # threshold = 1.51 seems best to
-  # separate pair of ads that should be considered identical ("reprints")
-  # from those who are not (>=1.51)
-  lengths_a <- as.vector(nchar(texts(corpus_a)))
-  m_a <- matrix(lengths_a, nrow(uncorr_dist), ncol(uncorr_dist))
-  lengths_b <- as.vector(nchar(texts(corpus_a)))
-  m_b <- matrix(lengths_b, nrow(uncorr_dist), ncol(uncorr_dist), byrow = TRUE)
-  # the resulting distance measure is independent of ad length
-  # and < 1 if identity should be assumed:
-  uncorr_dist / log(pmin(m_a,m_b) / 7) / 1.51
+  dfm_a <- dfm(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) %>%
+    dfm_weight("prop")
+  dfm_b <- dfm(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) %>%
+    dfm_weight("prop")
+  dist <- as.matrix(textstat_dist(dfm_a, dfm_b))
+
+  # measure is not independent of ad length, correcting for length.
+  # Result will be: dist <= 1 indicates reprint, > 1 otherwise
+  lengths_a <- as.vector(ntoken(texts(corpus_a),
+                                remove_punct = TRUE, remove_numbers = TRUE))
+  lengths_b <- as.vector(ntoken(texts(corpus_b),
+                                remove_punct = TRUE, remove_numbers = TRUE))
+  m_a <- matrix(lengths_a, nrow(dist), ncol(dist))
+  m_b <- matrix(lengths_b, nrow(dist), ncol(dist), byrow = TRUE)
+  x <- m_a + m_b
+  dist <- dist * sqrt(x + 0.5 - 2*log(x + 0.5))
+  # this approx is fine below 16,
+  # a bit too high for values around 25,
+  # and increasingly too low for higher N.
+  # Correct for that:
+  dist <- dist * 25/(24+abs(sqrt(pmax(16, x))-5))
+
+  # STEP 2 (optional):
+  # if text lengths of two ads are dissimilar,
+  # dist might show similarity where there isn't
+  # (true especially for very long ads).
+  # Rule out such cases in reprint detection
+  # by adding 100 to similarity measure
+  # (pushing it recognizably above the regular values)
+  # if length difference is too big.
+  # One token plus 5% of combined token number is okay,
+  # any larger difference rules out reprint
+  if (consider_length_diff){
+    m_length_diff_above_threshold <- (abs(m_a-m_b)-1)/(m_a+m_b) > 0.05
+    # multiplying logical matrix with numeric value turns FALSE into 0, TRUE into 1:
+    dist <- dist + 100 * m_length_diff_above_threshold
+  }
+  dist
 }
+
+
 
 
 
