@@ -79,22 +79,33 @@ read_collection <- function(name_on_disk, just_meta = FALSE){
   collect
 }
 
-# shortcut to read & merge multiple years to one working collection
-gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
-  AVIS_YEARS <- as.numeric(AVIS_YEARS)
-  number_of_years <- length(AVIS_YEARS)
-  fn <- paste(path, AVIS_YEARS[1], sep = "")
-  c_all <- read_collection(fn, just_meta)
-  if(number_of_years > 1){
-    for (i in AVIS_YEARS[2:number_of_years]){
-    fn <- paste(path, i, sep = "")
-    coll <- read_collection(fn, just_meta)
-    c_all <- merge_collections(c(c_all, coll))
-    }
+
+
+#' Might want to deprecate this with quanteda 2.0
+#' @export
+get_text_by_id <- function(corp, ids, n = NULL,
+                           identifier = "id",
+                           txt = "texts"){
+  tf <- docvars(corp, identifier) %in%
+    ids
+
+  if(is.null(n)) {
+    return(corp$documents[,txt][tf])
   }
-  c_all
+
+  corp$documents[,txt][tf][1:n]
+
+
 }
 
+
+#' Might want to deprecate this with quanteda 2.0
+#' @export
+get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
+  corpus_subset(corp,
+                (docvars(corp, idvar) %in% ids)
+  )
+}
 
 #' Clean up Human Tags (groundtruth)
 #'
@@ -106,6 +117,24 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
 clean_manual_tags <- function(x){
   unique(gsub("(^[0-9]{2})(.+)","\\2",
               unlist(strsplit(x, ","))))
+}
+
+
+
+# convenience function to read & merge multiple years to one working collection
+gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
+  AVIS_YEARS <- as.numeric(AVIS_YEARS)
+  number_of_years <- length(AVIS_YEARS)
+  fn <- paste(path, AVIS_YEARS[1], sep = "")
+  c_all <- read_collection(fn, just_meta)
+  if(number_of_years > 1){
+    for (i in AVIS_YEARS[2:number_of_years]){
+      fn <- paste(path, i, sep = "")
+      coll <- read_collection(fn, just_meta)
+      c_all <- merge_collections(c(c_all, coll))
+    }
+  }
+  c_all
 }
 
 
@@ -174,53 +203,3 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   }
   dist
 }
-
-
-
-
-
-#' Might want to deprecate this with quanteda 2.0
-#' @export
-get_text_by_id <- function(corp, ids, n = NULL,
-                           identifier = "id",
-                           txt = "texts"){
-  tf <- docvars(corp, identifier) %in%
-    ids
-
-  if(is.null(n)) {
-    return(corp$documents[,txt][tf])
-  }
-
-  corp$documents[,txt][tf][1:n]
-
-
-}
-
-
-#' Might want to deprecate this with quanteda 2.0
-#' @export
-get_text_by_id <- function(corp, ids, n = NULL,
-                           identifier = "id",
-                           txt = "texts"){
-  tf <- docvars(corp, identifier) %in%
-    ids
-
-  if(is.null(n)) {
-    return(corp$documents[,txt][tf])
-  }
-
-  corp$documents[,txt][tf][1:n]
-
-
-}
-
-
-#' Might want to deprecate this with quanteda 2.0
-#' @export
-get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
-  corpus_subset(corp,
-                (docvars(corp, idvar) %in% ids)
-  )
-}
-
-
