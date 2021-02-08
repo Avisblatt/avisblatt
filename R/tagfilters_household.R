@@ -440,7 +440,7 @@ tagfilter_kitchen <- function(){
   dict$pos <- list(
     distilling = "Brennhafen",
     washingup = "Wasserstein",
-    preparation = "M(ö|o)rser|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
+    preparation = "Stössel|M(ö|o)rser|Wahlh(ö|o)lz|Krauthobel|Messerwetz|Milchsecht|(Pfropfen|Zapfen)zieher|Beizebütte|Kaffeebrett|
     Ca(ff|f)ebrett|(T|Th)eema(sch|ch)ine|(T|Th)ee-Ma(sch|ch)ine",
     tea = "(T|Th)ee Ma(sch|ch)ine",
     bred = "Bro(d|t) Tr(ö|o)g",
@@ -673,7 +673,7 @@ tagfilter_domestic <- function(){
     sewing = "Nadeln|Nadlerwaaren|Nadler-Waaren|Nähk(ä|a)st|Steckgufen|Stecknadel|Fingerh(u|ü)t",
     knitting = "Strick(nadel|seckel|sstiefel)",
     iron = "Bügeleisen|Glät(t|te)(eisen|tisch|öfelein|ofen)|Kleidermange",
-    washing ="Wasch(kessel|bütte)|Wasch-(Kessel|Bütte)|Bauc(he|h)geschir|Bauc(he|h)-Geschir|Bauc(he|h)bütte|Bauc(he|h)-Bütte|
+    washing ="(Wasch|Bauch)(kessel|bütte)|Wasch-(Kessel|Bütte)|Bauc(he|h)geschir|Bauc(he|h)-Geschir|Bauc(he|h)bütte|Bauc(he|h)-Bütte|
     Plunderstang",
     spinning = "Spinnr(a|ä)d|Spuhlrad|Schlumpstock"
   )

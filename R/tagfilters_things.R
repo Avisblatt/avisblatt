@@ -610,7 +610,7 @@ tagfilter_barrel <- function(){
   dict <- list()
   dict$pos <- list(
     bottle = "Bouteille(n|s)|Pi(è|e|é)ces|Gutter|Selterserwasser-Kr(ü|u)ge",
-    barrel_1 = "Fa(ss|ß)\\b|Fä(ss|ß)er\\b|(Ö|Oe)hlst(u|ü)cklein",
+    barrel_1 = "Fa(ss|ß)\\b|Fä(ss|ß)er\\b|(Ö|Oe)hlst(u|ü)cklein|Fä(ss|ß)(chen|lein)",
     barrel_2 = "St(ü|u)cklein Fa(s|ß|ss)"
     )
   dict$neg <- list(
@@ -903,7 +903,7 @@ tagfilter_firestart <- function(){
 tagfilter_extinguisher <- function(){
   dict <- list()
   dict$pos <- list(
-    extinguisher = "Feuerspritze|Feuer-Spritze",
+    extinguisher = "Feu(er|r)spritze|Feu(er|r)-(S|s)pritze",
     bucket_1 = "(Feuer|Lösch)(eimer|trog|z(u|ü)ber)|(Feuer|Lösch)-(eimer|trog|z(u|ü)ber)",
     bucket_2 = "Feuer (Eimer|Trog|Z(u|ü)ber)"
   )
@@ -918,7 +918,7 @@ tagfilter_extinguisher <- function(){
 tagfilter_firework <- function(){
   dict <- list()
   dict$pos <- list(
-    firework = "Feuerwerk"
+    firework = "Feu(er|r)werk"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -975,7 +975,7 @@ tagfilter_wineobject <- function(){
   dict <- list()
   dict$pos <- list(
     production = "Weintrott|Z(a|ä)pfen",
-    storage = "Weinb(ü|u)(k|ck)te",
+    storage = "(Wein|Herbst)b(ü|u|o)(k|ck)te|B(ü|u|o)(k|ck)t(e\\b|en\\b)",
     consumption = "Wei(nhah|nhäh|nha|nhä)nen|Wein-H(ah|a)nen|Wein-H(äh|ä)nen|Wein(krause|schild)"
   )
   dict$neg <- list(

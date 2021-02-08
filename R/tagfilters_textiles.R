@@ -95,7 +95,7 @@ tagfilter_underwear <- function(){
   dict <- list()
   dict$pos <- list(
     general = "Lingerie|Leib(chen|er)|Unter(kleid|rock|röck|ärmel)|Montour",
-    corset = "(K|C)orset|Br(u|ü)ste",
+    corset = "(K|C)orset|Br(u|ü)ste|Schn(u|ü)rbr(u|ü)st",
     socks = "Socke|Str(u|ü)mpf"
   )
   dict$neg <- list(
@@ -119,7 +119,7 @@ tagfilter_outerwear <- function(){
   dict <- list()
   dict$pos <- list(
     male = "Frack|Talar",
-    general = "M(a|ä)ntel|Co(at|tte)|Mantille|Kittelein|Pellerine"
+    general = "M(a|ä)ntel|Co(at|tte)|Mantille|Kittelein|Pellerine|Schabrack"
   )
   dict$neg <- list(
     french = "tricotte", # french for knitting, exclude if only looking at German ads
@@ -214,8 +214,8 @@ tagfilter_handkerchief <- function(){
 tagfilter_hand <- function(){
   dict <- list()
   dict$pos <- list(
-    muff = "Schl(u|ü)p(f|ff)er",
-    gloves = "Handsch(u|ü)h"
+    muff = "Schl(u|ü)p(f|ff)er|(Marter|Weiber|Manns)sto(ß|s)|(Weiber|Manns|Jobel)m(a|ä)r(t|d)er",
+    gloves = "Handsch(u|ü)(h|e)"
   )
   dict$neg <- list(
     # profession = "Handschuhmacher", # maybe use profession, but also excludes some relevant ads
@@ -300,7 +300,7 @@ tagfilter_texmaterial <- function(){
   dict <- list()
   dict$pos <- list(
     atlas = "gestreifter Atlas",
-    unclear = "Nappes|Senpareille|Napolitain|Circassien|(Et|Str)amin|Kamelott|Altan",
+    unclear = "Nappes|Senpareille|Napolitain|Circassien|(Et|Str)amin|(K|C)amelot|Altan",
     fur = "Pelz|Marder|Zobel|Steinmarder|Fehlin",
     marcelline = "Marcelin",
     muslin = "Mousselin",
@@ -310,7 +310,7 @@ tagfilter_texmaterial <- function(){
     semi_silk = "Halbseide",
     silk_origin_1 = "Gros de", # does not seem to work- why? is the space between the problem?
     silk_origin_2 = "Grosde",
-    silk = "Marceline|Levantine|Seide|Blonde|Flore(th|t)|Taff(ent|et)|Crepvan|Creptamin",
+    silk = "Marceline|Levantine|Seide|Blonde|Flore(th|t)|Taff(ent|et)|Crepvan|Creptamin|Krapp\\b",
     cashemere = "Ca(si|che)mir",
     bast = "Bast|Sparterie",
     wicker = "Wiener Rohr",
