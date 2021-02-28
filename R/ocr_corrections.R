@@ -5,6 +5,14 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("nndeln","nudeln",x)
+  x <- gsub("Moufarde","Moustarde",x)
+  x <- gsub("Saurtraut","Saurkraut",x)
+  x <- gsub("Chnocolade","Chocolade",x)
+  x <- gsub("Geismlilch","Geismilch",x)
+  x <- gsub("Mollisisch","Mollifisch",x)
+  x <- gsub("Stocksisch","Stockfisch",x)
+  x <- gsub("Meextrauben","Meertrauben",x)
   x <- gsub("Feler-spritzen","Feuer-spritzen",x)
   x <- gsub("Korn\\smesser","Kornmesser",x)
   x <- gsub("Schnei\\sder","Schneider",x)
