@@ -6,9 +6,10 @@ tagfilter_spices <- function(){
     general = "Spezerey",
     vanilla = "Vanille",
     cinammon = "Zi(m|mm|me|mme)t",
-    mustard = "Senf|Moustard",
-    anis = "(Ä|A)nis",
-    pepper = "Pfeffer"
+    mustard = "Senf|Mou(st|t)ard",
+    anis = "\\b(Ä|A)nis",
+    pepper = "Pfeffer",
+    tarragon = "Estragon"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -29,7 +30,10 @@ tagfilter_meat <- function(){
     bacon = "Speck",
     sausage = "Würst|(C|s)ervelat",
     ham = "Schinken",
-    salami = "Salami"
+    salami = "Salami",
+    frog = "Fröschenschenkel",
+    venison = "Rehe",
+    rabbit = "Hasen"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -43,7 +47,11 @@ tagfilter_poultry <- function(){
   dict <- list()
   dict$pos <- list(
     duck = "Enten",
-    capon = "Capaun"
+    capon = "(C|K)apaun",
+    goose = "Gänse",
+    chicken = "Hahnen|Hühner|(P|B)oularde",
+    pheasant = "Fasan",
+    other = "Welschehahn"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -57,13 +65,17 @@ tagfilter_alcohol <- function(){
   dict <- list()
   dict$pos <- list(
     wine = "Wein|Vin",
+    type = "Muscateller|Madeira|Muscat",
     spicedwine = "H(y|i)pokras",
-    liquer = "Liquer|Malaga",
+    liquer = "Liquer|Malaga|Anisette",
+    spirits = "(Zwetschge|Nuß)nwasser",
     rum = "Rhum",
     brandy = "Brann(t|ten|dt|dten)wein|Cognac",
-    kirsch = "Kirsch|Kirßwasser",
+    kirsch = "Kirsch|Kir(ß|sch)wasser",
     beer = "Bier",
-    champagne = "Champagner"
+    champagne = "Champagner",
+    absinth = "Abs(i|y)nth",
+    punch = "Punsch"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -97,7 +109,7 @@ tagfilter_coffee <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fish
+#' Dictionary Fish and Seafood
 #' @export
 tagfilter_fish <- function(){
   dict <- list()
@@ -108,7 +120,12 @@ tagfilter_fish <- function(){
     kipper = "(Bü|Pi)cking",
     other = "Molifisch",
     anchovies = "Anchoix|Sardellen",
-    tuna = "Tonfisch"
+    tuna = "Tonfisch",
+    trout = "Forelle",
+    pike = "Hecht",
+    crab = "Krebse",
+    salmon = "Wintersalmen",
+    eels = "Aale"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -126,7 +143,10 @@ tagfilter_fruit <- function(){
     plums = "Mirabolanen|Renneten",
     grapes = "Trauben",
     mulberries = "Maulbeeren",
-    rosehip = "Buttenmost"
+    rosehip = "Buttenmost",
+    cherries = "Kirschen",
+    quinces = "Quitten",
+    rasperry = "Himbeer"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -141,7 +161,7 @@ tagfilter_driedfruit <- function(){
   dict$pos <- list(
     pears = "Birrenschnitz",
     raisins = "Rosinlein|Sultanin",
-    candied = "Citronat|Oraugeat"
+    candied = "Citronat|Ora(u|n)geat"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -156,11 +176,11 @@ tagfilter_tropicalfruit <- function(){
   dict <- list()
   dict$pos <- list(
     fig = "Feigen",
-    orange = "Po(m|mm)e(r(a|ä)nz|abe)|Orange",
+    orange = "Po(m|mm)e(r(a|ä)nz|abe)|(O|D)range",
     lemon = "(Z|C)itronen",
     seagrapes = "Me(er|x)trauben",
     dates = "Da(t|tt)(le|el)n",
-    quinces = "Quitten"
+    melon = "Melone"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -215,6 +235,7 @@ tagfilter_vegetable <- function(){
 tagfilter_mineralwater <- function(){
   dict <- list()
   dict$pos <- list(
+    general = "Mineralwasser",
     names = "Sel(tes|tz|z|ters)er|(S(u|au)l(tz|z)|Schwall)bacher|Bussanger|(Sau(r|lz)|Sel(tz|z)er|Spaa)wasser"
   )
   dict$neg <- list(
@@ -257,7 +278,7 @@ tagfilter_chocolate <- function(){
   dict <- list()
   dict$pos <- list(
     chocolate = "Cho(c|k)ola(t|d)",
-    cocoa = "Cucao"
+    cocoa = "C(u|a)cao"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -303,7 +324,8 @@ tagfilter_cheese <- function(){
   dict <- list()
   dict$pos <- list(
     general = "K(ä|äi)s",
-    emmenthaler = "Emmenthaler"
+    emmenthaler = "Emmenthaler",
+    gruyere = "(C|G)ruy(é|è|e)re"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -330,9 +352,9 @@ tagfilter_mushrooms <- function(){
 tagfilter_pastry <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "Zuckerwaaren",
+    general = "Zuckerwaaren|Backwerk",
     gingerbread = "Lebk(ü|u)ch",
-    cookies = "Leckerly"
+    cookies = "Leckerl(y|i)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -340,12 +362,13 @@ tagfilter_pastry <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Syrup
+#' Dictionary Syrup and Juice
 #' @export
 tagfilter_syrup <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "Syr(o|ou)p"
+    syrup = "S(y|i)r(o|ou|u)p",
+    juice = "Saft"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -385,7 +408,7 @@ tagfilter_oil <- function(){
   dict <- list()
   dict$pos <- list(
     oil = "Öhl|Oel",
-    vinegar = "Essig"
+    vinegar = "Essig|Vinagire"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -400,7 +423,9 @@ tagfilter_pasta <- function(){
   dict$pos <- list(
     noodles = "Nud(le|le)n",
     general = "Teigwaaren",
-    macaroni = "Macaroni"
+    macaroni = "Ma(c|cc)aroni",
+    vermicelli = "Vermicelli",
+    lasagna = "Lasagnette"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -428,7 +453,8 @@ tagfilter_legumes <- function(){
 tagfilter_tobaccoproducts <- function(){
   dict <- list()
   dict$pos <- list(
-    cigar = "Cigarren"
+    cigar = "Cigarren|Cabanas",
+    origin = "Maryland|Havannah"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -455,6 +481,20 @@ tagfilter_eggs <- function(){
   dict <- list()
   dict$pos <- list(
     eggs = "Eyer"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo"
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Broth
+#' @export
+tagfilter_broth <- function(){
+  dict <- list()
+  dict$pos <- list(
+    general = "Brühe",
+    snails = "Schneckensaft"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
