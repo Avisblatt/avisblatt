@@ -631,7 +631,6 @@ tagfilter_barrel <- function(){
 tagfilter_tobacco <- function(){
   dict <- list()
   dict$pos <- list(
-    tobacco = "Taba(k|ck|c)|(Rauch|Schnupf)taba(k|ck|c)",
     pipe = "Pfeife|Taba(k|ck|ks|cks|c|cs)pfeife|Pfeifen(kopf|raumer|rohr)",
     storage = "((C|Z)iga(rr|r)en|Taba(k|ck|ks|cks|c|cs))-(B(ü|u)chs|Bux|Etuis|Dose|Beutel)|
 ((C|Z)iga(rr|r)en|Taba(k|ck|ks|cks|c|cs))(beutel|b(ü|u)chs|bux|etuis|dose)|
