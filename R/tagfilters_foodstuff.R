@@ -11,7 +11,7 @@ tagfilter_spices <- function(){
     mustard = "Senf|Mou(st|t)ard"
   )
   dict$neg <- list(
-    colour = "senfarb", # contains "senf" (e.g. eisenfarbe)
+    colour = "(sen|zimmet|nägelein)(farb|braun)", # contains spice as colour (e.g. eisenfarbe)
     name = "Isenflam", # name contains "senf"
     river = "Wiesenf", # name of river, contains "senf,
     sedan = "Senfte", # contains "senf"
@@ -31,6 +31,7 @@ tagfilter_meat <- function(){
     sucklingpig = "Spa(n|nn)fer(k|ck)",
     snail = "Schnecken",
     tongue = "Zunge",
+    game = "Wildpret",
     lard = "Schmalz",
     gelatine = "Gelatine",
     bacon = "Speck",
@@ -41,6 +42,7 @@ tagfilter_meat <- function(){
     rabbit = "Hasen"
   )
   dict$neg <- list(
+    manure = "dung\\b|bau\\b", # manure from certain animals
     teeth = "Zahnfleisch|Zähne", # includes "fleisch"
     names = "Ramspeck|Würsteisen|Menzunge|Specker|Schmalzried", # family names
     tongue = "Zungenwerck|Versatzung|sturtzung|setzung|Bestzung|sitzung|zungebund", # tongue not as food
@@ -102,10 +104,11 @@ tagfilter_alcohol <- function(){
     punch = "Punsch"
   )
   dict$neg <- list(
+    immo = "Keller|Landgu(t|th)|Stallung|Jucharten|(Boden|Mie(t|th))zin(s|ß)|Ackerfeld|Losament|Stube|Matten", # excludes immo ads with space for wine or to plant smth
     other = "S(e|ö)nebier|Colombier", # names etc contaiing "Bier"
     ocr = "dabier|allbier", # ocr mistakes containing "bier
     job = "Barbier", # job containing "Bier"
-    objects = "Bier-Kr(u|ü)g|leere", # empty objects for drinking and storing alcohol, might also exclude some relevant ads
+    objects = "Bier-Kr(u|ü)g|leere|Trotte", # empty objects for drinking and storing alcohol, might also exclude some relevant ads
     colour = "cognackerten", # description of colours
     health = "rhumatis", # rheuma
     french = "expliquer", # french words containing "liquer"
@@ -222,6 +225,7 @@ tagfilter_tropicalfruit <- function(){
     melon = "Melone"
   )
   dict$neg <- list(
+    colour = "zitronengelb", # description of colour
     juice = "Zitronensa(f|ff)t", # juice (seperate dictionary)
     objects = "(Po(m|mm)er(a|ä)n(z|ze|zen)|(C|Z)itronen|Melonen)-" # objects and plants related to tropical fruits
   )
@@ -301,7 +305,7 @@ tagfilter_preserves <- function(){
     olives = "Oliven\\b"
   )
   dict$neg <- list(
-    objects = "Oliven\\-" # objects for consuming olives or olive oil
+    objects = "Oliven\\-|Sau(er|r)krautstand" # objects for consuming olives or olive oil
   )
   create_filter_output(dict)
 }
@@ -444,7 +448,7 @@ tagfilter_oil <- function(){
     vinegar = "Essig\\b|Vinagire"
   )
   dict$neg <- list(
-    objects = "Essig-",
+    objects = "Essig\\-|Essigständl", # objects for storing oil and vinegar
     cabbage = "Köhl", # cabbage (Kohl)
     non_food = "Seife|(Brenn|Rosen|Holz|Haar|Lampen)(-|)(oe|oeh|öh|ö)l|Vitriol|(Öh|Ö|Oe|Oeh)(l|le)-" # products containing oil not for consumption
   )
@@ -480,6 +484,7 @@ tagfilter_legumes <- function(){
     beans = "Bohnen"
   )
   dict$neg <- list(
+    optical = "Brillen|Telescop|Fernrohr|Aparate", # optical instruments with "Linsen"
     cocoa = "Cacao" # cocoa beans
   )
   create_filter_output(dict)
