@@ -108,12 +108,12 @@ RawData <- R6Class("RawData", list(
         self$data[, text := textutils::HTMLdecode(text)]
         self$data[, rnotes := textutils::HTMLdecode(rnotes)]
 
-        # apply ocr corrections
-        self$data[, text := correct_ocr(self$data$text)]
-
-        # remove redundant blanks
+        # remove redundant blanks (better BEFORE ocr correction)
         self$data[,text := purge_spacing(text)]
         self$data[,text := gsub(" {2,}", " ", text)]
+
+        # apply ocr corrections
+        self$data[, text := correct_ocr(self$data$text)]
       }
 
       if(self$year %in% gt_years){
@@ -201,39 +201,9 @@ RawData <- R6Class("RawData", list(
     fwrite(self$data, file = filename)
   },
   create_header_tags = function(){
-    add_header_tags <- function(dt, tag, did = "id"){
-      f <- get(sprintf("tagfilter_%s",tag))
-      crp <- corpus(dt, docid_field = did)
-      hit_ids <- f()$filtrate(crp, return_corp = FALSE)
-      dt[(isheader == TRUE & id %in% hit_ids), header_tag := tag]
-    }
-
-    add_header_tags(self$data, "saledemand")
-    add_header_tags(self$data, "saleoffer")
-    add_header_tags(self$data, "lendoffer")
-    add_header_tags(self$data, "lenddemand")
-    add_header_tags(self$data, "lostandfound")
-    add_header_tags(self$data, "death")
-    add_header_tags(self$data, "marriage")
-    add_header_tags(self$data, "labourinfo")
-    add_header_tags(self$data, "auctions")
-    add_header_tags(self$data, "othernews")
-    add_header_tags(self$data, "taxes")
-    add_header_tags(self$data, "bookstore")
-    add_header_tags(self$data, "travel")
-    add_header_tags(self$data, "exchange")
-    add_header_tags(self$data, "charityheader")
-    add_header_tags(self$data, "foreigners")
-    add_header_tags(self$data, "merkwuerdig")
-    add_header_tags(self$data, "registry")
-    add_header_tags(self$data, "prices")
-    add_header_tags(self$data, "election")
-    add_header_tags(self$data, "demand")
-    add_header_tags(self$data, "offer")
-
-    self$data[(isheader == TRUE &
-                 !(header_tag %in%
-                     c( "saledemand",
+    # re-written this to ignore spaces and punctuation here,
+    # as that drives recognition rates up quite a lot
+    header_taglist <- c("saledemand",
                         "saleoffer",
                         "lendoffer",
                         "lenddemand",
@@ -254,8 +224,19 @@ RawData <- R6Class("RawData", list(
                         "prices",
                         "election",
                         "demand",
-                        "offer"))),"header_tag"] <- "unknown"
+                        "offer")
 
+    dt <- self$data[isheader == TRUE]
+    dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
+    crp <- corpus(dt, docid_field = "id")
+
+    self$data[isheader == TRUE, "header_tag"] <- "unknown"
+
+    for (tag in header_taglist){
+      f <- get(sprintf("tagfilter_%s",tag))
+      hit_ids <- f()$filtrate(crp, return_corp = FALSE)
+      self$data[(isheader == TRUE & id %in% hit_ids), header_tag := tag]
+    }
 
     by_header <- split(self$data, factor(cumsum(self$data$isheader)))
 
