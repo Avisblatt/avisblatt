@@ -44,7 +44,8 @@ tagfilter_lendoffer <- function(){
 tagfilter_lenddemand <- function(){
   dict <- list()
   dict$pos <- list(
-    lenddemand = "(entl|l)ehnen"
+    lenddemand_1 = "(entl|l)ehnen",
+    lenddemand_2 = "entehnen" # original misspelled
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -72,7 +73,7 @@ tagfilter_lostandfound <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "erstorbe|begrabe(n|m)|beerdigt|gestorben|Todes" # "erstorbe" without the "v", because a lot of ocr mistakes
+    death_1 = "erstorbe|begrabe(n|m)|(B|beerdig|gestorben|Todes|Beerdig" # "erstorbe" without the "v", because a lot of ocr mistakes
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -85,7 +86,7 @@ tagfilter_death <- function(){
 tagfilter_marriage <- function(){
   dict <- list()
   dict$pos <- list(
-    marriage_1 = "\\bEhe\\b|copul(i|ie)rt|ehelich|getraut",
+    marriage_1 = "\\bEh(e|en)\\b|copul(i|ie)rt|ehelich|(G|g)etraut",
     marriage_2 = "(C|Co|Copu|Copulir|Cop) (o|op|lir|pu|u|te)"
   )
   dict$neg <- list(
@@ -180,7 +181,9 @@ tagfilter_bookstore <- function(){
 tagfilter_travel <- function(){
   dict <- list()
   dict$pos <- list(
-    travel_1 = "reisend"
+    travel_1 = "reisend",
+    travel_2 = "Kutsch",
+    travel_3 = "Reis"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -229,10 +232,11 @@ tagfilter_foreigners <- function(){
 
 #' Dictionary Merkwürdigkeiten (Header)
 #' @export
-tagfilter_merkwuerdig <- function(){
+tagfilter_curious <- function(){
   dict <- list()
   dict$pos <- list(
-    merkwuerdig_1 = "würdigkeit"
+    curious_1 = "Mer(k|ck)würdig",
+    curious_2 = "Chronik"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -258,7 +262,8 @@ tagfilter_registry <- function(){
 tagfilter_prices <- function(){
   dict <- list()
   dict$pos <- list(
-    prices_1 = "Prei(s|ß)"
+    prices_1 = "Prei(s|ß)",
+    prices_2 = "Mineral"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -271,7 +276,8 @@ tagfilter_prices <- function(){
 tagfilter_election <- function(){
   dict <- list()
   dict$pos <- list(
-    election = "Besetzung|(Ä|Ae)mt"
+    election_1 = "Besetzung|(Ä|Ae)mt",
+    election_2 = "(W|w)ahl"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -307,6 +313,60 @@ tagfilter_offer <- function(){
   )
   dict$neg <- list(
     labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Naturalisation (gain of citizenship) (Header)
+#' @export
+tagfilter_naturalisation <- function(){
+  dict <- list()
+  dict$pos <- list(
+    naturalisation_1 = "(A|a)ufnahmen",
+    naturalisation_2 = "Einbürg"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Denaturalisation (loss of citizenship) (Header)
+#' @export
+tagfilter_denaturalisation <- function(){
+  dict <- list()
+  dict$pos <- list(
+    denaturalisationdemand = "Auskündigung"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Property Sale Offer (Header)
+#' @export
+tagfilter_propertysaleoffer <- function(){
+  dict <- list()
+  dict$pos <- list(
+    propertysaleoffer = "Liegenschaft"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary Insolvency (Header)
+#' @export
+tagfilter_insolvency <- function(){
+  dict <- list()
+  dict$pos <- list(
+    insolvency_1 = "Geldstag",
+    insolvency_2 = "(R|r)ehabil"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
   )
   create_filter_output(dict)
 }
