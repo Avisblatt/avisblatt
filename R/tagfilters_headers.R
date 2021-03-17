@@ -73,7 +73,7 @@ tagfilter_lostandfound <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "erstorbe|begrabe(n|m)|(B|beerdig|gestorben|Todes|Beerdig" # "erstorbe" without the "v", because a lot of ocr mistakes
+    death_1 = "erstorbe|begrabe(n|m)|(B|b)eerdig|gestorben|Todes|Beerdig" # "erstorbe" without the "v", because a lot of ocr mistakes
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -148,13 +148,13 @@ tagfilter_official <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary taxes (Header)
+#' Dictionary tariffs (Header)
 #' @export
-tagfilter_taxes <- function(){
+tagfilter_tariffs <- function(){
   dict <- list()
   dict$pos <- list(
-    taxes_1 = "B r o (d|t)",
-    taxes_2 = "Ta(x|r)|Bro(d|t)"
+    tariffs_1 = "B r o (d|t)",
+    tariffs_2 = "Ta(x|r)|Bro(d|t)"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -364,6 +364,19 @@ tagfilter_insolvency <- function(){
   dict$pos <- list(
     insolvency_1 = "Geldstag",
     insolvency_2 = "(R|r)ehabil"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary of 'false headers' that to do not head a section of ads, but are a heading WITHIN an ad. To be merged to next ad
+#' @export
+tagfilter_merge_to_ad <- function(){
+  dict <- list()
+  dict$pos <- list(
+    merge_1 = "\\b(A|a|à)ver|\\bKundmach|\\bAnkün|\\bNachri|\\b(A|a)nzeig|Avis\\b|\\bMit(th|t)eilung|\\Bekanntmach|Verzeichn"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
