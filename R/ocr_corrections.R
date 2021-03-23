@@ -451,5 +451,6 @@ correct_ocr <- function(x){
   x <- gsub("Getrante","Getraute")
   x <- gsub("A(l|L|1)(l|L|1)e","Alle")
   x <- gsub("fremhd","frembd")
+  x <- gsub("Nachträg\\b","Nachtrag",x)
   x
   }
