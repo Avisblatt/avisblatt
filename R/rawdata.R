@@ -213,16 +213,20 @@ RawData <- R6Class("RawData", list(
                         "labourinfo",
                         "auctions",
                         "othernews",
-                        "taxes",
+                        "tariffs",
                         "bookstore",
                         "travel",
                         "exchange",
                         "charityheader",
                         "foreigners",
-                        "merkwuerdig",
+                        "curious",
                         "registry",
                         "prices",
                         "election",
+                        "naturalisation",
+                        "denaturalisation",
+                        "propertysaleoffer",
+                        "insolvency",
                         "demand",
                         "offer")
 
@@ -230,8 +234,20 @@ RawData <- R6Class("RawData", list(
     dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
     crp <- corpus(dt, docid_field = "id")
 
-    self$data[isheader == TRUE, "header_tag"] <- "unknown"
+    # there are a number of records marked as headers
+    # that are not actually heading a section of ads,
+    # but are a header WITHIN an add.
+    # Those 'false header' texts need to be copied to the
+    # beginning of the ad text of the following record,
+    # and the 'false header' record then be removed.
+    f <- get("tagfilter_merge_to_ad")
+    hit_ids <- f()$filtrate(crp, return_corp = FALSE)
+    self$data[shift(id) %in% hit_ids]$text <- paste(self$data[id %in% hit_ids]$text,
+                                                    self$data[shift(id) %in% hit_ids]$text,
+                                                    sep = " ")
+    self$data <- self$data[!(id %in% hit_ids)]
 
+    self$data[isheader == TRUE, "header_tag"] <- "unknown"
     for (tag in header_taglist){
       f <- get(sprintf("tagfilter_%s",tag))
       hit_ids <- f()$filtrate(crp, return_corp = FALSE)
@@ -250,4 +266,3 @@ RawData <- R6Class("RawData", list(
     self$data <- rbindlist(by_header)
   }
 ))
-
