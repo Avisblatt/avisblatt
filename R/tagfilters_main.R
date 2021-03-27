@@ -47,6 +47,53 @@ tagfilter_labor <- function(){
   create_filter_output(dict)
 }
 
+tagfilter_labor2 <- function(){
+  # Note how phrases are used inside a dictionary.
+  # Dict elements may be converted to quanteda dictionaries
+  # and because those are not bare regexp, we need
+  # to hold expressions containing whitespace
+  # separately, see also ?kwic Note on patterns.
+  dict <- list()
+  dict$applicable <- list("labourinfo", "death") # I am adding death just to test if it works with more than 1 header tag
+  dict$pos <- list(
+    work = "Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen|glätten|Glätten",
+    work_phrase_1 = "zu waschen",
+    #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
+    qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
+    position = "[m|M]agd|[k|K]necht|Köchin|Seidenbandweber|Seidenweber|Seidenwinder|Zettler",
+    apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
+    employment_phrase_1 = "einen Platz",
+    employment_phrase_2 = "ein Platz als",
+    employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
+  )
+  dict$neg <- list(
+    #"darin zu / zum kochen": describes cookware, not people
+    misc = "Ornement",
+    warnig = "warne|Warnung",
+    misc_phrase1 = "zum kochen",
+    misc_phrase2 = "darin zu kochen",
+    misc_phrase3 = "Dienst zu erweisen",
+    othercat_lostandfound = "verloren|gefunden",
+    othercat_info = "[B|b]eerdigt|verstorben|dito|Dito|bendaselbst|unrichtig|genöthigt",
+    othercat_info_phrase1 = "meinem Namen",
+    othercat_realestate = "Losament|Kammer|Stübchen|Remise",
+    othercat_boarding = "Kosthaus",
+    othercat_boarding_phrase1 = "//bdie Kost//b",
+    #othercategory: excluding lost&found, auction, funeral news,
+    # some real estate and boarding  - which is (almost)
+    # never combined with job offers/requests
+    #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
+    #"unrichtig" and "in meinem Namen" found in clarification ads
+    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
+    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
+    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
+    proclamation_phrase_1 = "Publikation in Betreff",
+    proclamation_phrase_2 = "Basel, den",
+    proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel"
+    #proclamation: some of the ads recognized by the filter are public announcements"
+  )
+  create_filter_output(dict)
+}
 
 #' Filter Quanteda Corpus: Advertising/promoting business
 #' @export
@@ -82,7 +129,7 @@ tagfilter_bizpromo <- function(){
 tagfilter_real_estate <- function(){
   dict <- list()
   dict$pos <- list(
-    all = "Losament|Wohnung|^Zimmer|Stube|Kammer|Keller|Remise|Gelegenheit|Behausung|Juchart|Lustgut|Matten|Häu(s|ß)lein|Rebacker"
+    all = "Losament|Wohnung|^Zimmer|Stube|Kammer|Keller|Remise|Behausung|Juchart|Lustgut|Matten|Häu(s|ß)lein|Rebacker"
   )
   dict$neg <- list(
     #exclude job ads for people attending to rooms
