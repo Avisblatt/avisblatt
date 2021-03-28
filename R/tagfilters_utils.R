@@ -25,12 +25,24 @@ create_filter <- function(dict){
     # to only apply it to the headers
     # listed under dict$applicable,
     # confine sel[elcted ids] to those
-    # within said section
+    # within said sections
     if(!is.null(dict$applicable)){
-      re_header <- paste(unlist(dict$applicable), collapse = "|")
-      tf_header <- grepl(re_header, corp$header_tag)
-      sel <- sel & tf_header
+      re_applicable <- paste(unlist(dict$applicable), collapse = "|")
+      tf_applicable <- grepl(re_applicable, corp$header_tag)
+      sel <- sel & tf_applicable
     }
+
+    # Likewise, if tagfilter is specified
+    # to be not applied to sections
+    # listed under dict$applicable,
+    # confine sel[elcted ids] to those
+    # outside said sections
+    if(!is.null(dict$inapplicable)){
+      re_inapplicable <- paste(unlist(dict$inapplicable), collapse = "|")
+      tf_inapplicable <- !grepl(re_inapplicable, corp$header_tag)
+      sel <- sel & tf_inapplicable
+    }
+
 
     if(return_corp) return(corp[sel])
 
