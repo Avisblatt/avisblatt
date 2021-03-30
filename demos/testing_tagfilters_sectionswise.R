@@ -32,6 +32,7 @@ tagfilter_test_all <- function(){
   create_filter_output(dict)
 }
 
+dict$neg <- list(all = "Magd(?=(.*stricken))")
 tagfilter_test_applicable <- function(){
   dict <- list()
   dict$applicable <- list("labourinfo", "death") # I am adding death just to test if it works with more than 1 header tag
@@ -86,3 +87,50 @@ show_ads(test1[1:20])
 show_ads(test2[1:20])
 
 show_ads(test3[1:20])
+
+
+
+
+
+
+
+
+
+
+#---Testing lookarounds
+
+tagfilter_maid1 <- function(){
+  dict <- list()
+  dict$pos <- list(
+    all = "Dienst"
+  )
+  dict$neg <- list(
+    all = "dwfsdfsdf"
+
+  )
+  create_filter_output(dict)
+}
+
+maid1 <- tagfilter_maid1()
+maid1_ids <- maid1$filtrate(corpus_1799,ignore.case = F)
+#In these nine ads, there two with a maid who knows to knit (N0. 2 & 7)
+# and one where no knitting is mentioned (No. 9)
+show_ads(maid1_ids[1:9])
+
+
+#Rule out knitting maids
+tagfilter_maid2 <- function(){
+  dict <- list()
+  dict$pos <- list(
+    all = "Dienst"
+  )
+  dict$neg <- list(
+    all = "Magd(?=(.*stricken))"
+
+  )
+  create_filter_output(dict)
+}
+
+maid2 <- tagfilter_maid2()
+maid2_ids <- maid2$filtrate(corpus_1799,ignore.case = F)
+show_ads(maid2_ids[1:9])

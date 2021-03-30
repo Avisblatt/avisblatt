@@ -203,3 +203,10 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   }
   dist
 }
+
+
+available_years <- function(){
+ list.files("../avis-data/collections", pattern=".json") %>%
+    substr(8, 11) %>%
+    as.numeric
+}

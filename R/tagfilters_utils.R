@@ -8,13 +8,13 @@ create_filter <- function(dict){
            ignore.case = TRUE){
     stopifnot(inherits(corp,"corpus"))
     re_pos <- paste(unlist(dict$pos), collapse = "|")
-    tf_pos <- grepl(re_pos, corp,
+    tf_pos <- grepl(re_pos, corp, perl = TRUE,
                     ignore.case = ignore.case)
 
     if(!is.null(dict$neg)){
       re_neg <- paste(unlist(dict$neg), collapse = "|")
-      tf_neg <- !grepl(re_neg, corp,
-                       ignore.case = ignore.case)
+      tf_neg <- !grepl(re_neg, corp, perl = TRUE,
+                       ignore.case = ignore.case,)
 
       sel <- tf_pos & tf_neg
     } else{
