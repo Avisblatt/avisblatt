@@ -126,7 +126,7 @@ tagfilter_auctions <- function(){
 tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
-    news_1= "Allerhand|Nachrichten",
+    news_1= "Allerhand|Nachrichten"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
