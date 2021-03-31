@@ -10,7 +10,7 @@ avis_create_corpus <- function(f,
                                text_field = "text",
                                docid_field = "id",
                                encoding = "UTF-8",
-                               apply_ocr_correct = TRUE){
+                               apply_ocr_correct = FALSE){
   txt <- fread(f,
                encoding = encoding)
 

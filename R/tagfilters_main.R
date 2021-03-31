@@ -82,7 +82,7 @@ tagfilter_bizpromo <- function(){
 tagfilter_real_estate <- function(){
   dict <- list()
   dict$pos <- list(
-    all = "Losament|Wohnung|^Zimmer|Stube|Kammer|Keller|Remise|Gelegenheit|Behausung|Juchart|Lustgut|Matten|Häu(s|ß)lein|Rebacker"
+    all = "Losament|Wohnung|^Zimmer|Stube|Kammer|Keller|Remise|Behausung|Juchart|Lustgut|Matten|Häu(s|ß)lein|Rebacker"
   )
   dict$neg <- list(
     #exclude job ads for people attending to rooms

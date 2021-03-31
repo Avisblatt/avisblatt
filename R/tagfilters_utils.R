@@ -8,19 +8,41 @@ create_filter <- function(dict){
            ignore.case = TRUE){
     stopifnot(inherits(corp,"corpus"))
     re_pos <- paste(unlist(dict$pos), collapse = "|")
-
-    tf_pos <- grepl(re_pos, corp,
+    tf_pos <- grepl(re_pos, corp, perl = TRUE,
                     ignore.case = ignore.case)
 
     if(!is.null(dict$neg)){
       re_neg <- paste(unlist(dict$neg), collapse = "|")
-      tf_neg <- !grepl(re_neg, corp,
-                       ignore.case = ignore.case)
+      tf_neg <- !grepl(re_neg, corp, perl = TRUE,
+                       ignore.case = ignore.case,)
 
       sel <- tf_pos & tf_neg
     } else{
       sel <- tf_pos
     }
+
+    # if there is provision in the tagfilter
+    # to only apply it to the headers
+    # listed under dict$applicable,
+    # confine sel[elcted ids] to those
+    # within said sections
+    if(!is.null(dict$applicable)){
+      re_applicable <- paste(unlist(dict$applicable), collapse = "|")
+      tf_applicable <- grepl(re_applicable, corp$header_tag)
+      sel <- sel & tf_applicable
+    }
+
+    # Likewise, if tagfilter is specified
+    # to be not applied to sections
+    # listed under dict$applicable,
+    # confine sel[elcted ids] to those
+    # outside said sections
+    if(!is.null(dict$inapplicable)){
+      re_inapplicable <- paste(unlist(dict$inapplicable), collapse = "|")
+      tf_inapplicable <- !grepl(re_inapplicable, corp$header_tag)
+      sel <- sel & tf_inapplicable
+    }
+
 
     if(return_corp) return(corp[sel])
 
