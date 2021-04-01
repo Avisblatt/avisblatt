@@ -1,3 +1,15 @@
+#' Provide list of umbrella terms
+#' @export
+umbrella_terms <- function(){
+  umbrella_stand <- list(
+    drink = "alcohol|broth|chocolate|coffee|milk|mineralwater|tea",
+    food = "butter|cheese|driedfruit|eggs|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|pasta|pastry|poultry|preserves|spices|sugar|syrup|tropicalfruit|vegetable"
+  )
+  umbrella_stand
+}
+
+
+
 #' Filter Quanteda Corpus: Finance
 #' @export
 tagfilter_finance <- function(){
@@ -133,19 +145,4 @@ tagfilter_print <- function(){
   )
   create_filter_output(dict)
 
-}
-
-
-
-#' Filter Quanteda Corpus: Household
-#' @export
-tagfilter_household_goods <- function(){
-  merge_filters(tagfilter_bed(),
-                tagfilter_textile(),
-                tagfilter_cabinet(),
-                tagfilter_stove(),
-                tagfilter_mirror(),
-                tagfilter_timepiece(),
-                tagfilter_table(),
-                tagfilter_tableware())
 }
