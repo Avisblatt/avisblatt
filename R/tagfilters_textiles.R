@@ -143,7 +143,7 @@ tagfilter_costume <- function(){
     baptism = "Taufzeug"
   )
   dict$neg <- list(
-    looking = "b)etracht" # verbs and nouns meaning "looking at" conatining "tracht"
+    looking = "(B|b)etracht" # verbs and nouns meaning "looking at" conatining "tracht"
   )
   create_filter_output(dict)
 }

@@ -9,7 +9,7 @@ avis_create_corpus(
   text_field = "text",
   docid_field = "id",
   encoding = "UTF-8",
-  apply_ocr_correct = TRUE
+  apply_ocr_correct = FALSE
 )
 }
 \description{
