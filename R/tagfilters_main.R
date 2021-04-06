@@ -3,7 +3,7 @@
 umbrella_terms <- function(){
   umbrella_stand <- list(
     ut_consumables_drink = "alcohol|chocolate|coffee|milk|mineralwater|tea|syrup",
-    ut_consumables_food = "butter|cheese|driedfruit|eggs|broth|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|oil|pasta|pastry|poultry|preserves|spices|sugar|tropicalfruit|vegetable",
+    ut_consumables_food = "butter|cheese|driedfruit|eggs|broth|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|\\boil|pasta|pastry|poultry|preserves|spices|sugar|tropicalfruit|vegetable", #\\boil otherwise will include tagfilter soil
     ut_consumables_drugs = "health|tobaccoproducts|mineralwater",
     ut_consumables_other = "firework",
     ut_household = "bed|bedding|carpet|tablelinen|cabinet|chair|stove|mirror|table|timepiece|bureau|tableware|toy|game|kitchen|lighting|instrument|wallpaper|cutlery|divider|petobject|upholstery|domestic|garden|homedeco|bathobject|art|antique|mischousehold",

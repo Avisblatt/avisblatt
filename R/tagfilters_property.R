@@ -47,6 +47,22 @@ tagfilter_housing_rent2 <- function(){
 }
 
 
+#' Filter Quanteda Corpus: Housing in conjunction with boarding
+#' @export
+tagfilter_housing_rent3 <- function(){
+  dict <- list()
+  dict$applicable <- list("labourinfo")
+  dict$pos <- list(
+    rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b).*(?=\\bKost\\b)",
+    rooms_2     = "\\bKost\\b.*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b)"
+  )
+  dict$neg <- list(
+    not_job = "\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen"
+  )
+  create_filter_output(dict)
+}
+
+
 #' Filter Quanteda Corpus: Housing for sale in sale and auction sections, unambiguous search terms
 #' @export
 tagfilter_housing_sale1 <- function(){
@@ -223,10 +239,10 @@ tagfilter_housing_other2 <- function(){
 tagfilter_churchseat <- function(){
   dict <- list()
   dict$pos <- list(
-    seat = "[K|k]irchen((s|\\-S)itz|(s|\\-S)t(ü|u)hl)",
+    seat = "(K|k)irchen((s|\\-S)itz|(s|\\-S)t(ü|u)hl)",
     folding_seat = "Anhencker",
-    female = "(Weiber|Frau(en|n)((s|\\-S)itz|(s|\\-S)t(ü|u)hl)",
-    male = "M(a|ä)n(n|nen|ner)((s|\\-S)itz|(s|\\-S)t(ü|u)hl)"
+    female = "(Weiber|Frau(en|n))((s|\\-S)itz|(s|\\-S)t(ü|u)hl)",
+    male    = "M(a|ä)n(n|nen|ner)((s|\\-S)itz|(s|\\-S)t(ü|u)hl)"
   )
   create_filter_output(dict)
 }

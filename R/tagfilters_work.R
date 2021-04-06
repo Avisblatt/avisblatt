@@ -1,60 +1,93 @@
-#' Filter Quanteda Corpus: Employment
+#' Filter Quanteda Corpus: Employment in labourinfo section
 #' @export
-tagfilter_employment <- function(){
-  # Note how phrases are used inside a dictionary.
-  # Dict elements may be converted to quanteda dictionaries
-  # and because those are not bare regexp, we need
-  # to hold expressions containing whitespace
-  # separately, see also ?kwic Note on patterns.
+tagfilter_employment1 <- function(){
   dict <- list()
+  dict$applicable <- list("labourinfo")
   dict$pos <- list(
-    work = "Beruf|arbeiten|Beschäfti|beschäfti|Besorgung|kochen|Kochen|nähen|Waschen|glätten|Glätten",
-    work_phrase_1 = "zu waschen",
-    #removed \\bArbeiter\\b, \\bArbeit\\b and rechtschaffen for now, as it produced too many false positives
+    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung",
     qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
-    position = "[m|M]agd|[k|K]necht|Köchin|Seidenbandweber|Seidenweber|Seidenwinder|Zettler",
-    apprentice = "Lehrling|Lehrjung|in die Lehr|Lehrgeld",
+    young = "\\bJun(g|ge|gen)|\\bKna(b|be|ben)|jung(e|er|en) ([a-zäöüß]+ )*(Mann|Frau|Pers(o|oh)n)|\\bMensch",
+    women = "Weibs(\\-P|p)ers(o|oh)n",
+    apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
+    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)(ä|a)gd\\b|(k|K)necht",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz als",
-    employment ="Anstellung|angestellt|\\bDienst\\b|\\bDienste\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst"
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)"
   )
   dict$neg <- list(
-    #"darin zu / zum kochen": describes cookware, not people
-    misc = "Ornement",
-    warnig = "warne|Warnung",
-    misc_phrase1 = "zum kochen",
-    misc_phrase2 = "darin zu kochen",
-    misc_phrase3 = "Dienst zu erweisen",
-    othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "[B|b]eerdigt|verstorben|dito|Dito|bendaselbst|unrichtig|genöthigt",
-    othercat_info_phrase1 = "meinem Namen",
-    othercat_realestate = "Losament|Kammer|Stübchen|Remise",
-    othercat_boarding = "Kosthaus",
-    othercat_boarding_phrase1 = "//bdie Kost//b",
-    #othercategory: excluding lost&found, auction, funeral news,
-    # some real estate and boarding  - which is (almost)
-    # never combined with job offers/requests
-    #"dito" and "ebendaselbst" is used in funeral ads, but never labor ads (just 1 exception)
-    #"unrichtig" and "in meinem Namen" found in clarification ads
-    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|verlehen|usleihe|kaufen|Preis|Artikel|versteiger|Versteiger|vergant|//bGant//b",
-    #transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
-    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff",
-    proclamation_phrase_2 = "Basel, den",
-    proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel"
-    #proclamation: some of the ads recognized by the filter are public announcements"
+    placement = "\\bplac(i|ie)r|\\b(T|t)ausch",
+    warning = "warne|Warnung|meinem Namen",
+    misc_phrase1 = "Dienst zu erweisen",
+    #proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
+    #proclamation_phrase_1 = "Publikation in Betreff",
+    #proclamation_phrase_2 = "Basel, den",
+    #proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
+    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
   )
   create_filter_output(dict)
 }
 
 
-#' Filter Quanteda Corpus: Advertising/promoting business
+#' Filter Quanteda Corpus: Employment in pertinent sections outside labourinfo
 #' @export
-tagfilter_bizpromo <- function(){
-  # as far as services is concerned,
-  # this was tagged "labor" (otherwise "things")
-  # but might be wise to draw a line between this & job market
+tagfilter_employment2 <- function(){
   dict <- list()
+  dict$applicable <- list("othernews", "demand", "offer")
+  dict$pos <- list(
+    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung",
+    qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
+    young = "\\bJun(g|ge|gen)|\\bKna(b|be|ben)|jung(e|er|en) ([a-zäöüß]+ )*(Mann|Frau|Pers(o|oh)n)|\\bMensch",
+    women = "Weibs(\\-P|p)ers(o|oh)n",
+    apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
+    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)(ä|a)gd\\b|(k|K)necht",
+    employment_phrase_1 = "einen Platz",
+    employment_phrase_2 = "ein Platz als",
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)"
+  )
+  dict$neg <- list(
+    placement = "\\bplac(i|ie)r|\\b(T|t)ausch",
+    warning = "warne|Warnung|meinem Namen",
+    misc_phrase1 = "Dienst zu erweisen",
+    #proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
+    #proclamation_phrase_1 = "Publikation in Betreff",
+    #proclamation_phrase_2 = "Basel, den",
+    #proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
+    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Advertising/promoting business in section labourinfo
+#' @export
+tagfilter_bizpromo1 <- function(){
+  dict <- list()
+  dict$applicable <- list("labourinfo")
+  dict$pos <- list(
+    advertising = "Anzeige|anzeigen|anzuzeigen|angezeigt|benachrichtigen",
+    advertising_phrase1 = "zeigt an",
+    recommending = "rekomm(a|e)ndi|empfiehlt sich|sich empfehlen",
+    customertrust = "Zutrauen|Zuspruch",
+    serving = "bedienen"
+  )
+  dict$neg <- list(
+    apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
+    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)agd\\b|(k|K)necht",
+    employment_phrase_1 = "einen Platz",
+    employment_phrase_2 = "ein Platz als",
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)|Zeugnis",
+    report_to_registry_office_phrase1 = "Anzeige im Berichthaus",
+    report_to_registry_office_phrase2 = "gefälligst Anzeige"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Advertising/promoting business outside section labourinfo
+#' @export
+tagfilter_bizpromo2 <- function(){
+  dict <- list()
+  dict$applicable <- list("othernews", "demand", "offer")
   dict$pos <- list(
     advertising = "Anzeige|anzeigen|anzuzeigen|angezeigt|benachrichtigen",
     advertising_phrase1 = "zeigt an",
@@ -64,12 +97,11 @@ tagfilter_bizpromo <- function(){
     serving = "bedienen"
   )
   dict$neg <- list(
-    # excluding some jobmarket ads and public proclamations
-    employment ="Anstellung|angestellt|\\bDienst\\b|einzutreten|eintreten\\b|unterzukommen|\\bLohn\\b|Verdienst",
-    proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    proclamation_phrase_1 = "Publikation in Betreff",
-    proclamation_phrase_2 = "Basel, den",
-    proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
+    apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
+    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)agd\\b|(k|K)necht",
+    employment_phrase_1 = "einen Platz",
+    employment_phrase_2 = "ein Platz als",
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)|Zeugnis",
     report_to_registry_office_phrase1 = "Anzeige im Berichthaus",
     report_to_registry_office_phrase2 = "gefälligst Anzeige"
   )
@@ -77,18 +109,17 @@ tagfilter_bizpromo <- function(){
 }
 
 
-#' Filter Quanteda Corpus: Board
+#' Filter Quanteda Corpus: Boarding
 #' @export
-tagfilter_board <- function(){
+tagfilter_boarding <- function(){
   dict <- list()
+  dict$applicable <- list("labourinfo", "othernews", "demand", "offer")
   dict$pos <- list(
-    boarding = "\\bKost\\b"
+    boarding = "\\bKos(t|ga|gä)\\b"
   )
   dict$neg <- list(
-    misc = "Zeugnisse",
     misc_phrase1 = "Kost kochen",
     misc_phrase2 = "Kost erfahren"
-
   )
   create_filter_output(dict)
 }
