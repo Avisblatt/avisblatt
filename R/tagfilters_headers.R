@@ -152,8 +152,7 @@ tagfilter_ps <- function(){
   dict$pos <- list(
     ps_1= "Na(c|e)htr(ä|a)",
     ps_2= "\\bPS\\b"
-
-  )
+)
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
