@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_labourinfo}
 \alias{tagfilter_labourinfo}
-\title{Dictionary labour and information (Header)}
+\title{Dictionary labour, boarding, and information (Header)}
 \usage{
 tagfilter_labourinfo()
 }
 \description{
-Dictionary labour and information (Header)
+Dictionary labour, boarding, and information (Header)
 }

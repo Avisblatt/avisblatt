@@ -263,7 +263,7 @@ tagfilter_storage <- function(){
 
 #' Dictionary Building Components
 #' @export
-tagfilter_building <- function(){
+tagfilter_buildingcomponents <- function(){
   dict <- list()
   dict$pos <- list(
     door = "steinerner Bogen",
@@ -628,7 +628,7 @@ tagfilter_barrel <- function(){
 
 #' Dictionary Tobacco and Related Objects
 #' @export
-tagfilter_tobacco <- function(){
+tagfilter_tobaccoobjects <- function(){
   dict <- list()
   dict$pos <- list(
     pipe = "Pfeife|Taba(k|ck|ks|cks|c|cs)pfeife|Pfeifen(kopf|raumer|rohr)",
@@ -786,9 +786,9 @@ tagfilter_soil <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Agriculture
+#' Dictionary Agricultural objects
 #' @export
-tagfilter_agriculture <- function(){
+tagfilter_agriculturalobjects <- function(){
   dict <- list()
   dict$pos <- list(
     tool = "Dreschflegel|(Heu|Lad|Lade)gabel|Pfl(u|ü)g|Sense|Rechen|Mattenmesser|Matten-Messer",

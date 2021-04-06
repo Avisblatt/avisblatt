@@ -1,4 +1,4 @@
-#' Filter Quanteda Corpus: Labour
+#' Filter Quanteda Corpus: Employment
 #' @export
 tagfilter_employment <- function(){
   # Note how phrases are used inside a dictionary.
@@ -88,7 +88,7 @@ tagfilter_board <- function(){
     misc = "Zeugnisse",
     misc_phrase1 = "Kost kochen",
     misc_phrase2 = "Kost erfahren"
-    
+
   )
   create_filter_output(dict)
 }
