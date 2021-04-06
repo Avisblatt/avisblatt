@@ -2,16 +2,17 @@
 #' @export
 umbrella_terms <- function(){
   umbrella_stand <- list(
-    ut_consumables_drink = "alcohol|chocolate|coffee|broth|milk|mineralwater|tea",
-    ut_consumables_food = "butter|cheese|driedfruit|eggs|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|oil|pasta|pastry|poultry|preserves|spices|sugar|syrup|tropicalfruit|vegetable",
-    ut_consumables_drugs = "health|tobaccoproducts",
+    ut_consumables_drink = "alcohol|chocolate|coffee|milk|mineralwater|tea|syrup",
+    ut_consumables_food = "butter|cheese|driedfruit|eggs|broth|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|oil|pasta|pastry|poultry|preserves|spices|sugar|tropicalfruit|vegetable",
+    ut_consumables_drugs = "health|tobaccoproducts|mineralwater",
     ut_consumables_other = "firework",
     ut_household = "bed|bedding|carpet|tablelinen|cabinet|chair|stove|mirror|table|timepiece|bureau|tableware|toy|game|kitchen|lighting|instrument|wallpaper|cutlery|divider|petobject|upholstery|domestic|garden|homedeco|bathobject|art|antique|mischousehold",
-    ut_textiles = "clothing|costume|uniform|outerwear|sleepwear|underwear|hand|handkerchief|shoes|headdress|neck|texmaterial|cloth|yarn",
+    ut_clothing = "clothing|costume|uniform|outerwear|sleepwear|underwear|hand|shoes|headdress|neck",
+    ut_textiles = "bedding|carpet|clothing|costume|uniform|outerwear|sleepwear|underwear|hand|handkerchief|shoes|headdress|neck|texmaterial|cloth|yarn",
     ut_things_accessories = "bag|mercery|jewellery|glasses|key|cane|umbrella|weapon|riding|tobaccoobjects",
     ut_things_storeNmove = "carriage|pushchair|suitcase|trolley|storage|container|barrel",
     ut_things_devicesNcomponents = "buildingcomponents|woodobjekt|shopequip|tavernobject|rope|well|agriculturalobjects|measure|stationary|tool|firestart|extinguisher|wineobject|miscobject",
-    ut_things_materials = "animalraw|plantraw|plant|naturalia|wood|feed|hay|dung|soil",
+    ut_things_materials = "animalraw|plantraw|plant|naturalia|wood|feed|hay|dung|soil"
   )
   umbrella_stand
 }
