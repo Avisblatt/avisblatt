@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_curious}
 \alias{tagfilter_curious}
-\title{Dictionary Merkwürdigkeiten (Header)}
+\title{Dictionary Curiosities (Header)}
 \usage{
 tagfilter_curious()
 }
 \description{
-Dictionary Merkwürdigkeiten (Header)
+Dictionary Curiosities (Header)
 }

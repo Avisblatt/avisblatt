@@ -617,5 +617,6 @@ correct_ocr <- function(x){
   x <- gsub("A(l|L|1)(l|L|1)e","Alle",x)
   x <- gsub("fremhd","frembd",x)
   x <- gsub("Nachträg\\b","Nachtrag",x)
+  x <- gsub("kosament","Losament",x)
   x
   }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_registry}
 \alias{tagfilter_registry}
-\title{Dictionary registry office (Header)}
+\title{Dictionary Registry office (Header)}
 \usage{
 tagfilter_registry()
 }
 \description{
-Dictionary registry office (Header)
+Dictionary Registry office (Header)
 }

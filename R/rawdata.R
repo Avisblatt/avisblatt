@@ -112,13 +112,12 @@ RawData <- R6Class("RawData", list(
         # remove redundant blanks (better BEFORE ocr correction)
         self$data[,text := purge_spacing(text)]
         self$data[,text := gsub(" {2,}", " ", text)]
-
-      }
+        }
 
       if(ocr_correction){
         # apply ocr corrections
         self$data[, text := correct_ocr(self$data$text)]
-      }
+        }
 
       if(self$year %in% gt_years){
         message("GT year detected, starting special treatment...")
@@ -217,9 +216,10 @@ RawData <- R6Class("RawData", list(
                         "labourinfo",
                         "auctions",
                         "othernews",
+                        "ps",
                         "tariffs",
                         "bookstore",
-                        "travel",
+                        "travelheader",
                         "exchange",
                         "charityheader",
                         "foreigners",

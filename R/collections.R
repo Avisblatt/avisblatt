@@ -137,7 +137,7 @@ Collection <- R6Class("Collection", list(
     if(is.null(nms)){
       nms <- gsub("tagfilter_", "", names(flist))
     }
-    e <- sprintf("names(flist$%s$filtrate(self$corpus))", names(flist))
+    e <- sprintf("names(flist$%s$filtrate(self$corpus, ignore.case = F))", names(flist))
     out <- lapply(e,function(x) eval(parse(text = x)))
     names(out) <- nms
     lapply(names(out),function(x){
