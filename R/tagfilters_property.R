@@ -6,7 +6,7 @@ tagfilter_housing_rent1 <- function(){
   dict$pos <- list(
     general = "(B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein", # not "Haus" as this often used in contact references in all sorts of ads
     spaces = "Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart",
-    buildings = "Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer",
+    buildings = "Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer",
     rooms = "\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven",
     storage = "Magazin|Keller\\b|Dachboden|Estri[ch|g]",
     amenities = "Abtritt|Abwasser|Altan|Bauchkessel|(B|b)runnen|Wasserleitung|Wasserstein",
@@ -33,7 +33,7 @@ tagfilter_housing_rent2 <- function(){
   dict$pos <- list(
     general_1   = "((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     spaces_1    = "(Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Juchart).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    buildings_1 = "(Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+    buildings_1 = "(Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g]).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     general_2   = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Behausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)",
     spaces_2    = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Juchart)",
@@ -70,7 +70,7 @@ tagfilter_housing_sale1 <- function(){
   dict$applicable <- list("saleoffer", "saledemand", "auctions")
   dict$pos <- list(
     object = "(B|b)ehausung|Bewohnung|Losament|Liegenschaft|Rebacker",
-    object_no = "Das (Haus|Gebäude) No\\.",
+    object_no = "Das ([a-zäöüß\\-]+ )*(Haus|Gebäude) No\\.",
     object_pub = "^([0-9]+. )*(Das|Ein) (W(i|ü)r(t|th)s|Gast)(\\-H|h)au(s|ß)",
     object_mill = "^([0-9]+. )*(Die|Eine) ([PSM][a-zäöü\\-])*(m|M)(u|ü)h(l|le)", #PS = Papier or Säge or Mahl-Mühle
     object_cellar = "^([0-9]+. )*(Der|Ein) (Flaschen\\-)Keller",

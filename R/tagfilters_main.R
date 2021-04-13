@@ -41,7 +41,6 @@ tagfilter_finance <- function(){
     insurance= "Lebensversicherung|Assekuranz|-[K|C]ass[e|a]|Pensions[c|k]ass|Wittwen[k|c]ass"
   )
   dict$neg <- list(
-
     meta = "Hypothekenwesen",
     othercat_things = "Geld-[K|C]ass[a|e]|Geld[k|c]ass[a|e]",
     othercat_lostandfound = "verloren|gefunden",
@@ -71,21 +70,6 @@ tagfilter_lottery <- function(){
 
 
 
-#' Filter Quanteda Corpus: Charity
-#' @export
-tagfilter_charity <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  create_filter_output(dict)
-}
-
-
-
 #' Filter Quanteda Corpus: Placement
 #' @export
 tagfilter_placement <- function(){
@@ -101,9 +85,57 @@ tagfilter_placement <- function(){
 
 
 
-#' Filter Quanteda Corpus: Travel opportunities
+#' Filter Quanteda Corpus: Lostandfound inside lostandfound section
 #' @export
-tagfilter_travel <- function(){
+tagfilter_lostandfound1 <- function(){
+  dict <- list()
+  dict$applicable <- list("lostandfoundheader")
+  dict$pos <- list(
+    all = "." #
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+
+
+#' Filter Quanteda Corpus: Lostandfound outside lostandfound section
+#' @export
+tagfilter_lostandfound2 <- function(){
+  dict <- list()
+  dict$pos <- list(
+    lost = "(V|v)erl(o|oh)r(ne|en)",
+    found = "gefund(en|ne)",
+    stolen = "gesto(hl|l)en"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+
+
+#' Filter Quanteda Corpus: Charity inside charityheader section
+#' @export
+tagfilter_charity1 <- function(){
+  dict <- list()
+  dict$applicable <- list("charityheader")
+  dict$pos <- list(
+    all = "." #
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Charity outside charityheader section
+#' @export
+tagfilter_charity2 <- function(){
   dict <- list()
   dict$pos <- list(
 
@@ -116,9 +148,54 @@ tagfilter_travel <- function(){
 
 
 
-#' Filter Quanteda Corpus: Print
+#' Filter Quanteda Corpus: Travel opportunities in travelheader section
 #' @export
-tagfilter_print <- function(){
+tagfilter_travel1 <- function(){
+  dict <- list()
+  dict$applicable <- list("travelheader")
+  dict$pos <- list(
+    all = "." #
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Travel opportunities outside travelheader section
+#' @export
+tagfilter_travel2 <- function(){
+  dict <- list()
+  dict$pos <- list(
+
+  )
+  dict$neg <- list(
+
+  )
+  create_filter_output(dict)
+}
+
+
+
+#' Filter Quanteda Corpus: Print inside bookstore section
+#' @export
+tagfilter_print1 <- function(){
+  dict <- list()
+  dict$applicable <- list("bookstore")
+  dict$pos <- list(
+    all = "." #
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Print outside bookstore section
+#' @export
+tagfilter_print2 <- function(){
   dict <- list()
   dict$pos <- list(
     book = "^Buch$|^Bücher[n]$|^Bucher$",

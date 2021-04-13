@@ -123,19 +123,40 @@ clean_manual_tags <- function(x){
 
 # convenience function to read & merge multiple years to one working collection
 gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
-  AVIS_YEARS <- as.numeric(AVIS_YEARS)
-  number_of_years <- length(AVIS_YEARS)
-  fn <- paste(path, AVIS_YEARS[1], sep = "")
-  c_all <- read_collection(fn, just_meta)
-  if(number_of_years > 1){
-    for (i in AVIS_YEARS[2:number_of_years]){
-      fn <- paste(path, i, sep = "")
-      coll <- read_collection(fn, just_meta)
-      c_all <- merge_collections(c(c_all, coll))
-    }
+  AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
+
+  # meta information
+  meta_dt <- data.table()
+  for (i in AVIS_YEARS){
+    meta_file <- paste0(path, i, ".json")
+    mi <- fromJSON(meta_file)
+    d <- data.table::rbindlist(mi)
+    d[, id := names(mi)]
+    meta_dt <- rbind(meta_dt, d)
   }
-  c_all
+  meta_dt[, date := as.Date(date)]
+  setcolorder(meta_dt, neworder = c("id",
+                              setdiff(names(meta_dt),"id")))
+
+  # corpus
+  dt <- data.table()
+  if(!just_meta){
+    for (i in AVIS_YEARS){
+      data_file <- paste0(path, i, ".csv")
+      dt <- rbind(dt, fread(data_file, encoding="UTF-8"))
+    }
+    crps <- corpus(dt, docid_field = "id",
+                 text_field = "text")
+    }
+
+  if(just_meta){
+    collect <- Collection$new(NULL, meta_dt)
+  } else {
+    collect <- Collection$new(crps, meta_dt)
+  }
+  collect
 }
+
 
 
 purge_spacing <- function(txtlist){

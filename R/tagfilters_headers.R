@@ -60,7 +60,7 @@ tagfilter_lenddemand <- function(){
 
 #' Dictionary lost and found (Header)
 #' @export
-tagfilter_lostandfound <- function(){
+tagfilter_lostandfoundheader <- function(){
   dict <- list()
   dict$pos <- list(
     lost = "(V|v)erl(o|oh)r(ne|en)",
