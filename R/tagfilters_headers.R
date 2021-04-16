@@ -1,3 +1,35 @@
+#' Dictionary Prices (Header) - such headers should not exist (part of other workflow, not ads), filter here just to find them
+#' @export
+tagfilter_prices <- function(){
+  dict <- list()
+  dict$pos <- list(
+    prices_1 = "Prei(s|ß)|Tax|Bro(d|t)",
+    prices_2 = "Mineral"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary postcript (Header)
+#' @export
+tagfilter_ps <- function(){
+  dict <- list()
+  dict$pos <- list(
+    ps_1= "Na(c|e)htr(ä|a)",
+    ps_2= "\\bPS\\b",
+    ps_3= "Ferners",
+    other = "Folgendes ist nachzuholen"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+
 #' Dictionary things offered for sale (Header)
 #' @export
 tagfilter_saleoffer <- function(){
@@ -79,7 +111,7 @@ tagfilter_lostandfoundheader <- function(){
 tagfilter_death <- function(){
   dict <- list()
   dict$pos <- list(
-    death_1 = "erstorbe|begrabe(n|m)|(B|b)eerdig|gestorben|Todes|Beerdig" # "erstorbe" without the "v", because a lot of ocr mistakes
+    death_1 = "erstorbe|begrabe(n|m)|(B|b)eerdig|gestorben|Todes|Beerdig|eingesegnet" # "erstorbe" without the "v", because a lot of ocr mistakes
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -136,23 +168,9 @@ tagfilter_auctions <- function(){
 tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
-    news_1= "Allerhand|achrichten"
+    news_1= "Allerhand|achrichten",
+    university_exams = "Lectiones"
   )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary postcript (Header)
-#' @export
-tagfilter_ps <- function(){
-  dict <- list()
-  dict$pos <- list(
-    ps_1= "Na(c|e)htr(ä|a)",
-    ps_2= "\\bPS\\b"
-)
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
@@ -167,20 +185,6 @@ tagfilter_official <- function(){
   dict$pos <- list(
     official = "machung"
     )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary tariffs (Header)
-#' @export
-tagfilter_tariffs <- function(){
-  dict <- list()
-  dict$pos <- list(
-    tariffs_1 = "Ta(x|r)|Bro(d|t)"
-  )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
   )
@@ -291,28 +295,14 @@ tagfilter_registry <- function(){
 }
 
 
-#' Dictionary Prices (Header)
-#' @export
-tagfilter_prices <- function(){
-  dict <- list()
-  dict$pos <- list(
-    prices_1 = "Prei(s|ß)",
-    prices_2 = "Mineral"
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
 #' Dictionary Election (Header)
 #' @export
 tagfilter_election <- function(){
   dict <- list()
   dict$pos <- list(
     election_1 = "Besetzung|(Ä|Ae)mt",
-    election_2 = "(W|w)ahl"
+    election_2 = "(W|w)ahl",
+    military_promotion = "Milit(a|ä)r"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -417,7 +407,7 @@ tagfilter_insolvency <- function(){
 tagfilter_merge_to_ad <- function(){
   dict <- list()
   dict$pos <- list(
-    notification = "\\b(A|a|à)ver|\\bKundmach|\\bAnkün|\\bNachri|(A|a)nzeig|Avis\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
+    notification = "\\b(A|a|à)(ver|VER)|\\bKundmach|\\bAnkün|\\bNachri|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
     listings = "Verzeichn|Subs(c|k)ription",
     shooting_competition = "Freischie" #Freischießen
   )
