@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_prices}
 \alias{tagfilter_prices}
-\title{Dictionary Prices (Header)}
+\title{Dictionary Prices (Header) - such headers should not exist (part of other workflow, not ads), filter here just to find them}
 \usage{
 tagfilter_prices()
 }
 \description{
-Dictionary Prices (Header)
+Dictionary Prices (Header) - such headers should not exist (part of other workflow, not ads), filter here just to find them
 }

@@ -19,9 +19,9 @@ tagfilter_ps <- function(){
   dict <- list()
   dict$pos <- list(
     ps_1= "Na(c|e)htr(ä|a)",
-    ps_2= "\\bPS\\b",
+    ps_2= "\\bPS\\b|\\PPSS",
     ps_3= "Ferners",
-    other = "Folgendes ist nachzuholen"
+    other = "Folgendesistnachzuholen"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -168,7 +168,7 @@ tagfilter_auctions <- function(){
 tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
-    news_1= "Allerhand|achrichten",
+    news_1= "Allerhand|achricht",
     university_exams = "Lectiones"
   )
   dict$neg <- list(
@@ -198,7 +198,8 @@ tagfilter_bookstore <- function(){
   dict <- list()
   dict$pos <- list(
     bookstore = "Buch(handlung|händler|drucker)",
-    books = "Bücher|Buch"
+    books = "Bücher|Buch",
+    printed = "ge(d|t)ru(ck|k)t"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -407,7 +408,7 @@ tagfilter_insolvency <- function(){
 tagfilter_merge_to_ad <- function(){
   dict <- list()
   dict$pos <- list(
-    notification = "\\b(A|a|à)(ver|VER)|\\bKundmach|\\bAnkün|\\bNachri|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
+    notification = "((AVERTI)|(a|à)verti)|\\bKundmach|\\bAnkün|\\bNachri|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
     listings = "Verzeichn|Subs(c|k)ription",
     shooting_competition = "Freischie" #Freischießen
   )
