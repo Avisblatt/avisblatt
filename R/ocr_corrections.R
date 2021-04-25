@@ -140,6 +140,7 @@ correct_ocr <- function(x){
   x <- gsub("Gerwergaß","Gerbergaß",x)
   x <- gsub("Frofastenmarckt","Fronfastenmarckt",x)
   x <- gsub("Gerwergäß","Gerbergäß",x)
+  x <- gsub("Todtentan;","Todtentanz",x)
   x <- gsub("Ehsengaß","Eisengaß",x)
   x <- gsub("Jorstatt","Vorstatt",x)
   x <- gsub("Pfarchof","Pfarrhof",x)
