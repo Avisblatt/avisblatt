@@ -12,45 +12,11 @@ umbrella_terms <- function(){
     ut_things_accessories = "bag|mercery|jewellery|glasses|key|cane|umbrella|weapon|riding|tobaccoobjects",
     ut_things_storeNmove = "carriage|pushchair|suitcase|trolley|storage|container|barrel",
     ut_things_devicesNcomponents = "buildingcomponents|woodobjekt|shopequip|tavernobject|rope|well|agriculturalobjects|measure|stationary|tool|firestart|extinguisher|wineobject|miscobject",
-    ut_things_materials = "animalraw|plantraw|plant|naturalia|wood|feed|hay|dung|soil"
+    ut_things_materials = "animalraw|plantraw|plant|naturalia|wood|feed|hay|dung|soil",
+    ut_animals = "dogs|birds|cats|otherpets|livestock" #what to do with animalobjects ?
   )
   umbrella_stand
 }
-
-
-
-#' Filter Quanteda Corpus: Finance
-#' @export
-tagfilter_finance <- function(){
-  dict <- list()
-  dict$pos <- list(
-    capital = "[C|K]apital|Vogtsgeld",
-    capitalphrase_1 = "[f|F][r|l]. [0-9]+ auf",
-    capitalphrase_2 = "[0-9]+ [f|F][r|l]. auf",
-    capitalphrase_1 = "[f|F][r|l]. [0-9]+ nach",
-    capitalphrase_2 = "[0-9]+ [f|F][r|l]. nach",
-    interest = "Zinsentrichtung|Dividende|Quartal-Beitrag",
-    loan = "[H|h]ypothek|[a|A]nle[i|]h[n|e]",
-    security = "[P|p]f[a|ä]nd",
-    securityphrase_1 = "auf erste Versicherung",
-    securityphrase_2 = "auf zwe[i|y]te Versicherung",
-    securityphrase_3 = "auf gute Versicherung",
-    securityphrase_4 = "auf hinlängliche Versicherung",
-    paper = "[O|b]ligation|Staatsanlehn|Staatsanleih|A[c|k]tien|Gültbrief|\\bAnleihe",
-    action = "Anforderung|Zahlung",
-    insurance= "Lebensversicherung|Assekuranz|-[K|C]ass[e|a]|Pensions[c|k]ass|Wittwen[k|c]ass"
-  )
-  dict$neg <- list(
-    meta = "Hypothekenwesen",
-    othercat_things = "Geld-[K|C]ass[a|e]|Geld[k|c]ass[a|e]",
-    othercat_lostandfound = "verloren|gefunden",
-    othercat_info = "beerdigt|verstorben|bendaselbst|unrichtig|genöthigt",
-    othercat_infophrase1 = "ungültig ansehet",
-    othercat_realestate = "Losament|Stübchen|Zimmer|Remise",
-    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|Artikel|versteiger|Versteiger|vergant|//bGant//b"  )
-  create_filter_output(dict)
-}
-
 
 
 #' Filter Quanteda Corpus: Lottery
@@ -69,22 +35,6 @@ tagfilter_lottery <- function(){
 }
 
 
-
-#' Filter Quanteda Corpus: Placement
-#' @export
-tagfilter_placement <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  create_filter_output(dict)
-}
-
-
-
 #' Filter Quanteda Corpus: Lostandfound inside lostandfound section
 #' @export
 tagfilter_lostandfound1 <- function(){
@@ -100,7 +50,6 @@ tagfilter_lostandfound1 <- function(){
 }
 
 
-
 #' Filter Quanteda Corpus: Lostandfound outside lostandfound section
 #' @export
 tagfilter_lostandfound2 <- function(){
@@ -112,66 +61,6 @@ tagfilter_lostandfound2 <- function(){
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
-
-#' Filter Quanteda Corpus: Charity inside charityheader section
-#' @export
-tagfilter_charity1 <- function(){
-  dict <- list()
-  dict$applicable <- list("charityheader")
-  dict$pos <- list(
-    all = "." #
-  )
-  dict$neg <- list(
-    yyy = "yyyyy"
-  )
-  create_filter_output(dict)
-}
-
-
-#' Filter Quanteda Corpus: Charity outside charityheader section
-#' @export
-tagfilter_charity2 <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
-  )
-  create_filter_output(dict)
-}
-
-
-
-#' Filter Quanteda Corpus: Travel opportunities in travelheader section
-#' @export
-tagfilter_travel1 <- function(){
-  dict <- list()
-  dict$applicable <- list("travelheader")
-  dict$pos <- list(
-    all = "." #
-  )
-  dict$neg <- list(
-    yyy = "yyyyy"
-  )
-  create_filter_output(dict)
-}
-
-
-#' Filter Quanteda Corpus: Travel opportunities outside travelheader section
-#' @export
-tagfilter_travel2 <- function(){
-  dict <- list()
-  dict$pos <- list(
-
-  )
-  dict$neg <- list(
-
   )
   create_filter_output(dict)
 }

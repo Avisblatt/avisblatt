@@ -34,7 +34,7 @@ create_filter <- function(dict){
 
     # Likewise, if tagfilter is specified
     # to be not applied to sections
-    # listed under dict$applicable,
+    # listed under dict$inapplicable,
     # confine sel[elcted ids] to those
     # outside said sections
     if(!is.null(dict$inapplicable)){
@@ -43,10 +43,24 @@ create_filter <- function(dict){
       sel <- sel & tf_inapplicable
     }
 
-
-    if(return_corp) return(corp[sel])
-
     ids <- names(corp[sel])
+
+    # If there is a list of IDs to include
+    # under dict$include, add them
+    if(!is.null(dict$include)){
+      include <- dict$include
+      ids <- union(ids, include)
+    }
+
+    # If there is a list of IDs to exclude
+    # under dict$exclude, remove them
+    if(!is.null(dict$exclude)){
+      exclude <- dict$exclude
+      ids <- setdiff(ids, exclude)
+    }
+
+
+    if(return_corp) return(corp[ids])
     ids
   }
 }

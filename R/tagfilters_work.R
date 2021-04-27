@@ -4,25 +4,25 @@ tagfilter_employment1 <- function(){
   dict <- list()
   dict$applicable <- list("labourinfo")
   dict$pos <- list(
-    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung",
-    qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
+    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung|A(auf|b)wart|(u|U)nterricht",
+    qualification = "\\bZeugnisse|Aufführung|\\erfahrene|versteht|geübte",
     young = "\\bJun(g|ge|gen)|\\bKna(b|be|ben)|jung(e|er|en) ([a-zäöüß]+ )*(Mann|Frau|Pers(o|oh)n)|\\bMensch",
     women = "Weibs(\\-P|p)ers(o|oh)n",
-    apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
-    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)(ä|a)gd\\b|(k|K)necht",
+    apprentice = "Lehr(ling|(J|j)ung|(K|k)nab|(T|t)ocht)|in die Lehr|Lehrgel(d|t|dt)",
+    assistant = "(G|g)esel(l|le|len)\\b|Commis|Geh(i|ü)lfe",
+    servant = "(b|B)ediente|(D|d)iener\\b|Laquai|(m|M)(ä|a)g(d|de)\\b|(k|K)necht",
+    positions = "(A|S(a|ä)ug)amme|Vorgänger|Näher|Schneider|Zettler|Lehrer|Gärtner|Kutscher|Lehenmann|Arbeiter",
+    workplace = "(H|h)andlung|Handelshaus|Co(m|mp)toir|Schreinstub|(F|f)abrik|Haushaltung|Kundenh(a|ä)us",
+    conditions = "\\bLohn\\b|Verdienst|Sala(ir|r)|Bed(i|ü|u)ngn(i|ü|u)s",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz als",
-    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)"
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen",
+    competence = "Buchhaltung|Kochkunst|häuslich(e|en) Geschäft"
   )
   dict$neg <- list(
-    placement = "\\bplac(i|ie)r|\\b(T|t)ausch",
     warning = "warne|Warnung|meinem Namen",
     misc_phrase1 = "Dienst zu erweisen",
-    #proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    #proclamation_phrase_1 = "Publikation in Betreff",
-    #proclamation_phrase_2 = "Basel, den",
-    #proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
-    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
+    other_transactions = "//b(t|T)ausch|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en" ##transactions that are not associtaed with the job market
   )
   create_filter_output(dict)
 }
@@ -32,28 +32,22 @@ tagfilter_employment1 <- function(){
 #' @export
 tagfilter_employment2 <- function(){
   dict <- list()
-  dict$applicable <- list("othernews", "demand", "offer")
+  dict$applicable <- list("othernews", "demanding", "offering")
   dict$pos <- list(
-    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung",
+    work = "Beruf|arbeiten|(B|b)eschäfti|Besorgung|Abwart", # leaving out |(u|U)nterricht here
     qualification = "\\bZeugnisse|\\erfahrene|versteht|geübte",
-    young = "\\bJun(g|ge|gen)|\\bKna(b|be|ben)|jung(e|er|en) ([a-zäöüß]+ )*(Mann|Frau|Pers(o|oh)n)|\\bMensch",
-    women = "Weibs(\\-P|p)ers(o|oh)n",
     apprentice = "Lehr(ling|jung|knab)|in die Lehr|Lehrgel(d|t|dt)",
-    assistant = "Gesel(l|le|len)\\b|Bediente|(m|M)(ä|a)gd\\b|(k|K)necht",
+    conditions = "\\bLohn\\b|Verdienst|Sala(ir|r)|Bedingnis",
     employment_phrase_1 = "einen Platz",
     employment_phrase_2 = "ein Platz als",
-    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen|\\bLohn\\b|Verdienst|Sala(ir|r)"
+    employment ="Anstellung|angestellt|\\bDiens(t|te)\\b|ein(zut|t)reten|unterzukommen"
   )
   dict$neg <- list(
-    placement = "\\bplac(i|ie)r|\\b(T|t)ausch",
     warning = "warne|Warnung|meinem Namen",
     misc_phrase1 = "Dienst zu erweisen",
-    #proclamation = "Kundmachung|Polizey-Anzeige|Bekanntmachung|Erinnerung",
-    #proclamation_phrase_1 = "Publikation in Betreff",
-    #proclamation_phrase_2 = "Basel, den",
-    #proclamation_phrase_3 = "Kanzle[i|y] der Stadt Basel",
-    other_transactions = "//bTausch//b|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
+    other_transactions = "//b(t|T)ausch|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
   )
+  dict$include <- emploment_include()
   create_filter_output(dict)
 }
 
@@ -87,7 +81,7 @@ tagfilter_bizpromo1 <- function(){
 #' @export
 tagfilter_bizpromo2 <- function(){
   dict <- list()
-  dict$applicable <- list("othernews", "demand", "offer")
+  dict$applicable <- list("othernews", "demanding", "offering")
   dict$pos <- list(
     advertising = "Anzeige|anzeigen|anzuzeigen|angezeigt|benachrichtigen",
     advertising_phrase1 = "zeigt an",
@@ -105,6 +99,7 @@ tagfilter_bizpromo2 <- function(){
     report_to_registry_office_phrase1 = "Anzeige im Berichthaus",
     report_to_registry_office_phrase2 = "gefälligst Anzeige"
   )
+  dict$include <- bizpromo_include()
   create_filter_output(dict)
 }
 
@@ -113,9 +108,9 @@ tagfilter_bizpromo2 <- function(){
 #' @export
 tagfilter_boarding <- function(){
   dict <- list()
-  dict$applicable <- list("labourinfo", "othernews", "demand", "offer")
+  dict$applicable <- list("labourinfo", "othernews", "demanding", "offering")
   dict$pos <- list(
-    boarding = "\\bKos(t|ga|gä)\\b"
+    boarding = "\\bKos(t|ga|gä)|Tischgäng"
   )
   dict$neg <- list(
     misc_phrase1 = "Kost kochen",

@@ -1,3 +1,35 @@
+tf_header <- function(prefix = F){
+  l <- c("saledemand",
+         "saleoffer",
+         "lendoffer",
+         "lenddemand",
+         "lostandfoundheader",
+         "death",
+         "marriage",
+         "labourinfo",
+         "auctions",
+         "othernews",
+         "bookstore",
+         "travelheader",
+         "exchange",
+         "charityheader",
+         "foreigners",
+         "curious",
+         "registry",
+         "prices",
+         "election",
+         "naturalisation",
+         "denaturalisation",
+         "propertysaleoffer",
+         "insolvency",
+         "demanding",
+         "offering",
+         "ps",
+         "merge_to_ad")
+  if (prefix) {paste0("tagfilter_", l)}
+  else {l}
+    }
+
 #' Dictionary Prices (Header) - such headers should not exist (part of other workflow, not ads), filter here just to find them
 #' @export
 tagfilter_prices <- function(){
@@ -314,7 +346,7 @@ tagfilter_election <- function(){
 
 #' Dictionary Demand (unclear if for sale or to lend) (Header)
 #' @export
-tagfilter_demand <- function(){
+tagfilter_demanding <- function(){
   dict <- list()
   dict$pos <- list(
     demand_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)begehrt",
@@ -330,7 +362,7 @@ tagfilter_demand <- function(){
 
 #' Dictionary Offer (unclear if for sale or to lend) (Header)
 #' @export
-tagfilter_offer <- function(){
+tagfilter_offering <- function(){
   dict <- list()
   dict$pos <- list(
     offer_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)o(ff|f)er(i|ie)rt",

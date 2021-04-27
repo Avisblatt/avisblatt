@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_property.R
 \name{tagfilter_housing_sale3}
 \alias{tagfilter_housing_sale3}
-\title{Filter Quanteda Corpus: Housing for sale in propertysaleoffer section (section is easily overlooked, so adding all ads to housing tags as well)}
+\title{Filter Quanteda Corpus: Housing for auction sale in the house itself}
 \usage{
 tagfilter_housing_sale3()
 }
 \description{
-Filter Quanteda Corpus: Housing for sale in propertysaleoffer section (section is easily overlooked, so adding all ads to housing tags as well)
+Filter Quanteda Corpus: Housing for auction sale in the house itself
 }
