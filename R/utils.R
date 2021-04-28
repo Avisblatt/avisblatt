@@ -1,5 +1,6 @@
 #' @importFrom jsonlite fromJSON toJSON
-#' @importFrom quanteda corpus docvars texts textstat_dist
+#' @importFrom quanteda corpus docvars texts
+#' @importFrom quanteda.textstats textstat_dist
 #' @import data.table
 #' @export
 write_collection <- function(x,
@@ -36,7 +37,7 @@ write_collection <- function(x,
 
   dt <- data.table(
     id = names(x$corpus),
-    text = texts(x$corpus),
+    text = as.character(x$corpus),
     docvars(x$corpus))
   fwrite(dt, file = data_file, quote = TRUE)
   message(sprintf("Data written to %s",data_file))
@@ -193,9 +194,9 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 
   # measure is not independent of ad length, correcting for length.
   # Result will be: dist <= 1 indicates reprint, > 1 otherwise
-  lengths_a <- as.vector(ntoken(texts(corpus_a),
+  lengths_a <- as.vector(ntoken(as.character(corpus_a),
                                 remove_punct = TRUE, remove_numbers = TRUE))
-  lengths_b <- as.vector(ntoken(texts(corpus_b),
+  lengths_b <- as.vector(ntoken(as.character(corpus_b),
                                 remove_punct = TRUE, remove_numbers = TRUE))
   m_a <- matrix(lengths_a, nrow(dist), ncol(dist))
   m_b <- matrix(lengths_b, nrow(dist), ncol(dist), byrow = TRUE)

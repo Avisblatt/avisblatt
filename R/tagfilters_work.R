@@ -73,6 +73,7 @@ tagfilter_bizpromo1 <- function(){
     report_to_registry_office_phrase1 = "Anzeige im Berichthaus",
     report_to_registry_office_phrase2 = "gefälligst Anzeige"
   )
+  dict$exclude <- bizpromo_exclude()
   create_filter_output(dict)
 }
 
@@ -100,6 +101,7 @@ tagfilter_bizpromo2 <- function(){
     report_to_registry_office_phrase2 = "gefälligst Anzeige"
   )
   dict$include <- bizpromo_include()
+  dict$exclude <- bizpromo_exclude()
   create_filter_output(dict)
 }
 

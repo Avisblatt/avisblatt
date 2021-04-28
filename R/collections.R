@@ -82,8 +82,8 @@ Collection <- R6Class("Collection", list(
         date = as.Date(docvars(self$corpus, "date")),
         tags = list(),
         tags_manual = tm,
-        ntokens = ntoken(texts(self$corpus)),
-        nchar = nchar(texts(self$corpus)),
+        ntokens = ntoken(as.character(self$corpus)),
+        nchar = nchar(as.character(self$corpus)),
         language = NA_character_
       )
     }
