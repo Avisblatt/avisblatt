@@ -47,7 +47,7 @@ tagfilter_employment2 <- function(){
     misc_phrase1 = "Dienst zu erweisen",
     other_transactions = "//b(t|T)ausch|ubscri|übergeben|abzugeben|überlassen|vermieten|(verl|entl|aus|l)(e|ei|ey)hen|kau(f|ff)en|Preis|Artikel|\\bKund(i|e)n\\b|(V|v)ersteiger|vergant|//bGant//b" ##transactions that are not associtaed with the job market (ubscri -> Subscription, subscribieren)
   )
-  dict$include <- emploment_include()
+  dict$include <- employment_include()
   create_filter_output(dict)
 }
 
