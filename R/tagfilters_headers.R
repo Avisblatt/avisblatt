@@ -440,7 +440,7 @@ tagfilter_insolvency <- function(){
 tagfilter_merge_to_ad <- function(){
   dict <- list()
   dict$pos <- list(
-    notification = "((AVERTI)|(a|à)verti)|\\bKundmach|\\bAnkün|\\bNachri|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
+    notification = "((AVERTI)|(a|à)verti)|\\bKundmach|\\bAnkün|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
     listings = "Verzeichn|Subs(c|k)ription",
     shooting_competition = "Freischie" #Freischießen
   )

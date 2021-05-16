@@ -46,9 +46,9 @@ create_filter <- function(dict){
     ids <- names(corp[sel])
 
     # If there is a list of IDs to include
-    # under dict$include, add them
+    # under dict$include, add them IF they are in the corpus
     if(!is.null(dict$include)){
-      include <- dict$include
+      include <- intersect(dict$include, names(corp))
       ids <- union(ids, include)
     }
 
