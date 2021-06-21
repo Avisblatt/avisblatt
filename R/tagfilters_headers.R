@@ -7,6 +7,7 @@ tf_header <- function(prefix = F){
          "death",
          "marriage",
          "labourinfo",
+         "boardingheader",
          "auctions",
          "othernews",
          "bookstore",
@@ -69,7 +70,9 @@ tagfilter_saleoffer <- function(){
   dict$pos <- list(
     saleoffer_1 = "Verkauf",
     saleoffer_2 = "umVerkauf",
-    saleoffer_3 = "verkau(ff|f)en"
+    saleoffer_3 = "verkau(ff|f)en",
+    meta_header1 = "NeueArt",
+    meta_header2 = "AlteArt" #Alte Artikel and Neue Artikel is used for some years as meta-segments for reprinted and new sales ads. It is always followed by a 'proper' header, almost(?) always sale_offer.
     )
   dict$neg <- list(
     double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
@@ -172,10 +175,24 @@ tagfilter_marriage <- function(){
 tagfilter_labourinfo <- function(){
   dict <- list()
   dict$pos <- list(
-    labourinfo_1 = "Ko(s|f)t|Information|Bedienung|Bediente|Di(e|ee)n(s|f)t|Jungen"
+    labourinfo_1 = "Information|Bedienung|Bediente|Di(e|ee)n(s|f)t|Jungen|KostundTausch"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary labour, boarding, and information (Header)
+#' @export
+tagfilter_boardingheader <- function(){
+  dict <- list()
+  dict$pos <- list(
+    boarding_1 = "Kost"
+  )
+  dict$neg <- list(
+    not_labourinfo = "Information|Bedienung|Bediente|Di(e|ee)n(s|f)t|Jungen|KostundTausch"
   )
   create_filter_output(dict)
 }
@@ -201,7 +218,8 @@ tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
     news_1= "Allerhand|achricht",
-    university_exams = "Lectiones"
+    university_exams = "Lectiones",
+    special_ad = "Feuerwerk"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
