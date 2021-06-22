@@ -34,33 +34,3 @@ tagfilter_lottery <- function(){
   create_filter_output(dict)
 }
 
-
-#' Filter Quanteda Corpus: Lostandfound inside lostandfound section
-#' @export
-tagfilter_lostandfound1 <- function(){
-  dict <- list()
-  dict$applicable <- list("lostandfoundheader")
-  dict$pos <- list(
-    all = "." #
-  )
-  dict$neg <- list(
-    yyy = "yyyyy"
-  )
-  create_filter_output(dict)
-}
-
-
-#' Filter Quanteda Corpus: Lostandfound outside lostandfound section
-#' @export
-tagfilter_lostandfound2 <- function(){
-  dict <- list()
-  dict$pos <- list(
-    lost = "(V|v)erl(o|oh)r(ne|en)",
-    found = "gefund(en|ne)",
-    stolen = "gesto(hl|l)en"
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}

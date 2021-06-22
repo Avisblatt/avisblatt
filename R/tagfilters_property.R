@@ -20,6 +20,7 @@ tagfilter_housing_rent1 <- function(){
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t",
     sled = "Haus-Schlitten"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -42,6 +43,7 @@ tagfilter_housing_rent2 <- function(){
   dict$neg <- list(
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -58,6 +60,7 @@ tagfilter_housing_rent3 <- function(){
   dict$neg <- list(
     not_job = "\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -86,6 +89,7 @@ tagfilter_housing_sale1 <- function(){
     hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
     dung = "Kühbau|verwährter"
     )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -123,6 +127,7 @@ tagfilter_housing_sale2 <- function(){
     dung = "Kühbau|verwährter",
     registry_offers = "Berichthaus ist zu haben"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -175,6 +180,7 @@ tagfilter_housing_sale5 <- function(){
   dict$neg <- list(
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -211,6 +217,7 @@ tagfilter_housing_other1 <- function(){
     hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
@@ -245,6 +252,7 @@ tagfilter_housing_other2 <- function(){
     hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
+  dict$exclude <- housing_exclude()
   create_filter_output(dict)
 }
 
