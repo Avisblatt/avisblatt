@@ -82,3 +82,35 @@ tagfilter_lostandfound2 <- function(){
   )
   create_filter_output(dict)
 }
+
+
+#' Filter Quanteda Corpus: Crime with focus on property delinquency
+#' @export
+tagfilter_crime <- function(){
+  dict <- list()
+  dict$applicable <- list("othernews","lostandfound")
+  dict$pos <- list(
+    thief="(D|d)ieb|Taschenspieler|Thäter|Entwender",
+    theft="entwendet|gest(oh|o)len|erbrochen|eingebrochen|wegge(n|k)om|weg\\sge(n|k)om|practicir|Vorsatz|gerau(be|b)t",
+    sinner="fr(e|a)(v|y)(le|el)|(f|F)rech",
+    suspicious="(V|v)erd(a|ä)cht",
+    violence="gewalt",
+    fencing="verse(tz|z),ausgelegt",
+    unjust="unrecht",
+    abduct="entf(u|ü)hr",
+    fun="Scherz|Schertz|Spa(ß|ss)",
+    night_crime="schwärmer|Nachtw(ä|a)ch",
+    warning="Warnung"
+  )
+
+  dict$neg <- list(
+    fire_brigade = "Feuerspritze|Probierung|Mannschaft",
+    sale="Zuspruch",
+    print="Verzeichni|Liebhaber",
+    legacy="Erbschaft",
+    borrow="Verleihen",
+    news="Grönland|Labrador"
+  )
+  create_filter_output(dict)
+}
+
