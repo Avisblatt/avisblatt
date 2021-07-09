@@ -160,8 +160,7 @@ tagfilter_print7 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "demanding", "offering", "othernews")
   dict$pos <- list(
-    participant = "Subscription(|es)|Pr(ae|ä)numerant(|en)|Subs(c|k)ribent(|en)",
-
+    participant = "Subscription(|es)|Pr(ae|ä)numerant(|en)|Subs(c|k)ribent(|en)"
   )
   dict$neg <- list(
     xxx = "yyyy"
