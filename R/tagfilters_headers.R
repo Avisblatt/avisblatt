@@ -40,7 +40,7 @@ tagfilter_prices <- function(){
     prices_2 = "Mineral"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    placeholder = "Buch"
   )
   create_filter_output(dict)
 }
@@ -71,7 +71,7 @@ tagfilter_saleoffer <- function(){
     saleoffer_1 = "Verkauf",
     saleoffer_2 = "umVerkauf",
     saleoffer_3 = "verkau(ff|f)en",
-    meta_header1 = "NeueArt",
+    meta_header1 = "NeueArt|neuenArt",
     meta_header2 = "AlteArt" #Alte Artikel and Neue Artikel is used for some years as meta-segments for reprinted and new sales ads. It is always followed by a 'proper' header, almost(?) always sale_offer.
     )
   dict$neg <- list(
@@ -458,7 +458,7 @@ tagfilter_insolvency <- function(){
 tagfilter_merge_to_ad <- function(){
   dict <- list()
   dict$pos <- list(
-    notification = "((AVERTI)|(a|à)verti)|\\bKundmach|\\bAnkün|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)",
+    notification = "((AVERTI)|(a|à)verti)|\\bKundmach|\\bAnkün|(A|a)(nzeig|NZEIG)|Avis\\b|AVIS\\b|\\bMit(th|t)eilung|\\Bekanntmach|\\bN(OTA|ota)|Buchbinder",
     listings = "Verzeichn|Subs(c|k)ription",
     shooting_competition = "Freischie" #Freischießen
   )
