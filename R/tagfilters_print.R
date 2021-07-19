@@ -85,8 +85,8 @@ tagfilter_print3 <- function(){
     other_7 = "englisch(|e|en) gedruckt(|e|en)|französisch(|e|en) gedruckt(|e|en)",
     other_8 = "buchen Holz|Buchenholz|gener Buchs|Buchsen|Buchs-|Gartenbuchs",
     other_9 = "mit Beschläg*. zu einem Bogen|Kanzel-Bogen|steinerner Bogen|samt Bogen|
-    Armbrust-Bogen|mit einem Bogen|Schwi bogen|Bogen-Liecht|Fenster(|-) Bogen|aller Auflagen *. frey|
-    generalAuflagen|Al(|c)kofen"
+    Armbrust-Bogen|mit einem Bogen|Schwi bogen|Bogen-Liecht|Fenster(|-) Bogen|Violin-Bogen|
+    Pfeil und Bogen|aller Auflagen *. frey|generalAuflagen|Al(|c)kofen"
   )
   create_filter_output(dict)
 }
