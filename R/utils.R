@@ -186,10 +186,10 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   # STEP 1
   # Use quanteda's textstat_dist to measure distance
   # -> lower values, smaller distance / greater similarity
-  dfm_a <- dfm(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm_weight("prop")
-  dfm_b <- dfm(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm_weight("prop")
+  dfm_a <- tokens(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) %>%
+    dfm() %>% dfm_weight("prop")
+  dfm_b <- tokens(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) %>%
+    dfm() %>% dfm_weight("prop")
   dist <- as.matrix(textstat_dist(dfm_a, dfm_b))
 
   # measure is not independent of ad length, correcting for length.
