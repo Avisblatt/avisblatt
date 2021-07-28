@@ -2,56 +2,24 @@
 #' @export
 tagfilter_clothing <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    general = "Kle(i|y)d|R(o|ö)ck|Ärmel|Weste",
-    apron = "Tscho(b|p|pp)en|Fürtuch",
-    trousers = "Hose",
-    dress = "Jun(t|dt)e|J(u|ü)ppe",
-    shirt = "Hem(d|db)|Chemise|(C|K)amis(o|oh)l"
+    general = "(?<!(zu|für)\\s|(Schlaf|Nacht|Unter|To(dt|t)en))(Kle(i|y)d|Ärmel|(?<!Sch|ge)Weste)\\w*?(?!(\\-|)(k(a|ä)st|schrank|mange|kästlein))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    suit_dress = "(?<!(zu|für)\\s|Bolingb|Meyen|Schlaf|Nacht|Unter|To(dt|t)en|Offizier(s|)|Uniform|Exerzier)R(o|ö)ck\\w*?(?!(\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))|stroh)",
+    apron = "(?<!(zu|für)\\s)Tscho(b|p|pp)en|Fürtuch\\w*?(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    trousers = "(?<!(zu|für)\\s)(?<!(Kalc|B(au|a|u)c|Al(i|)(ck|k|c)|(Ober|Frey|Waltig)))Hose\\w*?(?!nli(e|)(ß|s|ss)mer|n(träger|kn(o|ö)pf))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    dress = "(?<!(zu|für)\\s)Jun(t|dt)e|J(u|ü)ppe\\w*?(?!(\\szu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    shirt = "(?<!(zu|für)\\s)((Herren|)Hem(d|db)|Chemise|(C|K)amis(o|oh)l)\\w*?(?!träger|kn(o|ö)pf|gufe)(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))"
   )
   dict$neg <- list(
-    activity_1 = "Kleider machen", # activity with clothes, v1
-    activity_2 = "Kleider w(a|ä)schen", # activity with clothes, v2
-    activity_3 = "Kleider glätten", # activity with clothes, v3
-    activity_4 = "Kleider nähen", # activity with clothes, v4
-    activity_5 = "Kleider putzen", # activity with clothes, v5
-    activity_6 = "Kleider zu machen", # activity with clothes, v6
-    activity_7 = "Kleider zu w(a|ä)schen", # activity with clothes, v7
-    activity_8 = "Kleider zu glätten", # activity with clothes, v8
-    activity_9 = "Kleider zu nähen", # activity with clothes, v9
-    activity_10 = "Kleider zu putzen", # activity with clothes, v10
-    activity_11 = "zu stricken", # activity with clothes, v11
-    activity_12 = "einen Platz", # activity with clothes, v12
-    activity_13 = "zum Putzen", # activity with clothes, v13
-    activity_14 = "zu vertilgen", # activity with clothes, v14
-    work = "Hosenließmer", # profession knitting trousers, maybe has to be included if these post relevant objects
-    animal = "Federnhund", # filters out animal related clothing
-    book = "Fleckenbüchlein", # book with instructions for cleaning
-    death = "gewesen", # filters out death notices
-    cleaning = "Waschwasser|Flecken-Kugelen|Kleiderputz", # detergent for cleaning clothes
-    lime = "Kalchosen", # limestone
-    fragrance = "Rosenöl", # fragrance for laundry
-    immo = "Bauchosen|Gebäude|A(lck|lick)hosen", # immo ads
-    place = "(Ober|Frey|Waltig)hosen", # placename
-    position = "einen Platz", # filters out labour ads for servants
-    name = "B(u|a)chosen", # family names
-    straw = "Roc(ken|k)stroh", # special kind of straw
-    carneval = "Milchjoggi|Fastnach(t|ts)kleid|(Polichinel|Masken)-Kleid|(Polichinel|Masken)kleid", # costumes for carneval, see dictionary "costume"
-    other = "Brockel", # describes appearance of different objects (small chunks)
-    work = "Lehre|Unterricht|Haußbedient|Zeugni(ss|ß|s)", # cleaning of clothes
-    name = "Bolingbrocke|Meyenrock", # family names
-    military = "(Offiziers|Uniform|Exerzier)-Rock", # see dictionary "uniform"
-    shroud = "To(dt|t)enr(o|ö)ck", # see dictionary "costume"
-    underwear = "Leibchen|Unter(ärmel|kleid|r(o|ö)ck)", # see dictionary "underwear"
-    sleapwear = "Schlafr(o|ö)ck|Schlaf-R(o|ö)ck|Nacht(ärmel|rock|röck)", # see dictionary "sleapware"
-    adjective = "gekleidet|schröcklich", # description of other object (mostly dolls)
-    sister = "Schwester", # contains "weste"
-    dry = "tr(o|ö)ck(e|ne)", # adjectives or verbs meaning "dry" but containing "rock"
-    furniture_1 = "Kleider(k(a|ä)st|schrank|mange|kästlein)|Kleider-(k(a|ä)st|schrank|mange|kästlein)|K(a|ä)sten|Blunderschafft", # furniture for keeping clothing, see dictionary cabinet, v1
-    furniture_2 = "kleider dienlich", # filters out cabinets for clothes
-    verb = "gewesten", # filters out verbs containing clothing-words
-    accessoire = "knopf|knöpf|träger|Hemdengufe" # non textile accessoires (Hemdknopf, Hosenträger etc.)
-
+    learning = "Unterricht|Schülerin|Lehrerin|unterrichten|Lehrgeld|Lehre", # learning activities related to clothing
+    animal = "Federnhund", # animal related clothing
+    cleaning = "Rosenöl|Fleckenbüchlein|Motten|Schaben|Wanzen|Waschwasser|Flecken-Kugelen|Kleiderputz|Kleiderbürst", # ads for cleaning clothing and cleaning products
+    immo = "Gebäude|Behausung|Keller|Jucharten", # immo ads
+    carneval = "Verkleidung|Milchjoggi|(Polichinel|Masken|Fastnach(t|ts))(\\-|)kleid", # costumes for carneval, see dictionary "costume"
+    work = "Hau(ß|s|ss)bedient|Zeugni(ss|ß|s)|Platz\\sals|Taufschein|Testimon|Religion", # work and placement ads containing clothing
+    adjectives = "gekleidet|schröcklich|tr(o|ö)ck(e|ne)", # description of other object
+    other = "Brockel" # describes appearance of different objects (small chunks)
   )
   create_filter_output(dict)
 }
