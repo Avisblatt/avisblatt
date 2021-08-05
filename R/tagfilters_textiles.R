@@ -166,11 +166,12 @@ tagfilter_shoes <- function(){
 
 #' Dictionary Handkerchiefs
 #' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_handkerchief <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    handkerchief = "(Schnupf|Sack)t(u|ü)ch|Mouchoir"
+    handkerchief = "\\w*?(sch(n|u)(u|uu)pf|(?<!Stroh)s(a|ä)ck)(\\-|\\s)?t(u|ü)ch\\w*?|\\w*?m(o|ö)uc(h|i)oir\\w*?"
 
   )
   dict$neg <- list(
@@ -189,8 +190,8 @@ tagfilter_hand <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    muff = "Schl(u|ü)p(f|ff)er|(Marter|Weiber|Manns)sto(ß|s)|(Weiber|Manns|Jobel)m(a|ä)r(t|d)er",
-    gloves = "Handsch(u|ü)(h|e)"
+    muff = "Schl(u|ü)p(f|ff)er|(Marter|Weiber|Manns|Frauenzimmer|Herren|Männer)(\\s|\\-)?sto(ß|s)|(Weiber|Manns|Jobel|Herren|Männer)(\\s|\\-)?m(a|ä)r(t|d)er",
+    gloves = "\\w*?handsch(u|ü)(h|e)\\w*?"
   )
   dict$neg <- list(
     # profession = "Handschuhmacher", # maybe use profession, but also excludes some relevant ads
@@ -209,7 +210,7 @@ tagfilter_neck <- function(){
   dict$pos <- list(
     colar = "Palatine|Kr(a|ä)gen|Cols",
     necktie = "Crav(e|a)(t|tt)e",
-    scarf = "Halstuch|F(oulard|ichu)|(Sch|Sh|Ch)(al|awl|aul)"
+    scarf = "Halstuch|F(oulard|ichu)|(Sch|Sh|Ch)(al|awl|aul|aal)"
   )
   dict$neg <- list(
     leash = "Hundshalsband", # dog leash
