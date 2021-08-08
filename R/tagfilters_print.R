@@ -164,12 +164,34 @@ tagfilter_print7 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "demanding", "offering", "othernews")
   dict$pos <- list(
-    participant = "Subscription(|es)|Pr(ae|ä)numerant(|en)|Praenumeration(|en)|Subs(c|k)ribent(|en)"
+    participant = "S(o|)u(b|)s(c|k)ription|Pr(ae|ä)num(m|)erant|Pr(ae|ä)num(m|)eration|
+    S(o|)u(b|)s(c|k)ribent",
+    participate = "s(o|)u(b|)s(c|k)ribi(e|)r(t|)|pränumeri(|e)r(t|)"
   )
   dict$neg <- list(
-    xxx = "yyyy"
+    lottery = "Lotterie"
   )
   create_filter_output(dict)
 }
 
+#' Filter Quanteda Corpus: co-subscription
+#' @export
+tagfilter_print8 <- function(){
+  dict <- list()
+  dict$applicable <- list("saledemand", "saleoffer", "offering", "ps", "demanding", "exchange")
+  dict$pos <- list(
+    participant = "Mi(t|tt)halte.*|mi(t|tt)halten|Gemeinder.{0,5}|Liebhaber.*(J|j)ournal",
+    with = "mit einem oder mehr Freunden in Compagnie|Zeitung.*mittheilen|
+    (mit andern|gemeinschaftlich)(| zu) halten|mitzuhalten|\\bmit ander(n|en).*zu halten|
+    zum behalten.*zu haben|Theil an dem.*zu haben",
+    money = "Gebühr zum Durchlesen"
+  )
+  dict$neg <- list(
+    publication = "AVERTISSEMENT|Avertissement",
+    milk = "Eselsmilch|Schotte",
+    lotterie = "Lo(|o)(s|ß)|Lotterie",
+    council = "Gemeinderat.*"
+  )
+  create_filter_output(dict)
+}
 
