@@ -164,12 +164,13 @@ tagfilter_print7 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "demanding", "offering", "othernews")
   dict$pos <- list(
-    participant = "S(o|)u(b|)s(c|k)ription|Pr(ae|ä)num(m|)erant|Pr(ae|ä)num(m|)eration|
-    S(o|)u(b|)s(c|k)ribent",
-    participate = "s(o|)u(b|)s(c|k)ribi(e|)r(t|)|pränumeri(|e)r(t|)"
+    participant = "S(o|)u(b|p|)s(c|k)ription|Pr(ae|ä)num(m|)erant|Pr(ae|ä)num(m|)eration|
+    S(o|)u(b|p|)s(c|k)ribent",
+    participate = "s(o|)u(b|p|)s(c|k)ribi(e|)r(t|)|pränumeri(|e)r(t|)"
   )
   dict$neg <- list(
-    lottery = "Lotterie"
+    lottery = "Lotterie",
+    mine = " Berg(-W|w)erck"
   )
   create_filter_output(dict)
 }
