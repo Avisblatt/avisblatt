@@ -18,14 +18,18 @@ tagfilter_print2 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "offering", "ps")
   dict$pos <- list(
-    person = "Buchhändler|\bBuchdrucker|\bBuchbinder",
-    names = "Joh(\\.|an|ann) Jak(\\.|ob) Flick|Schweighauser.|
-    Bey Hrn. Jakob Bernoulli im Engelh(o|oo)f",
-    place = "Buchhand.|Buchdruckere(y|i)|Buchladen/Druckere(i|y)"
+    person = "Buchhändler|\\bBuchdrucker|\\bBuchbinder",
+    names = "J(\\.|oh\\.|ohan|ohann) J(\\.|a(c|k)\\.|a(c|k)ob) Flick|Schweighauser|
+    (B|b)e(y|i)(|m) (B\\.|Hrn\\.|Herrn|) (Peter Scherb|Heinrich Haag|Eucharius Haag|
+    Wilhelm Haas|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Stupanus|Peter Scherb|
+    J(\\.|oh\\.) J(\\.|ak\\.|a(c|k)ob) Freyler|Scholer(,|) auf der Rheinbruck|
+    Daniel Haag|Joh\\. Rudolf Pistorius|C\\. A\\. Serini|Ja(c|k)ob Bernoulli im Engelh(o|oo)f|
+    J\\. Decker am Spithalsprung|(|B\\.) Bolli|den Bürgern Bolli|Bürger Haas, Sohn auf dem Leonhardsgraben|
+    Emanuel Thurneysen|Johann Rudolf(|f) Im H(off|oof)|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|
+    J\\. Decker und Wilhelm Haas)|Bey Frau Wittib Schorndorf",
+    place = "Buchhand*.|Buchdruckere(y|i)|Buchladen|Druckere(i|y)"
   )
   dict$neg <- list(
-    lost_prayerbooks = "Psalmbuch|(g|G)esangbuch",
-    region = "Entlibuch|Schönenbuch",
     bible = "Buch Mose",
     work = "Platz als",
     other = "Muster(b|-B)(u|ü)ch(|er|ern)|Haushaltungsbuch|(Z|z)uber|Fischbeckin|
@@ -53,10 +57,10 @@ tagfilter_print3 <- function(){
     format_5 = "^gedruckte(n) Fortsetzung|vermehrt(e|) Edition",
     format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden",
     #format_7 = "\\bbrosch(.|iert)",
-    ausstattung = "^Kupf(f)er(|n)|Holzschnitt|Stahlstich",
+    feautures = "^Kupf(f)er(|n)|Holzschnitt|Stahlstich",
     #catalog = "Catalogus|Katalog",
-    types = "Wörterbuch|Dictionarium|Lexikon|Lexicon",
-    types = "Bibel|Biblen",
+    types_1 = "Wörterbuch|Dictionarium|Lexikon|Lexicon",
+    types_2 = "Bibel|Biblen",
     prayerbooks = "Psalmb(u|ü)ch(|lein|s|e)|Psalm-B(u|ü)ch(|lein|s|e)|(g|G)esangb(u|ü)ch(|lein|s|e)"
   )
   dict$neg <- list(
@@ -75,7 +79,7 @@ tagfilter_print3 <- function(){
     J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|J\\. Decker und Wilhelm Haas)|
     Bey Frau Wittib Schorndorf",
     place_1 = "Buchhand.|Buchdruckere(y|i)|Buchladen|Druckere(i|y)",
-    place_2 = "Weiber(-Si|si)|Mannen(-Si|si)|(Weiber|Mannen)-Anhen(|c)ker", #to exclude "Bogen" as specification for a place in a church
+    place_2 = "Weiber(-Si|si)|Mannen(-Si|si)|(Weiber|Mannen)-Anhen(|c)ker", #to exclude "Bogen" as specification for the location of a church seat
     other_1 = "Muster(b|-B)(u|ü)ch(|er|ern)|Haushaltungsbuch|(Z|z)uber|Fischbeckin",
     other_2 = "Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Mousselin",
     other_3 = "Tabacks-Buchs|Tabacksbuchs|Anfangsbuchstabe(n)|Buchstabe(n)",
@@ -97,11 +101,11 @@ tagfilter_print4 <- function(){
   dict <- list()
   dict$applicable <- list("saledemand", "saleoffer", "offering", "ps", "demanding", "exchange")
   dict$pos <- list(
-    participant = "Mithalte*|(a|A)bonnent",
+    participant = "Mithalte.*|(a|A)bonnent.*",
     types = "Zeitung|Zeitschrift",
     title_1 = "Rauracher|Rau-racher|Raura-cher",
     title_2 = "Allgemeine(n) Zeitung",
-    title_3 = "Christliche(r|n) Volksbote*",
+    title_3 = "Christliche(r|n) Volksbote.*",
     title_5 = "Annalen",
     title_6 = "Missions-Magazin",
     title_7 = "Basler-Zeitung|Basler Zeitung",
@@ -160,12 +164,35 @@ tagfilter_print7 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "demanding", "offering", "othernews")
   dict$pos <- list(
-    participant = "Subscription(|es)|Pr(ae|ä)numerant(|en)|Subs(c|k)ribent(|en)"
+    participant = "S(o|)u(b|p|)s(c|k)ription|Pr(ae|ä)num(m|)erant|Pr(ae|ä)num(m|)eration|
+    S(o|)u(b|p|)s(c|k)ribent",
+    participate = "s(o|)u(b|p|)s(c|k)ribi(e|)r(t|)|pränumeri(|e)r(t|)"
   )
   dict$neg <- list(
-    xxx = "yyyy"
+    lottery = "Lotterie",
+    mine = " Berg(-W|w)erck"
   )
   create_filter_output(dict)
 }
 
+#' Filter Quanteda Corpus: co-subscription
+#' @export
+tagfilter_print8 <- function(){
+  dict <- list()
+  dict$applicable <- list("saledemand", "saleoffer", "offering", "ps", "demanding", "exchange")
+  dict$pos <- list(
+    participant = "Mi(t|tt)halte.*|mi(t|tt)halten|Gemeinder.{0,5}|Liebhaber.*(J|j)ournal",
+    with = "mit einem oder mehr Freunden in Compagnie|Zeitung.*mittheilen|
+    (mit andern|gemeinschaftlich)(| zu) halten|mitzuhalten|\\bmit ander(n|en).*zu halten|
+    zum behalten.*zu haben|Theil an dem.*zu haben",
+    money = "Gebühr zum Durchlesen"
+  )
+  dict$neg <- list(
+    publication = "AVERTISSEMENT|Avertissement",
+    milk = "Eselsmilch|Schotte",
+    lotterie = "Lo(|o)(s|ß)|Lotterie",
+    council = "Gemeinderat.*"
+  )
+  create_filter_output(dict)
+}
 
