@@ -5,7 +5,9 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
-  x <- gsub("gafse","gasse",x)
+  x <- gsub("Schnipfrcher","Schnupftücher",x)
+  x <- gsub("Schnupftich","Schnupftuch",x)
+  x <- gsub("Schunpf","Schnupf",x)
   x <- gsub("NachtLock","Nachtrock",x)
   x <- gsub("Offlzier","Offizier",x)
   x <- gsub("Unis(ö|o)rm","Uniform",x)
