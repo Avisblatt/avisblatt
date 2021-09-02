@@ -164,6 +164,172 @@ tagfilter_shoes <- function(){
 }
 
 
+#' Dictionary Clothing and Garments (General)
+#' @export
+tagfilter_clothing <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    general = "(?<!(zu|für)\\s|(Schlaf|Nacht|Unter|To(dt|t)en))(Kle(i|y)d|Ärmel|(?<!Sch|ge)Weste)\\w*?(?!(\\-|)(k(a|ä)st|schrank|mange|kästlein))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    suit_dress = "(?<!(zu|für)\\s|Bolingb|Meyen|Schlaf|Nacht|Unter|To(dt|t)en|Offizier(s|)|Uniform|Exerzier)R(o|ö)ck\\w*?(?!(\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))|stroh)",
+    apron = "(?<!(zu|für)\\s)Tscho(b|p|pp)en|Fürtuch\\w*?(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    trousers = "(?<!(zu|für)\\s)(?<!(Kalc|B(au|a|u)c|Al(i|)(ck|k|c)|(Ober|Frey|Waltig)))Hose\\w*?(?!nli(e|)(ß|s|ss)mer|n(träger|kn(o|ö)pf))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    dress = "(?<!(zu|für)\\s)Jun(t|dt)e|J(u|ü)ppe\\w*?(?!(\\szu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    shirt = "(?<!(zu|für)\\s)((Herren|)Hem(d|db)|Chemise|(C|K)amis(o|oh)l)\\w*?(?!träger|kn(o|ö)pf|gufe)(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))"
+  )
+  dict$neg <- list(
+    learning = "Unterricht|Schülerin|Lehrerin|unterrichten|Lehrgeld|Lehre", # learning activities related to clothing
+    animal = "Federnhund", # animal related clothing
+    cleaning = "Rosenöl|Fleckenbüchlein|Motten|Schaben|Wanzen|Waschwasser|Flecken-Kugelen|Kleiderputz|Kleiderbürst", # ads for cleaning clothing and cleaning products
+    immo = "Gebäude|Behausung|Keller|Jucharten", # immo ads
+    carneval = "Verkleidung|Milchjoggi|(Polichinel|Masken|Fastnach(t|ts))(\\-|)kleid", # costumes for carneval, see dictionary "costume"
+    work = "Hau(ß|s|ss)bedient|Zeugni(ss|ß|s)|Platz\\sals|Taufschein|Testimon|Religion", # work and placement ads containing clothing
+    adjectives = "gekleidet|schröcklich|tr(o|ö)ck(e|ne)", # description of other object
+    other = "Brockel" # describes appearance of different objects (small chunks)
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Sleepwear
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_sleepwear <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    general = "(Schlaf|Nach(t|ts))(\\-|\\s|)(r(o|ö)(ck|k|c)|(ä|a|ae|e)rmel)"
+  )
+  dict$neg <- list(
+    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
+  )
+  create_filter_output(dict)
+}
+
+
+
+#' Dictionary Military Clothing/ Uniforms
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_uniform <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    general = "(Offi(z|c)ie(rs|r)|Uniform|Infanter(i|ie)|F(ü|u)selier|Exerzier|(K|C)a(n|nn)on(i|t)er|Ordonanz|Dragoner|Constahler|Frey(\\-|)compagnie|Mili(z|c)|Grenadier(s|)|Chasseur|Artillerie|Voltigeur|Landwehr)(\\-|\\s|)(R(o|ö)ck|Weste|Montur)",
+    jacket = "Tscha(k|kk|ck)(o|e)(?!(\\-|\\s)(deckel))",
+    uniform = "Uniform(?!(\\-|\\s)(kn(o|ö)pf))(?!\\sdienlich)",
+    epaulets = "Ep(au|o)let",
+    general = "Militär(\\-|\\s|)effekt"
+  )
+  dict$neg <- list(
+    books = "Buchhandlung|Buchhändler", # books with uniform-word in titles
+    carneval = "Fastnacht", # uniforms as fancy dress for carneval
+    militia = "Mili(z|tz)-Aufgebot|Aufgebot\\san\\sdie\\Mili(z|tz)" # muster for the militia
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Underwear
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_underwear <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    general = "(?<!zu\\s|für\\s)(Lingerie|\\-Leiber|Leibchen|Unter(kleid|r(o|ö)ck|(ä|ae|a|e)rmel|hose))",
+    corset = "(?<!zu\\s|für\\s)(K|C)orset|(?<!Arm\\-|Arm\\s|Arm)Br(u|ü)ste|Schn(u|ü)rbr(u|ü)st",
+    socks = "(Frauen(zimmer|)|Weiber|M(a|ä)nn(e(n|r)|s)|Halb|Kinder|Laid|Moden)(\\-|)str(u|ü)mpf|Socke|Str(u|ü)mpf(?!(f)?(\\-|\\s)?(karren|w(ä|e)b|ausbreit|fach|Fabri|wolle|stuhl|pre(s|ß)|garn))"
+  )
+  dict$neg <- list(
+    n_corsets = "(K|C)orset(?=(\\-|\\s)?fabri|machen|zeug|macher)", # compound nouns with corsets, not objects
+    health = "Krebs|Mittel|Pomade", # health ads containing underwear words, mostly "Brüste" (breasts)
+    immo = "Losament|Behausung|Gelegenheit|Garten", # excludes related immo ads
+    book = "Heft|Kalender", # excludes related prints
+    service = "Kundenh(ä|a)us", # excludes ads for related services
+    board = "Kost" # excludes ads for board with additional services
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Outerwear
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_outerwear <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    male = "Frack|Talar",
+    general = "(?<!zu\\s|für\\s)M(a|ä)ntel|Co(at|tte)|Mantille|Kittel|Pellerine"
+  )
+  dict$neg <- list(
+    french = "tricotte", # french for knitting, exclude if only looking at German ads
+    fabric = "Mantel(zeug|stoff)", # fabric for coats
+    mercery = "Mantelhaft", # clasps for coats
+    music = "Instrumentalartikel" # musical instruments (contains "talar")
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Garments for Special Occassions and Costumes
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_costume <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    carneval = "(Milch|Bauern)(\\-|)jogg(el|i)|(Masken|Fastnach(t|ts)|Polichine(l|ll))(\\-|)kle(i|y)d|Milchbrentl|Ritter(\\-|)rüstung",
+    shroud = "T(o|öö|ö)(dt|t)enr(ö|o)ck",
+    costume = "\\bTr(o|a)cht\\b|Bauerntr(o|a)cht",
+    baptism = "Tauf(zeug|kleid|hem(d|bd))"
+  )
+  dict$neg <- list(
+    looking = "(B|b)etracht" # verbs and nouns meaning "looking at" conatining "tracht"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Shoes
+#' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
+tagfilter_shoes <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$pos <- list(
+    slippers = "Panto(ff|f)el(?!n?\\-?(holz|bouteill|z(ä|a)pf))|Chauffe-pied",
+    shoes = "(?<!Hand\\s|Hand\\-|Hand|Gulden|Rad|halben)\\s?Sch(u|ü)h(?!\\-?(wachs|schwärze|kraft|knech|(m|em)acher|schnalle|enmeister|rin(ck|k)|n(ä|a)gel))",
+    boots = "(?<!Strick)St(ie|ü)(f|ff)el(?!\\-?(macher|wachs|schwärze|wichse|str(u|ü)mpf|h(o|ö)lz))",
+    soles = "S(o|ö)hle"
+  )
+  dict$neg <- list(
+    education = "Sch(u|ü)hl", # old spelling for "Schule"
+    immo = "Liegenschaft", # filters out immo ads with measurements in "Schuh"
+    wood = "(Boden|Daugen)holz|Faßdaugen|Dielen|Dach", # wood, measured in "Schuh"
+    fountain = "Brunnstiefel|Ziehbrunn|Brunnen|Rohr", # fountains (one part is also called "Schuh")
+    # work = "Schuhmacher|Schuster|Schuhster", # occupations concerned with making shoes
+    # newly excluded, PROBLEM: sometimes filters out relevant ads - exclusion of work and immo ads probably better solution
+    misc = "Radschuh", # other objects and nouns containing "schuh"
+    measure_1 = "Schu(h|he)\\s(lang|breit|dick|hoch|weit|Länge|hohe|gro(s|ß))", # removes "Schuh" as measurement, version 1
+    measure_2 = "Schu(he|h)\\s(lang|breit|dick|hoch|weit|Länge|hohe|gro(s|ß))", # removes "Schuh" as measurement, version 2
+    measure_3 = "Schu(he|h)\\s\\d", # removes "Schuh" as measurement, version 3
+    measure_4 = "\\d\\sSchu(he|h)", # removes "Schuh" as measurement, version 4
+    measure_5 = "\\bM(a|aa)(ß|s|ss)\\b", # removes "Schuh" as measurement, version 5
+    measure_6 = "Schu(he|h)\\-?länge|schühig|schu(h|he)(hoch|breit|lang|tief|dick|gro(s|ß))", # removes "Schuh" as measurement, version 6
+    measure_7 = "Schu(he|h)\\s(Breite|Länge|Höhe)", # removes "Schuh" as measurement, version 7
+    measure_8 = "Länge\\s\\d", # removes "Schuh" as measurement, version 8
+    measure_9 = "Breite\\s\\d" # removes "Schuh" as measurement, version 9
+  )
+  # some "schuh" as measurement remain, e.g. "Länge 3 1/ 2 Schuh", maybe smth like:
+  #(Breite|Länge|Höhe)\s(\w*?\/?\s){1,4}Schuh
+  #Schuh\\s(\\w*?\\s){1,4}(Breite|Länge|Höhe)
+  create_filter_output(dict)
+
+}
+
+
 #' Dictionary Handkerchiefs
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
@@ -171,17 +337,15 @@ tagfilter_handkerchief <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    handkerchief = "\\w*?(sch(n|u)(u|uu)pf|(?<!Stroh)s(a|ä)ck)(\\-|\\s)?t(u|ü)ch\\w*?|\\w*?m(o|ö)uc(h|i)oir\\w*?"
-
+      handkerchief = "(?<!zu\\s|für\\s)\\w*?((S|s)ch(n|u)(u|uu)pft(u|ü)ch\\w*?|(M|m)(o|ö)uc(h|i)oir\\w*?"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
+    textile = "Strohsacktuch" # sort of textile
   )
 
   create_filter_output(dict)
 
 }
-
 
 
 #' Dictionary Gloves and Muffs
@@ -190,11 +354,12 @@ tagfilter_hand <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    muff = "Schl(u|ü)p(f|ff)er|(Marter|Weiber|Manns|Frauenzimmer|Herren|Männer)(\\s|\\-)?sto(ß|s)|(Weiber|Manns|Jobel|Herren|Männer)(\\s|\\-)?m(a|ä)r(t|d)er",
-    gloves = "\\w*?handsch(u|ü)(h|e)\\w*?"
+    muff = "\\w*?(S|s)chl(u|ü)p(f|ff)er|(?<!(An|Ge|Hi|gu|zu))(?<!((a|A)uf))(?<!(Chri))\\w*?((S|s)t(o|oo|ö)(ß|s|ss)\\b|(M|m)(a|ä)r(t|d)er)(?!\\-?((B|b)uch|(W|w)oche|(F|f)alle|n\\b|en\\b|(P|p)elz|(B|b)räm))",
+    gloves = "\\w*?(H|h)andsch(u|ü)(h|e)(?!(\\s|\\-)?((F|f)abri(c|k)|((M|m)acher)))"
   )
   dict$neg <- list(
     # profession = "Handschuhmacher", # maybe use profession, but also excludes some relevant ads
+    books = "Pastor|Gemartert|Christos|Chronik", # book ads
     other = "Schlüpfer-Wein" # other objects
   )
   create_filter_output(dict)
@@ -208,18 +373,18 @@ tagfilter_neck <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    colar = "Palatine|Kr(a|ä)gen|Cols",
-    necktie = "Crav(e|a)(t|tt)e",
-    scarf = "Halstuch|F(oulard|ichu)|(Sch|Sh|Ch)(al|awl|aul|aal)"
+    colar = "(?<!zu\\s|für\\s)(Palatine|Krägen|Cols)",
+    necktie = "(?<!zu\\s|für\\s)\\w*?(C|K|c|k)rav(e|a)(t|tt)e",
+    scarf = "(?<!zu\\s|für\\s)(Halstuch|F(oulard|ichu)|((Sch|Sh|Ch|Schw)(al|awl|aul|alw|avl)(s|))\\b)"
   )
   dict$neg <- list(
     leash = "Hundshalsband", # dog leash
-    food = "(Sch|Ch)alo(tt|t)e", # shallots
+    food = "Selteser|(Sch|Ch)alo(tt|t)e", # food and drink
     immo = "Cha(ll|l)et", # name for a small house
-    noobject = "Chaldaicum|Haushal|Schalten|(des|wes)halb|Spitchal|schalt|shaltung|aushalte|einscha(l|tt)t", # no object
-    name = "Nicol|Gottschalk", # names
+    noobject = "écols|Acols|Philantrophischal|Chaldaicum|Haushal|Schalten|(des|wes)halb|Spitchal|schalt|shaltung|aushalte|einscha(l|tt)t", # no object
+    name = "Archal|Francols|Rochal|Pa(ch|sch)al|Mar(e|ê|é)(ch|sch)al|Michal|Nicol|Gottschalk|Schallbacher|Engelschall", # names
     person = "Ma(rsch|rech)al", # military rank
-    ocr = "sichals|auchal|welchal|durchal|gleichal|Schaltem|sichall", # ocr mistakes (whitespace is missing)
+    ocr = "weshals|sichals|auchal|welchal|durchal|gleichal|Schaltem|sichall", # ocr mistakes (whitespace is missing)
     sound = "Schalles|Schalle|Schalsconservirung|Trompeten-Schall", # sound of something
     place = "Schaltenbrand|Mönchaltdorf|Schalbach", # placenames
     fabric = "Cha(l|ll)(is|y|on)", # special kind of fabric; PROBLEM: sometimes description for fabric of a scarve...
@@ -235,11 +400,12 @@ tagfilter_headdress <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    wig = "Pe(rr|r)(u|ü)ck|H(a|aa)r-Tours",
-    cap = "Kappe|Capotte|Bonnet|Mütze",
-    general = "H(u|ü)t",
-    straw = "Strohh(u|ü)t",
-    female = "Haube|Häubchen|Kopfputz"
+    ###############################
+    wig = "(Perruck\\w*)(?!(macher|machen))|H(a|aa)r(-|)(T|t)ours",
+    cap = "Kappe\\w*(?!-?(M|m)acher)|Capotte|Bonnet|Mütze",
+    general = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)(t|th|tt)\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    straw = "Strohh(u|ü)t\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    female = "(?<!zu\\s|für\\s)H(a|ä)ub(e|chen)|Kopfputz"
   )
   dict$neg <- list(
     name = "Kappeler", # family names
@@ -249,13 +415,10 @@ tagfilter_headdress <- function(){
     plant = "Zuckerhut", # name of a plant
     dump = "hütten", # verbs meaning dumping something
     beware = "verhüte", # verb meaning beware
-    name = "Schaubhut|Hauber|Schaubelt", # family names
+    name = "Attrihut|Schaubhut|Hauber|Schaubelt", # family names
     religion = "Herrenhut", # religious group
     unclear = "Bonneterie|Kappellin", # exact meaning unsure, Bonneterie maybe place of making bonnets?
-    # profession = "Kappenmacher|Hutmacher|Strohhutnähen", # professions, PROBLEM: often in ad including actual hats but not always... - leave out?
-    place = "Hutting|Schönhut|Waldshut|Hutgasse|Huthgasse|Hutgaß|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
-    immo = "Losament|Behausung|Stube|Stüblein|Wohnung|Schütti", # filters out immo ads
-    work = "Gesell|Profe(ß|ss|s)ion|Ka(m|mm)erdiener", # filters out work ads
+    place = "Kappeln|Hutting|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
     other = "Hüter|Verhütung", # other non-objects
     verb_1 = "\\sth(u|ü)t", # verbs (doing)
     verb_2 = "sch(u|ü)tt(e|i)n|schütt(e|i)n|Schut|schützen", # to throw smth
