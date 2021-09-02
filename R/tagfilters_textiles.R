@@ -170,11 +170,11 @@ tagfilter_handkerchief <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    handkerchief = "(Schnupf|Sack)t(u|ü)ch|Mouchoir"
+    handkerchief = "(?<!zu\\s|für\\s)\\w*?\\-?((S|s)chnupf|(S|s)ack)t(u|ü)ch|(M|m)ouchoir"
 
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
+    textile = "Strohsacktuch" # sort of textile
   )
 
   create_filter_output(dict)
@@ -189,11 +189,12 @@ tagfilter_hand <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    muff = "Schl(u|ü)p(f|ff)er|(Marter|Weiber|Manns)sto(ß|s)|(Weiber|Manns|Jobel)m(a|ä)r(t|d)er",
-    gloves = "Handsch(u|ü)(h|e)"
+    muff = "\\w*?(S|s)chl(u|ü)p(f|ff)er|(?<!(An|Ge|Hi|gu|zu))(?<!((a|A)uf))(?<!(Chri))\\w*?((S|s)t(o|oo|ö)(ß|s|ss)\\b|(M|m)(a|ä)r(t|d)er)(?!\\-?((B|b)uch|(W|w)oche|(F|f)alle|n\\b|en\\b|(P|p)elz|(B|b)räm))",
+    gloves = "\\w*?(H|h)andsch(u|ü)(h|e)(?!(\\s|\\-)?((F|f)abri(c|k)|((M|m)acher)))"
   )
   dict$neg <- list(
     # profession = "Handschuhmacher", # maybe use profession, but also excludes some relevant ads
+    books = "Pastor|Gemartert|Christos|Chronik", # book ads
     other = "Schlüpfer-Wein" # other objects
   )
   create_filter_output(dict)
@@ -207,18 +208,18 @@ tagfilter_neck <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    colar = "Palatine|Kr(a|ä)gen|Cols",
-    necktie = "Crav(e|a)(t|tt)e",
-    scarf = "Halstuch|F(oulard|ichu)|(Sch|Sh|Ch)(al|awl|aul)"
+    colar = "(?<!zu\\s|für\\s)(Palatine|Krägen|Cols)",
+    necktie = "(?<!zu\\s|für\\s)\\w*?(C|K|c|k)rav(e|a)(t|tt)e",
+    scarf = "(?<!zu\\s|für\\s)(Halstuch|F(oulard|ichu)|((Sch|Sh|Ch|Schw)(al|awl|aul|alw|avl)(s|))\\b)"
   )
   dict$neg <- list(
     leash = "Hundshalsband", # dog leash
-    food = "(Sch|Ch)alo(tt|t)e", # shallots
+    food = "Selteser|(Sch|Ch)alo(tt|t)e", # food and drink
     immo = "Cha(ll|l)et", # name for a small house
-    noobject = "Chaldaicum|Haushal|Schalten|(des|wes)halb|Spitchal|schalt|shaltung|aushalte|einscha(l|tt)t", # no object
-    name = "Nicol|Gottschalk", # names
+    noobject = "écols|Acols|Philantrophischal|Chaldaicum|Haushal|Schalten|(des|wes)halb|Spitchal|schalt|shaltung|aushalte|einscha(l|tt)t", # no object
+    name = "Archal|Francols|Rochal|Pa(ch|sch)al|Mar(e|ê|é)(ch|sch)al|Michal|Nicol|Gottschalk|Schallbacher|Engelschall", # names
     person = "Ma(rsch|rech)al", # military rank
-    ocr = "sichals|auchal|welchal|durchal|gleichal|Schaltem|sichall", # ocr mistakes (whitespace is missing)
+    ocr = "weshals|sichals|auchal|welchal|durchal|gleichal|Schaltem|sichall", # ocr mistakes (whitespace is missing)
     sound = "Schalles|Schalle|Schalsconservirung|Trompeten-Schall", # sound of something
     place = "Schaltenbrand|Mönchaltdorf|Schalbach", # placenames
     fabric = "Cha(l|ll)(is|y|on)", # special kind of fabric; PROBLEM: sometimes description for fabric of a scarve...
@@ -234,11 +235,12 @@ tagfilter_headdress <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    wig = "Pe(rr|r)(u|ü)ck|H(a|aa)r-Tours",
-    cap = "Kappe|Capotte|Bonnet|Mütze",
-    general = "H(u|ü)t",
-    straw = "Strohh(u|ü)t",
-    female = "Haube|Häubchen|Kopfputz"
+    ###############################
+    wig = "(Perruck\\w*)(?!(macher|machen))|H(a|aa)r(-|)(T|t)ours",
+    cap = "Kappe\\w*(?!-?(M|m)acher)|Capotte|Bonnet|Mütze",
+    general = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)(t|th|tt)\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    straw = "Strohh(u|ü)t\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    female = "(?<!zu\\s|für\\s)H(a|ä)ub(e|chen)|Kopfputz"
   )
   dict$neg <- list(
     name = "Kappeler", # family names
@@ -248,13 +250,10 @@ tagfilter_headdress <- function(){
     plant = "Zuckerhut", # name of a plant
     dump = "hütten", # verbs meaning dumping something
     beware = "verhüte", # verb meaning beware
-    name = "Schaubhut|Hauber|Schaubelt", # family names
+    name = "Attrihut|Schaubhut|Hauber|Schaubelt", # family names
     religion = "Herrenhut", # religious group
     unclear = "Bonneterie|Kappellin", # exact meaning unsure, Bonneterie maybe place of making bonnets?
-    # profession = "Kappenmacher|Hutmacher|Strohhutnähen", # professions, PROBLEM: often in ad including actual hats but not always... - leave out?
-    place = "Hutting|Schönhut|Waldshut|Hutgasse|Huthgasse|Hutgaß|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
-    immo = "Losament|Behausung|Stube|Stüblein|Wohnung|Schütti", # filters out immo ads
-    work = "Gesell|Profe(ß|ss|s)ion|Ka(m|mm)erdiener", # filters out work ads
+    place = "Kappeln|Hutting|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
     other = "Hüter|Verhütung", # other non-objects
     verb_1 = "\\sth(u|ü)t", # verbs (doing)
     verb_2 = "sch(u|ü)tt(e|i)n|schütt(e|i)n|Schut|schützen", # to throw smth
