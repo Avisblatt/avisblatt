@@ -1,3 +1,31 @@
+#' Filter Quanteda Corpus: Employment offer section
+#' @export
+tagfilter_employmentoffer <- function(){
+  dict <- list()
+  dict$applicable <- list("joboffer")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    placeholder = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Employment seeking section
+#' @export
+tagfilter_employmentseeking <- function(){
+  dict <- list()
+  dict$applicable <- list("jobseek")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    placeholder = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
 #' Filter Quanteda Corpus: Employment in labourinfo section
 #' @export
 tagfilter_employment1 <- function(){
@@ -50,7 +78,6 @@ tagfilter_employment2 <- function(){
   dict$include <- employment_include()
   create_filter_output(dict)
 }
-
 
 #' Filter Quanteda Corpus: Advertising/promoting business in section labourinfo
 #' @export
@@ -106,9 +133,23 @@ tagfilter_bizpromo2 <- function(){
 }
 
 
-#' Filter Quanteda Corpus: Boarding
+#' Filter Quanteda Corpus: Boarding section
 #' @export
-tagfilter_boarding <- function(){
+tagfilter_boarding1 <- function(){
+  dict <- list()
+  dict$applicable <- list("boarding")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    placeholder = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Boarding in other sections
+#' @export
+tagfilter_boarding2 <- function(){
   dict <- list()
   dict$applicable <- list("labourinfo", "othernews", "demanding", "offering")
   dict$pos <- list(
