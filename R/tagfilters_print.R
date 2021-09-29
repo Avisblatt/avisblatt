@@ -95,9 +95,63 @@ tagfilter_print3 <- function(){
   create_filter_output(dict)
 }
 
+#' Filter Quanteda Corpus: Print outside bookstore section, non-commercial buyers
+tagfilter_print4 <- function(){
+  dict <- list()
+  dict$applicable <- list("saledemand", "ps", "demanding")
+  dict$pos <- list(
+    book = "Buch\\b|Bücher(n)|Bucher",
+    edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
+    material = "\\bPergament",
+    language = "teutsch und latein(|isch)",
+    format_1 = "\\bin Fol(\\.|io)|\\bin Median-Folio|\\fol\\.",
+    format_2 = "4to|4tò|8vò|8vo|Quarto|Quart-B(a|ä)nd",
+    format_3 = "4°|8°|Tom\\.\\b|tom\\.\\b|Tomis|Tomes|Tome|Tomi|(O|o)ctavo|\\bBogen|^(1-9) Bögen|Halbfranzband|^(ein|un)gebunden.",
+    format_4 = "in (1-9) B(än|)den|Fran(|t)zösische(|n) Bände(|n)",
+    format_5 = "^gedruckte(n) Fortsetzung|vermehrt(e|) Edition",
+    format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden",
+    #format_7 = "\\bbrosch(.|iert)",
+    feautures = "^Kupf(f)er(|n)|Holzschnitt|Stahlstich",
+    #catalog = "Catalogus|Katalog",
+    types_1 = "Wörterbuch|Dictionarium|Lexikon|Lexicon",
+    types_2 = "Bibel|Biblen",
+    prayerbooks = "Psalmb(u|ü)ch(|lein|s|e)|Psalm-B(u|ü)ch(|lein|s|e)|(g|G)esangb(u|ü)ch(|lein|s|e)"
+  )
+  dict$neg <- list(
+    region = "Entlibuch|Schönenbuch",
+    bible = "Buch Mose",
+    work = "Platz als",
+    auction = "vergant(|h)e(n|t)",
+    subscription = "Pr(ä|ae)numeration",
+    person = "Buchhändl|Buch-Händl|Buchdruck|Buchb(e|i)nd|Buch bind|Buchhänd ler",
+    names_1 = "J(\\.|oh\\.|ohan|ohann) J(\\.|a(c|k)\\.|a(c|k)ob) Flick|Schweighauser.",
+    names_2 = "(B|b)e(y|i)(|m) (B\\.|Hrn\\.|Herrn|) (Peter Scherb|Heinrich Haag|Eucharius Haag|Wilhelm Haas|
+    J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Stupanus|Peter Scherb|J(\\.|oh\\.) J(\\.|ak\\.|a(c|k)ob) Freyler|
+    Scholer(,|) auf der Rheinbruck|Daniel Haag|Joh\\. Rudolf Pistorius|C\\. A\\. Serini|
+    Ja(c|k)ob Bernoulli im Engelh(o|oo)f|J\\. Decker am Spithalsprung|(|B\\.) Bolli|den Bürgern Bolli|
+    Bürger Haas, Sohn auf dem Leonhardsgraben|Emanuel Thurneysen|Johann Rudolf(|f) Im H(off|oof)|
+    J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|J\\. Decker und Wilhelm Haas)|
+    Bey Frau Wittib Schorndorf",
+    place_1 = "Buchhand.|Buchdruckere(y|i)|Buchladen|Druckere(i|y)",
+    place_2 = "Weiber(-Si|si)|Mannen(-Si|si)|(Weiber|Mannen)-Anhen(|c)ker", #to exclude "Bogen" as specification for the location of a church seat
+    other_1 = "Muster(b|-B)(u|ü)ch(|er|ern)|Haushaltungsbuch|(Z|z)uber|Fischbeckin",
+    other_2 = "Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Mousselin",
+    other_3 = "Tabacks-Buchs|Tabacksbuchs|Anfangsbuchstabe(n)|Buchstabe(n)",
+    other_4 = "Buchführung|Buchhaltung|Sand(b|-B)uchse(|n)|Handels(b|-B)ücher(|n)",
+    other_5 = "Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit|Buchführer(|n)",
+    other_6 = "Buchhalter|buchen(|e|es|er|en|em)|reiner Buchs|Musicpapier|Büchsen|Pfundbuchsen",
+    other_7 = "englisch(|e|en) gedruckt(|e|en)|französisch(|e|en) gedruckt(|e|en)",
+    other_8 = "buchen Holz|Buchenholz|gener Buchs|Buchsen|Buchs-|Gartenbuchs",
+    other_9 = "mit Beschläg*. zu einem Bogen|Kanzel-Bogen|steinerner Bogen|samt Bogen|
+    Armbrust-Bogen|mit einem Bogen|Schwi bogen|Bogen-Liecht|Fenster(|-) Bogen|Violin-Bogen|
+    Pfeil und Bogen|aller Auflagen *. frey|generalAuflagen|Al(|c)kofen"
+  )
+  create_filter_output(dict)
+}
+
 #' Filter Quanteda Corpus: shared newspaper subscriptions
 #' @export
-tagfilter_print4 <- function(){
+tagfilter_print5 <- function(){
   dict <- list()
   dict$applicable <- list("saledemand", "saleoffer", "offering", "ps", "demanding", "exchange")
   dict$pos <- list(
@@ -119,7 +173,7 @@ tagfilter_print4 <- function(){
 
 #' Filter Quanteda Corpus: lost books
 #' @export
-tagfilter_print5 <- function(){
+tagfilter_print6 <- function(){
   dict <- list()
   dict$applicable <- list("lostandfoundheader")
   dict$pos <- list(
@@ -138,7 +192,7 @@ tagfilter_print5 <- function(){
 
 #' Filter Quanteda Corpus: books/journals in libraries
 #' @export
-tagfilter_print6 <- function(){
+tagfilter_print7 <- function(){
   dict <- list()
   dict$applicable <- list("lostandfoundheader", "ps", "lendoffer", "demanding", "othernews")
   dict$pos <- list(
@@ -160,7 +214,7 @@ tagfilter_print6 <- function(){
 
 #' Filter Quanteda Corpus: subscription
 #' @export
-tagfilter_print7 <- function(){
+tagfilter_print8 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "demanding", "offering", "othernews")
   dict$pos <- list(
@@ -177,7 +231,7 @@ tagfilter_print7 <- function(){
 
 #' Filter Quanteda Corpus: co-subscription
 #' @export
-tagfilter_print8 <- function(){
+tagfilter_print9 <- function(){
   dict <- list()
   dict$applicable <- list("saledemand", "saleoffer", "offering", "ps", "demanding", "exchange")
   dict$pos <- list(
