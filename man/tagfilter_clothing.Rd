@@ -5,7 +5,11 @@
 \title{Dictionary Clothing and Garments (General)}
 \usage{
 tagfilter_clothing()
+
+tagfilter_clothing()
 }
 \description{
+Dictionary Clothing and Garments (General)
+
 Dictionary Clothing and Garments (General)
 }

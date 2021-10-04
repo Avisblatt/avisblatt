@@ -7,9 +7,12 @@ tf_header <- function(prefix = F){
          "death",
          "marriage",
          "labourinfo",
+         "jobseek",
+         "joboffer",
          "boardingheader",
          "auctions",
          "othernews",
+         "official",
          "bookstore",
          "travelheader",
          "exchange",
@@ -86,7 +89,7 @@ tagfilter_saleoffer <- function(){
 tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
-    saledemand_1 = "\\bkau(f|ff)en|zukau(f|ff)en",
+    saledemand_1 = "\\b(k|K)au(f|ff)en|zuk(au|u)(f|ff)en",
     saledemand_2 = "um(K|k)auf"
     )
   dict$neg <- list(
@@ -132,7 +135,8 @@ tagfilter_lostandfoundheader <- function(){
   dict$pos <- list(
     lost = "(V|v)erl(o|oh)r(ne|en)",
     found = "gefund(en|ne)",
-    stolen = "gesto(hl|l)en"
+    stolen = "gesto(hl|l)en",
+    flownaway = "entflogen"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -175,16 +179,47 @@ tagfilter_marriage <- function(){
 tagfilter_labourinfo <- function(){
   dict <- list()
   dict$pos <- list(
-    labourinfo_1 = "Information|Bedienung|Bediente|Di(e|ee)n(s|f)t|Jungen|KostundTausch"
+    labourinfo_1 = "(I|l)nformation|Bedienung|Bediente|Jungen|KostundTausch",
+    jobseekandoffer1 = "offerirenundDienste",
+    jobseekandoffer2 = "gebenseindundbegehr"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    jobseek = "Di(e|ee)n(s|f)tge",
+    joboffer = "Di(e|ee)n(s|f)tan"
   )
   create_filter_output(dict)
 }
 
+#' Dictionary job seek (Header)
+#' @export
+tagfilter_jobseek <- function(){
+  dict <- list()
+  dict$pos <- list(
+    jobseek1 = "Di(e|ee)n(s|f)tge",
+    jobseek2 = "Diens(t|te)(of|an)",
+    jobseek3 = "PersohnensoihreDienste"
+  )
+  dict$neg <- list(
+    joboffer = "vergeben"
+  )
+  create_filter_output(dict)
+}
 
-#' Dictionary labour, boarding, and information (Header)
+#' Dictionary job offer (Header)
+#' @export
+tagfilter_joboffer <- function(){
+  dict <- list()
+  dict$pos <- list(
+    joboffer1 = "Di(e|ee)n(s|f)tan",
+    joboffer2 = "Dienstesozuvergeben"
+  )
+  dict$neg <- list(
+    jobseek = "begehrt"
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary boarding (Header)
 #' @export
 tagfilter_boardingheader <- function(){
   dict <- list()
@@ -203,7 +238,8 @@ tagfilter_boardingheader <- function(){
 tagfilter_auctions <- function(){
   dict <- list()
   dict$pos <- list(
-    auctions_1 = "G(a|ä|ae)nt"
+    auctions_1 = "G(a|ä|ae)nt",
+    auctions_2 = "Versteiger"
     )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -233,10 +269,13 @@ tagfilter_othernews <- function(){
 tagfilter_official <- function(){
   dict <- list()
   dict$pos <- list(
-    official = "machung"
+    official = "machung",
+    announcement = "Publikation"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    bookstore = "Buch(handlung|händler|drucker)",
+    books = "Bücher|Buch",
+    printed = "ge(d|t)ru(ck|k)t"
   )
   create_filter_output(dict)
 }
@@ -249,7 +288,8 @@ tagfilter_bookstore <- function(){
   dict$pos <- list(
     bookstore = "Buch(handlung|händler|drucker)",
     books = "Bücher|Buch",
-    printed = "ge(d|t)ru(ck|k)t"
+    printed = "ge(d|t)ru(ck|k)t",
+    bookad = "Literar"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder

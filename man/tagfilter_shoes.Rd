@@ -5,7 +5,11 @@
 \title{Dictionary Shoes}
 \usage{
 tagfilter_shoes()
+
+tagfilter_shoes()
 }
 \description{
+Dictionary Shoes
+
 Dictionary Shoes
 }

@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_boardingheader}
 \alias{tagfilter_boardingheader}
-\title{Dictionary labour, boarding, and information (Header)}
+\title{Dictionary boarding (Header)}
 \usage{
 tagfilter_boardingheader()
 }
 \description{
-Dictionary labour, boarding, and information (Header)
+Dictionary boarding (Header)
 }
