@@ -9,6 +9,7 @@ tagfilter_finance_loan <- function(){
     capitalphrase_2 = "\\d{3,6}.? (L|(f|F)(r|l))\\.",
     capitalphrase_3 = "\\d{3,6}.? (Gulden|Franken|(.eue )?Th?aler)",
     capitalphrase_4 = "Pfund Geld",
+    capitalphrase_5 = "(S|s)umm(|a|e) (von|G(e|o)l)",
     interest = "Pro(z|c)ent|Cento\\b|\\%",
     loan = "[H|h]ypoth|[a|A]nle[i|]h[n|e]|Anlage|Geld(.B|b)egehr|Geld(.G|g)esuch",
     security = "[P|p]f[a|ä]nd|Bürgschaft|Versatzung",
