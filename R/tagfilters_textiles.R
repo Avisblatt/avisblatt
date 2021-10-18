@@ -49,16 +49,16 @@ tagfilter_uniform <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    general = "(Offi(z|c)ie(rs|r)|Uniform|Infanter(i|ie)|F(ü|u)selier|Exerzier|(K|C)a(n|nn)on(i|t)er|Ordonanz|Dragoner|Constahler|Frey(\\-|)compagnie|Mili(z|c)|Grenadier(s|)|Chasseur|Artillerie|Voltigeur|Landwehr)(\\-|\\s|)(R(o|ö)ck|Weste|Montur)",
+    general = "(Offi(z|c)(i|j)e(rs|r)|Un(i|j)form|Infanter(i|ie)|F(ü|u)selier|Exerz(i|j)er|(K|C)a(n|nn)on(i|t)er|Ordonanz|Dragoner|Constahler|Frey(\\-|)compagn(i|j)e|Mili(z|c)|Grenadier(s|)|Chasseur|Artillerie|Voltigeur|Landwehr)(\\-|\\s|)(R(o|ö)ck|Weste|Montur)",
     jacket = "Tscha(k|kk|ck)(o|e)(?!(\\-|\\s)(deckel))",
-    uniform = "Uniform(?!(\\-|\\s)(kn(o|ö)pf))(?!\\sdienlich)",
+    uniform = "Un(i|j)form(?!(\\-|\\s)(kn(o|ö)pf))(?!\\sdienlich)",
     epaulets = "Ep(au|o)let",
     general = "Militär(\\-|\\s|)effekt"
   )
   dict$neg <- list(
     books = "Buchhandlung|Buchhändler", # books with uniform-word in titles
     carneval = "Fastnacht", # uniforms as fancy dress for carneval
-    militia = "Mili(z|tz)-Aufgebot|Aufgebot\\san\\sdie\\Mili(z|tz)" # muster for the militia
+    militia = "Mil(i|j)(z|tz)-Aufgebot|Aufgebot\\san\\sdie\\Mili(z|tz)" # muster for the militia
   )
   create_filter_output(dict)
 }
