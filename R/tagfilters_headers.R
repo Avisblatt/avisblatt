@@ -197,7 +197,8 @@ tagfilter_jobseek <- function(){
   dict$pos <- list(
     jobseek1 = "Di(e|ee)n(s|f)tge",
     jobseek2 = "Diens(t|te)(of|an)",
-    jobseek3 = "PersohnensoihreDienste"
+    jobseek3 = "PersohnensoihreDienste",
+    jobseek4 = "Dienstesuche"
   )
   dict$neg <- list(
     joboffer = "vergeben"
@@ -253,9 +254,10 @@ tagfilter_auctions <- function(){
 tagfilter_othernews <- function(){
   dict <- list()
   dict$pos <- list(
-    news_1= "Allerhand|achricht",
+    news_1 = "Allerhand|achricht",
     university_exams = "Lectiones",
-    special_ad = "Feuerwerk"
+    special_ad = "Feuerwerk",
+    start_up = "GeschäftsAntrag"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -270,7 +272,8 @@ tagfilter_official <- function(){
   dict <- list()
   dict$pos <- list(
     official = "machung",
-    announcement = "Publikation"
+    announcement = "Publikation",
+    explanation = "Erklärung"
     )
   dict$neg <- list(
     bookstore = "Buch(handlung|händler|drucker)",

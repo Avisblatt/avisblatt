@@ -13,7 +13,7 @@ tagfilter_housing_rent1 <- function(){
     date = "(F|f)roh?nfasten",
     spaces = "Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart",
     buildings = "Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|B(e|ä|a)ckere(y|i)|W(ä|a)schere(y|i)|Wirthschaft|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|(Sommer|Bauch|Wasch)haus|Weichekammer",
-    floor = "(D|d)er( | (ganze )(1st|2te|erste|zwe(i|y)te|dritte|untere|mittlere|obere) Stock",
+    floor = "(D|d)er( ganze | )(1st|2te|erste|zwe(i|y)te|dritte|untere|mittlere|obere) Stock",
     rooms = "\\bchambr(e|es)\\b|\\bZimmer|(S|s)tube|(S|s)t(ü|u)b(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven|Kostbett",
     storage = "Magazin|Keller\\b|Dachboden|Estri[ch|g]",
     amenities = "m(ö|eu)blie?r|Abtritt|Abwasser|Altan|Bauchkessel|(B|b)runnen|Wasserleitung|Wasserstein",
