@@ -232,3 +232,27 @@ available_years <- function(){
     substr(8, 11) %>%
     as.numeric
 }
+
+
+
+# Collection creation will not succeed if there are invalid regex in the dict.
+# Check beforehand using this function
+
+tf_integrity <- function(){
+  ns <- ls(envir = asNamespace("avisblatt"))
+  tfs <- ns[grepl("tagfilter_",ns)]
+  l <- lapply(tfs, function(x){
+    getFromNamespace(x, ns = "avisblatt")()
+  })
+  names(l) <- tfs
+  for(i in 1:length(l)){
+    tf <- l[[i]][2]$tagfilters
+    for(t in c(tf$neg, tf$pos)){
+      err <- try(gsub(t, "", "", perl = T), silent = T)
+      if (err!=""){
+        message("\nIn ", names(l[i]), ", there is an invalid regular expression:")
+        print(t)
+      }
+    }
+  }
+}

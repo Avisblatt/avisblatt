@@ -58,7 +58,7 @@ tagfilter_uniform <- function(){
   dict$neg <- list(
     books = "Buchhandlung|Buchhändler", # books with uniform-word in titles
     carneval = "Fastnacht", # uniforms as fancy dress for carneval
-    militia = "Mil(i|j)(z|tz)-Aufgebot|Aufgebot\\san\\sdie\\Mili(z|tz)" # muster for the militia
+    militia = "Mil(i|j)(z|tz)-Aufgebot|Aufgebot\\san\\sdie\\sMili(z|tz)" # muster for the militia
   )
   create_filter_output(dict)
 }
