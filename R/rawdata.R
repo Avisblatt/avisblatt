@@ -1,7 +1,7 @@
 #' @import quanteda
 #' @import data.table
-#' @import dplyr
 #' @importFrom R6 R6Class
+#' @rawNamespace import(dplyr, except = c(first, last, between))
 #' @export
 RawData <- R6Class("RawData", list(
   data = NULL,

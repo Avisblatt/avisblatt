@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_print.R
 \name{tagfilter_print5}
 \alias{tagfilter_print5}
-\title{Filter Quanteda Corpus: lost books}
+\title{Filter Quanteda Corpus: shared newspaper subscriptions}
 \usage{
 tagfilter_print5()
 }
 \description{
-Filter Quanteda Corpus: lost books
+Filter Quanteda Corpus: shared newspaper subscriptions
 }

@@ -10,7 +10,7 @@ Tagfilters are used internally in the creation of yearly collections of Avisblat
 Filter Quanteda Corpus: Housing for rent in renting section
 }
 \note{
-Last changed 2021-08-04
+Last changed 2021-09-29
 }
 \author{
 Alexander Engel, ORCID 0000-0002-8592-3124

@@ -234,10 +234,8 @@ available_years <- function(){
 }
 
 
-
 # Collection creation will not succeed if there are invalid regex in the dict.
 # Check beforehand using this function
-
 tf_integrity <- function(){
   ns <- ls(envir = asNamespace("avisblatt"))
   tfs <- ns[grepl("tagfilter_",ns)]

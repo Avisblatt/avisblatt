@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_print.R
 \name{tagfilter_print8}
 \alias{tagfilter_print8}
-\title{Filter Quanteda Corpus: co-subscription}
+\title{Filter Quanteda Corpus: subscription}
 \usage{
 tagfilter_print8()
 }
 \description{
-Filter Quanteda Corpus: co-subscription
+Filter Quanteda Corpus: subscription
 }
