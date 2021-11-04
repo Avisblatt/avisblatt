@@ -4,12 +4,12 @@ tagfilter_clothing <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    general = "(?<!zu\\s|für\\s)(?<!Nacht|Unter|Toten)(?<!Schlaf|Todten)(Kle(i|y)d|Ärmel|(?<!Sch)(?<!ge)Weste)\\w*?(?!(\\-|)(k(a|ä)st|schrank|mange|kästlein))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    general = "(?<!zu\\s|für\\s)(?<!Nacht|Unter|Toten)(?<!Schlaf|Todten)(Kle(i|y)d|Ärmel|(?<!Sch)(?<!ge)Weste)(?!(\\-?(e|er|en|er|en)((k(a|ä)st|schrank|mange|kästlein))))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
     suit_dress = "(?<!zu\\s|für\\s)(?<!Meyen|Nacht|Unter|Toten)(?<!Schlaf|Todten)(?<!Bolingb|Uniform)(?<!Offizier|Exerzier)(?<!Offiziers)R(o|ö)ck\\w*?(?!(\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))|stroh)",
     apron = "(?<!zu\\s|für\\s)Tscho(b|p|pp)en|Fürtuch\\w*?(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
-    trousers = "(?<!zu\\s|für\\s)(?<!Bac|Buc|Alk|Alc)(?<!Kalc|Bauc|Alik|Alic|Alck|Ober|Frey)(?<!Alick)(?<!Waltig)Hose\\w*?(?!nli(e|)(ß|s|ss)mer|n(träger|kn(o|ö)pf))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
+    trousers = "(?<!zu\\s|für\\s)(?<!Bac|Buc|Alk|Alc)(?<!Kalc|Bauc|Alik|Alic|Alck|Ober|Frey)(?<!Alick)(?<!Waltig)Hose(?!nli(e|)(ß|s|ss)mer|n(träger|kn(o|ö)pf))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
     dress = "(?<!zu\\s|für\\s)Jun(t|dt)e|J(u|ü)ppe\\w*?(?!(\\szu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
-    shirt = "(?<!zu\\s|für\\s)((Herren|)Hem(d|db)|Chemise|(C|K)amis(o|oh)l)\\w*?(?!träger|kn(o|ö)pf|gufe)(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))"
+    shirt = "(?<!zu\\s|für\\s)((Herren|)Hem(d|bd)|Chemise|(C|K)amis(o|oh)l)(?!(|e|er)(träger|kn(o|ö)pf|gufe))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))"
   )
   dict$neg <- list(
     learning = "Unterricht|Schülerin|Lehrerin|unterrichten|Lehrgeld|Lehre", # learning activities related to clothing
@@ -41,7 +41,6 @@ tagfilter_sleepwear <- function(){
 }
 
 
-
 #' Dictionary Military Clothing/ Uniforms
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
@@ -64,120 +63,6 @@ tagfilter_uniform <- function(){
 }
 
 
-#' Dictionary Underwear
-#' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-tagfilter_underwear <- function(){
-  dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
-  dict$pos <- list(
-    general = "(?<!zu\\s|für\\s)(Lingerie|\\-Leiber|Leibchen|Unter(kleid|r(o|ö)ck|(ä|ae|a|e)rmel|hose))",
-    corset = "(?<!zu\\s|für\\s)(K|C)orset|(?<!Arm\\-|Arm\\s|Arm)Br(u|ü)ste|Schn(u|ü)rbr(u|ü)st",
-    socks = "(Frauen(zimmer|)|Weiber|M(a|ä)nn(e(n|r)|s)|Halb|Kinder|Laid|Moden)(\\-|)str(u|ü)mpf|Socke|Str(u|ü)mpf(?!(f)?(\\-|\\s)?(karren|w(ä|e)b|ausbreit|fach|Fabri|wolle|stuhl|pre(s|ß)|garn))"
-  )
-  dict$neg <- list(
-    n_corsets = "(K|C)orset(?=(\\-|\\s)?fabri|machen|zeug|macher)", # compound nouns with corsets, not objects
-    health = "Krebs|Mittel|Pomade", # health ads containing underwear words, mostly "Brüste" (breasts)
-    immo = "Losament|Behausung|Gelegenheit|Garten", # excludes related immo ads
-    book = "Heft|Kalender", # excludes related prints
-    service = "Kundenh(ä|a)us", # excludes ads for related services
-    board = "Kost" # excludes ads for board with additional services
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Outerwear
-#' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-tagfilter_outerwear <- function(){
-  dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
-  dict$pos <- list(
-    male = "Frack|Talar",
-    general = "(?<!zu\\s|für\\s)M(a|ä)ntel|Co(at|tte)|Mantille|Kittel|Pellerine"
-  )
-  dict$neg <- list(
-    french = "tricotte", # french for knitting, exclude if only looking at German ads
-    fabric = "Mantel(zeug|stoff)", # fabric for coats
-    mercery = "Mantelhaft", # clasps for coats
-    music = "Instrumentalartikel" # musical instruments (contains "talar")
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Garments for Special Occassions and Costumes
-#' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-tagfilter_costume <- function(){
-  dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
-  dict$pos <- list(
-    carneval = "(Milch|Bauern)(\\-|)jogg(el|i)|(Masken|Fastnach(t|ts)|Polichine(l|ll))(\\-|)kle(i|y)d|Milchbrentl|Ritter(\\-|)rüstung",
-    shroud = "T(o|öö|ö)(dt|t)enr(ö|o)ck",
-    costume = "\\bTr(o|a)cht\\b|Bauerntr(o|a)cht",
-    baptism = "Tauf(zeug|kleid|hem(d|bd))"
-  )
-  dict$neg <- list(
-    looking = "(B|b)etracht" # verbs and nouns meaning "looking at" conatining "tracht"
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Shoes
-#' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-tagfilter_shoes <- function(){
-  dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
-  dict$pos <- list(
-    slippers = "Panto(ff|f)el(?!n?\\-?(holz|bouteill|z(ä|a)pf))|Chauffe-pied",
-    shoes = "(?<!Hand\\s|Hand\\-|Hand|Gulden|Rad|halben)\\s?Sch(u|ü)h(?!\\-?(wachs|schwärze|kraft|knech|(m|em)acher|schnalle|enmeister|rin(ck|k)|n(ä|a)gel))",
-    boots = "(?<!Strick)St(ie|ü)(f|ff)el(?!\\-?(macher|wachs|schwärze|wichse|str(u|ü)mpf|h(o|ö)lz))",
-    soles = "S(o|ö)hle"
-  )
-  dict$neg <- list(
-    education = "Sch(u|ü)hl", # old spelling for "Schule"
-    immo = "Liegenschaft", # filters out immo ads with measurements in "Schuh"
-    wood = "(Boden|Daugen)holz|Faßdaugen|Dielen|Dach", # wood, measured in "Schuh"
-    fountain = "Brunnstiefel|Ziehbrunn|Brunnen|Rohr", # fountains (one part is also called "Schuh")
-    # work = "Schuhmacher|Schuster|Schuhster", # occupations concerned with making shoes
-    # newly excluded, PROBLEM: sometimes filters out relevant ads - exclusion of work and immo ads probably better solution
-    misc = "Radschuh", # other objects and nouns containing "schuh"
-    measure_1 = "Schu(h|he)\\s(lang|breit|dick|hoch|weit|Länge|hohe|gro(s|ß))", # removes "Schuh" as measurement, version 1
-    measure_2 = "Schu(he|h)\\s(lang|breit|dick|hoch|weit|Länge|hohe|gro(s|ß))", # removes "Schuh" as measurement, version 2
-    measure_3 = "Schu(he|h)\\s\\d", # removes "Schuh" as measurement, version 3
-    measure_4 = "\\d\\sSchu(he|h)", # removes "Schuh" as measurement, version 4
-    measure_5 = "\\bM(a|aa)(ß|s|ss)\\b", # removes "Schuh" as measurement, version 5
-    measure_6 = "Schu(he|h)\\-?länge|schühig|schu(h|he)(hoch|breit|lang|tief|dick|gro(s|ß))", # removes "Schuh" as measurement, version 6
-    measure_7 = "Schu(he|h)\\s(Breite|Länge|Höhe)", # removes "Schuh" as measurement, version 7
-    measure_8 = "Länge\\s\\d", # removes "Schuh" as measurement, version 8
-    measure_9 = "Breite\\s\\d" # removes "Schuh" as measurement, version 9
-  )
-  # some "schuh" as measurement remain, e.g. "Länge 3 1/ 2 Schuh", maybe smth like:
-  #(Breite|Länge|Höhe)\s(\w*?\/?\s){1,4}Schuh
-  #Schuh\\s(\\w*?\\s){1,4}(Breite|Länge|Höhe)
-  create_filter_output(dict)
-
-}
-
-
-#' Dictionary Sleepwear
-#' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-tagfilter_sleepwear <- function(){
-  dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
-  dict$pos <- list(
-    general = "(Schlaf|Nach(t|ts))(\\-|\\s|)(r(o|ö)(ck|k|c)|(ä|a|ae|e)rmel)"
-  )
-  dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder, no negatives necessary so far
-  )
-  create_filter_output(dict)
-}
 
 
 #' Dictionary Underwear
@@ -278,6 +163,7 @@ tagfilter_shoes <- function(){
   create_filter_output(dict)
 
 }
+
 
 
 #' Dictionary Handkerchiefs
@@ -351,10 +237,11 @@ tagfilter_headdress <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-    ###############################
     wig = "(Perruck\\w*)(?!(macher|machen))|H(a|aa)r(-|)(T|t)ours",
     cap = "Kappe\\w*(?!-?(M|m)acher)|Capotte|Bonnet|Mütze",
-    general = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)(t|th|tt)\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    general_1 = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)t(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    general_2 = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)th(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
+    general_3 = "(?<!Schön|Walds)(?<!Schaub)(H|h)(u|ü)tt(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
     straw = "Strohh(u|ü)t\\w*(?!-?((M|m)acher|(N|n)ähe(r|n)|(G|g)a(s|ß)|(F|f)abri(c|k)|(V|v)erlag))",
     female = "(?<!zu\\s|für\\s)H(a|ä)ub(e|chen)|Kopfputz"
   )
@@ -372,7 +259,7 @@ tagfilter_headdress <- function(){
     place = "Kappeln|Hutting|Schützen|Eisenhut|Schutzen|Brodthauß", # placenames containing "hut/hüt"
     other = "Hüter|Verhütung", # other non-objects
     verb_1 = "\\sth(u|ü)t", # verbs (doing)
-    verb_2 = "sch(u|ü)tt(e|i)n|schütt(e|i)n|Schut|schützen", # to throw smth
+    verb_2 = "sch(u|ü)tt(e|i)|Schut|schützen", # to throw smth
     hut = "Hütte", # small house, hut
     object = "Fingerh(u|ü)t|Str(u|ü)mp(f|ff)woll|Str(u|ü)mpf-Woll|Zündhütchen|Schutt" # other objects including "hut" or "strumpf"
   )
