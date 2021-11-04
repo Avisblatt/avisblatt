@@ -339,7 +339,7 @@ correct_ocr <- function(x){
   x <- gsub("Per st or ben","Verstorben",x)
   x <- gsub("Informagtion","Information",x)
   x <- gsub("Merkwürdigkelt","Merkwürdigkeit",x)
-  x <- gsub("Merckmürdigkeit","Merkwürdigkeit",x)
+  x <- gsub("Merckmürdigkeit","Merckwürdigkeit",x)
   x <- gsub("Merkwüirdigkett","Merkwürdigkeit",x)
   x <- gsub("Merkwüirdigkelt","Merkwürdigkeit",x)
   x <- gsub("Merkwüirdigkeit","Merkwürdigkeit",x)
@@ -747,5 +747,8 @@ correct_ocr <- function(x){
   x <- gsub("Scbeuchaeridas","Scheuchaeridas",x)
   x <- gsub("Sebeuchaeri","Scheuchaeri",x)
   x <- gsub("Helverica","Helvetica",x)
+  x <- gsub("Wi(tt|t|tr|tl|lt|nt|n)i(b|h|l|t|th)","Wittib",x)
+  x <- gsub("Wit(ttb|uib)","Wittib",x)
+  x <- gsub("Wtt(ib|hl)","Wittib",x)
   x
   }
