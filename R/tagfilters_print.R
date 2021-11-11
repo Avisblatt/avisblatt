@@ -16,7 +16,7 @@ tagfilter_print1 <- function(){
 #' @export
 tagfilter_print2 <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "offering", "ps")
+  dict$applicable <- list("saleoffer", "offering", "ps", "othernews")
   dict$pos <- list(
     person = "Buchhändler|\\bBuchdrucker|\\bBuchbinder",
     names = "J(\\.|oh\\.|ohan|ohann) J(\\.|a(c|k)\\.|a(c|k)ob) Flick|Schweighauser|
@@ -26,7 +26,7 @@ tagfilter_print2 <- function(){
     Daniel Haag|Joh\\. Rudolf Pistorius|C\\. A\\. Serini|Ja(c|k)ob Bernoulli im Engelh(o|oo)f|
     J\\. Decker am Spithalsprung|(|B\\.) Bolli|den Bürgern Bolli|Bürger Haas, Sohn auf dem Leonhardsgraben|
     Emanuel Thurneysen|Johann Rudolf(|f) Im H(off|oof)|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|
-    J\\. Decker und Wilhelm Haas)|Bey Frau Wittib Schorndorf",
+    J\\. Decker und Wilhelm Haas|Emanuel Hoffmann)|Bey Frau Wittib Schorndorf",
     place = "Buchhand*.|Buchdruckere(y|i)|Buchladen|Druckere(i|y)"
   )
   dict$neg <- list(
@@ -36,7 +36,8 @@ tagfilter_print2 <- function(){
     Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Tabacks-Buchs|Tabacksbuchs|Anfangsbuchstabe(n)|
     Buchstabe(n)|Buchführung|Buchhaltung|Sand(b|-B)uchse(|n)|Handels(b|-B)ücher(|n)|
     Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit|Buchführer(|n)|Buchhalter|
-    englisch(|e|en) gedruckt(|e|en)|französisch(|e|en) gedruckt(|e|en)|Behausung"
+    englisch(|e|en) gedruckt(|e|en)|französisch(|e|en) gedruckt(|e|en)|Behausung|
+    Buchbinder-Werckz"
   )
   create_filter_output(dict)
 }
@@ -50,17 +51,17 @@ tagfilter_print3 <- function(){
     edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
     material = "\\bPergament",
     language = "teutsch und latein(|isch)",
-    format_1 = "\\bin Fol(\\.|io)|\\bin Median-Folio|\\fol\\.",
-    format_2 = "4to|4tò|8vò|8vo|Quarto|Quart-B(a|ä)nd",
+    format_1 = "\\bin Fol(\\.|io)|\\inFol|\\bin Median-Folio|\\fol\\.|großOctav",
+    format_2 = "4to|4tò|8vò|8vo|8v0|Quarto|Quart-B(a|ä)nd",
     format_3 = "4°|8°|Tom\\.\\b|tom\\.\\b|Tomis|Tomes|Tome|Tomi|(O|o)ctavo|\\bBogen|^(1-9) Bögen|Halbfranzband|^(ein|un)gebunden.",
-    format_4 = "in (1-9) B(än|)den|Fran(|t)zösische(|n) Bände(|n)",
+    format_4 = "in (1-9) B(än|)den|Fran(|t)zösische(|n|m) B(ä|a)nd(|en|n)",
     format_5 = "^gedruckte(n) Fortsetzung|vermehrt(e|) Edition",
-    format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden",
+    format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden|Schweinsleder gebunden",
     #format_7 = "\\bbrosch(.|iert)",
     feautures = "^Kupf(f)er(|n)|Holzschnitt|Stahlstich",
     #catalog = "Catalogus|Katalog",
     types_1 = "Wörterbuch|Dictionarium|Lexikon|Lexicon",
-    types_2 = "Bibel|Biblen",
+    types_2 = "Bibel|Biblen|Biblia",
     prayerbooks = "Psalmb(u|ü)ch(|lein|s|e)|Psalm-B(u|ü)ch(|lein|s|e)|(g|G)esangb(u|ü)ch(|lein|s|e)"
   )
   dict$neg <- list(
@@ -98,28 +99,27 @@ tagfilter_print3 <- function(){
 #' Filter Quanteda Corpus: Print outside bookstore section, non-commercial buyers
 tagfilter_print4 <- function(){
   dict <- list()
-  dict$applicable <- list("saledemand", "ps", "demanding")
+  dict$applicable <- list("saledemand", "ps", "demanding", "othernews")
   dict$pos <- list(
     book = "Buch\\b|Bücher(n)|Bucher",
     edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
     material = "\\bPergament",
     language = "teutsch und latein(|isch)",
-    format_1 = "\\bin Fol(\\.|io)|\\bin Median-Folio|\\fol\\.",
-    format_2 = "4to|4tò|8vò|8vo|Quarto|Quart-B(a|ä)nd",
+    format_1 = "\\bin Fol(\\.|io)|\\inFol|\\bin Median-Folio|\\fol\\.|großOctav",
+    format_2 = "4to|4tò|8vò|8vo|8v0|Quarto|Quart-B(a|ä)nd",
     format_3 = "4°|8°|Tom\\.\\b|tom\\.\\b|Tomis|Tomes|Tome|Tomi|(O|o)ctavo|\\bBogen|^(1-9) Bögen|Halbfranzband|^(ein|un)gebunden.",
-    format_4 = "in (1-9) B(än|)den|Fran(|t)zösische(|n) Bände(|n)",
+    format_4 = "in (1-9) B(än|)den|Fran(|t)zösische(|n|m) B(ä|a)nd(|en|n)",
     format_5 = "^gedruckte(n) Fortsetzung|vermehrt(e|) Edition",
-    format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden",
+    format_6 = "Band gebunden|(Pergament|Leder|Carton) gebunden|ill.* und gebunden|sauber gebunden|Schweinsleder gebunden",
     #format_7 = "\\bbrosch(.|iert)",
     feautures = "^Kupf(f)er(|n)|Holzschnitt|Stahlstich",
     #catalog = "Catalogus|Katalog",
     types_1 = "Wörterbuch|Dictionarium|Lexikon|Lexicon",
-    types_2 = "Bibel|Biblen",
+    types_2 = "Hand-Bibel|Bibel|Biblen|Biblia",
     prayerbooks = "Psalmb(u|ü)ch(|lein|s|e)|Psalm-B(u|ü)ch(|lein|s|e)|(g|G)esangb(u|ü)ch(|lein|s|e)"
   )
   dict$neg <- list(
     region = "Entlibuch|Schönenbuch",
-    bible = "Buch Mose",
     work = "Platz als",
     auction = "vergant(|h)e(n|t)",
     subscription = "Pr(ä|ae)numeration",
