@@ -173,8 +173,8 @@ tagfilter_handkerchief <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
-      handkerchief_1 = "(?<!für\\s)\\w*?((S|s)ch(n|u)(u|uu)pft(u|ü)ch\\w*?)|(M|m)(o|ö)uc(h|i)oir\\w*?",
-      handkerchief_2 = "(?<!zu\\s)\\w*?((S|s)ch(n|u)(u|uu)pft(u|ü)ch\\w*?)|(M|m)(o|ö)uc(h|i)oir\\w*?"
+      handkerchief_1 = "(?<!für\\s)\\w*?((Sch|ch)(n|u)(u|uu)p(f|ff)|Sack|Nas|Nass)t(u|ü)ch\\w*?|(M|m)(o|ö)uc(h|i)oir\\w*?",
+      handkerchief_2 = "(?<!zu\\s)\\w*?((Sch|ch)(n|u)(u|uu)p(f|ff)|Sack|Nas|Nass)t(u|ü)ch\\w*?|(M|m)(o|ö)uc(h|i)oir\\w*?"
   )
   dict$neg <- list(
     textile = "Strohsacktuch" # sort of textile
