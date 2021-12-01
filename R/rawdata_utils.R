@@ -1,6 +1,6 @@
 #' @export
 store_yearwise <- function(coll = c_all, path){
-  unique( c_all$meta$date
+  AVIS_YEARS <- unique(year(c_all$meta$date))
   message("Writing collections.")
   for (i in AVIS_YEARS){
     coll <- c_all$clone()
@@ -14,6 +14,7 @@ store_yearwise <- function(coll = c_all, path){
                      file.path(path, sprintf("yearly_%d", i)))
   }
 }
+
 
 
 #' @export
@@ -96,5 +97,4 @@ redo_tags <- function(AVIS_YEARS = 1729:1844,
   
   message("Writing collections.")
   store_yearwise(c_all, path)
-  }
 }

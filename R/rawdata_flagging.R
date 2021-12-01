@@ -143,7 +143,6 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
   
   message("Writing collections.")
   store_yearwise(c_all, dest_path)
-  }
 }
 
 
