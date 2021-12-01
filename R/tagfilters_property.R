@@ -1,20 +1,24 @@
 #' Filter Quanteda Corpus: Housing for rent in renting section
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
-#' @note Last changed 2021-08-04
+#' @note Last changed 2021-09-29
 #' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @export
 tagfilter_housing_rent1 <- function(){
   dict <- list()
   dict$applicable <- list("lendoffer", "lenddemand")
   dict$pos <- list(
-    general = "(B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein|Landg(ü|u)t", # not "Haus" as this often used in contact references in all sorts of ads
+    general = "(B|b)ehausung|(W|w)ohnung|Losament|\\bL(o|a)gi(s|\\s)\\b|(G|g)ebäud|(H|h)äu(s|ß)lein|(Land|Wohn)haus|Landg(ü|u)t|G(u|ü)tlein", # not "Haus" as this often used in contact references in all sorts of ads
+    a_house = "(\\b E|\\s e)in Haus",
     house_to_rent = "Haus( | zu )(verm|m)iet",
     date = "(F|f)roh?nfasten",
     spaces = "Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart",
-    buildings = "Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Bäckere(y|i)|Wirthschaft|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer",
-    rooms = "\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven",
+    buildings = "Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|B(e|ä|a)ckere(y|i)|W(ä|a)schere(y|i)|Wirthschaft|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|(Sommer|Bauch|Wasch)haus|Weichekammer",
+    floor = "(D|d)er( ganze | )(1st|2te|erste|zwe(i|y)te|dritte|untere|mittlere|obere) Stock",
+    rooms = "\\bchambr(e|es)\\b|\\bZimmer|(S|s)tube|(S|s)t(ü|u)b(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven|Kostbett",
     storage = "Magazin|Keller\\b|Dachboden|Estri[ch|g]",
-    amenities = "m(ö|eu)blie?r|Abtritt|Abwasser|Altan|Bauchkessel|(B|b)runnen|Wasserleitung|Wasserstein"
+    amenities = "m(ö|eu)blie?r|Abtritt|Abwasser|Altan|Bauchkessel|(B|b)runnen|Wasserleitung|Wasserstein",
+    location1 = "(gut|best)(e|er) Lage",
+    location2 = "(gut|zentral|nah) gelegen"
   )
   dict$neg <- list(
     position_phrase1 = "(vor|für|au(f|ff)|in) (der|die|eine) Behausung",
@@ -36,7 +40,7 @@ tagfilter_housing_rent2 <- function(){
   dict$pos <- list(
     general_1   = "((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|Landgut|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     spaces_1    = "(Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Mattland|Juchart).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    buildings_1 = "(Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+    buildings_1 = "(Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g]).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
     general_2   = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Behausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)",
     spaces_2    = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Juchart)",
@@ -267,7 +271,7 @@ tagfilter_churchseat <- function(){
   dict$pos <- list(
     seat = "(K|k)irchen(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
     folding_seat = "Anhencker",
-    female = "(Weiber|Frau(en|n))(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
+    female = "(Weiber|Frau(en|n)(|zimmer))(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
     male    = "M(a|ä)n(n|nen|ner)(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)"
   )
   create_filter_output(dict)

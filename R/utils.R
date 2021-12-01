@@ -17,7 +17,7 @@ write_collection <- function(x,
 
   # meta information and data are treated separately
   # following the swissdata idea (github.com/swissdata/demo)
-  # Meta information to JSON ##############################
+  # Meta information to JSON 
   # turn all environments to lists
   # environments work with reference and thus better than lists
   # for in memory updates. lists are easier to handle when writing
@@ -230,11 +230,13 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 }
 
 
+
 available_years <- function(){
  list.files("../avis-data/collections", pattern=".json") %>%
     substr(8, 11) %>%
     as.numeric
 }
+
 
 
 tf_integrity <- function(){
@@ -252,7 +254,7 @@ tf_integrity <- function(){
       if (err!=""){
         message("\nIn ", names(l[i]), ", there is an invalid regular expression:")
         print(t)
-        summary <- "IMPORTANT: Fix any problem with tagfilter regex before creating yearly collections from raw data!"
+        summary <- "IMPORTANT: Fix any problem with tagfilter regex before creating collections / re-doing tagging!"
       }
     }
   }

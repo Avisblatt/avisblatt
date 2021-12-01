@@ -42,3 +42,4 @@ rsconnect/
 
 dontcommit/
 .Rproj.user
+*.Rproj

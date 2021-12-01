@@ -1,6 +1,7 @@
 #' @import quanteda
 #' @import data.table
 #' @importFrom R6 R6Class
+#' @rawNamespace import(dplyr, except = c(first, last, between))
 #' @export
 RawData <- R6Class("RawData", list(
   data = NULL,
@@ -168,6 +169,10 @@ RawData <- R6Class("RawData", list(
       # make sure it's ordered in a very last step, because this important for
       # header based inheritance
       self$data <- self$data[order(pageno,readingorder),]
+      #renumber the reading order, as those are stored as integers,
+      #but we have something like "24.5" in the tsv for several years
+      #(for an ad later added between ads #24 and #25)
+      self$data <- self$data %>% group_by(pageno) %>% mutate(readingorder = 1:n()) %>% as.data.table()
       self$status <- "SUCCESS"
       self$message <- "Step 2 of 2 (processing) ok."
     }, error = function(e){

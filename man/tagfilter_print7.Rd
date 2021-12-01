@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_print.R
 \name{tagfilter_print7}
 \alias{tagfilter_print7}
-\title{Filter Quanteda Corpus: subscription}
+\title{Filter Quanteda Corpus: books/journals in libraries}
 \usage{
 tagfilter_print7()
 }
 \description{
-Filter Quanteda Corpus: subscription
+Filter Quanteda Corpus: books/journals in libraries
 }
