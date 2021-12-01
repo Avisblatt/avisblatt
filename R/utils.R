@@ -141,7 +141,6 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   meta_dt[, date := as.Date(date)]
   setcolorder(meta_dt, neworder = c("id",
                               setdiff(names(meta_dt),"id")))
-
   # corpus
   dt <- data.table()
   if(!just_meta){

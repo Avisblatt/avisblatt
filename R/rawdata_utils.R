@@ -1,16 +1,15 @@
 #' @export
 store_yearwise <- function(coll = c_all, path){
-  AVIS_YEARS <- unique(year(c_all$meta$date))
-  message("Writing collections.")
+  AVIS_YEARS <- unique(year(coll$meta$date))
   for (i in AVIS_YEARS){
-    coll <- c_all$clone()
+    coll_i <- coll$clone()
     start_date <- as.Date(sprintf("%d-01-01", i))
     end_date <- as.Date(sprintf("%d-01-01", i+1))
-    coll$corpus <- corpus_subset(coll$corpus, date < end_date)
-    coll$corpus <- corpus_subset(coll$corpus, date >= start_date)
-    coll$meta <- coll$meta[as.Date(date) < end_date,]
-    coll$meta <- coll$meta[as.Date(date) >= start_date,]
-    write_collection(coll, 
+    coll_i$corpus <- corpus_subset(coll_i$corpus, date < end_date)
+    coll_i$corpus <- corpus_subset(coll_i$corpus, date >= start_date)
+    coll_i$meta <- coll_i$meta[as.Date(date) < end_date,]
+    coll_i$meta <- coll_i$meta[as.Date(date) >= start_date,]
+    write_collection(coll_i, 
                      file.path(path, sprintf("yearly_%d", i)))
   }
 }
@@ -20,7 +19,7 @@ store_yearwise <- function(coll = c_all, path){
 #' @export
 fraternaltwin_processing <- function(coll = c_all, 
                                      dest_path = "../avis-data/collections"){
-  message(sprintf("Building a lookup table for pairs of originals+reprints, will likely take more than 10 minutes."))
+  message(sprintf("Building a lookup table for pairs of originals+reprints, depending on number of years can take several minutes."))
   startt <- Sys.time()
   n <- as.matrix(coll$meta[reprint_status=="reprint", which = T])
   n <- cbind(n, apply(n, 1, function(x) {coll$meta[id == coll$meta$potential_original[x], which = T]}), NA)
@@ -43,9 +42,9 @@ fraternaltwin_processing <- function(coll = c_all,
                         cbind(n[i,1], as.list(joint_tags)),
                         cbind(n[i,2], as.list(joint_tags)))
       fraternal_twins <- rbind(fraternal_twins,
-                               cbind(as.character(c_all$meta[n[i,2], id]),
+                               cbind(as.character(coll$meta[n[i,2], id]),
                                      as.list(o_tags),
-                                     as.character(c_all$meta[n[i,1], id]),
+                                     as.character(coll$meta[n[i,1], id]),
                                      as.list(r_tags)))
     }
     if(round(i/10000)==i/10000){
@@ -67,15 +66,6 @@ fraternaltwin_processing <- function(coll = c_all,
 redo_tags <- function(AVIS_YEARS = 1729:1844,
                       path = "../avis-data/collections",
                       fraternal_twins = T){
-  AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(source_path, pattern = "csv") %>% 
-                            substr(8, 11) %>% as.numeric)
-  message("Loading collection(s).")
-  c_all <- gather_yearly_collections(AVIS_YEARS, 
-                                     just_meta = FALSE, 
-                                     path = path)
-  
-  message("Collection(s) loaded, start retagging.")
   ns <- ls(envir = asNamespace("avisblatt"))
   tfs <- ns[grepl("tagfilter_",ns)]
   l <- lapply(tfs, function(x){
@@ -85,16 +75,29 @@ redo_tags <- function(AVIS_YEARS = 1729:1844,
   # remove header tagfilter
   l <- l[!(names(l) %in% tf_header(prefix = T))]
   
-  c_all$apply_tagfilters(l)
-  ut <- umbrella_terms()
-  for (j in 1:length(ut)){
-    ids <- c_all$meta[grepl(ut[j], c_all$meta$tags), id]
-    coll$add_tags(ids, names(ut[j]))
+  for (i in AVIS_YEARS){
+    message(sprintf("Start retagging the ads from %d.", i))
+    fn <- file.path(path, sprintf("yearly_%d", i))
+    c_year <- read_collection(fn)
+    c_year$apply_tagfilters(l)
+    ut <- umbrella_terms()
+    for (j in 1:length(ut)){
+      ids <- c_year$meta[grepl(ut[j], c_year$meta$tags), id]
+      c_year$add_tags(ids, names(ut[j]))
+    }
+    write_collection(c_year, fn)
+    message("Regular tag filters applied and umbrella terms added.\n")
   }
-  message("Regular tag filters applied and umbrella terms added.")
   
-  if(fraternal_twins){fraternaltwin_processing(c_all)}
-  
-  message("Writing collections.")
-  store_yearwise(c_all, path)
+  if(fraternal_twins){
+    message("Loading collections into one for fraternal twin tagging.")
+    c_all <- gather_yearly_collections(AVIS_YEARS, 
+                                       just_meta = FALSE, 
+                                       path = path)
+    
+    message("Collection(s) loaded, start retagging.")
+    fraternaltwin_processing(c_all)
+    message("Writing collections.")
+    store_yearwise(c_all, path)
+  }
 }
