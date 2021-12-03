@@ -121,41 +121,123 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
   message(paste0("Reprints detected for all ads from ", current_year, ", took ", itime, " minutes."))
   
   # attach results and reprint_status column to meta data
+  
   message("Writing reprint info to meta")
   cn <- c(colnames(c_all$meta), "reprint_status")
-  c_all$meta <- cbind(c_all$meta, NA)
-  colnames(c_all$meta) <- cn
+  meta_dt <- cbind(c_all$meta, NA)
+  colnames(meta_dt) <- cn
   
   results_current <- cbind(rownames(results_current), results_current)
   colnames(results_current) <- c("id", "potential_original", "p_o_distance")
   results_current$potential_original <- as.character(results_current$potential_original)
-  c_all$meta <- merge(c_all$meta, results_current, all = TRUE, by = "id")
+  meta_dt <- merge(meta_dt, results_current, all = TRUE, by = "id")
   
   results_previous <- cbind(rownames(results_previous), results_previous)
   colnames(results_previous) <- c("id", "potential_reprint", "p_r_distance")
   results_previous$potential_reprint <- as.character(results_previous$potential_reprint)
-  c_all$meta <- merge(c_all$meta, results_previous, all = TRUE, by = "id")
+  meta_dt <- merge(meta_dt, results_previous, all = TRUE, by = "id")
   
   # add reprint_status
-  c_all$meta$reprint_status[c_all$meta$p_o_distance > 1 & c_all$meta$p_r_distance <= 1] <- "orig_r"
-  c_all$meta$reprint_status[c_all$meta$p_o_distance > 1 & c_all$meta$p_r_distance >  1] <- "orig_u"
-  c_all$meta$reprint_status[c_all$meta$p_o_distance < 1] <- "reprint"
+  meta_dt$reprint_status[meta_dt$p_o_distance > 1 & meta_dt$p_r_distance <= 1] <- "orig_r"
+  meta_dt$reprint_status[meta_dt$p_o_distance > 1 & meta_dt$p_r_distance >  1] <- "orig_u"
+  meta_dt$reprint_status[meta_dt$p_o_distance < 1] <- "reprint"
   
-  message("Writing collections.")
-  store_yearwise(c_all, dest_path)
+  message("\nWrite metadata to disc, year-by-year:")
+  write_metadata(meta_dt, dest_path)
 }
+
 
 
 #' @export
 rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
-                                      source_path = "../avis-databuffer/collections_reprint_detected",
-                                      dest_path = "../avis-data/collections"){
-  message("Loading collection(s).")
-  c_all <- gather_yearly_collections(AVIS_YEARS, 
-                                     just_meta = FALSE, 
-                                     path = source_path)
-  message("Collection(s) loaded.")
-  fraternaltwin_processing(c_all)
-  message("Writing collections.")
-  store_yearwise(c_all, dest_path)
+                                            source_path_csv  = "../avis-databuffer/collections_unflagged",
+                                            source_path_json = "../avis-databuffer/collections_reprint_detected",
+                                            dest_path = "../avis-data/collections"){
+  message("Loading data.")
+  meta_dt <- load_metadata(AVIS_YEARS, source_path_json)
+  
+  fraternaltwin_processing(meta_dt, dest_path)
+  
+  message("Composing final collections.\nCopy data files (CSV) to folder")
+  csv_files <- list.files(source_path_csv, pattern = "csv")
+  copied <- file.copy(from = list.files(source_path_csv, 
+                                        full.names = T, 
+                                        pattern = "csv"), 
+                      to = dest_path, 
+                      copy.date = TRUE, overwrite = TRUE)
+  message("Copied ", sum(copied), " files.")
+  message("\nWrite metadata files (JSON) to folder, year-by-year:")
+  write_metadata(meta_dt, dest_path)
+}
+
+
+
+#' @export
+rawdata_redo_tags <- function(AVIS_YEARS = 1729:1844,
+                      path = "../avis-data/collections",
+                      path_no_ft = "../avis-databuffer/collections_reprint_detected",
+                      path_no_rp = "../avis-databuffer/collections_unflagged",
+                      correct_final = T,
+                      correct_no_ft = T,
+                      correct_no_rp = T){
+  if(correct_final+correct_no_ft+correct_no_rp == 0){stop("You specified that no collection shall be updated.\nAt least one of correct_no_rp, correct_no_ft, correct_final has to be TRUE.")}
+
+  message("Prepare tagfilters.\n")
+  ns <- ls(envir = asNamespace("avisblatt"))
+  tfs <- ns[grepl("tagfilter_",ns)]
+  l <- lapply(tfs, function(x){
+    getFromNamespace(x, ns = "avisblatt")()
+  })
+  names(l) <- tfs
+  # remove header tagfilter
+  l <- l[!(names(l) %in% tf_header(prefix = T))]
+  
+  # if it is specified that the final collections
+  # shall not be updated, base the re-tagging
+  # on the initial collection withgout reprints
+  if(!correct_final){path = path_no_rp} 
+  
+  meta_dt <- data.table()
+  for (i in AVIS_YEARS){
+    startt <- Sys.time()
+    message(sprintf("Start retagging the ads from %d.", i))
+    fn <- file.path(path, sprintf("yearly_%d", i))
+    c_year <- read_collection(fn)
+    c_year$apply_tagfilters(l)
+    ut <- umbrella_terms()
+    for (j in 1:length(ut)){
+      ids <- c_year$meta[grepl(ut[j], c_year$meta$tags), id]
+      c_year$add_tags(ids, names(ut[j]))
+    }
+    meta_dt <- rbind(meta_dt, c_year$meta) 
+    dtime <- round(difftime(Sys.time(), startt, units = "min"),2) ###
+    message(sprintf("Tag filters applied and umbrella terms added, took %s minutes.\n", dtime))
+  }
+
+  if(correct_no_rp){
+    startt <- Sys.time()
+    message("\nUpdate metadata for collections without reprint flagging:")
+    write_metadata(meta_dt[,1:9], path_no_rp)
+    message(sprintf("Took %s minutes", 
+                    round(difftime(Sys.time(), startt, units = "min"),2)))
+  }
+  
+  if(correct_no_ft){
+    startt <- Sys.time()
+    message("\nUpdate metadata for collections without fraternal twin flagging:")
+    write_metadata(meta_dt, path_no_ft)
+    message(sprintf("Took %s minutes", 
+                    round(difftime(Sys.time(), startt, units = "min"),2)))
+  }
+  
+  if(correct_final){
+    message("\nStart fraternal twin detection.")
+    meta_dt <- fraternaltwin_processing(meta_dt, path)
+    
+    startt <- Sys.time()
+    message("\nUpdate metadata for final collections:")
+    write_metadata(meta_dt, path)
+    message(sprintf("Took %s minutes", 
+                    round(difftime(Sys.time(), startt, units = "min"),2)))
+    }
 }

@@ -5,11 +5,7 @@
 \title{Dictionary Outerwear}
 \usage{
 tagfilter_outerwear()
-
-tagfilter_outerwear()
 }
 \description{
-Dictionary Outerwear
-
 Dictionary Outerwear
 }

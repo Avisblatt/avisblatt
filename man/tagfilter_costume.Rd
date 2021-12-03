@@ -5,11 +5,7 @@
 \title{Dictionary Garments for Special Occassions and Costumes}
 \usage{
 tagfilter_costume()
-
-tagfilter_costume()
 }
 \description{
-Dictionary Garments for Special Occassions and Costumes
-
 Dictionary Garments for Special Occassions and Costumes
 }

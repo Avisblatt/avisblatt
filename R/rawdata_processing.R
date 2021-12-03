@@ -24,7 +24,7 @@ rawdata_header_creation <- function(AVIS_YEARS = 1729:1844,
     dt <- data[isheader == TRUE]
     dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
     crp <- corpus(dt, docid_field = "id")
-    
+    length(unique(dt$id))
     f <- get("tagfilter_merge_to_ad")
     hit_ids <- f()$filtrate(crp, return_corp = FALSE)
     data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
@@ -49,7 +49,7 @@ rawdata_header_creation <- function(AVIS_YEARS = 1729:1844,
     data <- rbindlist(by_header)
     
     fwrite(data, file.path(dest_path, fn))
-    message(sprintf("Header for %d done", i))
+    message(sprintf("Header for %d identified.", i))
   }
 }
 
@@ -73,6 +73,10 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
   # those should only be stored in "tags_section", not in "tags"
   l <- l[!(names(l) %in% tf_header(prefix = T))]
   
+  # Prepare language detection. For higher recognition rate, 
+  # limitrecognition to the two languages occurring in the Avisblatt
+  avis_profiles <- textcat::TC_byte_profiles[names(textcat::TC_byte_profiles) %in% c("german", "french")]
+  
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     chunk_out <- sprintf("yearly_%d", i)
@@ -80,7 +84,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
     message(sprintf("Starting to create collection for %d ...", i))
     tryCatch({
       if(i %in% gt_years){
-        coll <- Collection$new(file.path("raw_data",fn),
+        coll <- Collection$new(file.path(source_path, fn),
                                docvars_to_meta = c("adcontent", "adtype",
                                                    "finance", "keyword"),
                                transform_docvars = clean_manual_tags)
@@ -88,17 +92,13 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
       } else {
         coll <- Collection$new(file.path(source_path, fn))
       }
-      message("collection read.")
-      langs <- detect_lang(coll$corpus)
-      langs[!langs %in% c("french","german")] <- NA_character_
-      coll$add_language(ids = names(langs[is.na(langs)]), lang = NA_character_)
-      lang_no_na <- langs[!is.na(langs)]
-      coll$add_language(ids = names(lang_no_na)[lang_no_na == "french"],
-                        lang = "fr")
-      coll$add_language(ids = names(lang_no_na)[lang_no_na == "german"],
-                        lang = "de")
-      message("Language detection finished.")
+      message("Data read and collection initialized.")
       
+      coll$meta[, language := "de"]
+      langs <- textcat::textcat(as.character(coll$corpus), p = avis_profiles)
+      coll$meta[id %in% names(langs[langs == "french"]), language := "fr"]
+      message("Language detected.")
+
       # Apply tagfilters
       coll$apply_tagfilters(l)
       ut <- umbrella_terms()
@@ -115,7 +115,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
       # headers are never no_advert
       coll$corpus$noadvert[coll$corpus$header_tag %in% c("curious", "death", "marriage", "election", "naturalisation", "denaturalisation", "insolvency", "official")] <- T
       coll$corpus$noadvert[coll$corpus$isheader] <- F
-      message("Header tag created and noadvert info corrected.")
+      message("Header tag written and noadvert info corrected.")
       # keep original sorting after join, cause this suits
       # avisblatt use / header better than alphabethical order of ids
       org_sorting <- copy(coll$meta$id)

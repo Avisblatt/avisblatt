@@ -1,5 +1,3 @@
-#' @import data.table
-#' @import dplyr
 #' @export
 fetch_from_freizo <- function(AVIS_YEARS = 1729:1844,
                               dest_path = "../avis-databuffer/raw_data_uncorrected",
@@ -49,11 +47,11 @@ fetch_from_freizo <- function(AVIS_YEARS = 1729:1844,
   }
 }  
   
-#' @import data.table
-#' @import dplyr
-#' @import xml
+
+#' @import XML
 #' @export
 xml_direct_import <- function(AVIS_YEARS = 1729:1844,
+                              source_path = "../avis-databuffer/xml",
                               dest_path = "../avis-databuffer/raw_data_uncorrected",
                               gt_years = c(1734, 1754, 1774, 1834)){
   # Before running the script,
@@ -64,15 +62,15 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
   # xml/years/1729/1729/pages
   
   # make a list of all pages that are actually part of any issue
-  meta_info <- fread("../avis-databuffer/xml/meta/meta.csv", encoding="UTF-8")
+  meta_info <- fread(file.path(source_path, "meta", "meta.csv"), encoding="UTF-8")
   meta_info <- meta_info[type == "avis"]
   avis_files <- paste0(meta_info$file_id, ".xml")
   
   #get mastheads
-  mastheads <- fread("../avis-databuffer/xml/meta/mastheads.csv", encoding="UTF-8")
+  mastheads <- fread(file.path(source_path, "meta", "mastheads.csv"), encoding="UTF-8")
   mastheads <- cbind(mastheads, year= as.integer(substr(mastheads$date,1,4)))
   
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files("../avis-databuffer/xml/years") %>% as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(file.path(source_path, "years")) %>% as.numeric)
   
   # have some protocol dt for structure type problems
   stp_missingmulti <- data.table()
@@ -86,7 +84,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       y_ads <- data.table(id=character(), pageno=integer(), readingorder=integer(), structuretype=character(), text=character())
       pages <- list()
       # get xml with the orderd list of files that make up this year's volume
-      pagelistxml <- xmlParse(file.path("..", "avis-data", "xml", "years", i, i, "mets.xml"))
+      pagelistxml <- xmlParse(file.path(source_path, "years", i, i, "mets.xml"))
       pagelistxml <- xmlChildren(xmlRoot(pagelistxml))[[3]]
       # Navigation in xml tree is REALLY clumsy here and in the following...
       pagelistxml <- xmlChildren(pagelistxml)[[1]]
@@ -101,7 +99,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       pages <- intersect(pages, avis_files)
       meta_i <- meta_info[year == i]
       for (p in pages){
-        fp <- file.path("..", "avis-data", "xml", "years", i, i, "page", p)
+        fp <- file.path(source_path, "years", i, i, "page", p)
         pxml <- xmlParse(fp)
         page <- xmlChildren(xmlRoot(pxml))[[2]]
         img_pageno <- as.integer(substr(fp,nchar(fp)-7,nchar(fp)-4))
@@ -121,7 +119,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
               txt <- xmlValue(tr[[xmlSize(tr)]])
               meta_p <- meta_i[meta_i$file_id == substr(p,1,nchar(p)-4)]
               pageno <- meta_p$book_manifest_sort_order
-              id <- paste("temp", i, sprintf("%03d", img_pageno), sprintf("%03d", ro), sep = "-")
+              id <- paste("temp", i, sprintf("%03d", pageno), sprintf("%03d", ro), sep = "-")
               y_ads <- rbind(y_ads, cbind(id, pageno, ro, st, txt), use.names=FALSE)
             }
           }
@@ -163,9 +161,9 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       
       # Compile orig file
       if(i %in% gt_years){
-        orig <- fread("../avis-databuffer/xml/orig_gt.csv", encoding="UTF-8")
+        orig <- fread(file.path(source_path, "orig_gt.csv"), encoding="UTF-8")
       } else {
-        orig <- fread("../avis-databuffer/xml/orig.csv", encoding="UTF-8")
+        orig <- fread(file.path(source_path, "orig.csv"), encoding="UTF-8")
       }
       class(y_ads$pageno) <- "integer"
       class(y_ads$readingorder) <- "integer"
@@ -210,8 +208,8 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
   
   if(nrow(stp_missingcont)>0){
     stp_missing[,text := gsub("\\\n", " ", text)]
-    fwrite(stp_missing[order(id),], "../avis-databuffer/xml/stp_missingcont.tsv", sep = "\t")
-    message("Records with doubtful structure types written to avis-data/xml/stp_missingcont.tsv")
+    fwrite(stp_missing[order(id),], file.path(source_path, "stp_missingcont.tsv"), sep = "\t")
+    message(paste0("Records with doubtful structure types written to ", file.path(source_path, "stp_missingcont.tsv")))
   } else {
     message("No records with doubtful structure type found.")
   }
