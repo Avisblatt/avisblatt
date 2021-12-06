@@ -3,7 +3,7 @@
 # with text in ad and assigns corresponding tag
 # input: corpus, data frame
 # output: list of tags, named by corresponding ad id
-identify_tags <- function(ad,df_tags){
+identify_tags_by_regex <- function(ad,df_tags){
   adtext <- as.character(ad)
   tags <- df_tags[which(grepl_vect(df_tags[,2],adtext)),1]
   return(tags)
@@ -14,7 +14,7 @@ identify_tags <- function(ad,df_tags){
 # input:  corpus
 #         taglist - list of tags to append to ads named by id
 # output: corpus
-append_tags <- function(corpus,taglist){
+append_tags_by_regex <- function(corpus,taglist){
   for(iTag in 1:length(taglist)){
     sId <- names(taglist[iTag])
     vTags <- corpus$meta[corpus$meta$id == sId,]$tags[[1]]
