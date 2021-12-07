@@ -1,6 +1,10 @@
-require(avisblatt)
-
-devtools::load_all()
+require(data.table)
+require(jsonlite)
+require(R6)
+require(dplyr)
+require(quanteda)
+source("R/utils.R")
+source("R/collections.R")
 # test collection
 if(file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")){
   c_test_collection <- read_collection("../avis-data/test_collection")
@@ -26,7 +30,9 @@ grepl_vect  <- Vectorize(grepl)
 identify_tags_in_single_ad <- function(adtext,df_tags){
   return(df_tags$tag[which(grepl_vect(df_tags$reg,adtext))])
 }
-identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test)
+if(!setequal(identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test),c("Münster","Kanzel"))){
+  stop("identify_tags_in_single_ad test failed")
+}
 
 # match regex in data frame consisting of two columns:
 # 1: tag, 2: reg
@@ -38,7 +44,10 @@ identify_tags <- function(collection, df_tags){
   tags <- lapply(adtext,identify_tags_in_single_ad,df_tags = df_tags)
   return(tags)
 }
-identify_tags(c_test_collection,df_test)
+# Unit test for identify_test
+if(!setequal(identify_tags(c_test_collection,df_test)[[2]],character(0))){
+  stop("identify_tags test failed")
+}
 
 # appends tags as defined in taglist to the elements of a corpus in a collection
 # input:  collection
@@ -57,19 +66,32 @@ append_tags <- function(collection, taglist){
   }
   return(collection)
 }
-c_test_collection_appended <- append_tags(c_test_collection,identify_tags(c_test_collection, df_test))
 # Unit test for append_tags
+c_test_collection_appended <- append_tags(c_test_collection,identify_tags(c_test_collection, df_test))
 if(is.element(FALSE,(c_test_collection_appended$meta$tags[[1]] == c("transactiontype_offer1","St. Peter")))){
-  print("Unexpected result in append_tags!")
+  stop("Unexpected result in append_tags!")
 }
 
 # append tags in a collection by matching regex in data frame with ad text
 # input: collection
-#        data frame, consisting of two columns:  1: tags, 2: regex
+#        data frame, consisting of two named columns:  1: tag, 2: reg
 # output: collection
-
 tag_by_regex <- function(collection, df_tags){
+  if(!setequal(names(df_tags),c("tag","reg"))){
+    stop("df_tags must have two columns. one named tag, one named reg.")
+  }
   return(append_tags(collection,identify_tags(collection,df_tags)))
 }
+# Unit test for tag_by_regex
 c_test_collection_tagged <- tag_by_regex(c_test_collection,df_test)
-
+lResult <- list(
+  c("transactiontype_offer1","St. Peter"),
+  c("transactiontype_offer1"),
+  c("extinguisher","transactiontype_offer1","ut_things_devicesNcomponents"),
+  c("chair","churchseat","transactiontype_offer1","ut_household","Münster","Kanzel")
+  )
+for(listElement in 1:length(lResult)){
+  if(!setequal(c_test_collection$meta$tags[[listElement]],lResult[[listElement]])){
+    stop("tag_by_regex test failed")
+  }
+}
