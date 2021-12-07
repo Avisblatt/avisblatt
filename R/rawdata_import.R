@@ -118,7 +118,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
               }
               txt <- xmlValue(tr[[xmlSize(tr)]])
               meta_p <- meta_i[meta_i$file_id == substr(p,1,nchar(p)-4)]
-              pageno <- meta_p$book_manifest_sort_order
+              pageno <- meta_p$book_page_order_df
               id <- paste("temp", i, sprintf("%03d", pageno), sprintf("%03d", ro), sep = "-")
               y_ads <- rbind(y_ads, cbind(id, pageno, ro, st, txt), use.names=FALSE)
             }
@@ -158,6 +158,9 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       y_ads[,structuretype:=NULL]
       y_ads <- cbind("N", 1, issues$book[1], y_ads)
       names(y_ads) <- c("rev", "issue", "book", "id", "pageno", "readingorder", "text", "isheader", "noadvert")
+      
+      # clean reading order
+      y_ads$readingorder <- ave(y_ads$id, y_ads$pageno, FUN = seq_along)
       
       # Compile orig file
       if(i %in% gt_years){
