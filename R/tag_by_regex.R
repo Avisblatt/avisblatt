@@ -1,8 +1,11 @@
+require(avisblatt)
+
+devtools::load_all()
 # test collection
 if(file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")){
   c_test_collection <- read_collection("../avis-data/test_collection")
 } else {
-  c_all <- gather_yearly_collections(AVIS_YEARS, just_meta = FALSE)
+  c_all <- gather_yearly_collections(available_years(), just_meta = FALSE)
   test_ids <- c("145562fd-0404-5ef9-9883-ec88f81c1701/t10","145562fd-0404-5ef9-9883-ec88f81c1701/t11",
                 "145562fd-0404-5ef9-9883-ec88f81c1701/t12", "1950674a-6b7e-5c0e-be0d-571c4a007f95/t1")
   c_test_collection <- c_all$clone(deep=T)
@@ -69,3 +72,4 @@ tag_by_regex <- function(collection, df_tags){
   return(append_tags(collection,identify_tags(collection,df_tags)))
 }
 c_test_collection_tagged <- tag_by_regex(c_test_collection,df_test)
+

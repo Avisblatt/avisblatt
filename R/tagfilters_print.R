@@ -23,21 +23,22 @@ tagfilter_print2 <- function(){
     (B|b)e(y|i)(|m) (B\\.|Hrn\\.|Herrn|) (Peter Scherb|Heinrich Haag|Eucharius Haag|
     Wilhelm Haas|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Stupanus|Peter Scherb|
     J(\\.|oh\\.) J(\\.|ak\\.|a(c|k)ob) Freyler|Scholer(,|) auf der Rheinbruck|
-    Daniel Haag|Joh\\. Rudolf Pistorius|C\\. A\\. Serini|Ja(c|k)ob Bernoulli im Engelh(o|oo)f|
-    J\\. Decker am Spithalsprung|(|B\\.) Bolli|den Bürgern Bolli|Bürger Haas, Sohn auf dem Leonhardsgraben|
-    Emanuel Thurneysen|Johann Rudolf(|f) Im H(off|oof)|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|
-    J\\. Decker und Wilhelm Haas|Emanuel Hoffmann)|Bey Frau Wittib Schorndorf",
+    Daniel Haag|Joh\\. Rudolf Pistorius|C\\. A\\. Serini|Ja(c|k)ob Bernoulli im
+    Engelh(o|oo)f|J\\. Decker am Spithalsprung|(|B\\.) Bolli|den Bürgern Bolli|
+    Bürger Haas, Sohn auf dem Leonhardsgraben|Emanuel Thurneysen|Johann Rudolf(|f)
+    Im H(off|oof)|J(\\.|oh\\.) J(\\.|a(c|k)\\.|a(c|k)ob) Schorndorff|J\\. Decker
+    und Wilhelm Haas|Emanuel Hoffmann)|Bey Frau Wittib Schorndorf",
     place = "Buchhand*.|Buchdruckere(y|i)|Buchladen|Druckere(i|y)"
   )
   dict$neg <- list(
     bible = "Buch Mose",
     work = "Platz als",
     other = "Muster(b|-B)(u|ü)ch(|er|ern)|Haushaltungsbuch|(Z|z)uber|Fischbeckin|
-    Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Tabacks-Buchs|Tabacksbuchs|Anfangsbuchstabe(n)|
-    Buchstabe(n)|Buchführung|Buchhaltung|Sand(b|-B)uchse(|n)|Handels(b|-B)ücher(|n)|
-    Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit|Buchführer(|n)|Buchhalter|
-    englisch(|e|en) gedruckt(|e|en)|französisch(|e|en) gedruckt(|e|en)|Behausung|
-    Buchbinder-Werckz"
+    Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Tabacks-Buchs|Tabacksbuchs|
+    Anfangsbuchstabe(n)|Buchstabe(n)|Buchführung|Buchhaltung|Sand(b|-B)uchse(|n)|
+    Handels(b|-B)ücher(|n)|Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit|
+    Buchführer(|n)|Buchhalter|englisch(|e|en) gedruckt(|e|en)|französisch(|e|en)
+    gedruckt(|e|en)|Behausung|Buchbinder-Werckz"
   )
   create_filter_output(dict)
 }
