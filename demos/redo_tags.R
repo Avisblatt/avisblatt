@@ -33,11 +33,11 @@ message(sprintf("\nOverall, the process took %s minutes",
 # You can skip any of these 
 # by using the parameters
 # correct_final = FALSE,
-# correct_no_rp = FALSE
-# correct_no_ft
+# correct_no_rp = FALSE,
+# correct_no_ft = FALSE
 # 
 # But note that if not all data
 # is brought up-to-date, 
-# and the collection building process is re-run,,
+# and the collection building process is re-run,
 # older tagging will be carried through
 # to the final collections.
