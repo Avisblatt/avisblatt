@@ -4,6 +4,8 @@ tf_header <- function(prefix = F){
          "lendoffer",
          "lenddemand",
          "lostandfoundheader",
+         "lostheader",
+         "foundheader",
          "death",
          "marriage",
          "labourinfo",
@@ -139,7 +141,34 @@ tagfilter_lostandfoundheader <- function(){
     flownaway = "entflogen"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    lost = "Verlorenes",
+    found = "Gefundenes\\."
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary lost (Header)
+#' @export
+tagfilter_lostheader <- function(){
+  dict <- list()
+  dict$pos <- list(
+    lost = "Verlorenes"
+    )
+  dict$neg <- list(
+    found = "(G|g)efund(en|ne)"
+  )
+  create_filter_output(dict)
+}
+
+#' Dictionary found (Header)
+#' @export
+tagfilter_foundheader <- function(){
+  dict <- list()
+  dict$pos <- list(
+    lost = "Gefundenes"
+  )
+  dict$neg <- list(
+    lost = "(V|v)erl(o|oh)r(ne|en)"
   )
   create_filter_output(dict)
 }
@@ -364,9 +393,12 @@ tagfilter_foreigners <- function(){
 tagfilter_curious <- function(){
   dict <- list()
   dict$pos <- list(
-    curious_1 = "Mer(k|ck)würdig",
-    curious_2 = "Chronik",
-    curious_3 = "EinigeGedanken|Beilage" # 1844 supplements WITHIN issues...
+    curious = "Mer(k|ck)würdig",
+    chronicle = "Chronik",
+    weather = "Witterung",
+    appendix = "\\bAnhang",
+    somethoughts = "EinigeGedanken|Beilage|Etwas[ü|u]ber" 
+    
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -443,8 +475,8 @@ tagfilter_offering <- function(){
 tagfilter_naturalisation <- function(){
   dict <- list()
   dict$pos <- list(
-    naturalisation_1 = "(A|a)ufnahmen",
-    naturalisation_2 = "Einbürg"
+    naturalisation_1 = "(A|a)ufnahme",
+    naturalisation_2 = "Einb.rge"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
@@ -486,7 +518,7 @@ tagfilter_propertysaleoffer <- function(){
 tagfilter_insolvency <- function(){
   dict <- list()
   dict$pos <- list(
-    insolvency_1 = "Geldstag",
+    insolvency_1 = "Geldstag|Dorneck",
     insolvency_2 = "(R|r)ehabil"
   )
   dict$neg <- list(
