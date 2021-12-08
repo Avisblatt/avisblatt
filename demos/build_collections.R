@@ -82,6 +82,11 @@ fetch_from_freizo(AVIS_YEARS, dest_path = dest_path)
 # i.e. the page XMLs for, say, 1729 should be in folder
 # xml/years/1729/1729/pages
 
+AVIS_YEARS <- c(1729:1731, 1739, 1742, 1748, 1750, 1751, 1752, 1753, 
+                1760:1762, 1764:1769, 1771, 1775, 1777, 1779, 1780, 
+                1783:1786, 1788, 1790, 1792, 1794, 1795, 1798, 1799,
+                1804, 1809, 1814, 1818, 1832, 1833, 1842:1844)
+
 start <- Sys.time()
 xml_direct_import(AVIS_YEARS)
 message(sprintf("Took %s minutes", 

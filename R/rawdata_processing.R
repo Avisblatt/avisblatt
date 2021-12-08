@@ -74,7 +74,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
   l <- l[!(names(l) %in% tf_header(prefix = T))]
   
   # Prepare language detection. For higher recognition rate, 
-  # limitrecognition to the two languages occurring in the Avisblatt
+  # limit recognition to the two languages occurring in the Avisblatt
   avis_profiles <- textcat::TC_byte_profiles[names(textcat::TC_byte_profiles) %in% c("german", "french")]
   
   for (i in AVIS_YEARS){
