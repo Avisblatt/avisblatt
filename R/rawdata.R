@@ -97,15 +97,15 @@ RawData <- R6Class("RawData", list(
         self$data[,text := gsub("-\\\\n", "", text)]
         self$data[,text := gsub("\\\\n", " ", text)]
 
-        # Decode HTML (stuff like &amp; -> &)
-        self$data[, text := textutils::HTMLdecode(text)]
-        self$data[, rnotes := textutils::HTMLdecode(rnotes)]
-
         # strip ids and HTML
         self$data[,id := gsub("https://avisblatt.freizo.org/iiif/anno/", "", id)]
         self$data[,text := gsub("<.*?>", "", text)]
         self$data[,rnotes := gsub("<.*?>", "", rnotes)]
-        
+
+        # Decode HTML (stuff like &amp; -> &)
+        self$data[, text := textutils::HTMLdecode(text)]
+        self$data[, rnotes := textutils::HTMLdecode(rnotes)]
+
         # remove redundant blanks (better BEFORE ocr correction)
         self$data[,text := purge_spacing(text)]
         self$data[,text := gsub(" {2,}", " ", text)]
