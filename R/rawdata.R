@@ -94,7 +94,7 @@ RawData <- R6Class("RawData", list(
 
         # sanitize line breaks
         self$data[,text := gsub("([A-Z][a-z])\\\\n([a-z]\\w)", "\\1\\2", text)] # catch some missing hyphens
-        self$data[,text := gsub("-\\\\n", "", text)]
+        self$data[,text := gsub("(-\\\\n)([a-z])", "\\2", text)]
         self$data[,text := gsub("\\\\n", " ", text)]
 
         # Decode HTML (stuff like &amp; -> &)

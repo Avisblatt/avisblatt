@@ -64,13 +64,8 @@ AVIS_YEARS <- c(1738, 1741, 1746)
 AVIS_YEARS <- c(1835, 1836, 1840, 1841, 1842, 1843)
 
 AVIS_YEARS <- 1729:1844
-
-
 dest_path = "../avis-databuffer/raw_data_uncorrected"
-
 fetch_from_freizo(AVIS_YEARS, dest_path = dest_path)
-
-
 
 # XDI from Transkribus
 # You can create collections by making a xml direct ingest
@@ -82,16 +77,13 @@ fetch_from_freizo(AVIS_YEARS, dest_path = dest_path)
 # i.e. the page XMLs for, say, 1729 should be in folder
 # xml/years/1729/1729/pages
 
-AVIS_YEARS <- c(1729:1731, 1739, 1742, 1748, 1750, 1751, 1752, 1753, 
-                1760:1762, 1764:1769, 1771, 1775, 1777, 1779, 1780, 
-                1783:1786, 1788, 1790, 1792, 1794, 1795, 1798, 1799,
-                1804, 1809, 1814, 1818, 1832, 1833, 1842:1844)
+AVIS_YEARS <- 1729:1844
 
 start <- Sys.time()
 xml_direct_import(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 42 minutes
+# Last time took 48 minutes
 
 
 
@@ -107,12 +99,12 @@ start <- Sys.time()
 rawdata_apply_ocr(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 183 minutes
+# Last time took 205 minutes
 
 
 
 #-------------------------------
-# (3) Processing data: header
+# (3) Processing data: header and ID
 #-------------------------------
 
 # A first enrichment is to look at all records
@@ -120,11 +112,16 @@ message(sprintf("Took %s minutes",
 # (like "Zu verkaufen"). Using a dictionary, 
 # the type of any such header is determined here
 # ("Zu verkaufen", "Verkauf" etc. -> type "for sale").
+# Each record inherits the section header above it.
+# Also, Freizo's record IDs are mapped 
+# to the records imported from Transkribus,
+# replacing temp IDs as far as possible.
 
 start <- Sys.time()
-rawdata_header_creation(AVIS_YEARS)
+rawdata_header_and_id(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
+# Last time took 0.79 minutes
 
 
 
@@ -139,23 +136,22 @@ message(sprintf("Took %s minutes",
 # In creating these basic collections,
 # further metadata is added: 
 # - language of ads is determined
-# - each record inherits the section header above it
 # - ads are tagged (using tagfilters)
 
 # Creation of basic collections will fail
-# if there are invaild regex in the dictionaries 
+# if there are invalid regex in the dictionaries 
 # of the tagfilters, so check those first:
 
 tf_integrity()
 
 
 # If all is correct, proceed to create yearly collections:
-
 start <- Sys.time()
 rawdata_coll_creation(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-
+t4 <- round(difftime(Sys.time(),start, units = "min"),2)
+# Last time took 217 minutes
 
 
 #-------------------------------
@@ -183,6 +179,7 @@ start <- Sys.time()
 rawdata_reprint_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                round(difftime(Sys.time(),start, units = "min"),2)))
+t5 <- round(difftime(Sys.time(),start, units = "min"),2)
 # Last time took 172 minutes.
  
 
@@ -207,7 +204,8 @@ start <- Sys.time()
 rawdata_fraternaltwin_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 39 minutes.
+t6 <- round(difftime(Sys.time(),start, units = "min"),2)
+# Last time took 48 minutes.
 
 # The resulting collections are the final yearly collections 
 # and put on the avis-data repo.
