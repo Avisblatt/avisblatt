@@ -1,4 +1,3 @@
-library(XML)
 setwd("~/GitHub/avisblatt")
 devtools::load_all()
 
@@ -78,7 +77,6 @@ fetch_from_freizo(AVIS_YEARS, dest_path = dest_path)
 # xml/years/1729/1729/pages
 
 AVIS_YEARS <- 1729:1844
-
 start <- Sys.time()
 xml_direct_import(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
@@ -174,13 +172,13 @@ t4 <- round(difftime(Sys.time(),start, units = "min"),2)
 # not in the next issue, but issue after that, 
 # because the paper appeared with such high frequency.)
 #
-
+AVIS_YEARS <- 1729:1844
 start <- Sys.time()
 rawdata_reprint_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                round(difftime(Sys.time(),start, units = "min"),2)))
 t5 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 172 minutes.
+# Last time took 202 minutes.
  
 
 
@@ -205,7 +203,7 @@ rawdata_fraternaltwin_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 t6 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 48 minutes.
+# Last time took 44 minutes.
 
 # The resulting collections are the final yearly collections 
 # and put on the avis-data repo.

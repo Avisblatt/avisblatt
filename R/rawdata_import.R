@@ -122,27 +122,31 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
               } else {
                 st <- "None"
               }
+              txt <- xmlValue(tr[[xmlSize(tr)]])
               points <- xmlGetAttr(tr[[1]], name = "points")
               points <- strsplit(points, "\\s") %>% unlist
               points <- strsplit(points, ",") %>% unlist %>% as.integer
-              txt <- xmlValue(tr[[xmlSize(tr)]])
               # pick meta infos for dt entry compilation
               meta_p <- meta_i[meta_i$file_id == substr(p,1,nchar(p)-4)]
               pageno <- meta_p$book_page_order_df
               inscribed <- meta_p$Inscribed
               canvas <- meta_p$canvas
               # dt entry compilation
-              id <- paste("temp", i, sprintf("%03d", pageno), sprintf("%03d", ro), sep = "-")
-              coord <- paste(points[1], # x
-                             points[2], # y
-                             points[3]-points[1], # x dist
-                             points[8]-points[2], # y dist
+              n <- as.integer(length(points)/2) #how many points are there? can be more than four!
+              xp <- seq.int(1, 2*n-1, by = 2) #for picking x coordinates
+              yp <- seq.int(2, 2*n, by = 2) #for picking y coordinates
+              x <- min(points[xp])
+              y <- min(points[yp])
+              xdiff <- max(points[xp]) - x
+              ydiff <- max(points[yp]) - y
+              coord <- paste(x, y, xdiff, ydiff,
                              sep = ",")
               fragment <- paste0("https://iiif.avisblatt.freizo.org/image/",
                                  canvas,
                                  "_0000/",
                                  coord,
                                  "/full/0/default.jpg")
+              id <- paste("temp", i, sprintf("%03d", pageno), sprintf("%03d", ro), sep = "-")
               y_ads <- rbind(y_ads, cbind(id, pageno, ro, st, txt, inscribed, fragment), use.names=FALSE)
             }
           }
