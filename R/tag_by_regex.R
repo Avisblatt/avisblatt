@@ -9,6 +9,9 @@ source("R/collections.R")
 bTestCollection <- file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")
 if(bTestCollection){
   c_test_collection <- read_collection("../avis-data/test_collection")
+  sTestIds <- c("145562fd-0404-5ef9-9883-ec88f81c1701/t10",
+                "145562fd-0404-5ef9-9883-ec88f81c1701/t11",
+                "ffed5536-3941-59fe-b343-f2d30f8e822a/t25")
   # tags for testing
   df_test <- data.frame(tag = c("St. Peter","Münster","Kanzel", "Allerhand"),reg = c("Pe(t|i|l)er(s|)(-|)","M(ü|u)nster", "(K|C)an(|t)zel", "Aller(h|b)and"))
 }
@@ -43,22 +46,21 @@ if(bTestCollection & !setequal(identify_tags_in_single_ad(as.character(c_test_co
 # input: collection, data frame
 # output: list of tags, named by corresponding ad id
 identify_tags <- function(ids, collection, df_tags){
-  if(ids == "all"){
+  if(length(ids) == 1 & ids[1] == "all"){
     adtext <- as.character(collection$corpus)
     taglist <- lapply(adtext,identify_tags_in_single_ad,df_tags = df_tags)
     return(taglist)
-  }
-  else{
-    collection <- collection$clone(deep=T)
-    collection$subset_collect(ids)
-    adtext <- as.character(collection$corpus)
+  } else {
+    temp_collection <- collection$clone(deep=T)
+    temp_collection$subset_collect(ids)
+    adtext <- as.character(temp_collection$corpus)
     taglist <- lapply(adtext,identify_tags_in_single_ad,df_tags = df_tags)
     return(taglist)
   }
 }
 
 # Unit test for identify_tags
-if(bTestCollection & !setequal(identify_tags(c_test_collection,df_test)[[2]],character(0))){
+if(bTestCollection & !setequal(identify_tags(sTestIds,c_test_collection,df_test)[[2]],character(0))){
   stop("identify_tags test failed")
 }
 
@@ -85,7 +87,7 @@ append_tags <- function(collection, taglist){
 }
 # Unit test for append_tags
 if(bTestCollection){
-  append_tags(c_test_collection,identify_tags(c_test_collection, df_test))
+  append_tags(c_test_collection,identify_tags(sTestIds,c_test_collection, df_test))
   if(is.element(FALSE,(c_test_collection$meta$tags[[1]] == c("transactiontype_offer1","St. Peter")))){
     message("Unexpected result in append_tags!")
   }
@@ -110,12 +112,12 @@ tag_by_regex <- function(ids, collection, df_tags){
 
 # Unit test for tag_by_regex
 if(bTestCollection){
-  tag_by_regex(c_test_collection,df_test)
+  tag_by_regex(sTestIds,c_test_collection,df_test)
   lResult <- list(
     c("transactiontype_offer1","St. Peter"),
     c("transactiontype_offer1"),
     c("extinguisher","transactiontype_offer1","ut_things_devicesNcomponents"),
-    c("chair","churchseat","transactiontype_offer1","ut_household","Münster","Kanzel"),
+    c("chair","churchseat","transactiontype_offer1","ut_household"),
     c("Allerhand")
   )
   for(listElement in 1:length(c_test_collection$meta$tags)){
