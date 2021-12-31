@@ -96,8 +96,7 @@ if(bTestCollection){
 # append tags in a collection by matching regex in data frame with ad text
 # input: collection
 #        data frame, consisting of two named columns:  1: tag, 2: reg
-# output: collection
-
+# output: void (environment is changed, no return needed)
 tag_by_regex <- function(ids, collection, df_tags){
   stopifnot(inherits(collection, "Collection"))
   stopifnot(inherits(collection, "R6"))
@@ -107,7 +106,7 @@ tag_by_regex <- function(ids, collection, df_tags){
   if(!setequal(names(df_tags),c("tag","reg"))){
     stop("df_tags must have two columns. one named tag, one named reg.")
   }
-  return(append_tags(collection,identify_tags(ids, collection,df_tags)))
+  append_tags(collection,identify_tags(ids, collection,df_tags))
 }
 
 # Unit test for tag_by_regex
@@ -123,6 +122,34 @@ if(bTestCollection){
   for(listElement in 1:length(c_test_collection$meta$tags)){
     if(!setequal(c_test_collection$meta$tags[[listElement]],lResult[[listElement]])){
       stop("tag_by_regex test failed")
+    }
+  }
+}
+
+# append a chosen tag (not depending on a regex) to a subset of the collection
+# given by a vector of ids
+# input: ids
+#        collection
+#        tag to be added as a string
+# output: void (environment is changed, no return needed)
+tag_selection <- function(ids, collection, tag){
+  df_tags <- data.frame(tag = tag, reg = "")
+  tag_by_regex(ids, collection, df_tags)
+}
+
+# Unit test for tag_selection
+if(bTestCollection){
+  tag_selection(c(sTestIds[1],sTestIds[3]),c_test_collection,"selected_id")
+  lResult <- list(
+    c("transactiontype_offer1","St. Peter","selected_id"),
+    c("transactiontype_offer1"),
+    c("extinguisher","transactiontype_offer1","ut_things_devicesNcomponents"),
+    c("chair","churchseat","transactiontype_offer1","ut_household"),
+    c("Allerhand","selected_id")
+  )
+  for(listElement in 1:length(c_test_collection$meta$tags)){
+    if(!setequal(c_test_collection$meta$tags[[listElement]],lResult[[listElement]])){
+      stop("tag_selection test failed")
     }
   }
 }
