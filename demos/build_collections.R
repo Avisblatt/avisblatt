@@ -178,7 +178,7 @@ rawdata_reprint_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                round(difftime(Sys.time(),start, units = "min"),2)))
 t5 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 202 minutes.
+# Last time took 200 minutes.
  
 
 
@@ -203,9 +203,7 @@ rawdata_fraternaltwin_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 t6 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 44 minutes.
+# Last time took 39.7 minutes.
 
 # The resulting collections are the final yearly collections 
 # and put on the avis-data repo.
-
-
