@@ -97,7 +97,7 @@ start <- Sys.time()
 rawdata_apply_ocr(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 205 minutes
+# Last time took 218 minutes
 
 
 
@@ -119,7 +119,7 @@ start <- Sys.time()
 rawdata_header_and_id(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 0.79 minutes
+# Last time took 0.81 minutes
 
 
 
