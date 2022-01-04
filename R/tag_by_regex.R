@@ -35,8 +35,10 @@ identify_tags_in_single_ad <- function(adtext,df_tags){
 }
 
 # Unit test for identiy_tags_in_single_ad
-if(bTestCollection & !setequal(identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test),c("Münster","Kanzel"))){
-  message("identify_tags_in_single_ad test failed")
+if(bTestCollection){
+  if(!setequal(identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test),c("Münster","Kanzel"))){
+    message("identify_tags_in_single_ad test failed")
+  }
 }
 
 # identify tags in numerous strings as a second step:
@@ -60,8 +62,10 @@ identify_tags <- function(ids, collection, df_tags){
 }
 
 # Unit test for identify_tags
-if(bTestCollection & !setequal(identify_tags(sTestIds,c_test_collection,df_test)[[2]],character(0))){
-  stop("identify_tags test failed")
+if(bTestCollection){
+  if(!setequal(identify_tags(sTestIds,c_test_collection,df_test)[[2]],character(0))){
+    stop("identify_tags test failed")
+  }
 }
 
 # append tags as defined in taglist to the elements of a corpus in a collection
