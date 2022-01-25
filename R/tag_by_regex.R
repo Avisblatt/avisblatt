@@ -82,13 +82,16 @@ append_tags <- function(collection, taglist){
     # replace old tags by concatenation of
     # old tags and new tags
     vNewTags <- taglist[[iTag]]
+    if(length(vNewTags)>0){
     if(is.na(vOldTags[1])){
       collection$meta[collection$meta$id == sId,]$tags <- vNewTags
     } else {
       collection$meta[collection$meta$id == sId,]$tags <- unique(c(vOldTags,vNewTags))
     }
+    }
   }
 }
+
 # Unit test for append_tags
 if(bTestCollection){
   append_tags(c_test_collection,identify_tags(sTestIds,c_test_collection, df_test))
