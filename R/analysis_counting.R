@@ -21,7 +21,7 @@ count_records_by_date <- function(ids = NULL, coll = c_all, level = NULL){
     dt[, .(N = .N), by = list(year = as.numeric(format(date, "%Y")),
                               week = as.numeric(format(date, "%V")))][order(year, week)]
   } else{
-    message("Only supports 'year', 'quarter', 'month' and 'week' based aggregation.")
+    message("Only supports 'year', 'quarter', 'month' and 'week' based aggregation. If level is left NULL, records per issue are counted.")
   }
 }
 
@@ -46,14 +46,16 @@ count_records_by_length <- function(ids = NULL, coll = c_all, boundaries = c(0, 
 
 
 #' @export
-average_length_by_date <- function(ids = NULL, coll = c_all, level = "year", unit = "tokens"){
+average_length_by_date <- function(ids = NULL, coll = c_all, level = NULL, unit = "tokens"){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
   dt <- coll$meta
   if(!is.null(ids)){dt <- dt[id %in% ids,]}
   if(unit == "tokens"){
-    if(level == "year"){
+    if(is.null(level)){
+      dt[, list(average_length = round(mean(ntokens), 1)), by = date][order(date)]
+    } else if(level == "year"){
       dt[, list(average_length = round(mean(ntokens), 1)), by = list(year = as.numeric(format(date, "%Y")))][order(year)]
     } else if(level == "quarter"){
       dt[, list(average_length = round(mean(ntokens), 1)), by = list(year = as.numeric(format(date, "%Y")),
@@ -65,10 +67,12 @@ average_length_by_date <- function(ids = NULL, coll = c_all, level = "year", uni
       dt[, list(average_length = round(mean(ntokens), 1)), by = list(year = as.numeric(format(date, "%Y")),
                                                                      week = as.numeric(format(date, "%V")))][order(year, week)]
     } else{
-      message("Only supports 'year', 'quarter', 'month' and 'week' based aggregation.")
+      message("Only supports 'year', 'quarter', 'month' and 'week' based calculation. If level is left NULL, average per issue is calculated.")
     }
   } else if(unit == "char"){
-    if(level == "year"){
+    if(is.null(level)){
+      dt[, list(average_length = round(mean(nchar), 1)), by = date][order(date)]
+    } else if(level == "year"){
       dt[, list(average_length = round(mean(nchar), 1)), by = list(year = as.numeric(format(date, "%Y")))][order(year)]
     } else if(level == "quarter"){
       dt[, list(average_length = round(mean(nchar), 1)), by = list(year = as.numeric(format(date, "%Y")),
@@ -80,7 +84,7 @@ average_length_by_date <- function(ids = NULL, coll = c_all, level = "year", uni
       dt[, list(average_length = round(mean(nchar), 1)), by = list(year = as.numeric(format(date, "%Y")),
                                                                    week = as.numeric(format(date, "%V")))][order(year, week)]
     } else{
-      message("Only supports 'year', 'quarter', 'month' and 'week' based aggregation.")
+      message("Only supports 'year', 'quarter', 'month' and 'week' based calculation. If level is left NULL, average per issue is calculated.")
     }
   } else{
     message("Unit must be 'tokens' (default) or 'char' for characters")
