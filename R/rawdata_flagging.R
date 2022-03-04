@@ -110,8 +110,8 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
       # collect results
       results_current  <- rbind(results_current,  r_current)
       results_previous <- rbind(results_previous, r_previous)
+      itime <- round(difftime(Sys.time(),ti, units = "min"),2)
       if(current_year != as.numeric(substr(issuedates[j], 1, 4))){
-        itime <- round(difftime(Sys.time(),ti, units = "min"),2)
         message(paste0("Reprints detected for all ads from ", current_year, ", took ", itime, " minutes."))
         ti <- Sys.time()
         current_year <- as.numeric(substr(issuedates[j], 1, 4))

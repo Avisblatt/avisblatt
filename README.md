@@ -211,3 +211,10 @@ remotes::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
 | 2021-12-04 23:32:07 | 1729 | SUCCESS | Step 2 of 2 (processing) ok. |
 | 2021-12-04 23:38:13 | 1729 | SUCCESS | Step 2 of 2 (processing) ok. |
 | 2021-12-04 23:43:08 | 1729 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2022-03-03 11:52:44 | 1754 | FAILURE | Step 2 of 2 (processing) failed. |
+| 2022-03-03 11:54:22 | 1754 | FAILURE | Step 2 of 2 (processing) failed. |
+| 2022-03-03 12:04:14 | 1754 | FAILURE | Step 2 of 2 (processing) failed. |
+| 2022-03-03 15:06:49 | 1754 | FAILURE | Step 2 of 2 (processing) failed. |
+| 2022-03-03 15:32:50 | 1754 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2022-03-03 15:42:29 | 1754 | SUCCESS | Step 2 of 2 (processing) ok. |
+| 2022-03-03 18:44:27 | 1754 | SUCCESS | Step 2 of 2 (processing) ok. |

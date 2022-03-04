@@ -119,9 +119,16 @@ RawData <- R6Class("RawData", list(
       if(self$year %in% gt_years){
         message("GT year detected, starting special treatment...")
         if (self$year == 1754){
-          updated_tags <- fread("freizo-corrections/tags_1754.csv")
+          updated_tags <- fread("../avis-data/freizo-corrections/tags_1754.csv")
+          message(nrow(updated_tags))
           # only use those updates that are still present to avoid problems with recycling
           updated_tags <- updated_tags[(id %in% self$data$id),]
+          # records in updated_tags are sorted differently than in self$data, 
+          # so have to sort updated_tags in that same order first. Use merge:
+          ids <- as.data.table(self$data[(id %in% updated_tags$id)]$id)
+          colnames(ids) <- "id"
+          updated_tags <- merge(ids, updated_tags, sort = F)
+          
           self$data[(id %in% updated_tags$id), adcontent := updated_tags$adcontent]
           self$data[(id %in% updated_tags$id), adtype := updated_tags$adtype]
           self$data[(id %in% updated_tags$id), finance := updated_tags$finance]
