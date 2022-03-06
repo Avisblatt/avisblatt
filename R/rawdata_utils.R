@@ -19,7 +19,7 @@ load_metadata <- function(AVIS_YEARS = 1729:1844, path){
 
 
 write_metadata <- function(meta_dt, path){
-  AVIS_YEARS <- unique(year(meta_dt$date))
+  AVIS_YEARS <- sort(unique(year(meta_dt$date)))
   for (i in AVIS_YEARS){
     start_date <- as.Date(sprintf("%d-01-01", i))
     end_date <- as.Date(sprintf("%d-01-01", i+1))

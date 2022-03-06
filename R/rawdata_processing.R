@@ -13,14 +13,16 @@ rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
 }
 
 #' @export
-rawdata_header_creation <- function(AVIS_YEARS = 1729:1844,
-                              source_path = "../avis-databuffer/raw_data_OCRed",
-                              dest_path = "../avis-data/raw_data"){
+rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
+                                           source_path = "../avis-databuffer/raw_data_OCRed",
+                                           dest_path = "../avis-data/raw_data"){
+  id_mapping <- fread(file.path("../avis-databuffer/xml/id_mapping.tsv"))
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     data <- fread(file.path(source_path, fn), encoding="UTF-8")
     
+    # Header creation
     dt <- data[isheader == TRUE]
     dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
     crp <- corpus(dt, docid_field = "id")
@@ -31,16 +33,13 @@ rawdata_header_creation <- function(AVIS_YEARS = 1729:1844,
                                                data[shift(id) %in% hit_ids]$text,
                                                sep = " ")
     data <- data[!(id %in% hit_ids)]
-    
     data[isheader == TRUE, "header_tag"] <- "unknown"
     for (tag in tf_header()){
       f <- get(sprintf("tagfilter_%s",tag))
       hit_ids <- f()$filtrate(crp, return_corp = FALSE)
       data[(isheader == TRUE & id %in% hit_ids), header_tag := tag]
     }
-    
     by_header <- split(data, factor(cumsum(data$isheader)))
-    
     by_header <- lapply(by_header, function(x){
       pos <- max(which(!is.na(x$header)))
       x$header_tag <- x$header_tag[pos]
@@ -48,8 +47,15 @@ rawdata_header_creation <- function(AVIS_YEARS = 1729:1844,
     })
     data <- rbindlist(by_header)
     
+    # ID mapping
+    id_i <- id_mapping[year == i]
+    id_i$year <- NULL
+    data <- merge(data, id_i, by.x = "id", by.y = "id_Transkribus", all.x = TRUE, all.y = FALSE)
+    data$id[!is.na(data$id_Freizo)] <- data$id_Freizo[!is.na(data$id_Freizo)]
+    data$id_Freizo <- NULL
+    
     fwrite(data, file.path(dest_path, fn))
-    message(sprintf("Header for %d identified.", i))
+    message(sprintf("Header_tags created and IDs mapped for %d.", i))
   }
 }
 
@@ -74,7 +80,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
   l <- l[!(names(l) %in% tf_header(prefix = T))]
   
   # Prepare language detection. For higher recognition rate, 
-  # limitrecognition to the two languages occurring in the Avisblatt
+  # limit recognition to the two languages occurring in the Avisblatt
   avis_profiles <- textcat::TC_byte_profiles[names(textcat::TC_byte_profiles) %in% c("german", "french")]
   
   for (i in AVIS_YEARS){

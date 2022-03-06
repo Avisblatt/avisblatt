@@ -321,6 +321,7 @@ tagfilter_bookstore <- function(){
     bookstore = "Buch(handlung|händler|drucker)",
     books = "Bücher|Buch",
     printed = "ge(d|t)ru(ck|k)t",
+    Flick = "SamuelFlick",
     bookad = "Literar"
   )
   dict$neg <- list(

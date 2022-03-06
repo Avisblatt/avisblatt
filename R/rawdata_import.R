@@ -81,7 +81,13 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
     issues <- issues[order(issue),]
     if (identical(row.names(issues), as.character(issues$issue))){
       #prepare data table of all text regions on all pages
-      y_ads <- data.table(id=character(), pageno=integer(), readingorder=integer(), structuretype=character(), text=character())
+      y_ads <- data.table(id=character(), 
+                          pageno=integer(), 
+                          readingorder=integer(), 
+                          structuretype=character(), 
+                          text=character(), 
+                          inscribed=character(),
+                          fragment=character())
       pages <- list()
       # get xml with the orderd list of files that make up this year's volume
       pagelistxml <- xmlParse(file.path(source_path, "years", i, i, "mets.xml"))
@@ -117,10 +123,31 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
                 st <- "None"
               }
               txt <- xmlValue(tr[[xmlSize(tr)]])
+              points <- xmlGetAttr(tr[[1]], name = "points")
+              points <- strsplit(points, "\\s") %>% unlist
+              points <- strsplit(points, ",") %>% unlist %>% as.integer
+              # pick meta infos for dt entry compilation
               meta_p <- meta_i[meta_i$file_id == substr(p,1,nchar(p)-4)]
               pageno <- meta_p$book_page_order_df
+              inscribed <- meta_p$Inscribed
+              canvas <- meta_p$canvas
+              # dt entry compilation
+              n <- as.integer(length(points)/2) #how many points are there? can be more than four!
+              xp <- seq.int(1, 2*n-1, by = 2) #for picking x coordinates
+              yp <- seq.int(2, 2*n, by = 2) #for picking y coordinates
+              x <- min(points[xp])
+              y <- min(points[yp])
+              xdiff <- max(points[xp]) - x
+              ydiff <- max(points[yp]) - y
+              coord <- paste(x, y, xdiff, ydiff,
+                             sep = ",")
+              fragment <- paste0("https://iiif.avisblatt.freizo.org/image/",
+                                 canvas,
+                                 "_0000/",
+                                 coord,
+                                 "/full/0/default.jpg")
               id <- paste("temp", i, sprintf("%03d", pageno), sprintf("%03d", ro), sep = "-")
-              y_ads <- rbind(y_ads, cbind(id, pageno, ro, st, txt), use.names=FALSE)
+              y_ads <- rbind(y_ads, cbind(id, pageno, ro, st, txt, inscribed, fragment), use.names=FALSE)
             }
           }
         }
@@ -148,6 +175,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       for (j in nrow(y_ads):2){
         if(y_ads$structuretype[j] == "Continuation"){
           y_ads$text[j-1] <- paste0(y_ads$text[j-1], "\n", y_ads$text[j])
+          y_ads$fragment[j-1] <- paste(y_ads$fragment[j-1], y_ads$fragment[j], sep = " ")
         }
       }
       y_ads <- y_ads[structuretype != "Continuation"]
@@ -157,10 +185,20 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       y_ads <- cbind(y_ads, grepl("No_advert", y_ads$structuretype))
       y_ads[,structuretype:=NULL]
       y_ads <- cbind("N", 1, issues$book[1], y_ads)
-      names(y_ads) <- c("rev", "issue", "book", "id", "pageno", "readingorder", "text", "isheader", "noadvert")
+      names(y_ads) <- c("rev", "issue", "book", "id", "pageno", "readingorder", "text", "inscribed", "fragment", "isheader", "noadvert")
       
       # clean reading order
       y_ads$readingorder <- ave(y_ads$id, y_ads$pageno, FUN = seq_along)
+      
+      # distribute fragments over columns,
+      # remove fragment list column
+      frags <- strsplit(y_ads$fragment, "\\s") %>%
+        lapply('length<-', 10) %>%
+        transpose %>%
+        data.frame
+      colnames(frags) <- c("fragment1", "fragment2", "fragment3", "fragment4", "fragment5", "fragment6", "fragment7", "fragment8", "fragment9", "fragment10")
+      y_ads$fragment <- NULL
+      y_ads <- cbind(y_ads, frags)
       
       # Compile orig file
       if(i %in% gt_years){
@@ -170,12 +208,25 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       }
       class(y_ads$pageno) <- "integer"
       class(y_ads$readingorder) <- "integer"
-      class(orig$id) <- "character"
-      class(orig$rev) <- "character"
       class(orig$pageno) <- "integer"
       class(orig$readingorder) <- "integer"
+      
+      class(orig$id) <- "character"
+      class(orig$rev) <- "character"
       class(orig$text) <- "character"
-      orig <- bind_rows(orig, y_ads)
+      class(orig$inscribed) <- "character"
+      class(orig$fragment1) <- "character"
+      class(orig$fragment2) <- "character"
+      class(orig$fragment3) <- "character"
+      class(orig$fragment4) <- "character"
+      class(orig$fragment5) <- "character"
+      class(orig$fragment6) <- "character"
+      class(orig$fragment7) <- "character"
+      class(orig$fragment8) <- "character"
+      class(orig$fragment9) <- "character"
+      class(orig$fragment10) <- "character"
+
+            orig <- bind_rows(orig, y_ads)
       
       # update issue, date
       for (j in 1:nrow(issues)){
@@ -187,7 +238,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       
       #Clean up the text
       orig[,text := gsub("([A-Z][a-z])\\\n([a-z]\\w)", "\\1\\2", text)] # catch some missing hyphens
-      orig[,text := gsub("-\\\n", "", text)]
+      orig[,text := gsub("(-\\\n)([a-z])", "\\2", text)]
       orig[,text := gsub("\\\n", " ", text)]
       orig[,text := purge_spacing(text)]
       orig[,text := gsub(" {2,}", " ", text)]
