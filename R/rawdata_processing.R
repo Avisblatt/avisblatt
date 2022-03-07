@@ -27,12 +27,14 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
     dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
     crp <- corpus(dt, docid_field = "id")
     length(unique(dt$id))
+    # merging "Avertissement" headers in the following ad
     f <- get("tagfilter_merge_to_ad")
     hit_ids <- f()$filtrate(crp, return_corp = FALSE)
     data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
                                                data[shift(id) %in% hit_ids]$text,
                                                sep = " ")
     data <- data[!(id %in% hit_ids)]
+    
     data[isheader == TRUE, "header_tag"] <- "unknown"
     for (tag in tf_header()){
       f <- get(sprintf("tagfilter_%s",tag))
@@ -46,6 +48,18 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
       x
     })
     data <- rbindlist(by_header)
+    
+    # merging "bookstore" headers into the following ad,
+    # as these headers are both the beginning of a new section
+    # and the beginning of the only (very long) ads
+    # in that section
+    hit_ids <- data[header_tag == "bookstore" & isheader]$id
+    data[header_tag == "bookstore"]$noadvert <- FALSE
+    
+    data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
+                                               data[shift(id) %in% hit_ids]$text,
+                                               sep = " ")
+    data <- data[!(id %in% hit_ids)]
     
     # ID mapping
     id_i <- id_mapping[year == i]
@@ -78,7 +92,11 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
   # remove header tagfilter,
   # those should only be stored in "tags_section", not in "tags"
   l <- l[!(names(l) %in% tf_header(prefix = T))]
-  
+  # split the remainder in two heaps,
+  # depending on if they are case-sensitive or not
+  l_ic <- l[names(l) %in% tf_ignorecase(prefix = T)]
+  l <- l[!(names(l) %in% tf_ignorecase(prefix = T))]
+
   # Prepare language detection. For higher recognition rate, 
   # limit recognition to the two languages occurring in the Avisblatt
   avis_profiles <- textcat::TC_byte_profiles[names(textcat::TC_byte_profiles) %in% c("german", "french")]
@@ -106,7 +124,8 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
       message("Language detected.")
 
       # Apply tagfilters
-      coll$apply_tagfilters(l)
+      coll$apply_tagfilters(l, ignore_case = F)
+      coll$apply_tagfilters(l_ic, ignore_case = T)
       ut <- umbrella_terms()
       for (j in 1:length(ut)){
         ids <- coll$meta[grepl(ut[j], coll$meta$tags), id]
