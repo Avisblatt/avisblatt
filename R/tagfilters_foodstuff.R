@@ -2,16 +2,17 @@
 #' @export
 tagfilter_spices <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    general = "Spezerey(waaren|artikel)|Spezerey-(waaren|artikel)",
-    cinammon = "Zi(m|mm|me|mme|nm)(t|et)",
-    safran = "Safran",
-    cloves = "Nägelein",
+    general = "Spe(z|c)ere(y|i|j)\\-?\\s?(waaren|artikel)",
+    cinammon = "Zi(m|mm|me|mme|nm)(t|et)(?!(farb|braun|wasser))",
+    safran = "(?<!(zum|be(i|y|j))\\s)(?<!bem(i|y|j)\\s)(?<!zu\\s)Safran",
+    cloves = "Nägelein(?!(farb|braun))",
     nutmeg = "Muscatn(u|ü)ss",
-    mustard = "Senf|Mou(st|t)ard"
+    salt = "\\bSalz(es|e|)\\b",
+    mustard = "Senf(?!(farb|braun))|Mou(st|t)ard"
   )
   dict$neg <- list(
-    colour = "(sen|zimmet|nägelein)(farb|braun)", # contains spice as colour (e.g. eisenfarbe)
     name = "Isenflam", # name contains "senf"
     river = "Wiesenf", # name of river, contains "senf,
     sedan = "Senfte", # contains "senf"
@@ -26,6 +27,7 @@ tagfilter_spices <- function(){
 #' @export
 tagfilter_meat <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     general = "Fleisch",
     sucklingpig = "Spa(n|nn)fer(k|ck)",
@@ -60,23 +62,19 @@ tagfilter_meat <- function(){
 #' Dictionary Poultry
 #' @export
 tagfilter_poultry <- function(){
-  dict <- list()
+  dict <- list()  
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     duck = "\\bEnten",
     capon = "(C|K)apaun",
     goose = "Gänse",
-    chicken = "Hahnen|Hühner|(P|B)oularde|Schepfen",
+    chicken = "Hahnen|Hühner(?!\\-?\\s?(h(u|ü)nd|e(i|y)|h(a|ä)us|stall|gitter|hof|kampf|aug|feder))|(P|B)oularde|Schepfen",
     pheasant = "Fasan",
     other = "Welschehahn"
   )
   dict$neg <- list(
     name = "Hühners|Hühnerwadel", # family name
-    dog = "Hühnerh(u|ü)nd|Hühner-h(u|ü)nd", # dog
-    eggs = "Hühner-E(y|i)|Hühnere(i|y)", # eggs
-    supplies = "Hühner(h(a|ä)us|stall|gitter|hof|kampf)|Hühner-(h(a|ä)us|stall|gitter|hof|kampf)", # supplies for keeping poultry
     objects = "Probhahn|Schlangenhahn|Weinhahn|Schlüssel-Hahn|Faßhahn|messing", # objects containing "hahn" and messingener "hahnen"
-    health = "Hühneraug", # corns
-    down = "Hühner-Feder", # down
     french = "entendre|entedu", # french words containing "ente"
     weapon = "Entenflinte" # weapons for shooting poultry
   )
@@ -87,18 +85,19 @@ tagfilter_poultry <- function(){
 #' @export
 tagfilter_alcohol <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    wine = "Wein\\b|Vin\\b|\\bWeine\\b|\\bWeins\\b",
-    origin = "(Mar(g|gg)r(ä|a)(f|fl)er|Bordeau(x|r)|E(l|i)s(ä|a)(ss|ß)er|Burgunder|Gebirgs|Champagner|Zehnt|Rhein)(\\-|)weine",
-    type = "Muscateller|Madeira|Muscat|Strohwein|Tockayer",
+    wine = "\\b\\-?Wein(e|s)?\\b|Vin\\b",
+    origin = "(Mar(g|gg)r(ä|a)(f|fl)er|Bordeau(x|r)|E(l|i)s(ä|a)(ss|ß)er|Burgunder|Gebirgs|Champagner|Zehnt|Rhein)\\-?\\s?(W|V)",
+    type = "Muscat(eller|)(?!n(u|ü)ss)|Madeira|Strohwein|Tockayer",
     spicedwine = "H(y|i)po(k|c)ras",
-    liquer = "Liquer|Malaga|Anisette",
+    liquer = "Liq(ue|eu)r|Malaga|Anisette",
     spirits = "(Zwetschg(e|en)|(N|R)uß|Bitter)wasser",
     rum = "Rhum",
-    brandy = "Brann(t|ten|dt|dten)wein|Cognac",
+    brandy = "Brann(t|ten|dt|dten)wein|C(o|a)gnac",
     kirsch = "Kir(ß|sch)wasser",
     other = "Pfeffers Wasser",
-    beer = "Bier\\b",
+    beer = "Bier(?!\\-)\\b",
     champagne = "Champagner",
     absinth = "Abs(i|y)nth",
     punch = "Punsch"
@@ -108,11 +107,11 @@ tagfilter_alcohol <- function(){
     other = "S(e|ö)nebier|Colombier", # names etc contaiing "Bier"
     ocr = "dabier|allbier", # ocr mistakes containing "bier
     job = "Barbier", # job containing "Bier"
-    objects = "Bier-Kr(u|ü)g|leere|Trotte", # empty objects for drinking and storing alcohol, might also exclude some relevant ads
+    objects = "leere|Trotte", # empty objects for drinking and storing alcohol, might also exclude some relevant ads
     colour = "cognackerten", # description of colours
     health = "rhumatis", # rheuma
     french = "expliquer", # french words containing "liquer"
-    food = "Muscatn(u|ü)ss|Mee(x|r)traube"
+    food = "Mee(x|r)traube" # other food
   )
   create_filter_output(dict)
 }
@@ -121,14 +120,12 @@ tagfilter_alcohol <- function(){
 #' @export
 tagfilter_milk <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    milk = "Milch"
+    milk = "Milch(?!\\-?\\s?pot|kr(u|ü)g|k(a|ä)nn|bro(d|t)|h(a|ä)f|karr|geschir|joggi|flasche|glas|kuh|brent|h(a|ä)us|secht|speis|mädchen|geben|farb|wei(s|ß))"
   )
   dict$neg <- list(
-    objects = "Milc(h|\\-)(pot|kr(u|ü)g|k(a|ä)nn|bro(d|t)|h(a|ä)f|karr|geschir|joggi|flasche|glas|kuh|brent|h(a|ä)us|secht|speis)",
-    person = "Milchmädchen",
-    other = "milchgeben", # no objects and no foodstuff
-    colour = "milch(farb|wei(s|ß))"
+    placeholder = "bibedibabediboo"
   )
   create_filter_output(dict)
 }
@@ -137,12 +134,17 @@ tagfilter_milk <- function(){
 #' @export
 tagfilter_coffee <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    coffee = "(C|K)a(ff|f)(ee|e|é)\\b"
+    coffee = "(C|K)a(ff|f)(ee|e|é)(?!\\-)\\b",
+    surrogate = "(C|K)a(ff|f)(ee|e|é)(\\-|\\s|)(Extra(c|k)t|Essenz|Su(rr|r)ogat|Pulver)",
+    origin = "(M|N)o(kk|k)a|Java|Le(b|v)antisch|Domini(q|g)ue"
   )
   dict$neg <- list(
-    colour = "caffenen", # coffee-coloured
-    objects = "(C|K)a(ff|f)(ee|e|é)\\-" # excluding objects for the consumption of coffee
+    colour = "caffenen" # coffee-coloured
+  )
+  dict$include <- list(
+    "temp-1836-303-007" # Kaffe-EEssenz
   )
   create_filter_output(dict)
 }
@@ -151,8 +153,9 @@ tagfilter_coffee <- function(){
 #' @export
 tagfilter_fish <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    general = "Fisch\\b",
+    general = "(?<!auf\\sdem\\s)Fisch(?!\\-?\\s?k(ä|a)st)",
     herring = "H(ä|ü)(r|rr)ing",
     cod = "Stoc(k|ki)fisch",
     kipper = "(Bü|Pi)cking",
@@ -166,8 +169,7 @@ tagfilter_fish <- function(){
     eels = "\\bAale"
   )
   dict$neg <- list(
-    objects = "Fisch\\-|Fisch\\skäst", # excludes objects related to fishs and fishing
-    place = "auf\\sdem\\sFisch" # excludes "Fischmarkt" if written as "Fisch markt"
+    placeholder = "bibedibabediboo"
   )
   create_filter_output(dict)
 }
@@ -176,23 +178,19 @@ tagfilter_fish <- function(){
 #' @export
 tagfilter_fruit <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     general = "Obst\\b",
-    apple = "\\b(Ae|Ä|A|Aey)(p|)(ff|f)el",
-    plums = "Mirabolanen|Re(nn|n)e(t|tt)en|Zwetschgen|Pfl(a|ä)um(e|le)",
-    grapes = "Trauben",
-    mulberries = "Maulbeeren",
+    apple = "\\b(Ae|Ä|A|Aey)(p|)(ff|f)el(?!\\-?\\s?schnitz|wein|most)",
+    plums = "(Mirabolanen|Re(nn|n)e(t|tt)en|Zwetschgen|Pfl(a|ä)um(e|le))(?!\\-?\\s?wasser|s(i|y)r(u|ou)p|saft)",
+    grapes = "(?<!Mee(x|r))Trauben",
+    mulberries = "Maulbeeren(?!\\-?\\s?wasser|s(i|y)r(u|ou)p|saft)",
     rosehip = "Buttenmost",
     cherries = "Weichsel(\\-|)Kirsche",
     quinces = "Quitten"
   )
   dict$neg <- list(
-    alcohol = "Zwetschgen(\\-|)wasser", # spirit from plums
-    place = "Strauben", # house name containing "trauben"
-    exotic = "Mee(x|r)traube", # exotic fruits (seperate filter)
-    dried = "(Ae|Ä|A|Aey)p(ff|f)el(schnitz|wein|most)", # dried fruit (seperate filter)
-    syroup = "Renneten-Syroup", # syroup (seperate filter)
-    objects = "(Obst|Maulbeeren)\\-|Maulbeerensaft" # exclude objects related to fruits and plants
+    place = "Strauben" # house name containing "trauben"
   )
   create_filter_output(dict)
 }
@@ -201,6 +199,7 @@ tagfilter_fruit <- function(){
 #' @export
 tagfilter_driedfruit <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     pears = "((Ae|Ä|A|Aey)p(ff|f)el|Bi(rr|r)en)schnitz",
     raisins = "Rosin(lein|en)|Sultanin|Weinbeere",
@@ -216,18 +215,17 @@ tagfilter_driedfruit <- function(){
 #' @export
 tagfilter_tropicalfruit <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     fig = "Feigen\\b",
-    orange = "Po(m|mm)er(a|ä)n(z|ze|zen)\\b|(O|D)rang(e|en)\\b",
-    lemon = "(Z|C)itronen",
+    orange = "(Po(m|mm)er(a|ä)n(z|ze|zen)|(O|D)rang(e|en))(?!\\-)\\b",
+    lemon = "(Z|C)itronen(?!\\-?\\s?gelb|Sa(f|ff)t)",
     seagrapes = "Me(er|x|xr|rx)traub",
     dates = "Da(t|tt)(le|el)n",
     melon = "Melone"
   )
   dict$neg <- list(
-    colour = "zitronengelb", # description of colour
-    juice = "Zitronensa(f|ff)t", # juice (seperate dictionary)
-    objects = "(Po(m|mm)er(a|ä)n(z|ze|zen)|(C|Z)itronen|Melonen)-" # objects and plants related to tropical fruits
+    placeholder = "bibedibabediboo" # objects and plants related to tropical fruits
   )
   create_filter_output(dict)
 }
@@ -236,15 +234,15 @@ tagfilter_tropicalfruit <- function(){
 #' @export
 tagfilter_nuts <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    chestnut = "Kastanien|Ma(rr|r)onen",
-    hazelnut = "Haselnu(ß|s)\\b",
+    chestnut = "(Kastanien|Ma(rr|r)onen)(?!\\-)\\b",
+    hazelnut = "Haselnu(ß|s)(?!\\-)\\b",
     almond = "Mand(le|el)n",
-    oak = "Eich(el|le|ei)n"
+    oak = "Eich(el|le|ei)n(?!\\-)\\b"
   )
   dict$neg <- list(
-    pastry = "Haselnu(ß|s|ss)-", # pastry with nuts
-    coffee = "(Kastanien|Eich(el|le|ei)n)-(K|C)affe" # chestnut coffee
+    placeholder = "bibedibabediboo" # chestnut coffee
   )
   create_filter_output(dict)
 }
@@ -253,8 +251,9 @@ tagfilter_nuts <- function(){
 #' @export
 tagfilter_honey <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    honey = "Honig"
+    honey = "Honig|Miel\\sde"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -266,13 +265,13 @@ tagfilter_honey <- function(){
 #' @export
 tagfilter_vegetable <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     esparagus = "Sparg(le|el)n",
     turnip = "R(ü|u)ben\\b",
-    potatoes = "Erd(Ae|Ä|A|Ae)(pff|pf|y)el|Grundbirne"
+    potatoes = "(Erd(Ae|Ä|A|Ae)(pff|pf|y)el|Grundbirne)(?!\\-)"
   )
   dict$neg <- list(
-    object = "Erd(Ae|Ä|A|Ae)(pff|pf|y)el-", # objects related to potatoes
     verb = "gruben", # contains "ruben"
     adjective = "trüben" # contains "rüben"
   )
@@ -284,12 +283,13 @@ tagfilter_vegetable <- function(){
 #' @export
 tagfilter_mineralwater <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    general = "Mineralwasser",
-    names = "Sel(tes|tz|z|ters)er|(S(u|au)l(tz|z)|Schwall)bacher|Bussanger|(Sau(r|lz)|Sel(tz|z|t)er|Spaa)wasser\\b"
+    general = "(Mineral|Sau(e|)r)(\\-)?(\\s)?wasser(?!(\\-)?(\\s)?Kr(u|ü)g|wasserkr(u|ü)g)",
+    names = "(Sel(tes|tz|z|ters)(s|)er|(S(u|au)l(tz|z)|Fas?chinger|Pyrmonter|Schwa(ll|l))bacher|Bussanger|(Sau(r|lz)|Sel(tz|z|t)er|Spaa)(\\s|\\-)?wasser\\b|Eau\\sde\\sVals)(?!(\\-)?(\\s)?(wasser=?(\\-)?(\\s)?kr(u|ü)g))"
   )
   dict$neg <- list(
-    objects = "-Kr(u|ü)g|wasserkr(u|ü)g" # jugs and bottles for mineral water
+    objects = "bibedibabediboo" 
   )
   create_filter_output(dict)
 }
@@ -299,13 +299,14 @@ tagfilter_mineralwater <- function(){
 #' @export
 tagfilter_preserves <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    sauerkraut = "Sau(er|r)kraut",
+    sauerkraut = "Sau(er|r)kraut(?!\\-?\\s?stand)",
     pickles = "Cornichons|Essiggurken|Capris",
-    olives = "Oliven\\b"
+    olives = "Oliven(?!\\-?)\\b"
   )
   dict$neg <- list(
-    objects = "Oliven\\-|Sau(er|r)krautstand" # objects for consuming olives or olive oil
+    placeholder = "bibedibabediboo"
   )
   create_filter_output(dict)
 }
@@ -315,12 +316,16 @@ tagfilter_preserves <- function(){
 #' @export
 tagfilter_chocolate <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    chocolate = "(Ch|Scho)o(c|k|ck)ola(t|d)",
-    cocoa = "(C|K)(u|a)(c|cc|k)ao"
+    chocolate = "(Ch|Sch)o(c|k|ck)ola(t|d)",
+    cocoa = "(C|K)(u|a)(c|cc|k)(a|n)o"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
+  )
+  dict$exclude <- list(
+    "1d4803a9-d996-5a31-9897-12096cf4e791/t3" # Schokoladenstein (Marmor)
   )
   create_filter_output(dict)
 }
@@ -330,20 +335,18 @@ tagfilter_chocolate <- function(){
 #' @export
 tagfilter_grain <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    flour = "Mehl\\b",
-    grain = "Korn\\b|Kernen",
-    oats = "\\bHabe(r|rn)\\b|Flocken",
+    flour = "(?<!Senf)Mehl\\b",
+    grain = "Korn\\b|(?<!ohne\\s)Kernen",
+    oats = "\\bHabe(r|rn)(?!\\-?)\\b|Flocken",
     barley ="Gerste",
     grits = "Gries\\b",
-    rye = "Roggen",
+    rye = "Roggen(?!\\-?)\\b",
     wheat = "W(ä|a)i(gz|z)en",
     rice = "Reismehl|Caroli(n|na)-Rei(s|ß)|CarolinerRei(s|ß)"
   )
   dict$neg <- list(
-    mustard = "Senfmehl", # mustard (in seperate dictionary)
-    fruit = "ohne\\Kernen", # description of fruit
-    objects = "(Habe(r|rn)|Roggen)-|Roggenschäub", # objects for storing grain
     ocr = "zu\\shaber", # ocr-mistake (haben)
     straw = "Stroh|Heugabel" # straw and utensils
   )
@@ -355,10 +358,11 @@ tagfilter_grain <- function(){
 #' @export
 tagfilter_cheese <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     general = "K(ä|äi)(s|se|ß)\\b",
-    emmenthaler = "Emm(en|e)thaler",
-    gruyere = "(C|G)ruy(é|è|e)re"
+    emmenthaler = "E(mm|m)(en|e)thaler",
+    gruyere = "(C|G)ruy(é|è|e)r"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -370,12 +374,13 @@ tagfilter_cheese <- function(){
 #' @export
 tagfilter_mushrooms <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     morel = "Morch(e|le)n",
-    truffel = "Trüffel"
+    truffel = "Trüffel(?!\\-?\\s?hund)"
   )
   dict$neg <- list(
-    dog = "Trüffelhund" # dog
+    placeholder = "bibedibabediboo"
   )
   create_filter_output(dict)
 }
@@ -384,14 +389,19 @@ tagfilter_mushrooms <- function(){
 #' @export
 tagfilter_pastry <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     general = "(Zucker|Back)(waaren|werk|sachen)",
     zwieback = "Zwieback",
     gingerbread = "Lebk(ü|u)ch",
-    cookies = "Leckerl(y|i)"
+    cookies = "Leckerl(y|i|e)|Offleten|Hüppen",
+    pie = "Pasteten(?!b(e|a|ä)(c|k))"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
+  )
+  dict$include <- list(
+    "986007a6-719c-5032-92ec-4c5950d19195/a7" # Zuckerbek [...] Waaren
   )
   create_filter_output(dict)
 }
@@ -400,8 +410,9 @@ tagfilter_pastry <- function(){
 #' @export
 tagfilter_syrup <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    syrup = "S(y|i)r(o|ou|u)p",
+    syrup = "(?<!Zucker)\\-?\\s?S(y|i)r(o|ou|u)p",
     juice = "Saft|(L|C)imonad"
   )
   dict$neg <- list(
@@ -410,32 +421,44 @@ tagfilter_syrup <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Sugar - also contains a lot of chocolate ads with sugar as ingredient
+#' Dictionary Sugar
 #' @export
 tagfilter_sugar <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    general = "Zucker\\b|Zuckermehl|M(e|é)lis",
+    general = "(?<!mit\\s)(?<!(ohne|avec|sans)\\s)Zucker\\b",
+    form = "Zuckermehl|M(e|é)lis(?!sen)|(Mehl|Farine?|Brosam(en|)|Stücklein|Kropf)zucker",
     treacle = "Zuckers(i|y)r(o|u)p|Zucker-S(i|y)r(o|u)p"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
   )
+  dict$exclude <- list(
+    "925ab12b-377b-5573-b3ac-1483fc2bfb23/t2" # Bleyzucker-Fabrik
+  )
   create_filter_output(dict)
 }
 
-#' Dictionary Tea
+#' Dictionary Tea ########### STAND HIER (macht Probleme)
 #' @export
 tagfilter_tea <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "Thee\\b|Tee\\b"
+    general = "\\bT(ee|he|hé)\\b(?!\\-)",
+    multiple = "\\bT(ee|he|hé)(\\-)?(\\s?(Gattung|Sorte|(C|K)rummeten))",
+    herbal = "(Kräuter|Glarner|Schwei(tz|z)er)(\\-)?(\\s)?t(h|)(ee|e|é)|T(h|)(ee|e|é)(\\-|\\s|\\-\\s)?Essen(z|\\;)",
+    origin = "Haysan|Soatschon|Thé\\simpérial|Bo(é|e|ey)\\b|Pec(c|k)o|Chion|T(h|)(ee|e|é)\\sCongo"
   )
   dict$neg <- list(
     french = "augmentee", # french containing "tee"
-    ocr = "Leihbibliothee", # ocr mistake
-    objects = "Thee-"
+    books = "Bibliothek", # contains "the
+    ocr = "Leihbibliothee|Feld-Apolthee" # ocr mistakes
   )
+  dict$include <- list(
+    "56eeaaac-af5e-54d7-9c00-185229da55d5/t1", # Thee-Es. sentz (ocr-mistake, herbal)
+    "57a30888-b244-5500-83eb-b7e1d46c39c9/t6" # Thee- (ocr-mistake)
+    )
   create_filter_output(dict)
 }
 
@@ -444,13 +467,12 @@ tagfilter_tea <- function(){
 tagfilter_oil <- function(){
   dict <- list()
   dict$pos <- list(
-    oil = "(Öh|Ö|Oe|Oeh)(l|le)\\b",
-    vinegar = "Essig\\b|Vinagire"
+    oil = "(Öh|Ö|Oe|Oeh)(l|le)(?!\\-)\\b",
+    vinegar = "E(ss|ß)ig(?!\\-)\\b|Vinai?gi?re"
   )
   dict$neg <- list(
-    objects = "Essig\\-|Essigständl", # objects for storing oil and vinegar
     cabbage = "Köhl", # cabbage (Kohl)
-    non_food = "Seife|(Brenn|Rosen|Holz|Haar|Lampen)(-|)(oe|oeh|öh|ö)l|Vitriol|(Öh|Ö|Oe|Oeh)(l|le)-" # products containing oil not for consumption
+    non_food = "Seife|(Brenn|Rosen|Holz|Haar|Lampen)\\-?(oe|oeh|öh|ö)l|Vitriol" # products containing oil not for consumption
   )
   create_filter_output(dict)
 }
@@ -461,7 +483,7 @@ tagfilter_pasta <- function(){
   dict <- list()
   dict$pos <- list(
     noodles = "Nud(le|le)n",
-    general = "Teigwaaren",
+    general = "Teigw(aa|a)ren",
     macaroni = "Ma(c|cc)aroni",
     vermicelli = "Vermicelli",
     lasagna = "Lasagnette"
@@ -496,18 +518,22 @@ tagfilter_legumes <- function(){
 tagfilter_tobaccoproducts <- function(){
   dict <- list()
   dict$pos <- list(
-    tobacco = "Taba(k|ck|c)(e|)\\b|(Rauch|Schnupf)taba(k|ck|c)\\b",
-    cigar = "(C|Z)iga(rr|r)en|Cabanas",
-    form = "Canaster",
-    origin = "Maryland|Havanna|Portorico"
+    tobacco = "(T(a|o)ba(k|ck|ks|cks|c|cs)e?\\b(?!\\-))(?!(\\-?\\s?)(beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
+    smokesniff = "Rauch|Schnupf)\\-?t(a|o)ba(k|ck|ks|cks|c|cs)e?\\b(?!\\-))(?!(\\-?\\s?)(beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
+    selection = "(T(a|o)ba(k|ck|ks|cks|c|cs)(e|)|(C|Z)iga(rr|r)e(n|s))(\\-|\\s|)(Lager|Verlag|Sorten|Anzeige|Blattern)",
+    cigar = "(C|Z)iga(rr|r)e(n|s)|Cabanas",
+    form = "(C|K)a?naster",
+    origin = "Maryland|Havanna|(Porto(\\-|\\s|)ri(c|cc)o)|Domingo|Marocco|Marino|Macouba"
   )
   dict$neg <- list(
-    immo = "Taba(k|ck|c)(e|)\\sK(a|ä)mmer", # immo for tobacco rooms
-    objects = "\\bTaba(k|ck|c)(e|)-", # other objects for consuming tobacco or people and places
-    storage = "-(B(ü|u)chs|Bux|Etuis|Dose|Beutel)|
-    ((C|Z)iga(rr|r)en)|(Taba(k|ck|ks|cks|c|cs))(beutel|b(ü|u)chs|bux|etuis|dose)|
-    Taba(k|ck|ks|cks|c|cs)kasten|Taba(r|k|ck|ks|cks|c|cs)ier|Taba(r|k|ck|ks|cks|c|cs|t)ti(e|è)r", # tobacco storage (seperate category)
-    pipe = "Pfeife|Taba(k|ck|ks|cks|c|cs)pfeife|Pfeifen(kopf|raumer|rohr)" # tobacco pipes (seperate category)
+    storage = "Taba(r|k|ck|ks|cks|c|cs)t?i(e|é|è)r", # tobacco storage (seperate category)
+    pipe = "Pfeife|Pfeifen(kopf|raumer|rohr)" # tobacco pipes (seperate category)
+  )
+  dict$include <- list(
+    "fa5ecbf0-4982-5a3c-8e10-a4a990769be1/a6", # Portoricco-Nauchtabak
+    "716d29bc-bf38-5f58-8026-e021ccfa07e1/t16", # Canasler-Tabak
+    "63aad19e-c613-5423-bb39-e6914ec251c7/t12", # Schnupf- und Rauch- Tabuc
+    "fc950439-01b3-51eb-b83f-57de4fd354bd/t6" # Rauch-Tabat-Lager
   )
   create_filter_output(dict)
 }
@@ -547,6 +573,7 @@ tagfilter_broth <- function(){
   dict <- list()
   dict$pos <- list(
     general = "Brühe",
+    frog = "Fr(ö|o)sch(en|)kur",
     snails = "Schneckensaft"
   )
   dict$neg <- list(
