@@ -43,3 +43,4 @@ rsconnect/
 dontcommit/
 .Rproj.user
 *.Rproj
+.RDataTmp
