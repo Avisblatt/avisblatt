@@ -137,7 +137,7 @@ tagfilter_coffee <- function(){
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     coffee = "(C|K)a(ff|f)(ee|e|é)(?!\\-)\\b",
-    surrogate = "(C|K)a(ff|f)(ee|e|é)(\\-|\\s|)(Extra(c|k)t|Essenz|Su(rr|r)ogat|Pulver)",
+    surrogate = "(C|K)a(ff|f)(ee|e|é)(\\-|\\s|)(Extra(c|k)t|Essenz|Su(rr|r)ogat|Pulver)|(C|Z)ichorien|Chicort",
     origin = "(M|N)o(kk|k)a|Java|Le(b|v)antisch|Domini(q|g)ue"
   )
   dict$neg <- list(
@@ -445,20 +445,24 @@ tagfilter_sugar <- function(){
 tagfilter_tea <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "\\bT(ee|he|hé)\\b(?!\\-)",
-    multiple = "\\bT(ee|he|hé)(\\-)?(\\s?(Gattung|Sorte|(C|K)rummeten))",
-    herbal = "(Kräuter|Glarner|Schwei(tz|z)er)(\\-)?(\\s)?t(h|)(ee|e|é)|T(h|)(ee|e|é)(\\-|\\s|\\-\\s)?Essen(z|\\;)",
-    origin = "Haysan|Soatschon|Thé\\simpérial|Bo(é|e|ey)\\b|Pec(c|k)o|Chion|T(h|)(ee|e|é)\\sCongo"
+    general = "T(ee|he|hé)(s|)\\b(?!\\-)",
+    multiple = "T(ee|he|hé)(s|)(\\-)?(\\s?((G|g)attung|(S|s)orte|(C|K|k|c)rummeten))",
+    herbal = "(Kräuter|Glarner|Schwei(tz|z)er|Blumen|Bl(o|oo)(m|mm))(\\-)?(\\s)?t(h|)(ee|e|é)(s|)|T(h|)(ee|e|é)(s|)(\\-|\\s|\\-\\s)?(E|e)ssen(z|\\;)",
+    type = "(P(e|o)rl(e|)|Ka(i|y)ser|Caravanen)(\\-)?(\\s)?t(h|)(ee|e|é)(s|)|T(ee|he|hé)staub",
+    origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|Sago|(P|p)oudre\\s(a|à)\\s(C|c)anon(h|)|(C|c)arava((nn|n)er|ser)|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)(s|)(kin||et)|(S|s)o(a|u)(tsch|ch|l)on(g|)|(i|I|l)mp(é|e)rial|(B|b)o(é|e|ey|éy|uy|ui)\\b|(P|p|B|b)ec(c|k)o|(C|c)hion|(t|T)ongo"
   )
   dict$neg <- list(
-    french = "augmentee", # french containing "tee"
-    books = "Bibliothek", # contains "the
-    ocr = "Leihbibliothee|Feld-Apolthee" # ocr mistakes
+    books = "Heft|(W|w)hole|(S|s)pectator|(P|p)oems|(V|v)ic(a|ai)r|(p|P)oetic|(W|w)orld|(c|C)hildren|(c|C)ronicle|(c|C)ountry|(L|l)ife|(A|a)dventurer|(h|H)istory|(G|g)lory|(D|d)ictionnary|(U|u)ndersigned|Flick|Sprache|\\b(v|V)ol\\.|Buch|Bücher|Kufperstich(e|s|)|Atlas|(L|l)etters|Reepsake" # books and English book titles
   )
   dict$include <- list(
     "56eeaaac-af5e-54d7-9c00-185229da55d5/t1", # Thee-Es. sentz (ocr-mistake, herbal)
     "57a30888-b244-5500-83eb-b7e1d46c39c9/t6" # Thee- (ocr-mistake)
     )
+  dict$exclude <- list(
+    "aabf666c-5b4b-58bf-88f2-839118520ffb/t0", # ocr-mistake: TThe key...
+    "026eb095-ac68-5f03-a40e-7438ca03c62f/t7", # ocr-mistake: The riac
+    "bddaae35-3265-5acf-a0f3-ee43733e8664/t4" # ocr-mistake: The oder
+  )
   create_filter_output(dict)
 }
 
