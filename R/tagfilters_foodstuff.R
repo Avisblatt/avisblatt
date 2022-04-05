@@ -440,23 +440,29 @@ tagfilter_sugar <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tea ########### STAND HIER (macht Probleme)
+#' Dictionary Tea ########### THIS ONE IS A PROBLEM - CHECK AGAIN ############
 #' @export
 tagfilter_tea <- function(){
   dict <- list()
   dict$pos <- list(
-    general = "T(ee|he|hé)(s|)\\b(?!\\-)",
-    multiple = "T(ee|he|hé)(s|)(\\-)?(\\s?((G|g)attung|(S|s)orte|(C|K|k|c)rummeten))",
-    herbal = "(Kräuter|Glarner|Schwei(tz|z)er|Blumen|Bl(o|oo)(m|mm))(\\-)?(\\s)?t(h|)(ee|e|é)(s|)|T(h|)(ee|e|é)(s|)(\\-|\\s|\\-\\s)?(E|e)ssen(z|\\;)",
-    type = "(P(e|o)rl(e|)|Ka(i|y)ser|Caravanen)(\\-)?(\\s)?t(h|)(ee|e|é)(s|)|T(ee|he|hé)staub",
-    origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|Sago|(P|p)oudre\\s(a|à)\\s(C|c)anon(h|)|(C|c)arava((nn|n)er|ser)|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)(s|)(kin||et)|(S|s)o(a|u)(tsch|ch|l)on(g|)|(i|I|l)mp(é|e)rial|(B|b)o(é|e|ey|éy|uy|ui)\\b|(P|p|B|b)ec(c|k)o|(C|c)hion|(t|T)ongo"
+    general_1 = "Thee\\b(?!\\-)",
+    general = "\\-?((Th?(ee|e|é)\\b)|T(ees|hes|hés|hees))(?!\\-(Tas|Ma(sch|ch)|Kehr|K(ä|a)(n|nn)|B(ü|u)chs|L(ö|o)f|Serv|Kes|Gesch|Cas|Bret|Kist|Caf|Fl(a|ä)|Ble)(a-zäüöéèà)*?)", 
+    multiple = "T(ee|he|hé|hee|ees|hes|hés|hees)\\s?\\-?\\s?((G|g)attung|(S|s)orte|(C|K|k|c)rummeten)",
+    herbal = "((Kräuter|Glarner|Schwei(tz|z)er|Blumen)\\-?\\s?(t|T)(ee|he|hé|hee|ees|hse|hés|hees))|T(ee|he|hé|hee|ees|hse|hés|hees)\\-?\\s?(E|e)ssen(z|\\;|tz)",
+    type = "((P(e|o)rl(e|)|Ka(i|y)ser|Caravanen|(B|P)l(o|oo)(m|mm))\\s?\\-?\\s?(t|T)(ee|he|hé|hee|ees|hse|hés|hees))|T(ee|he|hé|hee|ees|hse|hés|hees)staub",
+    origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|(P|p)oudre\\s(a|à)\\s(C|c)anon(h|)|(C|c)arava((nn|n)er|ser)|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)(s|)(kin||et)|(S|s)o(a|u)(tsch|ch|l)on(g|)|(i|I|l)mp(é|e)rial|(B|b)o(é|e|ey|éy|uy|ui)\\b|(P|p|B|b)ec(c|k)o|(C|c)hion|(t|T)ongo"
   )
   dict$neg <- list(
     books = "Heft|(W|w)hole|(S|s)pectator|(P|p)oems|(V|v)ic(a|ai)r|(p|P)oetic|(W|w)orld|(c|C)hildren|(c|C)ronicle|(c|C)ountry|(L|l)ife|(A|a)dventurer|(h|H)istory|(G|g)lory|(D|d)ictionnary|(U|u)ndersigned|Flick|Sprache|\\b(v|V)ol\\.|Buch|Bücher|Kufperstich(e|s|)|Atlas|(L|l)etters|Reepsake" # books and English book titles
   )
   dict$include <- list(
     "56eeaaac-af5e-54d7-9c00-185229da55d5/t1", # Thee-Es. sentz (ocr-mistake, herbal)
-    "57a30888-b244-5500-83eb-b7e1d46c39c9/t6" # Thee- (ocr-mistake)
+    "57a30888-b244-5500-83eb-b7e1d46c39c9/t6", # Thee- (ocr-mistake)
+    "f37b9ec6-64d3-5e88-8fcf-6e04914a4a74/t9", # unclear why not included
+    "8771cf78-e47a-5639-928d-39972e3ecf5a/t7", # unclear why not included
+    "616b230b-1754-5142-8dfb-2b8e468d98ed/t8", # unclear why not included
+    "ff449f8f-50e4-5fe3-8542-e32bc0501603/t1", # French (lower case thee)
+    "1e08d433-e6a6-5ed6-80fd-d47083706404/t1" # Tea and paper
     )
   dict$exclude <- list(
     "aabf666c-5b4b-58bf-88f2-839118520ffb/t0", # ocr-mistake: TThe key...
@@ -470,9 +476,10 @@ tagfilter_tea <- function(){
 #' @export
 tagfilter_oil <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     oil = "(Öh|Ö|Oe|Oeh)(l|le)(?!\\-)\\b",
-    vinegar = "E(ss|ß)ig(?!\\-)\\b|Vinai?gi?re"
+    vinegar = "E(ss|ß|s)ig(?!\\-)\\b|Vinai?gi?re"
   )
   dict$neg <- list(
     cabbage = "Köhl", # cabbage (Kohl)
@@ -485,6 +492,7 @@ tagfilter_oil <- function(){
 #' @export
 tagfilter_pasta <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     noodles = "Nud(le|le)n",
     general = "Teigw(aa|a)ren",
@@ -503,8 +511,9 @@ tagfilter_pasta <- function(){
 #' @export
 tagfilter_legumes <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    general = "\\bMue(ß|s)\\b",
+    general = "\\bMue(ß|s|ss)\\b",
     peas = "Erbsen",
     lentil = "Linsen",
     beans = "Bohnen"
@@ -521,22 +530,23 @@ tagfilter_legumes <- function(){
 #' @export
 tagfilter_tobaccoproducts <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    tobacco = "(T(a|o)ba(k|ck|ks|cks|c|cs)e?\\b(?!\\-))(?!(\\-?\\s?)(beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
-    smokesniff = "Rauch|Schnupf)\\-?t(a|o)ba(k|ck|ks|cks|c|cs)e?\\b(?!\\-))(?!(\\-?\\s?)(beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
-    selection = "(T(a|o)ba(k|ck|ks|cks|c|cs)(e|)|(C|Z)iga(rr|r)e(n|s))(\\-|\\s|)(Lager|Verlag|Sorten|Anzeige|Blattern)",
+    tobacco = "(T(a|o)ba(k|ck|ks|cks|c|cs)e?\\b)(?!\\-)(?!\\-?\\s?(t?i(e|é|è)r|beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
+    smokesniff = "(Rauch|Schnupf)\\-?t(a|o)ba(k|ck|ks|cks|c|cs)e?\\b(?!\\-)(?!\\-?\\s?(beutel|b(ü|u)(chs|x)|(e|é)tuis|dose|kasten|kammer|pfei(f|ff)e|fabri(k|c)))",
+    selection = "(T(a|o)ba(k|ck|ks|cks|c|cs)e?|(C|Z)iga(rr|r)e(n|s))\\-?\\s?(Lager|Verlag|Sorten|Anzeige|Blattern)",
     cigar = "(C|Z)iga(rr|r)e(n|s)|Cabanas",
     form = "(C|K)a?naster",
-    origin = "Maryland|Havanna|(Porto(\\-|\\s|)ri(c|cc)o)|Domingo|Marocco|Marino|Macouba"
+    origin = "Maryland|Havanna|(Porto\\-?\\s?ri(c|cc)o)|Domingo|Marocco|Marino|Macouba"
   )
   dict$neg <- list(
-    storage = "Taba(r|k|ck|ks|cks|c|cs)t?i(e|é|è)r", # tobacco storage (seperate category)
-    pipe = "Pfeife|Pfeifen(kopf|raumer|rohr)" # tobacco pipes (seperate category)
+    placeholder = "bibedibabediboo"
   )
   dict$include <- list(
     "fa5ecbf0-4982-5a3c-8e10-a4a990769be1/a6", # Portoricco-Nauchtabak
     "716d29bc-bf38-5f58-8026-e021ccfa07e1/t16", # Canasler-Tabak
     "63aad19e-c613-5423-bb39-e6914ec251c7/t12", # Schnupf- und Rauch- Tabuc
+    "temp-1835-083-008", # Schnupftabak-Liebhabern
     "fc950439-01b3-51eb-b83f-57de4fd354bd/t6" # Rauch-Tabat-Lager
   )
   create_filter_output(dict)
