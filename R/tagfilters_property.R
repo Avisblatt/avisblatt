@@ -268,6 +268,8 @@ tagfilter_housing_other2 <- function(){
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
+  dict$applicable <- list("saledemand","saleoffer","lendoffer","lenddemand","labourinfo","auctions",
+         "othernews","exchange","demanding","offering","ps")
   dict$pos <- list(
     seat = "(K|k)irchen(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
     folding_seat = "Anhencker",
