@@ -268,11 +268,13 @@ tagfilter_housing_other2 <- function(){
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
+  dict$applicable <- list("saledemand","saleoffer","lendoffer","lenddemand","labourinfo","auctions",
+         "othernews","exchange","demanding","offering","ps")
   dict$pos <- list(
     seat = "(K|k)irchen(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
     folding_seat = "Anhencker",
-    female = "(Weiber|Frau(en|n)(|zimmer))(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
-    male    = "M(a|ä)n(n|nen|ner)(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)"
+    female = "(Weiber|Frau(en|n)(|zimmer))(|vor)(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
+    male    = "(M(a|ä)n(n|nen|ner)|Herren)(|vor)(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)"
   )
   create_filter_output(dict)
 }
