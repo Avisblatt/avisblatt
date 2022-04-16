@@ -20,7 +20,19 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
-    data <- fread(file.path(source_path, fn), encoding="UTF-8")
+    data <- fread(file.path(source_path, fn), 
+                  encoding="UTF-8", 
+                  colClasses=list(character=c("fragment2",
+                                              "fragment3", 
+                                              "fragment4", 
+                                              "fragment5",
+                                              "fragment6",
+                                              "fragment7",
+                                              "fragment8",
+                                              "fragment9",
+                                              "fragment10"))) 
+    # make sure all fragment cols are character, not logical, 
+    # so that IIIFs can be shifted when merging two records
     
     # Header creation
     dt <- data[isheader == TRUE]
@@ -30,11 +42,23 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
     # merging "Avertissement" headers in the following ad
     f <- get("tagfilter_merge_to_ad")
     hit_ids <- f()$filtrate(crp, return_corp = FALSE)
-    data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
-                                               data[shift(id) %in% hit_ids]$text,
-                                               sep = " ")
-    data <- data[!(id %in% hit_ids)]
-    
+    if(length(hit_ids)>0){
+      data[shift(id) %in% hit_ids]$fragment10 <- data[shift(id) %in% hit_ids]$fragment9
+      data[shift(id) %in% hit_ids]$fragment9 <- data[shift(id) %in% hit_ids]$fragment8
+      data[shift(id) %in% hit_ids]$fragment8 <- data[shift(id) %in% hit_ids]$fragment7
+      data[shift(id) %in% hit_ids]$fragment7 <- data[shift(id) %in% hit_ids]$fragment6
+      data[shift(id) %in% hit_ids]$fragment6 <- data[shift(id) %in% hit_ids]$fragment5
+      data[shift(id) %in% hit_ids]$fragment5 <- data[shift(id) %in% hit_ids]$fragment4
+      data[shift(id) %in% hit_ids]$fragment4 <- data[shift(id) %in% hit_ids]$fragment3
+      data[shift(id) %in% hit_ids]$fragment3 <- data[shift(id) %in% hit_ids]$fragment2
+      data[shift(id) %in% hit_ids]$fragment2 <- data[shift(id) %in% hit_ids]$fragment1
+      data[shift(id) %in% hit_ids]$fragment1 <- data[id %in% hit_ids]$fragment1
+      data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
+                                                 data[shift(id) %in% hit_ids]$text,
+                                                 sep = " ")
+      data <- data[!(id %in% hit_ids)]
+    }
+      
     data[isheader == TRUE, "header_tag"] <- "unknown"
     for (tag in tf_header()){
       f <- get(sprintf("tagfilter_%s",tag))
@@ -54,12 +78,22 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
     # and the beginning of the only (very long) ads
     # in that section
     hit_ids <- data[header_tag == "bookstore" & isheader]$id
-    data[header_tag == "bookstore"]$noadvert <- FALSE
-    
-    data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
-                                               data[shift(id) %in% hit_ids]$text,
-                                               sep = " ")
-    data <- data[!(id %in% hit_ids)]
+    if(length(hit_ids)>0){
+      data[shift(id) %in% hit_ids]$fragment10 <- data[shift(id) %in% hit_ids]$fragment9
+      data[shift(id) %in% hit_ids]$fragment9 <- data[shift(id) %in% hit_ids]$fragment8
+      data[shift(id) %in% hit_ids]$fragment8 <- data[shift(id) %in% hit_ids]$fragment7
+      data[shift(id) %in% hit_ids]$fragment7 <- data[shift(id) %in% hit_ids]$fragment6
+      data[shift(id) %in% hit_ids]$fragment6 <- data[shift(id) %in% hit_ids]$fragment5
+      data[shift(id) %in% hit_ids]$fragment5 <- data[shift(id) %in% hit_ids]$fragment4
+      data[shift(id) %in% hit_ids]$fragment4 <- data[shift(id) %in% hit_ids]$fragment3
+      data[shift(id) %in% hit_ids]$fragment3 <- data[shift(id) %in% hit_ids]$fragment2
+      data[shift(id) %in% hit_ids]$fragment2 <- data[shift(id) %in% hit_ids]$fragment1
+      data[shift(id) %in% hit_ids]$fragment1 <- data[id %in% hit_ids]$fragment1
+      data[shift(id) %in% hit_ids]$text <- paste(data[id %in% hit_ids]$text,
+                                                 data[shift(id) %in% hit_ids]$text,
+                                                 sep = " ")
+      data <- data[!(id %in% hit_ids)]
+    }
     
     # ID mapping
     id_i <- id_mapping[year == i]

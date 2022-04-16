@@ -149,7 +149,7 @@ rawdata_coll_creation(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 t4 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 217 minutes
+# Last time took 308 minutes
 
 
 #-------------------------------
