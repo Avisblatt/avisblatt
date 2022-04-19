@@ -1,10 +1,3 @@
-require(data.table)
-require(jsonlite)
-require(R6)
-require(dplyr)
-require(quanteda)
-source("R/utils.R")
-source("R/collections.R")
 # test collection
 bTestCollection <- file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")
 if(bTestCollection){
