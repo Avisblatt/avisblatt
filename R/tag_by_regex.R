@@ -27,7 +27,7 @@ identify_tags_in_single_ad <- function(adtext,df_tags){
   return(df_tags$tag[which(grepl_vect(df_tags$reg,adtext))])
 }
 
-# Unit test for identiy_tags_in_single_ad
+# Unit test for identify_tags_in_single_ad
 if(bTestCollection){
   if(!setequal(identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test),c("Münster","Kanzel"))){
     message("identify_tags_in_single_ad test failed")
