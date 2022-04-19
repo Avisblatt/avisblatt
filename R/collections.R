@@ -131,13 +131,17 @@ Collection <- R6Class("Collection", list(
     if(is.null(ids)) return(self$meta)
     self$meta[id %in% ids,]
   },
-  apply_tagfilters = function(flist, nms = NULL){
+  apply_tagfilters = function(flist, nms = NULL, ignore_case = F){
     if(is.null(names(flist))) stop("List of filter functions needs to be named (using the names of the function).")
     if(!is.null(nms) & length(nms) != length(flist)) stop("There have to be as many tag labels as tags.")
     if(is.null(nms)){
       nms <- gsub("tagfilter_", "", names(flist))
     }
-    e <- sprintf("names(flist$%s$filtrate(self$corpus, ignore.case = F))", names(flist))
+    if(ignore_case){
+      e <- sprintf("names(flist$%s$filtrate(self$corpus, ignore.case = T))", names(flist))
+    } else {
+      e <- sprintf("names(flist$%s$filtrate(self$corpus, ignore.case = F))", names(flist))
+      }
     out <- lapply(e,function(x) eval(parse(text = x)))
     names(out) <- nms
     lapply(names(out),function(x){

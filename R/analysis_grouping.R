@@ -91,7 +91,7 @@ group_records_by_text = function(ids = null, coll = c_all, searchlist = "", name
   } else if(length(searchlist) > 0){
     results=list(list())
     for (i in 1:length(searchlist)){
-      results[[i]] <- intersect(ids, coll$meta[grepl(searchlist[i], texts(coll$corpus), perl = TRUE), id])
+      results[[i]] <- intersect(ids, coll$meta[grepl(searchlist[i], as.character(coll$corpus), perl = TRUE), id])
     }
     names(results) <- namelist
     results
