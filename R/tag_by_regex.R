@@ -1,10 +1,3 @@
-require(data.table)
-require(jsonlite)
-require(R6)
-require(dplyr)
-require(quanteda)
-source("R/utils.R")
-source("R/collections.R")
 # test collection
 bTestCollection <- file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")
 if(bTestCollection){
@@ -34,7 +27,7 @@ identify_tags_in_single_ad <- function(adtext,df_tags){
   return(df_tags$tag[which(grepl_vect(df_tags$reg,adtext))])
 }
 
-# Unit test for identiy_tags_in_single_ad
+# Unit test for identify_tags_in_single_ad
 if(bTestCollection){
   if(!setequal(identify_tags_in_single_ad(as.character(c_test_collection$corpus)[4],df_test),c("Münster","Kanzel"))){
     message("identify_tags_in_single_ad test failed")
