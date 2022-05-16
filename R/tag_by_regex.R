@@ -94,7 +94,8 @@ if(bTestCollection){
 }
 
 # append tags in a collection by matching regex in data frame with ad text
-# input: collection
+# input: ids
+#        collection
 #        data frame, consisting of two named columns:  1: tag, 2: reg
 # output: void (environment is changed, no return needed)
 tag_by_regex <- function(ids, collection, df_tags){
@@ -104,7 +105,7 @@ tag_by_regex <- function(ids, collection, df_tags){
     stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to tag")
   }
   if(!setequal(names(df_tags),c("tag","reg"))){
-    stop("df_tags must have two columns. one named tag, one named reg.")
+    stop("df_tags must have two columns, one named tag, one named reg.")
   }
   append_tags(collection,identify_tags(ids, collection,df_tags))
 }
