@@ -13,7 +13,7 @@ if(bTestCollection){
 # vectorize grepl
 # makes grepl() applicable for more than one pattern
 grepl_vect  <- function(patterns,strings){
-  bWhichTags <- sapply(patterns,grepl,x = strings)
+  bWhichTags <- sapply(patterns,grepl,perl = TRUE,x = strings)
   return(bWhichTags)
 }
 
