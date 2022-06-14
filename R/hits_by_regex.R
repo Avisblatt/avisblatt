@@ -1,6 +1,6 @@
-#' @import purrr
-#' @import dplyr
-#' @import stringr
+library(purrr)
+library(dplyr)
+library(stringr)
 
 ### main function is hits_by_regex()
 ### it uses three helper functions, find_hits(), add_metadatum() and find_hits_corpus()
