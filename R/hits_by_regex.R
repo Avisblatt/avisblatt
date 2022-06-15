@@ -22,7 +22,6 @@ find_hits <- function(text, tags){
   # paste tags in order of occurrence for text
   paste(df[,1])
 }
-
 # Add meta datum
 # Input:  lmeta = named list of meta datum to be added. names are the ids
 #         coll = collection to add metadata to
@@ -46,10 +45,9 @@ add_metadatum <- function(lmeta, coll, name){
     print(paste("New meta data added as ", name, ".", sep = ""))
   }
   # Add a list entry (empty) to meta for the new meta datum
-  coll$meta <- append(coll$meta, list(vector(mode = "list", length = length(coll$meta$id))))
-  # set the index and name of the new meta datum
-  inew <- length(coll$meta)
-  names(coll$meta)[inew] <- name
+  coll$meta[[length(coll$meta) + 1]] <- vector(mode = "list", length = length(coll$meta$id))
+  # set the name of the new meta datum
+  names(coll$meta)[length(coll$meta)] <- name
   # Actual merge: seq_along(lmeta) takes every item of lmeta as index
   invisible(lapply(seq_along(lmeta),
                    # counter set to "i"; takes id of ith entry of lmeta
@@ -60,7 +58,7 @@ add_metadatum <- function(lmeta, coll, name){
                        # go into new (empty) list of recently added new meta datum
                        # and set entry corresponding to id of ith entry to the new
                        # meta datum for ith entry
-                       coll$meta[[inew]][which(coll$meta$id == id)] <- list(lmeta[[i]])
+                       coll$meta[[length(coll$meta)]][which(coll$meta$id == id)] <- list(lmeta[[i]])
                      }
                    }))
 }
