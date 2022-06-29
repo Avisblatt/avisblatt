@@ -40,3 +40,39 @@ tagfilter_finance_sale <- function(){
   )
   create_filter_output(dict)
 }
+<<<<<<< Updated upstream
+=======
+
+#' Filter Quanteda Corpus: Financial papers for sale
+#' @export
+tagfilter_finance_sale2 <- function(){
+  dict <- list()
+  dict$applicable <- list("othernews")
+  dict$pos <- list(
+    interest = "Zinsentrichtung|Dividende|Quartal-Beitrag",
+    paper = "[O|b]ligation|Staatsanlehn|Staatsanleih|A[c|k]tie|Gültbrief|\\bAnleihe",
+    insurance= "Lebensversicherung|(Assekuranz|Pensions|Wittwen).?(K|k|C|c)ass(e|a)"
+  )
+  dict$neg <- list(
+    othercat_things = "Geld.?(K|k|C|c)ass(a|e)"
+  )
+  create_filter_output(dict)
+}
+
+
+#' Filter Quanteda Corpus: Lottery
+#' @export
+tagfilter_lottery <- function(){
+  dict <- list()
+  dict$pos <- list(
+    lottery = "(L|l)otter[i|y]|verlo[o|h]s",
+    draw <- "Ziehung",
+    lot = "\\bLoos(|e|en)\\b",
+    numbers_phrase = "folgende Nummern"
+  )
+  dict$neg <- list(
+    game = "Spiel"
+  )
+  create_filter_output(dict)
+}
+>>>>>>> Stashed changes
