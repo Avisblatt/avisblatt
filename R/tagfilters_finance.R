@@ -40,8 +40,6 @@ tagfilter_finance_sale <- function(){
   )
   create_filter_output(dict)
 }
-<<<<<<< Updated upstream
-=======
 
 #' Filter Quanteda Corpus: Financial papers for sale
 #' @export
@@ -71,8 +69,17 @@ tagfilter_lottery <- function(){
     numbers_phrase = "folgende Nummern"
   )
   dict$neg <- list(
-    game = "Spiel"
+    game = "Spiel",
+    book_titles = "Lotteriesucht|(G|g)lückliche(r|) Lottospieler|(F|f)romme(n|) Lotterie|Lotterie der
+                  (Frommen|Lieben)|(G|g)lückliche Lotterielo(o|)(ß|s)|(Vogel|Bilder)-Lotterie|
+                  Rechtmäßigkeit der Lotterien|Lottokenntni(ß|s)|kosmographische Lotterie|
+                  Glück in der Lotterie gemacht|Lotterie für die Herren|jeder (L|l)otto(-|\\s|)spielende(r|)
+                  Liebhaber|jeder Lotteriefreund|Die Schädlichkeit der Zahlen-Lotterie|Lotteriespiel nützlich zu gebrauchen|
+                  Lottologie|Gedanken vom großen Lo(o|)se in der Lotterie|Geheimniß der
+                  (I|i)tali(ä|e)nischen Zahlen(-|)(L|l)otterien|Der Lotteriespieler|Anmerkungen über
+                  die Zahlen(-|)(L|l)otterien|Lotterie der Frommen|Lotterien anwendbare Auslegung aller Träume|
+                  Einer Reichs(-|)(L|l)otterie (E|e)in (P|p)ro|Wasserfa(rth|hrt)(-|)(L|l)otterie|Rechtmässigkeit der
+                  Lotterien|Die Losende Welt|(G|g)eistliche(n|) Lotterie"
   )
   create_filter_output(dict)
 }
->>>>>>> Stashed changes
