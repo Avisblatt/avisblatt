@@ -5,11 +5,7 @@
 \title{Dictionary Military Clothing/ Uniforms}
 \usage{
 tagfilter_uniform()
-
-tagfilter_uniform()
 }
 \description{
-Dictionary Military Clothing/ Uniforms
-
 Dictionary Military Clothing/ Uniforms
 }

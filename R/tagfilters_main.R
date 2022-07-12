@@ -17,20 +17,3 @@ umbrella_terms <- function(){
   )
   umbrella_stand
 }
-
-
-#' Filter Quanteda Corpus: Lottery
-#' @export
-tagfilter_lottery <- function(){
-  dict <- list()
-  dict$pos <- list(
-    lottery = "Lotter[i|y]|verlo[o|h]s",
-    lot = "\\bLoos\\b",
-    numbers_phrase = "folgende Nummern"
-  )
-  dict$neg <- list(
-    childrensgame = "Lotterie-Spiel"
-  )
-  create_filter_output(dict)
-}
-

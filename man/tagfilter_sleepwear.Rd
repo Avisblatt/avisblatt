@@ -5,11 +5,7 @@
 \title{Dictionary Sleepwear}
 \usage{
 tagfilter_sleepwear()
-
-tagfilter_sleepwear()
 }
 \description{
-Dictionary Sleepwear
-
 Dictionary Sleepwear
 }

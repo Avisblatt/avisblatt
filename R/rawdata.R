@@ -94,18 +94,18 @@ RawData <- R6Class("RawData", list(
 
         # sanitize line breaks
         self$data[,text := gsub("([A-Z][a-z])\\\\n([a-z]\\w)", "\\1\\2", text)] # catch some missing hyphens
-        self$data[,text := gsub("-\\\\n", "", text)]
+        self$data[,text := gsub("(-\\\\n)([a-z])", "\\2", text)]
         self$data[,text := gsub("\\\\n", " ", text)]
-
-        # strip ids and HTML
-        self$data[,id := gsub("https://avisblatt.freizo.org/iiif/anno/", "", id)]
-        self$data[,text := gsub("<.*?>", "", text)]
-        self$data[,rnotes := gsub("<.*?>", "", rnotes)]
 
         # Decode HTML (stuff like &amp; -> &)
         self$data[, text := textutils::HTMLdecode(text)]
         self$data[, rnotes := textutils::HTMLdecode(rnotes)]
 
+        # strip ids and HTML
+        self$data[,id := gsub("https://avisblatt.freizo.org/iiif/anno/", "", id)]
+        self$data[,text := gsub("<.*?>", "", text)]
+        self$data[,rnotes := gsub("<.*?>", "", rnotes)]
+        
         # remove redundant blanks (better BEFORE ocr correction)
         self$data[,text := purge_spacing(text)]
         self$data[,text := gsub(" {2,}", " ", text)]
@@ -119,9 +119,16 @@ RawData <- R6Class("RawData", list(
       if(self$year %in% gt_years){
         message("GT year detected, starting special treatment...")
         if (self$year == 1754){
-          updated_tags <- fread("freizo-corrections/tags_1754.csv")
+          updated_tags <- fread("../avis-data/freizo-corrections/tags_1754.csv")
+          message(nrow(updated_tags))
           # only use those updates that are still present to avoid problems with recycling
           updated_tags <- updated_tags[(id %in% self$data$id),]
+          # records in updated_tags are sorted differently than in self$data, 
+          # so have to sort updated_tags in that same order first. Use merge:
+          ids <- as.data.table(self$data[(id %in% updated_tags$id)]$id)
+          colnames(ids) <- "id"
+          updated_tags <- merge(ids, updated_tags, sort = F)
+          
           self$data[(id %in% updated_tags$id), adcontent := updated_tags$adcontent]
           self$data[(id %in% updated_tags$id), adtype := updated_tags$adtype]
           self$data[(id %in% updated_tags$id), finance := updated_tags$finance]

@@ -17,7 +17,7 @@ write_collection <- function(x,
 
   # meta information and data are treated separately
   # following the swissdata idea (github.com/swissdata/demo)
-  # Meta information to JSON ##############################
+  # Meta information to JSON 
   # turn all environments to lists
   # environments work with reference and thus better than lists
   # for in memory updates. lists are easier to handle when writing
@@ -123,9 +123,12 @@ clean_manual_tags <- function(x){
 
 
 # convenience function to read & merge multiple years to one working collection
-gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections/yearly_"){
+gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections"){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
-
+  AVIS_YEARS <- intersect(AVIS_YEARS, 
+                          list.files(path, pattern = "csv") %>% 
+                            substr(8, 11) %>% as.numeric)
+  path <- paste0(path, "/yearly_")
   # meta information
   meta_dt <- data.table()
   for (i in AVIS_YEARS){
@@ -138,7 +141,6 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   meta_dt[, date := as.Date(date)]
   setcolorder(meta_dt, neworder = c("id",
                               setdiff(names(meta_dt),"id")))
-
   # corpus
   dt <- data.table()
   if(!just_meta){
@@ -227,6 +229,7 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 }
 
 
+
 available_years <- function(){
  list.files("../avis-data/collections", pattern=".json") %>%
     substr(8, 11) %>%
@@ -234,8 +237,7 @@ available_years <- function(){
 }
 
 
-# Collection creation will not succeed if there are invalid regex in the dict.
-# Check beforehand using this function
+
 tf_integrity <- function(){
   ns <- ls(envir = asNamespace("avisblatt"))
   tfs <- ns[grepl("tagfilter_",ns)]
@@ -243,6 +245,7 @@ tf_integrity <- function(){
     getFromNamespace(x, ns = "avisblatt")()
   })
   names(l) <- tfs
+  summary <- "Checked all tagfilters, no problem with regular expressions found."
   for(i in 1:length(l)){
     tf <- l[[i]][2]$tagfilters
     for(t in c(tf$neg, tf$pos)){
@@ -250,7 +253,9 @@ tf_integrity <- function(){
       if (err!=""){
         message("\nIn ", names(l[i]), ", there is an invalid regular expression:")
         print(t)
+        summary <- "IMPORTANT: Fix any problem with tagfilter regex before creating collections / re-doing tagging!"
       }
     }
   }
+  message(summary)
 }

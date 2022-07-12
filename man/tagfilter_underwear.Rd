@@ -5,11 +5,7 @@
 \title{Dictionary Underwear}
 \usage{
 tagfilter_underwear()
-
-tagfilter_underwear()
 }
 \description{
-Dictionary Underwear
-
 Dictionary Underwear
 }
