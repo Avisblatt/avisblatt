@@ -2,6 +2,36 @@ tea_include <- function(){
   #IDs added by Anna Reimann, ORCID 0000-0001-8225-7851
   c("56eeaaac-af5e-54d7-9c00-185229da55d5/t1", # Thee-Es. sentz (ocr-mistake, herbal)
     "57a30888-b244-5500-83eb-b7e1d46c39c9/t6", # Thee- (ocr-mistake)
+    "e9f8930e-b27d-5062-9de8-add5db11dcf4/t2", # Problem with regex sometimes if written "Thee" 
+    "857fad1b-6cb2-5710-a6f8-2266ac13ca29/t2", # Problem with regex sometimes if written "Thee" 
+    "093c33e9-96ba-5342-8227-f9f6736dc1cc/a0", # Problem with regex sometimes if written "Thee" 
+    "e30d8df0-f2cb-5b8d-9e7c-7a82c17347bc/t17", # Problem with regex sometimes if written "Thee" 
+    "9feb90b1-a2d0-5b07-81db-e6094d76797b/t2", # Problem with regex sometimes if written "Thee" 
+    "27edc68c-4241-5f71-99f8-b09625ab89ed/t1", # Problem with regex sometimes if written "Thee" 
+    "2543ad51-cd45-5a89-8bc3-d5646221b083/t3", # Problem with regex sometimes if written "Thee" 
+    "46d636d7-f5e6-5e90-84b3-7a9b6ac40ea9/t1", # Problem with regex sometimes if written "Thee" 
+    "b0ff9151-586a-5afc-9ae2-05446c7d57e9/t17", # Problem with regex sometimes if written "Thee" 
+    "2b28940c-b92a-5377-8ad0-3c1763466ec9/t9", # Problem with regex sometimes if written "Thee" 
+    "4db7e647-b952-58dd-9f74-4b1f3d9de928/t8", # Problem with regex sometimes if written "Thee" 
+    "abf9c87a-d9c4-59dd-8c9b-21a8cd0c58a9/t3", # Problem with regex sometimes if written "Thee" 
+    "8e956b08-197b-5eca-a844-fb4f15e7502a/t28", # Problem with regex sometimes if written "Thee" 
+    "839233bd-c3bb-5f07-9564-93eccf54fd0e/t28", # Problem with regex sometimes if written "Thee" 
+    "cf646ba6-bc26-5bdd-b47f-cd4d30d4cc34/t16", # Problem with regex sometimes if written "Thee" 
+    "73373e63-21e3-5581-9fec-8c74d5562243/t1", # Problem with regex sometimes if written "Thee" 
+    "67526d53-c51c-526c-ab91-fde118e8b9cb/t7", # Problem with regex sometimes if written "Thee" 
+    "9cc049ba-298a-50d1-b0b2-c56e7edac8b1/t1", # Problem with regex sometimes if written "Thee" 
+    "5e8a64cd-4195-5cea-b9c6-c7b4c1efff7c/t11", # Problem with regex sometimes if written "Thee" 
+    "9b7adabc-f83a-52b0-9536-f3db28eb0749/t5", # Problem with regex sometimes if written "Thee" 
+    "8e22065e-17b7-5603-9709-649bebf0d09d/t11", # Problem with regex sometimes if written "Thee" 
+    "15178327-1687-5384-9a4a-1cd04797d81e/t9", # Problem with regex sometimes if written "Thee" 
+    "7436c83d-b954-5f88-883a-6b86d6db6705/t1", # Problem with regex sometimes if written "Thee" 
+    "383a1242-2e8f-5740-9f9e-fa09067d0bca/t9", # Problem with regex sometimes if written "Thee" 
+    "0a1ce6d8-59ab-5fe5-93a4-e67c438f54a5/t10", # Problem with regex sometimes if written "Thee" 
+    "6aa59d72-d97f-54c8-a7ba-59a432d7a936/t2", # Problem with regex sometimes if written "Thee" 
+    "3364be6d-c58e-5c5f-8248-6f785ceafcda/t6", # Problem with regex sometimes if written "Thee" 
+    "bd75ed58-c1a7-55ec-a002-21f30afef70c/t17", # Problem with regex sometimes if written "Thee" 
+    "026eb095-ac68-5f03-a40e-7438ca03c62f/t7", # Problem with regex sometimes if written "Thee" 
+    "a7daf9ef-2837-5105-8a39-b62ea757849e/t18", # Problem with regex sometimes if written "Thee" 
     "f37b9ec6-64d3-5e88-8fcf-6e04914a4a74/t9", # unclear why not included
     "8771cf78-e47a-5639-928d-39972e3ecf5a/t7", # unclear why not included
     "616b230b-1754-5142-8dfb-2b8e468d98ed/t8", # unclear why not included

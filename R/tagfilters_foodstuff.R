@@ -427,9 +427,9 @@ tagfilter_sugar <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    sugar_general = "(?<!mit\\s)(?<!(ohne|avec|sans)\\s)Zucker\\b",
-    sugar_form = "Zuckermehl|M(e|é)lis(?!sen)|(Mehl|Farine?|Brosam(en|)|Stücklein|Kropf)zucker",
-    sugar_treacle = "Zuckers(i|y)r(o|u)p|Zucker-S(i|y)r(o|u)p"
+    sugar_general = "(?<!mit\\s)(?<!(ohne|avec|sans)\\s)Zu(ck|c|cc|k|kk)er\\b",
+    sugar_form = "Zu(ck|c|cc|k|kk)er\\-?(M|m)ehl|M(e|é)lis(?!sen)|(Mehl|Farine?|Brosam(en|)|Stücklein|Kropf)\\-?(Z|z)u(ck|c|cc|k|kk)er",
+    sugar_treacle = "Zu(ck|c|cc|k|kk)er\\-?(S|s)(i|y)r(o|u)p"
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo"
@@ -440,24 +440,22 @@ tagfilter_sugar <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tea ########### THIS ONE IS A PROBLEM - CHECK AGAIN ############
+#' Dictionary Tea
 #' @export
 tagfilter_tea <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    tea_general1 = "(?<!für\\s)\\bTh?(ee|e|é)\\b(?!(\\-)|(\\sund))",
-    tea_general2 = "Th?(ee|e|é)s?(?!\\-?\\sund)", 
-    tea_general3 = "Th?(ee|e|é)s?(?!\\-?\\s?((T|t)as|(M|m)a(sch|ch)|(T|t)aba|(K|k)ehr|(K|k)(ä|a)(n|nn)|(B|k)(ü|u)chs|(L|l)(ö|o)f|(S|s)erv|(K|k)es|(G|g)esch|(C|c)as|(T|t)isch|(B|b)ret|(K|k)ru|(G|g)ump|(S|s)erp|(s|S)echt|(s|S)ieb|(s|S)chäl|(K|k)af|(T|t)epp|und|(s|S)t(u|ü)h|(K|k)ist|(s|S)erv|(C|K)af|(F|f)l(a|ä)|(B|b)le|(G|g)esch|(M|m)il|(S|s)erv|(S|s)chach|(U|u)rn|(B|b)oit)(a-zäüöéèà)*?)",
-    tea_choice = "(?<!für\\s)T(ee|he|hé|hee|ees|hes|hés|hees)\\s?\\-?\\s?((G|g)attung|(S|s)orte|(C|K|k|c)rummeten)",
-    tea_herbal = "((Kräuter|Glarner|Schwei(tz|z)er|Blumen)\\-?\\s?(t|T)(ee|he|hé|hee|ees|hse|hés|hees))|T(ee|he|hé|hee|ees|hse|hés|hees)\\-?\\s?(E|e)ssen(z|\\;|tz)",
-    tea_type = "((P(e|o)rl(e|)|Ka(i|y)ser|Caravanen|(B|P)l(o|oo)(m|mm)(b|))\\s?\\-?\\s?(t|T)(ee|he|hé|hee|ees|hse|hés|hees))|T(ee|he|hé|hee|ees|hse|hés|hees)staub",
-    tea_origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|(P|p)oudre\\s(a|à)\\s(C|c)anon(h|)|(C|c)arava((nn|n)er|ser)|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)|(S|s)o(a|u)(tsch|ch|l)on(g|)|(i|I|l)mp(é|e)rial|(B|b)o(é|e|ey|éy|uy|ui)\\b|(P|p|B|b)e(c|cc|k|kk)o\\b|(C|c)hion|(t|T)ongo"
+    tea_general = "(?<!für\\s)\\bTh?(é|e)e?\\b(?![üéöäàè])(?!\\-)(?!\\-\\,?\\sund)",
+    tea_choice = "(?<!für\\s)Th?(é|e)e?s?\\s?\\-?\\s?((G|g)att|(S|s)or|(C|K|k|c)rum)",
+    tea_herbal = "(Kräuter|Glarner|Schwei(tz|z)er|Blumen)\\-?\\s?(T|t)h?(e|é)e?s?\\b(?![üéöäàè])|Th?(e|é)e?\\-?\\s?(E|e)ssen(z|\\;|tz)",
+    tea_type = "(P(e|o)rle?|Ka(i|y)ser|Caravanen|(B|P)l(o|oo)(m|mm)b?)\\s?\\-?\\s?(T|t)h?(e|é)e?s?\\b(?![üéöäàè])|Th?(e|é)e?s?\\s?\\-?\\s?(S|s)taub",
+    tea_origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|(P|p)oudre\\s(a|à)\\s(C|c)anon|(C|c)arava(nn|n)s?er|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)|(S|s)o(a|u)(tsch|ch|l)ong?|(?<!O)(B|b)o(é|e|ey|éy|uy|ui)\\b|(P|p|B|b)e(c|cc|k|kk)o\\b|(C|c)hion|(t|T)ongo"
   )
   dict$neg <- list(
-    other = "Thesium|Theo\\sodor", # other things/words containing "The"
+    other = "Téophraste|Télescope|Thesium|Theo\\sodor|The(ss|s)al", # other things/words containing "The"
     place = "Thessalien", # placename containing "The"
-    books = "Thesaurus|Heft|(W|w)hole|(S|s)pectator|(P|p)oems|(V|v)ic(a|ai)r|(p|P)oetic|(W|w)orld|(c|C)hildren|(c|C)ronicle|(c|C)ountry|(L|l)ife|(A|a)dventurer|(h|H)istory|(G|g)lory|(D|d)ictionnary|(U|u)ndersigned|Flick|Sprache|\\b(v|V)ol\\.|Buch|Bücher|Kufperstich(e|s|)|Atlas|(L|l)etters|Reepsake" # books and English book titles
+    books = "englisch|Bible|Holy|Thesaurus|Heft|(W|w)hole|(S|s)pectator|(P|p)oems|(V|v)ic(a|ai)r|(p|P)oetic|(W|w)orld|(c|C)hildren|(c|C)ronicle|(c|C)ountry|(L|l)ife|(A|a)dventurer|(h|H)istory|(G|g)lory|(D|d)ictionnary|(U|u)ndersigned|Flick|Sprache|\\b(v|V)ol\\.|Buch|Bücher|Kufperstich(e|s|)|Atlas|(L|l)etters|Reepsake" # books and English book titles
   )
   dict$include <- tea_include()
   dict$exclude <- list(
