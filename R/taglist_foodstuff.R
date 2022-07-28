@@ -32,6 +32,10 @@ tea_include <- function(){
     "bd75ed58-c1a7-55ec-a002-21f30afef70c/t17", # Problem with regex sometimes if written "Thee" 
     "026eb095-ac68-5f03-a40e-7438ca03c62f/t7", # Problem with regex sometimes if written "Thee" 
     "a7daf9ef-2837-5105-8a39-b62ea757849e/t18", # Problem with regex sometimes if written "Thee" 
+    "d196f54c-cc30-5dcc-aeb1-cc3d08b76af2/t3", # Problem with regex sometimes if written "Thee" 
+    "temp-1842-733-001", # Problem with regex sometimes if written "Thee" 
+    "374c4535-09c6-585a-ae3d-988066896c01/t1", # Problem with regex sometimes if written "Thee" 
+    "853d9206-6918-5b0e-8cf4-3e8063924103/t14", # Problem with regex sometimes if written "Thee" 
     "f37b9ec6-64d3-5e88-8fcf-6e04914a4a74/t9", # unclear why not included
     "8771cf78-e47a-5639-928d-39972e3ecf5a/t7", # unclear why not included
     "616b230b-1754-5142-8dfb-2b8e468d98ed/t8", # unclear why not included
