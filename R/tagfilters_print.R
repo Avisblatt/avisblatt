@@ -33,12 +33,24 @@ tagfilter_print2 <- function(){
   dict$neg <- list(
     bible = "Buch Mose",
     work = "Platz als",
+    lottery = "(Lo(|o)(s|ß)|Lotterie)",
     other = "Muster(b|-B)(u|ü)ch(|er|ern)|Haushaltungsbuch|(Z|z)uber|Fischbeckin|
     Oefelin|Rohre|Schuffe|chuffe|Geschir|Meldung|Tabacks-Buchs|Tabacksbuchs|
     Anfangsbuchstabe(n)|Buchstabe(n)|Buchführung|Buchhaltung|Sand(b|-B)uchse(|n)|
     Handels(b|-B)ücher(|n)|Buchsbaum|Buchenholz|Pergamenter|Foulard|Näharbeit|
     Buchführer(|n)|Buchhalter|englisch(|e|en) gedruckt(|e|en)|französisch(|e|en)
     gedruckt(|e|en)|Behausung|Buchbinder-Werckz"
+    )
+  dict$include <- list(
+    "cf9c106c-ec5f-5e14-a74e-1f6228fa248b/t34", "db99a10c-a6b0-5689-9ef0-74336dbd2da3/t30", # book titles that contain "Lotterie" etc. See complete list at bottom
+    "c8ef15ad-a52d-5396-b8e2-30c10e3557b0/t20", "73827605-442a-5c56-b23b-a9f13a885e9f/t6",
+    "cfd1358e-ef18-5bc9-90f5-d204528f668c/t2", "fae377f7-7756-5317-acea-cc0c95792b0c/t10",
+    "1e1cd3eb-eb5b-501a-bb75-a8eee1a12cb2/a1", "29c7d8ab-3e6c-5070-814b-af8d99aedaa2/a10",
+    "011550b7-0e34-5b42-9245-ff3a6a4c0df4/t18", "8cf75f5d-ba0b-5e68-a280-59eeb5e2a49b/t6",
+    "93dccc0b-3541-54df-8776-c0c852afbede/t3", "e3510f92-2f6d-5192-9815-5850ee07e631/t8",
+    "578b8710-d104-5409-ae4d-b11d04a4ba65/t7", "cdb7d1fd-5b56-5834-b849-b3fb17cc08bd/t8",
+    "8ca55bbf-4adc-5cb4-bed7-034d3ef312bf/t12", "d1424e64-d176-531d-90fe-7d247e471cc9/t14",
+    "264925f3-f7e1-530b-aed2-92a75c213b97/t6", "dbe46241-0df8-5092-b6d9-19f8f78096a4/t9"
   )
   create_filter_output(dict)
 }
@@ -48,7 +60,7 @@ tagfilter_print3 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "offering")
   dict$pos <- list(
-    book = "Buch\\b|Bücher(n)|Bucher",
+    book = "Buch\\b|Bücher(n|)|Bucher",
     edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
     material = "\\bPergament",
     language = "teutsch und latein(|isch)",
@@ -102,7 +114,7 @@ tagfilter_print4 <- function(){
   dict <- list()
   dict$applicable <- list("saledemand", "ps", "demanding", "othernews")
   dict$pos <- list(
-    book = "Buch\\b|Bücher(n)|Bucher",
+    book = "Buch\\b|Bücher(n|)|Bucher",
     edition = "Auflage|Ausgabe|Prachtausgabe|Bdchen",
     material = "\\bPergament",
     language = "teutsch und latein(|isch)",
@@ -251,3 +263,37 @@ tagfilter_print9 <- function(){
   create_filter_output(dict)
 }
 
+#' Filter Quanteda Corpus: book lottery
+#' @export
+tagfilter_print10 <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "offering", "ps", "exchange", "othernews")
+  dict$pos <- list(
+    lotterie = "(Buch\\b|Bücher(n|)|Bucher|Bibel)(|\\s|-)(|\\s|-)(Lo(|o)(s|ß)|Lotterie)",
+    several_lotteries = "(Buch\b|Bücher(n|)|Bucher)(-| |)(?= und .*-Lotterie)"
+  )
+  dict$neg <- list(
+    publication = "AVERTISSEMENT|Avertissement",
+    book_titles = "Lotteriesucht|glückliche(r|) Lottospieler|Fromme(n|) Lotterie|Lotterie der
+                  (Frommen|Lieben)| glückliche Lotterielo(o|)(ß|s)|(Vogel|Bilder)-Lotterie|
+                  Rechtmäßigkeit der Lotterien| Lottokenntniß|kosmographische Lotterie|
+                  Glück in der Lotterie gemacht|Lotterie für die Herren|Traum(-B|b)üchlein|
+                  Die Schädlichkeit der Zahlen-Lotterie|(C|K)abbalistische Tabellen|
+                  Lottologie|Gedanken vom großen Lo(o|)se in der Lotterie|Geheimniß der
+                  Itali(ä|e)nischen Zahlen-Lotterien|Der Lotteriespieler|Anmerkungen über
+                  die Zahlen-Lotterien|Lotterie der Frommen|Auslegung aller Träume|
+                  Privat(-G|g)edan(c|)ken|Wasserfart(h|)-Lotterie|Rechtmässigkeit der
+                  Lotterien|Die Losende Welt"
+  )
+  create_filter_output(dict)
+}
+
+### book titles containing "lotterie" etc.:
+### "Lotteriesucht|(G|g)lückliche(r|) Lottospieler|(F|f)romme(n|) Lotterie|Lotterie der (Frommen|Lieben)|
+### (G|g)lückliche Lotterielo(o|)(ß|s)|(Vogel|Bilder)-Lotterie|Rechtmäßigkeit der Lotterien|Lottokenntniß|
+### kosmographische Lotterie|Glück in der Lotterie gemacht|Lotterie für die Herren|jeder (L|l)otto(-|\\s|)spielende(r|)
+### Liebhaber|jeder Lotteriefreund|Die Schädlichkeit der Zahlen-Lotterie|Lotteriespiel nützlich zu gebrauchen|Lottologie|
+### Gedanken vom großen Lo(o|)se in der Lotterie|Geheimniß der (I|i)tali(ä|e)nischen Zahlen(-|)(L|l)otterien|
+### Der Lotteriespieler|Anmerkungen über die Zahlen(-|)(L|l)otterien|Lotterie der Frommen|
+### Lotterien anwendbare Auslegung aller Träume|Einer Reichs(-|)(L|l)otterie (E|e)in (P|p)ro|
+### Wasserfa(rth|hrt)(-|)(L|l)otterie|Rechtmässigkeit der Lotterien|Die Losende Welt|(G|g)eistliche(n|) Lotterie"
