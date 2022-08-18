@@ -157,14 +157,14 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
       # check if there are continuations without multiarticle tag in front of it
       for (j in nrow(y_ads):2){
         if(y_ads$structuretype[j] == "Continuation"){
-          if(!(y_ads$structuretype[j-1] %in% c("Continuation", "Multi_article", "Multi_no_advert"))){
+          if(!(y_ads$structuretype[j-1] %in% c("Continuation", "Multi_article", "Multi_no_advert", "multi_prices", "multi_from_the_editor"))){
             stp_missingmulti <- rbind(stp_missingmulti, y_ads[j-1])
           }
         }
       }
       # check if there are multiarticle tags not followed by continuation
       for (j in 2:nrow(y_ads)){
-        if(y_ads$structuretype[j-1] %in% c("Multi_article", "Multi_no_advert")){
+        if(y_ads$structuretype[j-1] %in% c("Multi_article", "Multi_no_advert", "multi_prices", "multi_from_the_editor")){
           if(y_ads$structuretype[j] != "Continuation"){
             stp_missingcont <- rbind(stp_missingcont, y_ads[j])
           }

@@ -1,5 +1,5 @@
 #' @export
-show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = FALSE, show_header = FALSE, show_edit = FALSE){
+show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = FALSE, show_header = FALSE, show_edit = FALSE, show_position = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
@@ -18,7 +18,9 @@ show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
     else {p_header <-""}
     if (show_edit){p_edit <- paste0("\nbrowseURL('https://avisblatt.freizo.org/iiif/anno/", names(coll$corpus[ids]), "/edit')")}
     else {p_edit <-""}
-    output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_edit, "\n\n")
+    if (show_position){p_pos <- paste0(" issue ", coll$corpus[ids]$issue, ", page ", coll$corpus[ids]$pageno, ", readingorder ", coll$corpus[ids]$readingorder)}
+    else {p_pos <-""}
+    output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_edit, p_pos, "\n\n")
     cat(output)
   }
 }
