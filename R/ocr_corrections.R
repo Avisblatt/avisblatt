@@ -5,6 +5,11 @@
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
+  x <- gsub("\\-Tosen","-Dosen",x)
+  x <- gsub("\\-Bür\\b","-Büx",x)
+  x <- gsub("\\-Bur\\b","-Bux",x)
+  x <- gsub("\\-Büren\\b","-Büxen",x)
+  x <- gsub("\\-Buren\\b","-Buxen",x)
   x <- gsub("Rtet","Rhtlr",x)
   x <- gsub("Louiscors","Louis d'or",x)
   x <- gsub("Louiacfor","Louis d'or",x)

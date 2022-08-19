@@ -1,5 +1,6 @@
 #' Dictionary Clothing and Garments (General)
 #' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_clothing <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
@@ -206,6 +207,7 @@ tagfilter_hand <- function(){
 
 #' Dictionary Scarves, Colars, and Neckties
 #' @export
+# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_neck <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
