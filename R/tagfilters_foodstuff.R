@@ -152,6 +152,18 @@ tagfilter_coffee <- function(){
    dict$include <- c(
     "temp-1836-303-007" # Kaffe-EEssenz
    )
+   dict$exclude <- c(
+     "136f68c9-4b97-577f-917a-d418f0e31f0e/t10",
+     "1b23a202-2a1e-59e1-ba8e-3da00a221b16/t7",
+     "307276ec-6052-5f12-9059-a1d1f37c7868/t7", 
+     "3dd5b632-48b7-5540-84c7-4b0d4980121a/t3",
+     "5bb38c28-b8d2-5c88-b353-e388f802dcdb/t33",
+     "6a97169e-3a27-5dc4-bb2e-ba2b5ab41052/t1",
+     "838903b6-b631-5d18-8f6d-0455789194e0/t12",
+     "a9f4df03-1bfa-5d8b-93f2-4f89ca5b3b88/t7",
+     "c23d0a12-73e7-50ef-b239-675e2986c426/t5",
+     "e94484e2-2139-5699-a0f2-271a4cd1c9c2/t24"
+   )
   create_filter_output(dict)
 }
 
