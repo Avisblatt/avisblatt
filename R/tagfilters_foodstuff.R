@@ -162,6 +162,9 @@ tagfilter_coffee <- function(){
      "838903b6-b631-5d18-8f6d-0455789194e0/t12",
      "a9f4df03-1bfa-5d8b-93f2-4f89ca5b3b88/t7",
      "c23d0a12-73e7-50ef-b239-675e2986c426/t5",
+     "4703042b-ffa4-5e6a-a0b9-8f09ec18b794/a6",
+     "6bd25d86-1e60-5434-a17a-7071d2e1c95b/a9",
+     "97e31ae6-d3d5-54cb-9406-ea702c95f92f/t6",
      "e94484e2-2139-5699-a0f2-271a4cd1c9c2/t24"
    )
   create_filter_output(dict)
