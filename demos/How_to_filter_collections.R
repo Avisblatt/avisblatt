@@ -1,7 +1,7 @@
 # library(avisblatt)
 devtools::load_all()
 
-
+#setwd("./avisblatt")
 #-----------------------------------------
 # 0 Intro --------------------------------
 #-----------------------------------------
@@ -345,8 +345,8 @@ length(ids)
 xmas <- select_by_season(ids, c_all, "Christmas", days_before = 7)
 show_records(xmas, c_all)
 
-eastern <- select_by_season(ids, c_all, "Easter", days_before = 7, days_after = 7)
-show_records(eastern, c_all)
+easter <- select_by_season(ids, c_all, "Easter", days_before = 0, days_after = 0)
+show_records(easter, c_all)
 
 fair <- select_by_season(ids, c_all, "Fair")
 show_records(fair, c_all)
