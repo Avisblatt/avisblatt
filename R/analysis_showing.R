@@ -147,3 +147,13 @@ show_headers <- function(coll = c_all){
   stopifnot(inherits(coll, "R6"))
   unique(unlist(coll$meta$tags_section))
 }
+
+
+#' @export
+show_metadatafields <- function(coll = c_all){
+  stopifnot(inherits(coll, "Collection"))
+  stopifnot(inherits(coll, "R6"))
+  colnames(c_all$meta)
+}
+
+

@@ -252,7 +252,39 @@ length(select_by_tags(universe, c_all, "ut_household"))
 
 
 #-----------------------------------------
-# 3 Filter records by searching the texts.
+# 3 Filter records by any metadata
+#-----------------------------------------
+#
+# select_by_meta()
+#
+# Up to two more arguments beyond ids & coll:
+# - search (the term(s) that you want certain records' metadata to match)
+# - fields (the metadata fields you want to search in)
+#
+# This function gives just those IDs # which
+# records match ALL the search terms given (intersection),
+# but REGARDLESS which of the specified metadata fields matched.
+
+# Selecting records that contain BOTH "al" and "cohol" in tags:
+length(select_by_meta("all", c_all, search = c("al", "cohol"), fields = "tags"))
+
+# Select any record with "al" in either tags or tags_section:
+length(select_by_meta("all", c_all, search = "sale", fields = c("tags", "tags_section")))
+
+# If you do not specify the fields parameter,
+# all fields will be included:
+length(select_by_meta("all", c_all, search = "673"))
+
+# You may check which fields you can search with
+show_metadatafields(c_all)
+
+# Try funny stuff and the function won't let you:
+select_by_meta("all", c_all, search = "nope", fields = c("tags", "flags", "bags"))
+
+
+
+#-----------------------------------------
+# 4 Filter records by searching the texts.
 #-----------------------------------------
 #
 # select_by_text()
@@ -277,7 +309,7 @@ show_records(ids, c_all)
 
 
 #-----------------------------------------
-# 4 Filter ads by length of ad text
+# 5 Filter ads by length of ad text
 #-----------------------------------------
 #
 # select_length()
@@ -301,7 +333,7 @@ length(select_by_length(ids, c_all, min = 10, max = 100, unit = "char"))
 
 
 #-----------------------------------------
-# 5 Filter ids by date
+# 6 Filter ids by date
 #-----------------------------------------
 #
 # select_by_date()
@@ -353,7 +385,7 @@ show_records(fair, c_all)
 
 
 #-----------------------------------------
-# 6 Counting and averaging
+# 7 Counting and averaging
 #-----------------------------------------
 #
 # count_records_by_date()
@@ -398,7 +430,7 @@ average_length_by_date(ids, c_all, "quarter", "char")
 
 
 #-----------------------------------------
-# 7 Combinations
+# 8 Combinations
 #-----------------------------------------
 
 # You can easily make a chain of select_by-functions,
