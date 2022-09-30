@@ -32,7 +32,11 @@ select_by_season <- function(ids = NULL, coll = c_all, date_MM_DD = NULL,
   }
   #Converting Xmas/fair to dates
   if(date_MM_DD=="Christmas"){
-    date_MM_DD <- "12-25"}
+    date_MM_DD <- "12-25"
+    if (days_before+days_after==0){
+      warning("Use the parameters days_before and/or days_after to specifiy a timeframe that extends beyond Christams Day itself. In most years, no issue of the Avisblatt was published on that day.")
+      }
+    }
   else if(date_MM_DD=="Fair"){
     date_MM_DD <- "10-27"
     days_after <- days_after+13
@@ -115,7 +119,7 @@ select_by_tags <- function(ids = NULL, coll = c_all, tagslist = NULL, headerlist
 
 
 #' @export
-select_by_meta <- function(ids = NULL, coll = c_all, search = NULL, fields = NULL){
+select_by_meta <- function(ids = NULL, coll = c_all, search = NULL, fields = NULL, exact = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(fields)){
@@ -142,7 +146,11 @@ select_by_meta <- function(ids = NULL, coll = c_all, search = NULL, fields = NUL
     for (i in 1:length(search)){
       temp_result <- NULL
       for (j in 1:length(fields)){
-        temp_result <- union(temp_result, dt[grepl(search[i], dt[,get(fields[j])]), id])
+        if(exact){
+          temp_result <- union(temp_result, coll$meta[get(fields[j]) == search[i], id])
+        } else {
+          temp_result <- union(temp_result, dt[grepl(search[i], dt[,get(fields[j])]), id])
+        }
       }
       result <- intersect(result, temp_result)
     }

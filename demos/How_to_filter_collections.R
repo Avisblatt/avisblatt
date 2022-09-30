@@ -1,7 +1,6 @@
 # library(avisblatt)
 devtools::load_all()
 
-#setwd("./avisblatt")
 #-----------------------------------------
 # 0 Intro --------------------------------
 #-----------------------------------------
@@ -257,9 +256,10 @@ length(select_by_tags(universe, c_all, "ut_household"))
 #
 # select_by_meta()
 #
-# Up to two more arguments beyond ids & coll:
+# Up to three more arguments beyond ids & coll:
 # - search (the term(s) that you want certain records' metadata to match)
 # - fields (the metadata fields you want to search in)
+# - exact (default is FALSE; if TRUE the whole metadata field has to match teh search term)
 #
 # This function gives just those IDs # which
 # records match ALL the search terms given (intersection),
@@ -281,6 +281,14 @@ show_metadatafields(c_all)
 # Try funny stuff and the function won't let you:
 select_by_meta("all", c_all, search = "nope", fields = c("tags", "flags", "bags"))
 
+# Per default, the function looks for a match within a metadata field, 
+# i.e., a search for "6" in the ntokens field delivers ads
+# with six tokens, but also with sixteen or sixty-one, etc.
+# if you want to match the complete metadata field exactly
+# (here: ads with exactly 6 tokens), use the parameter "exact"
+length(select_by_meta("all", c_all, search = "6", fields = "ntokens"))
+length(select_by_meta("all", c_all, search = "61", fields = "ntokens"))
+length(select_by_meta("all", c_all, search = "6", fields = "ntokens", exact = TRUE))
 
 
 #-----------------------------------------
