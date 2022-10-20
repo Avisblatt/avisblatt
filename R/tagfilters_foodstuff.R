@@ -39,7 +39,7 @@ tagfilter_meat <- function(){
     meat_lard = "Schmalz",
     meat_gelatine = "Gelatine",
     meat_bacon = "Speck",
-    meat_sausage = "Würst|(C|s)ervelat",
+    meat_sausage = "(W|w)(ü|u)rst|(C|s)ervelat",
     meat_ham = "Schinken|Chargouterie",
     meat_salami = "Salami",
     meat_frog = "Fr(ö|o)schenschenkel",
@@ -93,7 +93,7 @@ tagfilter_alcohol <- function(){
   dict$pos <- list(
     alcohohl_wine = "(?<!Sch)(?<!Wildsch)Wein(e|s)?\\b(?![üéöäàè])(?!\\-)|Vin\\b(?![üéöäàè])(?!\\-)",
     alcohohl_wineorigin = "(Mar(g|gg)r(ä|a)(f|fl)er|Bordeau(x|r)|E(l|i)s(ä|a)(ss|ß)er|Burgunder|Gebirgs|Champagner|Zehnt|Rhein)\\-?\\s?(W|V)",
-    alcohohl_winetype = "Muscat(eller|)(?!n(u|ü)ss)|Madeira|Strohwein|Tockayer",
+    alcohohl_winetype = "Muscat(eller|)(?!n(u|ü)ss)|Madeira|Strohwein|Tocka(y|i|j)er",
     alcohohl_spicedwine = "H(y|i)po(k|c)ras",
     alcohohl_liquer = "Liq(ue|eu)r|Malaga|Anisette",
     alcohohl_spirits = "(Zwetschg(e|en)|(N|R)uß|Bitter)wasser",
@@ -316,7 +316,7 @@ tagfilter_mineralwater <- function(){
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     mineralwater_general = "(Mineral|Sau(e|)r)(\\-)?(\\s)?wasser(?!(\\-)?(\\s)?Kr(u|ü)g|wasserkr(u|ü)g)",
-    mineralwater_names = "(Sel(tes|tz|z|ters)(s|)er|(S(u|au)l(tz|z)|Fas?chinger|Pyrmonter|Schwa(ll|l))bacher|Bussanger|(Sau(r|lz)|Sel(tz|z|t)er|Spaa)(\\s|\\-)?wa(ss|s|ß)er\\b(?![üéöäàè])(?!\\-)|Eau\\sde\\sVals)(?!(\\-)?(\\s)?(wasser=?(\\-)?(\\s)?kr(u|ü)g))"
+    mineralwater_names = "(St.\\sMoritze?r?|Sel(tes|tz|z|ters)(s|)er|(S(u|au)l(tz|z)|Fas?chinger|Pyrmonter|Schwa(ll|l))bacher|Bussanger|(Sau(r|lz)|Sel(tz|z|t)er|Spaa)(\\s|\\-)?wa(ss|s|ß)er\\b(?![üéöäàè])(?!\\-)|Eau\\sde\\sVals)(?!(\\-)?(\\s)?(wasser=?(\\-)?(\\s)?kr(u|ü)g))"
   )
   dict$neg <- list(
     objects = "bibedibabediboo" 
