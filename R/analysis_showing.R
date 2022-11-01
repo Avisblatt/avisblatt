@@ -4,24 +4,28 @@ show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
-  } else{
-    if (show_date){p_date <- paste0("[", coll$corpus[ids]$date, "] ")}
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")}
+  invalid_ids <- setdiff(ids, coll$meta$id)
+  ids <- setdiff(ids, invalid_ids)
+  if (show_date){p_date <- paste0("[", coll$corpus[ids]$date, "] ")}
     else {p_date <-""}
-    if (show_text){p_text <- as.vector(as.character(coll$corpus)[ids])}
+  if (show_text){p_text <- as.vector(as.character(coll$corpus)[ids])}
     else {p_text <-""}
-    if (show_id){p_id <- paste0(" (", names(coll$corpus[ids]), ")")}
+  if (show_id){p_id <- paste0(" (", names(coll$corpus[ids]), ")")}
     else {p_id <-""}
-    if (show_tags){p_tags <- paste0("\n Tags: ", coll$meta$tags[coll$meta$id %in% ids])}
+  if (show_tags){p_tags <- paste0("\n Tags: ", coll$meta$tags[coll$meta$id %in% ids])}
     else {p_tags <-""}
-    if (show_header){p_header <- paste0("\n Header: ", coll$meta$tags_section[coll$meta$id %in% ids])}
+  if (show_header){p_header <- paste0("\n Header: ", coll$meta$tags_section[coll$meta$id %in% ids])}
     else {p_header <-""}
-    if (show_edit){p_edit <- paste0("\nbrowseURL('https://avisblatt.freizo.org/iiif/anno/", names(coll$corpus[ids]), "/edit')")}
+  if (show_edit){p_edit <- paste0("\nbrowseURL('https://avisblatt.freizo.org/iiif/anno/", names(coll$corpus[ids]), "/edit')")}
     else {p_edit <-""}
-    if (show_position){p_pos <- paste0(" issue ", coll$corpus[ids]$issue, ", page ", coll$corpus[ids]$pageno, ", readingorder ", coll$corpus[ids]$readingorder)}
+  if (show_position){p_pos <- paste0(" issue ", coll$corpus[ids]$issue, ", page ", coll$corpus[ids]$pageno, ", readingorder ", coll$corpus[ids]$readingorder)}
     else {p_pos <-""}
-    output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_edit, p_pos, "\n\n")
-    cat(output)
+  output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_edit, p_pos, "\n\n")
+  cat(output)
+  if (length(invalid_ids)>0){
+    message("Records with the following IDs could not be shown, as they were not found in the collection: \n")
+    cat(invalid_ids, sep = "\n")
   }
 }
 
@@ -143,3 +147,13 @@ show_headers <- function(coll = c_all){
   stopifnot(inherits(coll, "R6"))
   unique(unlist(coll$meta$tags_section))
 }
+
+
+#' @export
+show_metadatafields <- function(coll = c_all){
+  stopifnot(inherits(coll, "Collection"))
+  stopifnot(inherits(coll, "R6"))
+  colnames(c_all$meta)
+}
+
+

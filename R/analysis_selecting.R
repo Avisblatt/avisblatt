@@ -32,7 +32,11 @@ select_by_season <- function(ids = NULL, coll = c_all, date_MM_DD = NULL,
   }
   #Converting Xmas/fair to dates
   if(date_MM_DD=="Christmas"){
-    date_MM_DD <- "12-25"}
+    date_MM_DD <- "12-25"
+    if (days_before+days_after==0){
+      warning("Use the parameters days_before and/or days_after to specifiy a timeframe that extends beyond Christams Day itself. In most years, no issue of the Avisblatt was published on that day.")
+      }
+    }
   else if(date_MM_DD=="Fair"){
     date_MM_DD <- "10-27"
     days_after <- days_after+13
@@ -41,12 +45,16 @@ select_by_season <- function(ids = NULL, coll = c_all, date_MM_DD = NULL,
     min <- as.Date(paste(seq.int(1729, 1844, 1), rep(paste("-", date_MM_DD, sep=""), 116), sep="")) - days_before
     max <- as.Date(paste(seq.int(1729, 1844, 1), rep(paste("-", date_MM_DD, sep=""), 116), sep="")) + days_after
   } else if (date_MM_DD=="Easter"){
+    if (days_before+days_after==0){
+      warning("Use the parameters days_before and/or days_after to specifiy a timeframe that extends beyond Easter Sunday itself. On that day, no issue of the Avisblatt was ever published.")
+    }
     # Get Easter Sunday dates for 1729-1844 (according to Grotefend)
     easter_sundays <- fread("../avis-analysis/data/easter_sunday.csv", encoding="UTF-8")
     min <- as.Date(unlist(easter_sundays - days_before), origin = "1970-01-01")
     max <- as.Date(unlist(easter_sundays + days_after), origin = "1970-01-01")
+    
   } else {
-    stop("Date must be either ''Easter'' (= Easter Sunday), ''Christmas'' (Xmas day, 25th), 'Fair' (duration of Basel autumn fait), or an in-year-date in format MM-DD.")
+    stop("Date must be either ''Easter'' (= Easter Sunday), ''Christmas'' (Xmas day, 25th), 'Fair' (duration of Basel autumn fair), or an in-year-date in format MM-DD.")
   }
   dt <- coll$meta
   # Limit dt to records in ids
@@ -107,6 +115,47 @@ select_by_tags <- function(ids = NULL, coll = c_all, tagslist = NULL, headerlist
     }
   }
   intersect(tags, intersect(manual, header))
+}
+
+
+#' @export
+select_by_meta <- function(ids = NULL, coll = c_all, search = NULL, fields = NULL, exact = FALSE){
+  stopifnot(inherits(coll, "Collection"))
+  stopifnot(inherits(coll, "R6"))
+  if(is.null(fields)){
+    message("As the fields parameter was not specified, records will be selected if the search matches any of their metadata.")
+    fields <- colnames(coll$meta)
+  }
+  invalid_fields <- setdiff(fields, colnames(coll$meta))
+  fields <- setdiff(fields, invalid_fields)
+    if (length(invalid_fields)>0){
+    stop(paste("The following metadata fields you wanted to search in are not part of the collection:", 
+               paste(paste0("- ", invalid_fields), collapse = "\n"),
+               "The collection does only contain the following metadata fields:",
+               paste(paste0("- ", colnames(coll$meta)), collapse = "\n"),
+               sep = "\n")
+    )
+  }
+  if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
+  dt <- coll$meta
+  # Limit dt to records in ids
+  if(!is.null(ids)){
+    dt <- dt[id %in% ids,]}
+  result <- dt$id
+  if(!is.null(search)){
+    for (i in 1:length(search)){
+      temp_result <- NULL
+      for (j in 1:length(fields)){
+        if(exact){
+          temp_result <- union(temp_result, coll$meta[get(fields[j]) == search[i], id])
+        } else {
+          temp_result <- union(temp_result, dt[grepl(search[i], dt[,get(fields[j])]), id])
+        }
+      }
+      result <- intersect(result, temp_result)
+    }
+  }
+  result
 }
 
 
