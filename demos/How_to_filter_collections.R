@@ -399,25 +399,82 @@ show_records(fair, c_all)
 # count_records_by_date()
 # count_records_by_length()
 # average_length_by_date()
-#
-# Let's try all this offerings of household goods
+
+
+# count_record_by_date()
+# has up to 6 arguments beyond ids and collection:
+# - level, decides if counting records grouped by "year" (default), "quarter", "month", "week" or "issue"
+# - colnames, columns titles of the column(s) containing the count
+# - trim = TRUE
+# - min, start date, "1729-01-01" by default
+# - max, end date, "1844-12-31" by default
+# - per1k = FALSE, if set to true, it gives the number of ads per 1000 inhabitants
+
+
 universe <- select_by_reprint_status("all", c_all, "postings")
 ids <- select_by_tags(universe, c_all, tagslist = "ut_household", headerlist = "offer")
 
-# You can count records grouped by
-# - "year" (default)
-# - "quarter"
-# - "month"
-# - "week"
-#
-count_records_by_date(ids, c_all, "month")
-count_records_by_date(ids, c_all, "quarter")
+count_records_by_date(ids, c_all, level = "month", colnames = "Household items")
+
+# As you noticed from the warnings, 
+# you can also pass on a list of sets of records,
+# to count them concurrently
+cats <- select_by_text("all", searchlist = "Katz")
+dogs <- select_by_text("all", searchlist = "Hund")
+count_records_by_date(list(cats, dogs), c_all, "year", c("cats", "dogs"))
+
+# If you do not give a column title, columns or automatically numbered
+count_records_by_date(list(cats, dogs), c_all, "year")
+
+# By default, the resulting table is trimmed at the beginning and end, i.e., 
+# it start with the first period with an observation and concludes with the last one.
+# if you want a table for the whole period of the Avisblatt, set trim = FALSE
+tiger <- select_by_text("all", searchlist = "Tiger")
+count_records_by_date(tiger, c_all, "quarter", "tiger")
+count_records_by_date(tiger, c_all, "quarter", "tiger", trim = FALSE)
+
+# You can also limit the table yourself 
+# by specifying a start date (min) and/or end date (max)
+# This can be combined both with trim = TRUE and trim = FALSE
+birds <- select_by_text("all", searchlist = "Vögel")
+count_records_by_date(birds, c_all, "month", "birds")
+count_records_by_date(birds, c_all, "month", "birds", min = "1734-01-01", max = "1734-12-31")
+count_records_by_date(birds, c_all, "month", "birds", min = "1734-01-01", max = "1734-12-31", trim = FALSE)
+
+
+# Per default, the number of ads in the period is returned. 
+# If you want to normalize those numbers
+# by returning ads per 1000 inhabitants, # set per1k = TRUE
+count_records_by_date(list(cats, dogs), c_all, "year", c("cats", "dogs"))
+count_records_by_date(list(cats, dogs), c_all, "year", c("cats", "dogs"), per1k = TRUE)
+
+# Note: population data is on a yearly basis, but
+# per1k can also be enabled for other aggregate levels;
+# in the calculation, population is then taken
+# to be constant from January 1, to December 31
+count_records_by_date(list(cats, dogs), c_all, "quarter", c("cats", "dogs"), per1k = TRUE)
+count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"), per1k = TRUE)
+count_records_by_date(list(cats, dogs), c_all, "week", c("cats", "dogs"), per1k = TRUE)
+count_records_by_date(list(cats, dogs), c_all, "issue", c("cats", "dogs"), per1k = TRUE)
+
+# You can broaden the period for which records are counted,
+# e.g., periods of 4 months instead of COUNTING month by month,
+# by setting bundle_periods to a value > 1
+count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"))
+count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"), bundle_periods = 4)
+
+# Using trim = FALSE and setting a start date 
+# helps to get a nicer sequence of bundled periods:
+count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"), bundle_periods = 4, trim = F, min = "1730-01-01")
+
+
+
 
 # You can count IDs grouped by length of ads
 # this function has up to two arguments:
 # - boundaries: vector of interval boundaries (default: 0, 10, 20, 40, 80, 160, 1000)
 # - unit, either "tokens" (default) or "char")
-#
+# Note that this works only with a single set of ids, not a list of sets
 count_records_by_length(ids, c_all)
 count_records_by_length(ids, c_all, c(0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 200, 1000))
 count_records_by_length(ids, c_all, c(0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 200, 1000), unit = "char")
@@ -428,7 +485,8 @@ count_records_by_length(ids, c_all, c(0, 5, 10, 15, 20, 30, 40, 60, 80, 100, 200
 # up to 2 arguments beyond ids and collection:
 # - level, either "year" (default), "quarter", "month", or "week"
 # - unit, either "tokens" (default) or "char"
-#
+# Again, works only with a single set of records, not a list opf records
+
 # average length of all ads in the collection
 average_length_by_date("all", c_all)
 
