@@ -1,4 +1,15 @@
+#' Tagfilter Animals
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for animal related ads and finds ads that contain different
+#' dogs, birds, cats, several sorts of pets, livestock as well as pet objects.
+#' @name tagfilter_animal
+NULL
+
+
 #' Tagfilter for dogs
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_dogs <- function(){
   dict <- list()
@@ -33,6 +44,7 @@ tagfilter_dogs <- function(){
 }
 
 #' Tagfilter for birds
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_birds<- function(){
   dict <- list()
@@ -61,6 +73,7 @@ tagfilter_birds<- function(){
 
 
 #' Tagfilter for cats
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_cats<- function(){
   dict <- list()
@@ -79,6 +92,7 @@ tagfilter_cats<- function(){
 
 
 #' Tagfilter for other pets
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_otherpets<- function(){
   dict <- list()
@@ -96,6 +110,7 @@ tagfilter_otherpets<- function(){
 
 
 #' Tagfilter for livestock
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_livestock<- function(){
   dict <- list()
@@ -141,6 +156,7 @@ tagfilter_livestock<- function(){
 
 
 #' Tagfilter for objects related to animals
+#' @rdname tagfilter_animal
 #' @export
 tagfilter_animalobjects<- function(){
   dict <- list()

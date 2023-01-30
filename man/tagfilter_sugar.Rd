@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_foodstuff.R
 \name{tagfilter_sugar}
 \alias{tagfilter_sugar}
-\title{Dictionary Sugar - also contains a lot of chocolate ads with sugar as ingredient}
+\title{Dictionary Sugar}
 \usage{
 tagfilter_sugar()
 }
 \description{
-Dictionary Sugar - also contains a lot of chocolate ads with sugar as ingredient
+Dictionary Sugar
 }
