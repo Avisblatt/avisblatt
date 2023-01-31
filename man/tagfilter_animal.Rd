@@ -28,3 +28,10 @@ to classify ads based on their content. The avisblatt R package comes with
 curated filters to search for animal related ads and finds ads that contain different
 dogs, birds, cats, several sorts of pets, livestock as well as pet objects.
 }
+\details{
+The tagfilters help site provides you with a list of available tagfilters
+families.
+}
+\seealso{
+tagfilters
+}

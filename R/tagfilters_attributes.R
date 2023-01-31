@@ -1,7 +1,10 @@
-#' Filter Quanteda Corpus: Transaction type - offers in offer sections
-#' @author Alexander Engel, ORCID 0000-0002-8592-3124, search terms by Christof Jeggle
-#' @note Last changed 2021-11-28
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+#' Tagfilter Attributes
+#'
+#' #' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters.
+#'
+#' @seealso tagfilters
 #' @export
 tagfilter_attributes_female <- function(){
   dict <- list()

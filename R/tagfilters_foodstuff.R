@@ -1,6 +1,21 @@
+#' Tagfilter Food
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for food related ads and finds ad content from spices,
+#' meat and poultry to alcohol, milk, coffee and much much more.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_food
+#' @seealso tagfilters
+NULL
+
+
 #' Dictionary Spices
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_spices <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -25,8 +40,8 @@ tagfilter_spices <- function(){
 }
 
 #' Dictionary Meat
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_meat <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -62,10 +77,10 @@ tagfilter_meat <- function(){
 }
 
 #' Dictionary Poultry
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_poultry <- function(){
-  dict <- list()  
+  dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
     poultry_duck = "\\bEnten",
@@ -85,8 +100,8 @@ tagfilter_poultry <- function(){
 }
 
 #' Dictionary Alcohol
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_alcohol <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -121,8 +136,8 @@ tagfilter_alcohol <- function(){
 }
 
 #' Dictionary Milk
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_milk <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -136,8 +151,8 @@ tagfilter_milk <- function(){
 }
 
 #' Dictionary Coffee
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_coffee <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -155,7 +170,7 @@ tagfilter_coffee <- function(){
    dict$exclude <- c(
      "136f68c9-4b97-577f-917a-d418f0e31f0e/t10",
      "1b23a202-2a1e-59e1-ba8e-3da00a221b16/t7",
-     "307276ec-6052-5f12-9059-a1d1f37c7868/t7", 
+     "307276ec-6052-5f12-9059-a1d1f37c7868/t7",
      "3dd5b632-48b7-5540-84c7-4b0d4980121a/t3",
      "5bb38c28-b8d2-5c88-b353-e388f802dcdb/t33",
      "6a97169e-3a27-5dc4-bb2e-ba2b5ab41052/t1",
@@ -171,8 +186,8 @@ tagfilter_coffee <- function(){
 }
 
 #' Dictionary Fish and Seafood
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_fish <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -197,8 +212,8 @@ tagfilter_fish <- function(){
 }
 
 #' Dictionary Fruits
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_fruit <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -219,8 +234,8 @@ tagfilter_fruit <- function(){
 }
 
 #' Dictionary Dried and Candied Fruit
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_driedfruit <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -236,8 +251,8 @@ tagfilter_driedfruit <- function(){
 }
 
 #' Dictionary Tropical Fruits
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_tropicalfruit <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -257,8 +272,8 @@ tagfilter_tropicalfruit <- function(){
 }
 
 #' Dictionary Nuts
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_nuts <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -275,8 +290,8 @@ tagfilter_nuts <- function(){
 }
 
 #' Dictionary Honey
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_honey <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -290,8 +305,8 @@ tagfilter_honey <- function(){
 }
 
 #' Dictionary Vegetables
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_vegetable <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -309,8 +324,8 @@ tagfilter_vegetable <- function(){
 
 
 #' Dictionary Mineral Water
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_mineralwater <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -319,15 +334,15 @@ tagfilter_mineralwater <- function(){
     mineralwater_names = "(St.\\sMoritze?r?|Sel(tes|tz|z|ters)(s|)er|(S(u|au)l(tz|z)|Fas?chinger|Pyrmonter|Schwa(ll|l))bacher|Bussanger|(Sau(r|lz)|Sel(tz|z|t)er|Spaa)(\\s|\\-)?wa(ss|s|ß)er\\b(?![üéöäàè])(?!\\-)|Eau\\sde\\sVals)(?!(\\-)?(\\s)?(wasser=?(\\-)?(\\s)?kr(u|ü)g))"
   )
   dict$neg <- list(
-    objects = "bibedibabediboo" 
+    objects = "bibedibabediboo"
   )
   create_filter_output(dict)
 }
 
 
 #' Dictionary Preserves
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_preserves <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -344,8 +359,8 @@ tagfilter_preserves <- function(){
 
 
 #' Dictionary Chocolate
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_chocolate <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -364,8 +379,8 @@ tagfilter_chocolate <- function(){
 
 
 #' Dictionary Grain and Flour
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_grain <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -388,8 +403,8 @@ tagfilter_grain <- function(){
 
 
 #' Dictionary Cheese
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_cheese <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -405,8 +420,8 @@ tagfilter_cheese <- function(){
 }
 
 #' Dictionary Mushrooms
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_mushrooms <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -421,8 +436,8 @@ tagfilter_mushrooms <- function(){
 }
 
 #' Dictionary Pastries
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_pastry <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -443,8 +458,8 @@ tagfilter_pastry <- function(){
 }
 
 #' Dictionary Syrup and Juice
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_syrup <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -459,8 +474,8 @@ tagfilter_syrup <- function(){
 }
 
 #' Dictionary Sugar
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_sugar <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -479,10 +494,9 @@ tagfilter_sugar <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tea
+#' Dictionary Tea (! this dictionary is case sensitive)
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
-# important: only food-dictionary that is case sensitive
 tagfilter_tea <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -508,8 +522,8 @@ tagfilter_tea <- function(){
 }
 
 #' Dictionary Oil and Vinegar
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_oil <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -525,8 +539,8 @@ tagfilter_oil <- function(){
 }
 
 #' Dictionary Pasta
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_pasta <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -545,8 +559,8 @@ tagfilter_pasta <- function(){
 
 
 #' Dictionary Legumes
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_legumes <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -565,8 +579,8 @@ tagfilter_legumes <- function(){
 
 
 #' Dictionary Tobacco Products
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_tobaccoproducts <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -593,8 +607,8 @@ tagfilter_tobaccoproducts <- function(){
 
 
 #' Dictionary Butter
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_butter <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -614,8 +628,8 @@ tagfilter_butter <- function(){
 
 
 #' Dictionary Eggs
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_eggs <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -635,8 +649,8 @@ tagfilter_eggs <- function(){
 
 
 #' Dictionary Broth
+#' @rdname tagfilter_food
 #' @export
-# dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_broth <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")

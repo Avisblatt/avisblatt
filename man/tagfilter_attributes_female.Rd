@@ -2,16 +2,15 @@
 % Please edit documentation in R/tagfilters_attributes.R
 \name{tagfilter_attributes_female}
 \alias{tagfilter_attributes_female}
-\title{Filter Quanteda Corpus: Transaction type - offers in offer sections}
+\title{Tagfilter Attributes}
 \usage{
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_attributes_female()
 }
 \description{
-Filter Quanteda Corpus: Transaction type - offers in offer sections
+#' Tagfilters are regular expression based filters designed to tag ads in order
+to classify ads based on their content. The avisblatt R package comes with
+curated filters.
 }
-\note{
-Last changed 2021-11-28
-}
-\author{
-Alexander Engel, ORCID 0000-0002-8592-3124, search terms by Christof Jeggle
+\seealso{
+tagfilters
 }

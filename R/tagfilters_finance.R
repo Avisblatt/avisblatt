@@ -1,4 +1,21 @@
+#' Tagfilter Finance
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for finance related ads and finds ads that contain different
+#' loans, sales and lotteries.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_finance
+#' @seealso tagfilters
+NULL
+
+
+
 #' Filter Quanteda Corpus: Financial loans
+#' @rdname tagfilter_finance
 #' @export
 tagfilter_finance_loan1 <- function(){
   dict <- list()
@@ -24,6 +41,9 @@ tagfilter_finance_loan1 <- function(){
   create_filter_output(dict)
 }
 
+
+#' @rdname tagfilter_finance
+#' @export
 tagfilter_finance_loan2 <- function(){
   dict <- list()
   dict$applicable <- list("othernews")
@@ -49,6 +69,7 @@ tagfilter_finance_loan2 <- function(){
 
 
 #' Filter Quanteda Corpus: Financial papers for sale
+#' @rdname tagfilter_finance
 #' @export
 tagfilter_finance_sale1 <- function(){
   dict <- list()
@@ -65,6 +86,7 @@ tagfilter_finance_sale1 <- function(){
 }
 
 #' Filter Quanteda Corpus: Financial papers for sale
+#' @rdname tagfilter_finance
 #' @export
 tagfilter_finance_sale2 <- function(){
   dict <- list()
@@ -82,6 +104,7 @@ tagfilter_finance_sale2 <- function(){
 
 
 #' Filter Quanteda Corpus: Lottery
+#' @rdname tagfilter_finance
 #' @export
 tagfilter_lottery <- function(){
   dict <- list()
