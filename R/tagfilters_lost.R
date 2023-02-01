@@ -1,4 +1,20 @@
+#' Tagfilter Lost and Found
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for lost and found related ads and finds ad content from searches to
+#' crime.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_lostandfound
+#' @seealso tagfilters
+NULL
+
+
 #' Filter Quanteda Corpus: Lostandfound inside lostandfound section
+#' @rdname tagfilter_lostandfound
 #' @export
 tagfilter_lostandfound1 <- function(){
   dict <- list()
@@ -14,6 +30,7 @@ tagfilter_lostandfound1 <- function(){
 
 
 #' Filter Quanteda Corpus: Lostandfound outside lostandfound section
+#' @rdname tagfilter_lostandfound
 #' @export
 tagfilter_lostandfound2 <- function(){
   dict <- list()
@@ -85,6 +102,7 @@ tagfilter_lostandfound2 <- function(){
 
 
 #' Filter Quanteda Corpus: Crime with focus on property delinquency
+#' @rdname tagfilter_lostandfound
 #' @export
 tagfilter_crime <- function(){
   dict <- list()
