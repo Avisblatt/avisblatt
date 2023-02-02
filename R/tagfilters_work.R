@@ -1,4 +1,21 @@
+#' Tagfilter work
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for ads concerning the job market (especially 
+#' servants, clerks, and apprentices), promoting services, and boarding 
+#' arrangements.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_work
+#' @seealso tagfilters
+NULL
+
+
 #' Filter Quanteda Corpus: Employment offer section
+#' @name tagfilter_work
 #' @export
 tagfilter_employmentoffer <- function(){
   dict <- list()
@@ -13,6 +30,7 @@ tagfilter_employmentoffer <- function(){
 }
 
 #' Filter Quanteda Corpus: Employment seeking section
+#' @name tagfilter_work
 #' @export
 tagfilter_employmentseeking <- function(){
   dict <- list()
@@ -27,6 +45,7 @@ tagfilter_employmentseeking <- function(){
 }
 
 #' Filter Quanteda Corpus: Employment in labourinfo section
+#' @name tagfilter_work
 #' @export
 tagfilter_employment1 <- function(){
   dict <- list()
@@ -57,6 +76,7 @@ tagfilter_employment1 <- function(){
 
 
 #' Filter Quanteda Corpus: Employment in pertinent sections outside labourinfo
+#' @name tagfilter_work
 #' @export
 tagfilter_employment2 <- function(){
   dict <- list()
@@ -80,6 +100,7 @@ tagfilter_employment2 <- function(){
 }
 
 #' Filter Quanteda Corpus: Advertising/promoting business in section labourinfo
+#' @name tagfilter_work
 #' @export
 tagfilter_bizpromo1 <- function(){
   dict <- list()
@@ -106,6 +127,7 @@ tagfilter_bizpromo1 <- function(){
 
 
 #' Filter Quanteda Corpus: Advertising/promoting business outside section labourinfo
+#' @name tagfilter_work
 #' @export
 tagfilter_bizpromo2 <- function(){
   dict <- list()
@@ -134,6 +156,7 @@ tagfilter_bizpromo2 <- function(){
 
 
 #' Filter Quanteda Corpus: Boarding section
+#' @name tagfilter_work
 #' @export
 tagfilter_boarding1 <- function(){
   dict <- list()
@@ -148,6 +171,7 @@ tagfilter_boarding1 <- function(){
 }
 
 #' Filter Quanteda Corpus: Boarding in other sections
+#' @name tagfilter_work
 #' @export
 tagfilter_boarding2 <- function(){
   dict <- list()

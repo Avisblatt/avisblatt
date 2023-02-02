@@ -1,4 +1,22 @@
+#' Tagfilter Print
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for ads concerning books and other printed items,
+#' including promotion by bookstores and publishers, (shared) subscriptions to 
+#' books and journals, and books in specific contexts like books in libraries, 
+#' lost books, or  book lotteries.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_print
+#' @seealso tagfilters
+NULL
+
+
 #' Filter Quanteda Corpus: Print inside bookstore section
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print1 <- function(){
   dict <- list()
@@ -13,6 +31,7 @@ tagfilter_print1 <- function(){
 }
 
 #' Filter Quanteda Corpus: Print outside bookstore section, commercial sellers
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print2 <- function(){
   dict <- list()
@@ -56,6 +75,8 @@ tagfilter_print2 <- function(){
 }
 
 #' Filter Quanteda Corpus: Print outside bookstore section, non-commercial sellers
+#' @rdname tagfilter_print
+#' @export
 tagfilter_print3 <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "ps", "offering")
@@ -110,6 +131,8 @@ tagfilter_print3 <- function(){
 }
 
 #' Filter Quanteda Corpus: Print outside bookstore section, non-commercial buyers
+#' @rdname tagfilter_print
+#' @export
 tagfilter_print4 <- function(){
   dict <- list()
   dict$applicable <- list("saledemand", "ps", "demanding", "othernews")
@@ -163,6 +186,7 @@ tagfilter_print4 <- function(){
 }
 
 #' Filter Quanteda Corpus: shared newspaper subscriptions
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print5 <- function(){
   dict <- list()
@@ -185,6 +209,7 @@ tagfilter_print5 <- function(){
 }
 
 #' Filter Quanteda Corpus: lost books
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print6 <- function(){
   dict <- list()
@@ -226,6 +251,7 @@ tagfilter_print7 <- function(){
 }
 
 #' Filter Quanteda Corpus: subscription
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print8 <- function(){
   dict <- list()
@@ -243,6 +269,7 @@ tagfilter_print8 <- function(){
 }
 
 #' Filter Quanteda Corpus: co-subscription
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print9 <- function(){
   dict <- list()
@@ -264,6 +291,7 @@ tagfilter_print9 <- function(){
 }
 
 #' Filter Quanteda Corpus: book lottery
+#' @rdname tagfilter_print
 #' @export
 tagfilter_print10 <- function(){
   dict <- list()

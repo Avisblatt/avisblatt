@@ -3,6 +3,9 @@ tf_header <- function(prefix = F){
          "saleoffer",
          "lendoffer",
          "lenddemand",
+         "lend",
+         "demanding",
+         "offering",
          "lostandfoundheader",
          "lostheader",
          "foundheader",
@@ -28,8 +31,6 @@ tf_header <- function(prefix = F){
          "denaturalisation",
          "propertysaleoffer",
          "insolvency",
-         "demanding",
-         "offering",
          "ps",
          "merge_to_ad")
   if (prefix) {paste0("tagfilter_", l)}
@@ -68,6 +69,39 @@ tagfilter_ps <- function(){
 }
 
 
+#' Dictionary Demand (unclear if for sale or to lend) (Header)
+#' @export
+tagfilter_demanding <- function(){
+  dict <- list()
+  dict$pos <- list(
+    demand_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)begehrt",
+    demand_2 = "(dergleichen|item|ferne(r|rs)|dann)(.*)begehrt",
+    demand_3 = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)begehrt"
+  )
+  dict$neg <- list(
+    labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary Offer (unclear if for sale or to lend) (Header)
+#' @export
+tagfilter_offering <- function(){
+  dict <- list()
+  dict$pos <- list(
+    offer_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)o(ff|f)er(i|ie)rt",
+    offer_2 = "(dergleichen|item|ferne(r|rs)|dann) (.*[^Verleyhen])o(ff|f)er(i|ie)rt",
+    offer_3 = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)o(ff|f)er(i|ie)rt",
+    offer_4 = "(wird|werden)o(ff|f)er(i|ie)rt"
+  )
+  dict$neg <- list(
+    labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
+  )
+  create_filter_output(dict)
+}
+
+
 #' Dictionary things offered for sale (Header)
 #' @export
 tagfilter_saleoffer <- function(){
@@ -101,7 +135,7 @@ tagfilter_saledemand <- function(){
 }
 
 
-#' Dictionary things offered to lend (Header)
+#' Dictionary offered to lend (Header)
 #' @export
 tagfilter_lendoffer <- function(){
   dict <- list()
@@ -115,7 +149,7 @@ tagfilter_lendoffer <- function(){
 }
 
 
-#' Dictionary things demanded to lend (Header)
+#' Dictionary demanded to lend (Header)
 #' @export
 tagfilter_lenddemand <- function(){
   dict <- list()
@@ -123,6 +157,20 @@ tagfilter_lenddemand <- function(){
     lenddemand_1 = "(entl|l)ehnen",
     lenddemand_2 = "entehnen" # original misspelled
     )
+  dict$neg <- list(
+    double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
+  )
+  create_filter_output(dict)
+}
+
+
+#' Dictionary demanded or offered to lend (Header)
+#' @export
+tagfilter_lend <- function(){
+  dict <- list()
+  dict$pos <- list(
+    offer_or_request = "usleihen(.*)lehnen"
+  )
   dict$neg <- list(
     double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
   )
@@ -433,39 +481,6 @@ tagfilter_election <- function(){
   )
   dict$neg <- list(
     placeholder = "bibedibabediboo" # placeholder
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Demand (unclear if for sale or to lend) (Header)
-#' @export
-tagfilter_demanding <- function(){
-  dict <- list()
-  dict$pos <- list(
-    demand_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)begehrt",
-    demand_2 = "(dergleichen|item|ferne(r|rs)|dann)(.*)begehrt",
-    demand_3 = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)begehrt"
-  )
-  dict$neg <- list(
-    labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
-  )
-  create_filter_output(dict)
-}
-
-
-#' Dictionary Offer (unclear if for sale or to lend) (Header)
-#' @export
-tagfilter_offering <- function(){
-  dict <- list()
-  dict$pos <- list(
-    offer_1 = "(dergleichen|item|ferne(r|rs)|wird|werden)o(ff|f)er(i|ie)rt",
-    offer_2 = "(dergleichen|item|ferne(r|rs)|dann) (.*[^Verleyhen])o(ff|f)er(i|ie)rt",
-    offer_3 = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)o(ff|f)er(i|ie)rt",
-    offer_4 = "(wird|werden)o(ff|f)er(i|ie)rt"
-  )
-  dict$neg <- list(
-    labourinfo = "Bediente|Jungen" # filters out headers belonging to labourinfo category
   )
   create_filter_output(dict)
 }

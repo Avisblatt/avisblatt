@@ -2,8 +2,8 @@
 #'
 #' Tagfilters are regular expression based filters designed to tag ads in order
 #' to classify ads based on their content. The avisblatt R package comes with
-#' curated filters to search for finance related ads and finds ads that contain different
-#' loans, sales and lotteries.
+#' curated filters to search for ads related to financial matters such as 
+#' loan requests and offers, trading securities, or advertising class lotteries.
 #'
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
@@ -129,4 +129,3 @@ tagfilter_lottery <- function(){
   )
   create_filter_output(dict)
 }
-

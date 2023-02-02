@@ -1,7 +1,23 @@
+#' Tagfilter Property
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for ads concerning the housing and property market, 
+#' and the (tradable) entitlement to fixed seats in churches.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_property
+#' @seealso tagfilters
+NULL
+
+
 #' Filter Quanteda Corpus: Housing for rent in renting section
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-09-29
 #' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_rent1 <- function(){
   dict <- list()
@@ -33,6 +49,7 @@ tagfilter_housing_rent1 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for rent in other sections
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_rent2 <- function(){
   dict <- list()
@@ -73,6 +90,7 @@ tagfilter_housing_rent3 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for sale in sale and auction sections, unambiguous search terms
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_sale1 <- function(){
   dict <- list()
@@ -102,6 +120,7 @@ tagfilter_housing_sale1 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for sale in sale and auction sections, more ambiguous search terms
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_sale2 <- function(){
   dict <- list()
@@ -140,6 +159,7 @@ tagfilter_housing_sale2 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for auction sale in the house itself
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_sale3 <- function(){
   dict <- list()
@@ -155,6 +175,7 @@ tagfilter_housing_sale3 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for sale in propertysaleoffer section (section is easily overlooked, so adding all ads to housing tags as well)
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_sale4 <- function(){
   dict <- list()
@@ -170,6 +191,7 @@ tagfilter_housing_sale4 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing for sale in other sections
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_sale5 <- function(){
   dict <- list()
@@ -193,6 +215,7 @@ tagfilter_housing_sale5 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing offered or requested, unclear if for sale or rent
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_other1 <- function(){
   dict <- list()
@@ -230,6 +253,7 @@ tagfilter_housing_other1 <- function(){
 
 
 #' Filter Quanteda Corpus: Housing, unclear if for sale or rent
+#' @name tagfilter_property
 #' @export
 tagfilter_housing_other2 <- function(){
   dict <- list()
@@ -265,6 +289,7 @@ tagfilter_housing_other2 <- function(){
 
 
 #' Filter Quanteda Corpus: Church Seat
+#' @name tagfilter_property
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
