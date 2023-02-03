@@ -13,8 +13,6 @@
 NULL
 
 
-#' @name tagfilter_attributes
-
 #' Filter Quanteda Corpus: Transaction type - offers in offer sections
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-11-03

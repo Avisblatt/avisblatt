@@ -16,8 +16,8 @@ tagfilter_crime()
 \description{
 Tagfilters are regular expression based filters designed to tag ads in order
 to classify ads based on their content. The avisblatt R package comes with
-curated filters to search for lost and found related ads and finds ad content from searches to
-crime.
+curated filters to search for ads announcing lost or found, and potentially 
+stolen items.
 }
 \details{
 The tagfilters help site provides you with a list of available tagfilters

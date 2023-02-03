@@ -2,10 +2,10 @@
 % Please edit documentation in R/tagfilters_headers.R
 \name{tagfilter_lendoffer}
 \alias{tagfilter_lendoffer}
-\title{Dictionary things offered to lend (Header)}
+\title{Dictionary offered to lend (Header)}
 \usage{
 tagfilter_lendoffer()
 }
 \description{
-Dictionary things offered to lend (Header)
+Dictionary offered to lend (Header)
 }
