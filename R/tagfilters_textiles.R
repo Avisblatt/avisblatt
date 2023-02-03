@@ -3,7 +3,7 @@
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_clothing <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     clothing_general = "(?<!zu\\s|für\\s)(?<!Nacht|Unter|Toten)(?<!Schlaf|Todten)(Kle(i|y)d|Ärmel|(?<!Sch)(?<!ge)Weste)(?!(\\-?(e|er|en|er|en)((k(a|ä)st|schrank|mange|kästlein))))(?!\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))",
     clothing_coat_dress = "(?<!zu\\s|für\\s)(?<!Meyen|Nacht|Unter|Toten)(?<!Schlaf|Todten)(?<!Bolingb|Uniform)(?<!Offizier|Exerzier)(?<!Offiziers)R(o|ö)ck\\w*?(?!(\\s(zu(m|)\\s|)(vertilgen|stricken|dienlich|w(a|ä)schen|machen|glätten|nähen|putzen|stricken|mangen))|stroh)",
@@ -31,7 +31,7 @@ tagfilter_clothing <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_sleepwear <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     sleepwear = "(Schlaf|Nach(t|ts))(\\-|\\s|)(r(o|ö)(ck|k|c)|(ä|a|ae|e)rmel)"
   )
@@ -47,7 +47,7 @@ tagfilter_sleepwear <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_uniform <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     uniform_coat = "(Offi(z|c)(i|j)e(rs|r)|Un(i|j)form|Infanter(i|ie)|F(ü|u)selier|Exerz(i|j)er|(K|C)a(n|nn)on(i|t)er|Ordonanz|Dragoner|Constahler|Frey(\\-|)compagn(i|j)e|Mili(z|c)|Grenadier(s|)|Chasseur|Artillerie|Voltigeur|Landwehr)(\\-|\\s|)(R(o|ö)ck|Weste|Montur)",
     uniform_jacket = "Tscha(k|kk|ck)(o|e)(?!(\\-|\\s)(deckel))",
@@ -71,7 +71,7 @@ tagfilter_uniform <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_underwear <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     underwear_general = "(?<!zu\\s|für\\s)(Lingerie|\\-Leiber|Leibchen|Unter(kleid|r(o|ö)ck|(ä|ae|a|e)rmel|hose))",
     underwear_corset = "(?<!zu\\s|für\\s)(K|C)orset|(?<!Arm\\-|Arm\\s|Arm)Br(u|ü)ste|Schn(u|ü)rbr(u|ü)st",
@@ -94,7 +94,7 @@ tagfilter_underwear <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_outerwear <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     outerwear_male = "Frack|Talar",
     outerwear_general = "(?<!zu\\s|für\\s)M(a|ä)ntel|Co(at|tte)|Mantille|Kittel|Pellerine"
@@ -114,7 +114,7 @@ tagfilter_outerwear <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_costume <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     costume_carneval = "(Milch|Bauern)(\\-|)jogg(el|i)|(Masken|Fastnach(t|ts)|Polichine(l|ll))(\\-|)kle(i|y)d|Milchbrentl|Ritter(\\-|)rüstung",
     costume_shroud = "T(o|öö|ö)(dt|t)enr(ö|o)ck",
@@ -133,7 +133,7 @@ tagfilter_costume <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_shoes <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     shoes_slippers = "Panto(ff|f)el(?!n?\\-?(holz|bouteill|z(ä|a)pf))|Chauffe-pied",
     shoes_general = "(?<!Hand\\s|Hand\\-|Hand|Gulden|Rad|halben)\\s?Sch(u|ü)h(?!\\-?(wachs|schwärze|kraft|knech|(m|em)acher|schnalle|enmeister|rin(ck|k)|n(ä|a)gel))",
@@ -172,7 +172,7 @@ tagfilter_shoes <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_handkerchief <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
       handkerchief_1 = "(?<!für\\s)\\w*?((Sch|ch)(n|u)(u|uu)p(f|ff)|Sack|Nas|Nass)t(u|ü)ch\\w*?|(M|m)(o|ö)uc(h|i)oir\\w*?",
       handkerchief_2 = "(?<!zu\\s)\\w*?((Sch|ch)(n|u)(u|uu)p(f|ff)|Sack|Nas|Nass)t(u|ü)ch\\w*?|(M|m)(o|ö)uc(h|i)oir\\w*?"
@@ -190,7 +190,7 @@ tagfilter_handkerchief <- function(){
 #' @export
 tagfilter_hand <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     hand_muff = "\\w*?(S|s)chl(u|ü)p(f|ff)er|(?<!(An|Ge|Hi|gu|zu))(?<!((a|A)uf))(?<!(Chri))\\w*?((S|s)t(o|oo|ö)(ß|s|ss)\\b|(M|m)(a|ä)r(t|d)er)(?!\\-?((B|b)uch|(W|w)oche|(F|f)alle|n\\b|en\\b|(P|p)elz|(B|b)räm))",
     hand_gloves = "\\w*?(H|h)andsch(u|ü)(h|e)(?!(\\s|\\-)?((F|f)abri(c|k)|((M|m)acher)))"
@@ -210,7 +210,7 @@ tagfilter_hand <- function(){
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_neck <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     neck_colar = "(?<!zu\\s|für\\s)(Palatine|Krägen|Cols)",
     neck_necktie = "(?<!zu\\s|für\\s)\\w*?(C|K|c|k)rav(e|a)(t|tt)e",
@@ -237,7 +237,7 @@ tagfilter_neck <- function(){
 #' @export
 tagfilter_headdress <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     head_wig = "(Perruck\\w*)(?!(macher|machen))|H(a|aa)r(-|)(T|t)ours",
     head_cap = "Kappe\\w*(?!-?(M|m)acher)|Capotte|Bonnet|Mütze",
@@ -279,7 +279,7 @@ tagfilter_headdress <- function(){
 #' @export
 tagfilter_texmaterial <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     atlas = "gestreifter Atlas",
     texmaterial_unclear = "Nappes|Senpareille|Napolitain|Circassien|(Et|Str)amin|(K|C)amelot|Altan",
@@ -336,7 +336,7 @@ tagfilter_texmaterial <- function(){
 #' @export
 tagfilter_cloth <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     cloth = "Reste|Zeug|T(u|ü)ch|Geflecht|Etoffe|Gewebe"
   )
@@ -374,7 +374,7 @@ tagfilter_cloth <- function(){
 #' @export
 tagfilter_yarn <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     yarn_general = "Garn|Faden|Cordon|Litze",
     yarn_embroidery = "Stick(seide|wolle|baum)",

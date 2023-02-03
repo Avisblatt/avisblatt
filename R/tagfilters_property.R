@@ -21,7 +21,7 @@ NULL
 #' @export
 tagfilter_housing_rent1 <- function(){
   dict <- list()
-  dict$applicable <- list("lendoffer", "lenddemand")
+  dict$applicable <- list("lendoffer", "lenddemand", "lend")
   dict$pos <- list(
     general = "(B|b)ehausung|(W|w)ohnung|Losament|\\bL(o|a)gi(s|\\s)\\b|(G|g)ebäud|(H|h)äu(s|ß)lein|(Land|Wohn)haus|Landg(ü|u)t|G(u|ü)tlein", # not "Haus" as this often used in contact references in all sorts of ads
     a_house = "(\\b E|\\s e)in Haus",
@@ -293,8 +293,9 @@ tagfilter_housing_other2 <- function(){
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
-  dict$applicable <- list("saledemand","saleoffer","lendoffer","lenddemand","labourinfo","auctions",
-         "othernews","exchange","demanding","offering","ps")
+  dict$applicable <- list("saledemand", "saleoffer", "lendoffer", "lenddemand", 
+                          "lend", "labourinfo", "auctions", "othernews", 
+                          "exchange", "demanding", "offering", "ps")
   dict$pos <- list(
     seat = "(K|k)irchen(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",
     folding_seat = "Anhencker",

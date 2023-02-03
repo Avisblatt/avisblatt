@@ -19,7 +19,7 @@ NULL
 #' @export
 tagfilter_finance_loan1 <- function(){
   dict <- list()
-  dict$applicable <- list("lendoffer", "lenddemand")
+  dict$applicable <- list("lendoffer", "lenddemand", "lend")
   dict$pos <- list(
     capital = "(C|K)apital|Vogtsgeld",
     capitalphrase_1 = "(L|(f|F)(r|l)).? \\d{3,6}",
