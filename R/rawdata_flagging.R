@@ -156,7 +156,7 @@ rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
   message("Loading data.")
   meta_dt <- load_metadata(AVIS_YEARS, source_path_json)
   
-  fraternaltwin_processing(meta_dt, dest_path)
+  meta_dt <- fraternaltwin_processing(meta_dt, dest_path)
   
   message("Composing final collections.\nCopy data files (CSV) to folder")
   csv_files <- list.files(source_path_csv, pattern = "csv")
