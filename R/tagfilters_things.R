@@ -2,6 +2,7 @@
 #' @export
 tagfilter_mercery <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     pin = "Vorstecknadel",
     buckle = "Schnalle",
@@ -27,6 +28,7 @@ tagfilter_mercery <- function(){
 #' @export
 tagfilter_bag <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bag = "Tasche|Seckel|Beutel|S(ä|a)ck|Ridicule|Täschlein|N(é|e)cessaire",
     rucksack = "Felleisen"
@@ -68,6 +70,7 @@ tagfilter_bag <- function(){
 # therefore here only unambiguous words so far
 tagfilter_animalraw <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     leather = "Sohl(leder|h(a|ä)ut)|Sohl-(Leder|H(a|ä)ut)|Zeugleder",
     feather = "Be(tt|th)f(eh|e)de|Flaum|Eitherd(aun|un)|Federb(u|ü)sch|Federen|(Pf|F)laumfed",
@@ -92,6 +95,7 @@ tagfilter_animalraw <- function(){
 #' @export
 tagfilter_plantraw <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     alpinegrass = "Waldhaar"
 
@@ -107,6 +111,7 @@ tagfilter_plantraw <- function(){
 #' @export
 tagfilter_umbrella <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     rain = "Par(a|e)plu(i|y|v|g)|Regenschirm|genschirm",
     sun = "Sonnenschirm|Ombrelle|Pa(r|rr)(a|e)sol"
@@ -123,6 +128,7 @@ tagfilter_umbrella <- function(){
 #' @export
 tagfilter_carriage <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     whip = "(Chai|Schä)sepeitsche|(Chai|Schä)se-Peitsche",
     harness = "(K(u|ü)mmet|Chaise|Schäse)-Geschir|(K(u|ü)mmet|Chaise|Schäse)geschir|Kutsc(h|he|hen)geschir|Kutsc(h|he|hen)-Geschir",
@@ -185,6 +191,7 @@ tagfilter_carriage <- function(){
 #' @export
 tagfilter_pushchair <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     pushchair = "Korbw(a|ä|ae)g|Kinderw(a|ä|ae)g|Kinder(chais|schäs)|
     Korb-W(ag|äg|ae)|Kinder-W(a|ä|ae)g|Kinder-(Chais|Schäs)"
@@ -199,6 +206,7 @@ tagfilter_pushchair <- function(){
 #' @export
 tagfilter_storage <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     basket = "K(o|ö)rb",
     box ="K(i|ü)st(e|ch)|Kästchen",
@@ -265,6 +273,7 @@ tagfilter_storage <- function(){
 #' @export
 tagfilter_buildingcomponents <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     door = "steinerner Bogen",
     well_1 = "Br(u|ü)(nn|n)stein",
@@ -327,6 +336,7 @@ tagfilter_buildingcomponents <- function(){
 #' @export
 tagfilter_suitcase <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     suitcase = "(K|C)off(er|re)",
     travelbag = "Rei(ss|se|ß|s)(a|ä)ck|Rei(s|ss|se|ß)-S(a|ä)ck"
@@ -345,6 +355,7 @@ tagfilter_suitcase <- function(){
 #' @export
 tagfilter_measure <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     meter = "(Baro|(T|Th)ermo)meter"
   )
@@ -361,6 +372,7 @@ tagfilter_measure <- function(){
 #' @export
 tagfilter_trolley <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     handcart = "(Hand|Leiter)w(ä|a)ge(l|n)|(Sto(ss|ß|s)|Trog)ka(rr|r)en|K(a|ä)(rr|r)en",
     trolley = "(Bauern|Dielen)-W(a|ä)ge|(Bauern|Dielen)w(a|ä)ge|Fuhrwerk",
@@ -381,6 +393,7 @@ tagfilter_trolley <- function(){
 #' @export
 tagfilter_health <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     medicine_1 = "Bal(s|ss)am|Heilmittel|Hustentäfel|Salbe|Tin(k|c)tur|Gichtpapier|Zahn-Pulver|Zahnpulver
     |Ar(tz|tzt|zt)ne(y|i)|Tabletten|Medi(z|c)in|Pulver|Mittels|Heilkraft|Mittel(wider|gegen|für)|Augenmittel|
@@ -440,6 +453,7 @@ tagfilter_health <- function(){
 #' @export
 tagfilter_weapon <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     general = "Waffe|Ordonnanz-G",
     crossbow = "Armbrust",
@@ -463,6 +477,7 @@ tagfilter_weapon <- function(){
 #' @export
 tagfilter_shopequip <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     storage = "(C|K)omptoir-K(a|ä)sten|(C|K)omptoirk(a|ä)sten|W(aa|a)renk(ä|a)st|W(aa|a)ren-K(ä|a)st",
     display = "Gl(a|ä)sk(a|ä)st|Gl(ä|a)ser-K(a|ä)st|Glasglocke",
@@ -486,6 +501,7 @@ tagfilter_shopequip <- function(){
 #' @export
 tagfilter_tool <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     fire = "Bl(a|ä)(s|se|ß|ss)balg",
     woodworking = "Bohrer|Brenneisen|Drehstuhl|H(o|ö)bel|Hackb(a|ä)nk|Hack-B(a|ä)nk|H(a|ä)mmer|
@@ -525,6 +541,7 @@ tagfilter_tool <- function(){
 #' @export
 tagfilter_stationary <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     pen = "Bleistift|Griffel|Schreib(feder|zeug)",
     drawing = "Zeichnungs(kreide|papier)|Pinsel|Far(ben|b)k(ä|a)st|Far(ben|b)-K(ä|a)st",
@@ -557,6 +574,7 @@ tagfilter_stationary <- function(){
 #' @export
 tagfilter_jewellery <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     flowers = "(Ball|Kunst)blume|(Braut|To(dt|t)en)kr(a|ä)nz",
     necklace = "Hals(kette|band)", # ad "Kette" when completing dictionary (a lot of negatives)
@@ -575,6 +593,7 @@ tagfilter_jewellery <- function(){
 #' @export
 tagfilter_wood <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     firewood = "Brennhol(tz|z)",
     coal_1 = "tannene Kohlen",
@@ -608,6 +627,7 @@ tagfilter_wood <- function(){
 #' @export
 tagfilter_barrel <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bottle = "Bouteille(n|s)|Pi(è|e|é)ces|Gutter|Selterserwasser-Kr(ü|u)ge",
     barrel_1 = "Fa(ss|ß)\\b|Fä(ss|ß)er\\b|(Ö|Oe)hlst(u|ü)cklein|Fä(ss|ß)(chen|lein)",
@@ -630,6 +650,7 @@ tagfilter_barrel <- function(){
 #' @export
 tagfilter_tobaccoobjects <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     pipe = "Pfeife|Taba(k|ck|ks|cks|c|cs)pfeife|Pfeifen(kopf|raumer|rohr)",
     storage = "((C|Z)iga(rr|r)en|Taba(k|ck|ks|cks|c|cs))-(B(ü|u)chs|Bux|Etuis|Dose|Beutel)|
@@ -651,6 +672,7 @@ tagfilter_tobaccoobjects <- function(){
 #' @export
 tagfilter_hay <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     hay = "H(e|ö)(u|ü|w)\\b|\\bEm(d|bd|db)\\b|H(e|ö)(u|ü|w)gra(ss|ß|s)",
     straw = "Stroh\\b",
@@ -676,6 +698,7 @@ tagfilter_hay <- function(){
 #' @export
 tagfilter_woodobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     woodturning = "Drechslerw(aa|a)r|Drechsler-W(aa|a)r",
     carving = "Schnitzw(aa|a)r|Schnitz-W(aa|a)r",
@@ -691,6 +714,7 @@ tagfilter_woodobject <- function(){
 #' @export
 tagfilter_dung <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     dung_1 = "(K(ü|u)h|Pfer(d|de)|Schwei(n|ne)|Tauben|Ziegen|Sch(a|aa)f)(bau|mist)", # possibly add "\\bBau\\b", but a lot of negatives at this point
     dung_2 = "verwährter Bau"
@@ -707,6 +731,7 @@ tagfilter_dung <- function(){
 #' @export
 tagfilter_plant <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     tree = "B(a|ä)um|Obstb(ä|a)um",
     bush_1 = "Gar(th|t)enbu(chs|x)|Oleander",
@@ -749,6 +774,7 @@ tagfilter_plant <- function(){
 #' @export
 tagfilter_glasses <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     glasses = "Brille|(Augen|Lese)gl(a|ä)s",
     lens = "Luppe|Augenspiegel",
@@ -770,6 +796,7 @@ tagfilter_glasses <- function(){
 #' @export
 tagfilter_soil <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     soil = "(Garten|Matten)grund|(Garten|Matten)-Grund",
     gravel = "Birsgrien|Kieselstein|Asphalt",
@@ -790,6 +817,7 @@ tagfilter_soil <- function(){
 #' @export
 tagfilter_agriculturalobjects <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     tool = "Dreschflegel|(Heu|Lad|Lade)gabel|Pfl(u|ü)g|Sense|Rechen|Mattenmesser|Matten-Messer",
     trolley = "Güllenkarren|Heuwagen",
@@ -814,6 +842,7 @@ tagfilter_agriculturalobjects <- function(){
 #' @export
 tagfilter_riding <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     saddle = "S(a|ä)ttel|Steigbügel",
     bridle = "(Pfer(de|d)|Reit)((b|ge)iss|geschir)|(Pfer(de|d)|Reit)-((B|Ge)iss|Geschir)",
@@ -831,6 +860,7 @@ tagfilter_riding <- function(){
 #' @export
 tagfilter_well <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     well = "(Br(u|ü)n(n|nen)|Wasser)stein|(Brun(n|nen)|Wasser)-Stein|Br(u|ü)n(n|nen)trog|Br(u|ü)n(n|nen)-Stein|Br(u|ü)n(n|nen)-Trog|
     Br(u|ü)n(n|nen)stiefel|Br(u|ü)n(n|nen)-Stiefel",
@@ -848,6 +878,7 @@ tagfilter_well <- function(){
 #' @export
 tagfilter_naturalia <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     naturalia = "Muscheln|Schmetterling", # "Muscheln" can also be a material, e.g. describing buttons
     minerals = "Versteinerung|Mineralien"
@@ -863,6 +894,7 @@ tagfilter_naturalia <- function(){
 #' @export
 tagfilter_container <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     container = "Z(u|ü)ber|Eimer|Trog|B(ö|o|u)(ck|k|ckt|kt)(lin|re)"
   )
@@ -887,6 +919,7 @@ tagfilter_container <- function(){
 #' @export
 tagfilter_firestart <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     lighter = "Feuer(stahl|zeug|schw(a|ä)mm)|Zündmaschine",
     match = "(Schwefel|Zünd)h(o|ö)l(z|tz)"
@@ -901,6 +934,7 @@ tagfilter_firestart <- function(){
 #' @export
 tagfilter_extinguisher <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     extinguisher = "Feu(er|r)spritze|Feu(er|r)-(S|s)pritze",
     bucket_1 = "(Feuer|Lösch)(eimer|trog|z(u|ü)ber)|(Feuer|Lösch)-(eimer|trog|z(u|ü)ber)",
@@ -916,6 +950,7 @@ tagfilter_extinguisher <- function(){
 #' @export
 tagfilter_firework <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     firework = "Feu(er|r)werk"
   )
@@ -929,6 +964,7 @@ tagfilter_firework <- function(){
 #' @export
 tagfilter_antique <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     antique_1 = "Antique-K(o|ö)pf|Antiquek(o|ö)pf|Statue",
     antique_2 = "römisch(e|en) Figur",
@@ -944,6 +980,7 @@ tagfilter_antique <- function(){
 #' @export
 tagfilter_key <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     home = "Hausschlüssel",
     furniture = "Schrankschlüssel|Uhrenschlüssel"
@@ -958,6 +995,7 @@ tagfilter_key <- function(){
 #' @export
 tagfilter_cane <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     cane_1 = "Spazierst(o|ö)ck",
     cane_2 = "spanisc(h|he|hes|her) R(o|ö)hr"
@@ -972,6 +1010,7 @@ tagfilter_cane <- function(){
 #' @export
 tagfilter_wineobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     production = "Weintrott|Z(a|ä)pfen",
     storage = "(Wein|Herbst)b(ü|u|o)(k|ck)te|B(ü|u|o)(k|ck)t(e\\b|en\\b)",
@@ -987,6 +1026,7 @@ tagfilter_wineobject <- function(){
 #' @export
 tagfilter_rope <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     rope = "(Spann|Zug|(B|P)lunder)(strick|seil)|(Spann|Zug|(B|P)lunder)-(Strick|Seil)"
   )
@@ -1001,6 +1041,7 @@ tagfilter_rope <- function(){
 #' @export
 tagfilter_tavernobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     sign = "Wir(th|t)sschild",
     general = "Wir(t|th)scha(f|ff)tsgerät"
@@ -1016,6 +1057,7 @@ tagfilter_tavernobject <- function(){
 #' @export
 tagfilter_feed <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     potatoes = "Schwei(n|ns)erdäpfel|Schwei(n|ns)-Erdäpfel",
     feed_1 = "Fütterung der",
@@ -1033,6 +1075,7 @@ tagfilter_feed <- function(){
 #' @export
 tagfilter_miscobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     misc = "Gegenstände|Waarenlager",
     magnets = "Magnet"

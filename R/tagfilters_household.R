@@ -20,6 +20,7 @@ NULL
 #' @export
 tagfilter_bed <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bed = "Be(th|tt)",
     cradle = "Wiege"
@@ -52,6 +53,7 @@ tagfilter_bed <- function(){
 #' @export
 tagfilter_bedding <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bedding = "Hauszeug|Ma(t|d)ra(t|z)|Be(tt|th)(deck|wer|zeug|sack|eingu(s|ß))|Be(tt|th)-(deck|wer|zeug|sack|eingu(s|ß))|Federbe(th|tt)|
     Decke|(Stro(ch|h)|Nacht)s(a|ä)ck|Kissen|(Unter|Deck)be(tt|th)"
@@ -80,6 +82,7 @@ tagfilter_bedding <- function(){
 #' @export
 tagfilter_tablelinen <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     tablelinen = "(Tisch|Tafel)(zeug|deck|t(u|ü)ch|(p|b)lunder)",
     napkin = "Serviette|Handt(ü|u)ch"
@@ -98,6 +101,7 @@ tagfilter_tablelinen <- function(){
 #' @export
 tagfilter_carpet <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     carpet = "T(e|a)(pp|p)i|Bodent(u|ü)ch",
     curtain = "Vorh(a|ä)ng"
@@ -116,6 +120,7 @@ tagfilter_carpet <- function(){
 #' @export
 tagfilter_chair <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     chair = "St(u|ü)hl|Sitz",
     bank = "B(a|ä)nk"
@@ -151,6 +156,7 @@ tagfilter_chair <- function(){
 #' @export
 tagfilter_cabinet <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     cupboard = "(B|b)(u|ü)ff(e|er)t",
     dresser = "(K|C)o(mm|m)ode|(T|t)rumeau",
@@ -190,6 +196,7 @@ tagfilter_cabinet <- function(){
 #' @export
 tagfilter_stove <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     stoves = "(O|Ö|Oe)fen|(K|C)amin|(Oe|Ö|O)fel",
     grates = "Feu(er|r)h(u|ü)nd|K(u|ü)nstblech",
@@ -221,6 +228,7 @@ tagfilter_stove <- function(){
 #' @export
 tagfilter_mirror <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     mirror = "Spiegel"
   )
@@ -242,6 +250,7 @@ tagfilter_mirror <- function(){
 #' @export
 tagfilter_timepiece <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     timepiece = "(U|Ü|Ue)hr|Pendul"
   )
@@ -300,6 +309,7 @@ tagfilter_timepiece <- function(){
 #' @export
 tagfilter_table <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     kitchentable = "Küch(e|en)-Tafel|Küch(e|en)tafel",
     table = "Tisch"
@@ -333,6 +343,7 @@ tagfilter_table <- function(){
 #' @export
 tagfilter_tableware <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     plate = "Teller",
     tableware = "Geschir|Biergl(ä|a)s|Tasse|Humpe|Becher",
@@ -381,6 +392,7 @@ tagfilter_tableware <- function(){
 #' @export
 tagfilter_bureau <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bureau = "Se(k|c)ret(ä|ai)r", # one false positive for "Secretär" as a job
     workdesk ="P(u|ü)lt"
@@ -404,6 +416,7 @@ tagfilter_bureau <- function(){
 #' @export
 tagfilter_toy <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     learning = "ABC-Spiel",
     doll = "Puppe|Puppen-Korbw(a|ä)g|Puppenkorbw(a|ä)g",
@@ -430,6 +443,7 @@ tagfilter_toy <- function(){
 #' @export
 tagfilter_game <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     billard = "Bi(l|ll|li|lli)ard",
     chess = "Schach(bret|spiel)",
@@ -469,6 +483,7 @@ tagfilter_game <- function(){
 # I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
 tagfilter_kitchen <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     distilling = "Brennhafen",
     washingup = "Wasserstein",
@@ -512,6 +527,7 @@ tagfilter_kitchen <- function(){
 #' @export
 tagfilter_lighting <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     pocks = "Kindsblatern", # chicken pocks
     lighting = "Leuchter|Chandelier|Lampe|Latern|Nachtlicht|Lichtst(o|ö)ck|Lamep(en|e)gl(a|ä)s|
@@ -541,6 +557,7 @@ tagfilter_lighting <- function(){
 #' @export
 tagfilter_instrument <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     tuning = "Stimmgabel",
     keyboard = "Flügel|Piano|(C|K)lavier|Spi(n|nn)et",
@@ -585,6 +602,7 @@ tagfilter_instrument <- function(){
 #' @export
 tagfilter_wallpaper <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     wallpaper = "Tape(t|z)"
   )
@@ -609,6 +627,7 @@ tagfilter_wallpaper <- function(){
 #' @export
 tagfilter_cutlery <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     cutlery = "Lö(f|ff)el|Gabel|Messer",
     misc ="Silber(garnitur|geschir)|Besteck"
@@ -646,6 +665,7 @@ tagfilter_cutlery <- function(){
 #' @export
 tagfilter_divider <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     spanish_1 = "spa(n|nn)ische W(a|ä)nd",
     spanish_2 = "spa(n|nn)isch W(a|ä)nd",
@@ -666,6 +686,7 @@ tagfilter_divider <- function(){
 #' @export
 tagfilter_petobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bird = "Käfig|Paarh(a|ä)(u|ü)(s|ß)|Paar-h(a|ä)(u|ü)(s|ß)|Anh(e|a|ä)n(g|ck|c|k)k(ö|ä|e)fi(g|ch)|Flugbret|
     Maisenschlag|Taubennest|Tauben-Nest|Taubenschlag|Vogel(schlag|käfig|käfich)",
@@ -687,6 +708,7 @@ tagfilter_petobject <- function(){
 #' @export
 tagfilter_upholstery <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     couch = "(C|K)an(a|e)(f|p|ps)(a|é|e)",
     armchair ="Sessel|F(au|ua)t(ei|eui)l"
@@ -708,6 +730,7 @@ tagfilter_upholstery <- function(){
 #' @export
 tagfilter_domestic <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     embroidery = "Sticktrommel",
     sewing = "Nadeln|Nadlerwaaren|Nadler-Waaren|Nähk(ä|a)st|Steckgufen|Stecknadel|Fingerh(u|ü)t",
@@ -733,6 +756,7 @@ tagfilter_domestic <- function(){
 #' @export
 tagfilter_garden <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     trellis = "Spalier",
     bench = "Gartenb(a|ä)nk|Bänklein",
@@ -755,6 +779,7 @@ tagfilter_garden <- function(){
 #' @export
 tagfilter_homedeco <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     vase = "Vase",
     general = "Zimmerzierrat"
@@ -773,6 +798,7 @@ tagfilter_homedeco <- function(){
 #' @export
 tagfilter_art <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     art = "Aquarel|Handzeichnung|(Oe|Ö)lgemäld|(Oe|Ö)lbild|Kupferstiche|Bilder|Gem(ä|äh)lde|M(a|ah)lere(y|i)en"
   )
@@ -796,6 +822,7 @@ tagfilter_art <- function(){
 #' @export
 tagfilter_bathobject <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     bath = "B(a|aa)d(bütt|kast|käst)"
   )
@@ -810,6 +837,7 @@ tagfilter_bathobject <- function(){
 #' @export
 tagfilter_mischousehold <- function(){
   dict <- list()
+  dict$applicable <- list("saleoffer", "lendoffer", "lenddemand", "lend", "saledemand", "demand", "offer", "exchange", "othernews", "auctions", "ps", "lostandfoundheader")
   dict$pos <- list(
     misc_1 = "hausräthlich|hausrätlich",
     misc_2 = "Hausgerät"
