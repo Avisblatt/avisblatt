@@ -2,8 +2,8 @@
 #'
 #' Tagfilters are regular expression based filters designed to tag ads in order
 #' to classify ads based on their content. The avisblatt R package comes with
-#' curated filters to search for food related ads and finds ad content from spices,
-#' meat and poultry to alcohol, milk, coffee and much much more.
+#' curated filters to search for food and drink related ads and finds ad content from spices,
+#' chocolate and nuts to alcohol, milk and meat.
 #'
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
@@ -13,7 +13,6 @@
 NULL
 
 
-#' Dictionary Spices
 #' @rdname tagfilter_food
 #' @export
 tagfilter_spices <- function(){
@@ -39,7 +38,6 @@ tagfilter_spices <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Meat
 #' @rdname tagfilter_food
 #' @export
 tagfilter_meat <- function(){
@@ -76,7 +74,6 @@ tagfilter_meat <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Poultry
 #' @rdname tagfilter_food
 #' @export
 tagfilter_poultry <- function(){
@@ -99,7 +96,6 @@ tagfilter_poultry <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Alcohol
 #' @rdname tagfilter_food
 #' @export
 tagfilter_alcohol <- function(){
@@ -135,7 +131,6 @@ tagfilter_alcohol <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Milk
 #' @rdname tagfilter_food
 #' @export
 tagfilter_milk <- function(){
@@ -150,7 +145,6 @@ tagfilter_milk <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Coffee
 #' @rdname tagfilter_food
 #' @export
 tagfilter_coffee <- function(){
@@ -185,7 +179,6 @@ tagfilter_coffee <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fish and Seafood
 #' @rdname tagfilter_food
 #' @export
 tagfilter_fish <- function(){
@@ -211,7 +204,6 @@ tagfilter_fish <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fruits
 #' @rdname tagfilter_food
 #' @export
 tagfilter_fruit <- function(){
@@ -233,7 +225,6 @@ tagfilter_fruit <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Dried and Candied Fruit
 #' @rdname tagfilter_food
 #' @export
 tagfilter_driedfruit <- function(){
@@ -250,7 +241,6 @@ tagfilter_driedfruit <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tropical Fruits
 #' @rdname tagfilter_food
 #' @export
 tagfilter_tropicalfruit <- function(){
@@ -271,7 +261,6 @@ tagfilter_tropicalfruit <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Nuts
 #' @rdname tagfilter_food
 #' @export
 tagfilter_nuts <- function(){
@@ -289,7 +278,6 @@ tagfilter_nuts <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Honey
 #' @rdname tagfilter_food
 #' @export
 tagfilter_honey <- function(){
@@ -304,7 +292,6 @@ tagfilter_honey <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Vegetables
 #' @rdname tagfilter_food
 #' @export
 tagfilter_vegetable <- function(){
@@ -323,7 +310,6 @@ tagfilter_vegetable <- function(){
 }
 
 
-#' Dictionary Mineral Water
 #' @rdname tagfilter_food
 #' @export
 tagfilter_mineralwater <- function(){
@@ -340,7 +326,6 @@ tagfilter_mineralwater <- function(){
 }
 
 
-#' Dictionary Preserves
 #' @rdname tagfilter_food
 #' @export
 tagfilter_preserves <- function(){
@@ -358,7 +343,6 @@ tagfilter_preserves <- function(){
 }
 
 
-#' Dictionary Chocolate
 #' @rdname tagfilter_food
 #' @export
 tagfilter_chocolate <- function(){
@@ -378,7 +362,6 @@ tagfilter_chocolate <- function(){
 }
 
 
-#' Dictionary Grain and Flour
 #' @rdname tagfilter_food
 #' @export
 tagfilter_grain <- function(){
@@ -402,7 +385,6 @@ tagfilter_grain <- function(){
 }
 
 
-#' Dictionary Cheese
 #' @rdname tagfilter_food
 #' @export
 tagfilter_cheese <- function(){
@@ -419,7 +401,6 @@ tagfilter_cheese <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Mushrooms
 #' @rdname tagfilter_food
 #' @export
 tagfilter_mushrooms <- function(){
@@ -435,7 +416,6 @@ tagfilter_mushrooms <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Pastries
 #' @rdname tagfilter_food
 #' @export
 tagfilter_pastry <- function(){
@@ -457,7 +437,6 @@ tagfilter_pastry <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Syrup and Juice
 #' @rdname tagfilter_food
 #' @export
 tagfilter_syrup <- function(){
@@ -473,7 +452,6 @@ tagfilter_syrup <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Sugar
 #' @rdname tagfilter_food
 #' @export
 tagfilter_sugar <- function(){
@@ -494,9 +472,9 @@ tagfilter_sugar <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tea (! this dictionary is case sensitive)
 #' @rdname tagfilter_food
 #' @export
+# this dictionary is case sensitive!
 tagfilter_tea <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
@@ -521,7 +499,6 @@ tagfilter_tea <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Oil and Vinegar
 #' @rdname tagfilter_food
 #' @export
 tagfilter_oil <- function(){
@@ -538,7 +515,6 @@ tagfilter_oil <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Pasta
 #' @rdname tagfilter_food
 #' @export
 tagfilter_pasta <- function(){
@@ -558,7 +534,6 @@ tagfilter_pasta <- function(){
 }
 
 
-#' Dictionary Legumes
 #' @rdname tagfilter_food
 #' @export
 tagfilter_legumes <- function(){
@@ -578,7 +553,6 @@ tagfilter_legumes <- function(){
 }
 
 
-#' Dictionary Tobacco Products
 #' @rdname tagfilter_food
 #' @export
 tagfilter_tobaccoproducts <- function(){
@@ -606,7 +580,6 @@ tagfilter_tobaccoproducts <- function(){
 }
 
 
-#' Dictionary Butter
 #' @rdname tagfilter_food
 #' @export
 tagfilter_butter <- function(){
@@ -627,7 +600,6 @@ tagfilter_butter <- function(){
 }
 
 
-#' Dictionary Eggs
 #' @rdname tagfilter_food
 #' @export
 tagfilter_eggs <- function(){
@@ -648,7 +620,6 @@ tagfilter_eggs <- function(){
 }
 
 
-#' Dictionary Broth
 #' @rdname tagfilter_food
 #' @export
 tagfilter_broth <- function(){

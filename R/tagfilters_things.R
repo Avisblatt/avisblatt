@@ -1,4 +1,22 @@
-#' Dictionary Mercery and Non Textile Accessoires
+#' Tagfilter Property
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for ads mentioning things not covered by the 
+#' tagfilter families textiles, foodstuff and household. These include everything from
+#' different accessories like mercery, umbrellas or purses to storage objects, carriages 
+#' and dung.
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_things
+#' @seealso tagfilters
+NULL
+
+
+
+#' @rdname tagfilter_things
 #' @export
 tagfilter_mercery <- function(){
   dict <- list()
@@ -24,7 +42,7 @@ tagfilter_mercery <- function(){
 
 }
 
-#' Dictionary Bags and Purses
+#' @rdname tagfilter_things
 #' @export
 tagfilter_bag <- function(){
   dict <- list()
@@ -63,7 +81,7 @@ tagfilter_bag <- function(){
 
 
 
-#' Dictionary Animal Raw Materials
+#' @rdname tagfilter_things
 #' @export
 # problematic category with dictionary, cause words like Wolle or Leder are often
 # given as part of the description of clothing or other textiles
@@ -91,7 +109,7 @@ tagfilter_animalraw <- function(){
 
 }
 
-#' Dictionary Plant Raw Materials
+#' @rdname tagfilter_things
 #' @export
 tagfilter_plantraw <- function(){
   dict <- list()
@@ -107,7 +125,7 @@ tagfilter_plantraw <- function(){
 
 }
 
-#' Dictionary Umbrellas and Related Objects (umbrella cases and umbrella cloth)
+#' @rdname tagfilter_things
 #' @export
 tagfilter_umbrella <- function(){
   dict <- list()
@@ -124,7 +142,7 @@ tagfilter_umbrella <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Carriages and Related Objects
+#' @rdname tagfilter_things
 #' @export
 tagfilter_carriage <- function(){
   dict <- list()
@@ -187,7 +205,7 @@ tagfilter_carriage <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Childrens Pushchairs (some may be toys!)
+#' @rdname tagfilter_things
 #' @export
 tagfilter_pushchair <- function(){
   dict <- list()
@@ -202,7 +220,7 @@ tagfilter_pushchair <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Storage
+#' @rdname tagfilter_things
 #' @export
 tagfilter_storage <- function(){
   dict <- list()
@@ -269,7 +287,7 @@ tagfilter_storage <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Building Components
+#' @rdname tagfilter_things
 #' @export
 tagfilter_buildingcomponents <- function(){
   dict <- list()
@@ -332,7 +350,7 @@ tagfilter_buildingcomponents <- function(){
 
 }
 
-#' Dictionary Suitcases
+#' @rdname tagfilter_things
 #' @export
 tagfilter_suitcase <- function(){
   dict <- list()
@@ -351,7 +369,7 @@ tagfilter_suitcase <- function(){
 
 }
 
-#' Dictionary Measuring Instruments
+#' @rdname tagfilter_things
 #' @export
 tagfilter_measure <- function(){
   dict <- list()
@@ -368,7 +386,7 @@ tagfilter_measure <- function(){
 
 }
 
-#' Dictionary Trolleys (Carriages for Transportation of Objects, not People)
+#' @rdname tagfilter_things
 #' @export
 tagfilter_trolley <- function(){
   dict <- list()
@@ -389,7 +407,7 @@ tagfilter_trolley <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Health, Cosmetics and Drugstore Products
+#' @rdname tagfilter_things
 #' @export
 tagfilter_health <- function(){
   dict <- list()
@@ -449,7 +467,7 @@ tagfilter_health <- function(){
 }
 
 
-#' Dictionary Weapons and Related Objects
+#' @rdname tagfilter_things
 #' @export
 tagfilter_weapon <- function(){
   dict <- list()
@@ -473,7 +491,7 @@ tagfilter_weapon <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Shop Equipment
+#' @rdname tagfilter_things
 #' @export
 tagfilter_shopequip <- function(){
   dict <- list()
@@ -497,7 +515,7 @@ tagfilter_shopequip <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tools and Instruments
+#' @rdname tagfilter_things
 #' @export
 tagfilter_tool <- function(){
   dict <- list()
@@ -537,7 +555,7 @@ tagfilter_tool <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Stationary and Paperware
+#' @rdname tagfilter_things
 #' @export
 tagfilter_stationary <- function(){
   dict <- list()
@@ -570,7 +588,7 @@ tagfilter_stationary <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Jewellery
+#' @rdname tagfilter_things
 #' @export
 tagfilter_jewellery <- function(){
   dict <- list()
@@ -589,7 +607,7 @@ tagfilter_jewellery <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Wood
+#' @rdname tagfilter_things
 #' @export
 tagfilter_wood <- function(){
   dict <- list()
@@ -623,7 +641,7 @@ tagfilter_wood <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Barrels and Bottles
+#' @rdname tagfilter_things
 #' @export
 tagfilter_barrel <- function(){
   dict <- list()
@@ -646,7 +664,7 @@ tagfilter_barrel <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Tobacco and Related Objects
+#' @rdname tagfilter_things
 #' @export
 tagfilter_tobaccoobjects <- function(){
   dict <- list()
@@ -668,7 +686,7 @@ tagfilter_tobaccoobjects <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Hay and Straw
+#' @rdname tagfilter_things
 #' @export
 tagfilter_hay <- function(){
   dict <- list()
@@ -694,7 +712,7 @@ tagfilter_hay <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Unspecified Wooden Objects
+#' @rdname tagfilter_things
 #' @export
 tagfilter_woodobject <- function(){
   dict <- list()
@@ -710,7 +728,7 @@ tagfilter_woodobject <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Dung
+#' @rdname tagfilter_things
 #' @export
 tagfilter_dung <- function(){
   dict <- list()
@@ -727,7 +745,7 @@ tagfilter_dung <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Plants
+#' @rdname tagfilter_things
 #' @export
 tagfilter_plant <- function(){
   dict <- list()
@@ -770,7 +788,7 @@ tagfilter_plant <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Glasses and Optical Instruments
+#' @rdname tagfilter_things
 #' @export
 tagfilter_glasses <- function(){
   dict <- list()
@@ -792,7 +810,7 @@ tagfilter_glasses <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Soil, Gravel, Lime and Related Goods
+#' @rdname tagfilter_things
 #' @export
 tagfilter_soil <- function(){
   dict <- list()
@@ -813,7 +831,7 @@ tagfilter_soil <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Agricultural objects
+#' @rdname tagfilter_things
 #' @export
 tagfilter_agriculturalobjects <- function(){
   dict <- list()
@@ -838,7 +856,7 @@ tagfilter_agriculturalobjects <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Riding
+#' @rdname tagfilter_things
 #' @export
 tagfilter_riding <- function(){
   dict <- list()
@@ -856,7 +874,7 @@ tagfilter_riding <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Objects Related to Wells and Fountains
+#' @rdname tagfilter_things
 #' @export
 tagfilter_well <- function(){
   dict <- list()
@@ -874,7 +892,7 @@ tagfilter_well <- function(){
 }
 
 
-#' Dictionary Naturalia and Minerals
+#' @rdname tagfilter_things
 #' @export
 tagfilter_naturalia <- function(){
   dict <- list()
@@ -890,7 +908,7 @@ tagfilter_naturalia <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Containers
+#' @rdname tagfilter_things
 #' @export
 tagfilter_container <- function(){
   dict <- list()
@@ -915,7 +933,7 @@ tagfilter_container <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fire Starters
+#' @rdname tagfilter_things
 #' @export
 tagfilter_firestart <- function(){
   dict <- list()
@@ -930,7 +948,7 @@ tagfilter_firestart <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fire Protection and Fire Extinguishers
+#' @rdname tagfilter_things
 #' @export
 tagfilter_extinguisher <- function(){
   dict <- list()
@@ -946,7 +964,7 @@ tagfilter_extinguisher <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Fireworks
+#' @rdname tagfilter_things
 #' @export
 tagfilter_firework <- function(){
   dict <- list()
@@ -960,7 +978,7 @@ tagfilter_firework <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Antiques
+#' @rdname tagfilter_things
 #' @export
 tagfilter_antique <- function(){
   dict <- list()
@@ -976,7 +994,7 @@ tagfilter_antique <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Keys
+#' @rdname tagfilter_things
 #' @export
 tagfilter_key <- function(){
   dict <- list()
@@ -991,7 +1009,7 @@ tagfilter_key <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Walking Canes
+#' @rdname tagfilter_things
 #' @export
 tagfilter_cane <- function(){
   dict <- list()
@@ -1006,7 +1024,7 @@ tagfilter_cane <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Objects Related to Wine
+#' @rdname tagfilter_things
 #' @export
 tagfilter_wineobject <- function(){
   dict <- list()
@@ -1022,7 +1040,7 @@ tagfilter_wineobject <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Ropes
+#' @rdname tagfilter_things
 #' @export
 tagfilter_rope <- function(){
   dict <- list()
@@ -1037,7 +1055,7 @@ tagfilter_rope <- function(){
 }
 
 
-#' Dictionary Objects for Taverns and Inns
+#' @rdname tagfilter_things
 #' @export
 tagfilter_tavernobject <- function(){
   dict <- list()
@@ -1053,7 +1071,7 @@ tagfilter_tavernobject <- function(){
 }
 
 
-#' Dictionary Animal Feed
+#' @rdname tagfilter_things
 #' @export
 tagfilter_feed <- function(){
   dict <- list()
@@ -1071,7 +1089,7 @@ tagfilter_feed <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Misc Objects (Unspecified)
+#' @rdname tagfilter_things
 #' @export
 tagfilter_miscobject <- function(){
   dict <- list()

@@ -1,4 +1,20 @@
-#' Dictionary Clothing and Garments (General)
+#' Tagfilter Property
+#'
+#' Tagfilters are regular expression based filters designed to tag ads in order
+#' to classify ads based on their content. The avisblatt R package comes with
+#' curated filters to search for textile related ads and finds broader categories like
+#' clothing and mentions of textile materials as well as smaller items like handkerchiefs,
+#' special occasion wear (tag: costume) or muffs and gloves (tag: hand).
+#'
+#' The tagfilters help site provides you with a list of available tagfilters
+#' families.
+#'
+#' @name tagfilter_textiles
+#' @seealso tagfilters
+NULL
+
+
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_clothing <- function(){
@@ -26,7 +42,7 @@ tagfilter_clothing <- function(){
 }
 
 
-#' Dictionary Sleepwear
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_sleepwear <- function(){
@@ -42,7 +58,7 @@ tagfilter_sleepwear <- function(){
 }
 
 
-#' Dictionary Military Clothing/ Uniforms
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_uniform <- function(){
@@ -66,7 +82,7 @@ tagfilter_uniform <- function(){
 
 
 
-#' Dictionary Underwear
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_underwear <- function(){
@@ -89,7 +105,7 @@ tagfilter_underwear <- function(){
 }
 
 
-#' Dictionary Outerwear
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_outerwear <- function(){
@@ -109,7 +125,7 @@ tagfilter_outerwear <- function(){
 }
 
 
-#' Dictionary Garments for Special Occassions and Costumes
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_costume <- function(){
@@ -128,7 +144,7 @@ tagfilter_costume <- function(){
 }
 
 
-#' Dictionary Shoes
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_shoes <- function(){
@@ -167,7 +183,7 @@ tagfilter_shoes <- function(){
 
 
 
-#' Dictionary Handkerchiefs
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_handkerchief <- function(){
@@ -186,7 +202,7 @@ tagfilter_handkerchief <- function(){
 }
 
 
-#' Dictionary Gloves and Muffs
+#' @rdname tagfilter_textiles
 #' @export
 tagfilter_hand <- function(){
   dict <- list()
@@ -205,7 +221,7 @@ tagfilter_hand <- function(){
 
 
 
-#' Dictionary Scarves, Colars, and Neckties
+#' @rdname tagfilter_textiles
 #' @export
 # dictionary created by Anna Reimann, ORCID 0000-0001-8225-7851
 tagfilter_neck <- function(){
@@ -233,7 +249,7 @@ tagfilter_neck <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Headdresses and Wigs
+#' @rdname tagfilter_textiles
 #' @export
 tagfilter_headdress <- function(){
   dict <- list()
@@ -272,10 +288,7 @@ tagfilter_headdress <- function(){
 
 
 
-#' Dictionary Certain Types of Fabric/ Textile Material
-#' This Dictionary is ment to find textiles in ads where no other dictionary is useful,
-#' but a lot of ads are of course already found through other dictionaries;
-#' qualities of textiles will be explored in other dictionaries in more detail
+#' @rdname tagfilter_textiles
 #' @export
 tagfilter_texmaterial <- function(){
   dict <- list()
@@ -332,7 +345,7 @@ tagfilter_texmaterial <- function(){
 }
 
 
-#' Dictionary Unspecified Cloth and Fabric
+#' @rdname tagfilter_textiles
 #' @export
 tagfilter_cloth <- function(){
   dict <- list()
@@ -370,7 +383,7 @@ tagfilter_cloth <- function(){
 
 
 
-#' Dictionary Yarn
+#' @rdname tagfilter_textiles
 #' @export
 tagfilter_yarn <- function(){
   dict <- list()

@@ -2,8 +2,9 @@
 #'
 #' Tagfilters are regular expression based filters designed to tag ads in order
 #' to classify ads based on their content. The avisblatt R package comes with
-#' curated filters to search for household related ads and finds ad content from beds to
-#' carpets and much much more.
+#' curated filters to search for household and furniture related ads and 
+#' finds categories like beds, chairs and cabinets as well as smaller items like
+#' mirrors, toys and kitchen utensils.
 #'
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
@@ -15,7 +16,6 @@ NULL
 
 
 
-#' Dictionary Bed
 #' @rdname tagfilter_household
 #' @export
 tagfilter_bed <- function(){
@@ -48,7 +48,6 @@ tagfilter_bed <- function(){
 
 
 
-#' Dictionary Bedding
 #' @rdname tagfilter_household
 #' @export
 tagfilter_bedding <- function(){
@@ -77,7 +76,6 @@ tagfilter_bedding <- function(){
 
 }
 
-#' Dictionary Table Linen
 #' @rdname tagfilter_household
 #' @export
 tagfilter_tablelinen <- function(){
@@ -96,7 +94,6 @@ tagfilter_tablelinen <- function(){
 
 }
 
-#' Dictionary Carpets and Curtains
 #' @rdname tagfilter_household
 #' @export
 tagfilter_carpet <- function(){
@@ -115,7 +112,6 @@ tagfilter_carpet <- function(){
 
 }
 
-#' Dictionary Chair
 #' @rdname tagfilter_household
 #' @export
 tagfilter_chair <- function(){
@@ -151,7 +147,6 @@ tagfilter_chair <- function(){
 
 }
 
-#' Dictionary Cupboards and Cabinets
 #' @rdname tagfilter_household
 #' @export
 tagfilter_cabinet <- function(){
@@ -191,7 +186,6 @@ tagfilter_cabinet <- function(){
 }
 
 
-#' Dictionary Stoves and Related Objects
 #' @rdname tagfilter_household
 #' @export
 tagfilter_stove <- function(){
@@ -223,7 +217,6 @@ tagfilter_stove <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Mirrors
 #' @rdname tagfilter_household
 #' @export
 tagfilter_mirror <- function(){
@@ -245,7 +238,6 @@ tagfilter_mirror <- function(){
 
 }
 
-#' Dictionary Timepieces
 #' @rdname tagfilter_household
 #' @export
 tagfilter_timepiece <- function(){
@@ -304,7 +296,6 @@ tagfilter_timepiece <- function(){
 
 }
 
-#' Dictionary Tables
 #' @rdname tagfilter_household
 #' @export
 tagfilter_table <- function(){
@@ -338,7 +329,6 @@ tagfilter_table <- function(){
 
 }
 
-#' Dictionary Tableware
 #' @rdname tagfilter_household
 #' @export
 tagfilter_tableware <- function(){
@@ -387,7 +377,6 @@ tagfilter_tableware <- function(){
 }
 
 
-#' Dictionary Bureaus and Work Desks
 #' @rdname tagfilter_household
 #' @export
 tagfilter_bureau <- function(){
@@ -411,7 +400,6 @@ tagfilter_bureau <- function(){
 
 
 
-#' Dictionary Toys for Children
 #' @rdname tagfilter_household
 #' @export
 tagfilter_toy <- function(){
@@ -438,7 +426,6 @@ tagfilter_toy <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Games
 #' @rdname tagfilter_household
 #' @export
 tagfilter_game <- function(){
@@ -477,7 +464,6 @@ tagfilter_game <- function(){
 
 }
 
-#' Dictionary Kitchen Utensils
 #' @rdname tagfilter_household
 #' @export
 # I excluded "Krug" because of a lot of false negatives (family name, place name) difficult to filter out
@@ -522,7 +508,6 @@ tagfilter_kitchen <- function(){
 }
 
 
-#' Dictionary Lighting
 #' @rdname tagfilter_household
 #' @export
 tagfilter_lighting <- function(){
@@ -552,7 +537,6 @@ tagfilter_lighting <- function(){
 
 }
 
-#' Dictionary Musical Instruments
 #' @rdname tagfilter_household
 #' @export
 tagfilter_instrument <- function(){
@@ -597,7 +581,6 @@ tagfilter_instrument <- function(){
 }
 
 
-#' Dictionary Wallpaper
 #' @rdname tagfilter_household
 #' @export
 tagfilter_wallpaper <- function(){
@@ -622,7 +605,6 @@ tagfilter_wallpaper <- function(){
 
 
 
-#' Dictionary Cutlery
 #' @rdname tagfilter_household
 #' @export
 tagfilter_cutlery <- function(){
@@ -660,7 +642,6 @@ tagfilter_cutlery <- function(){
 }
 
 
-#' Dictionary Room Dividers
 #' @rdname tagfilter_household
 #' @export
 tagfilter_divider <- function(){
@@ -681,7 +662,6 @@ tagfilter_divider <- function(){
 }
 
 
-#' Dictionary Objects for Pets
 #' @rdname tagfilter_household
 #' @export
 tagfilter_petobject <- function(){
@@ -703,7 +683,6 @@ tagfilter_petobject <- function(){
 }
 
 
-#' Dictionary Upholstery
 #' @rdname tagfilter_household
 #' @export
 tagfilter_upholstery <- function(){
@@ -725,7 +704,6 @@ tagfilter_upholstery <- function(){
 
 
 
-#' Dictionary Domestic Appliances
 #' @rdname tagfilter_household
 #' @export
 tagfilter_domestic <- function(){
@@ -751,7 +729,6 @@ tagfilter_domestic <- function(){
 }
 
 
-#' Dictionary Garden Tools, Furniture and Other Objects
 #' @rdname tagfilter_household
 #' @export
 tagfilter_garden <- function(){
@@ -774,7 +751,6 @@ tagfilter_garden <- function(){
 
 }
 
-#' Dictionary Home Decoration
 #' @rdname tagfilter_household
 #' @export
 tagfilter_homedeco <- function(){
@@ -793,7 +769,6 @@ tagfilter_homedeco <- function(){
 
 }
 
-#' Dictionary Art
 #' @rdname tagfilter_household
 #' @export
 tagfilter_art <- function(){
@@ -817,7 +792,6 @@ tagfilter_art <- function(){
 
 }
 
-#' Dictionary Bathing Objects
 #' @rdname tagfilter_household
 #' @export
 tagfilter_bathobject <- function(){
@@ -832,7 +806,6 @@ tagfilter_bathobject <- function(){
   create_filter_output(dict)
 }
 
-#' Dictionary Misc Household Goods (Unspecified)
 #' @rdname tagfilter_household
 #' @export
 tagfilter_mischousehold <- function(){
