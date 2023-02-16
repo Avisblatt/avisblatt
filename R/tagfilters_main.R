@@ -122,7 +122,6 @@ tf_ignorecase <- function(prefix = F){
          "tablelinen",
          "tableware",
          "tavernobject",
-         "tea",
          "texmaterial",
          "timepiece",
          "tobaccoobjects",
