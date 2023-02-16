@@ -7,6 +7,11 @@
 #' different accessories like mercery, umbrellas or purses to storage objects, carriages 
 #' and dung.
 #'
+#' Tagfilters can only predict if an ad is pertinent to a given topic. 
+#' Depending on the complexity of the topic and the development stage of a 
+#' tagfilter, there can be a considerable number of false positives and false 
+#' negatives. 
+#' 
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
 #'

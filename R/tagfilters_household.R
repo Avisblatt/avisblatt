@@ -5,7 +5,12 @@
 #' curated filters to search for household and furniture related ads and 
 #' finds categories like beds, chairs and cabinets as well as smaller items like
 #' mirrors, toys and kitchen utensils.
-#'
+#' 
+#' Tagfilters can only predict if an ad is pertinent to a given topic. 
+#' Depending on the complexity of the topic and the development stage of a 
+#' tagfilter, there can be a considerable number of false positives and false 
+#' negatives. 
+#' 
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
 #'
