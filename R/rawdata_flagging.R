@@ -61,7 +61,8 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
       # name columns to avoid name matching problems in rbind further down
       colnames(r_current)  <- c("id1", "dist1")
       colnames(r_previous)  <- c("id1", "dist1")
-      # in some cases, reprints skip an issue.
+      # From August 1838, there was more than one issue per week
+      # In some cases, reprints then skipped an issue.
       # So we also need to check one issue further
       # As we concurrently look for
       # 1. a potential original ad of each ad in the current issue
@@ -69,7 +70,7 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
       # this needs to be done in two parts:
       # FIRST, for each ad in current issue,
       # determine potential original ad in issue before previous issue
-      if (j > 2){
+      if (j > 2 & issuedates[j] > "1838-08-01"){
         s <- advert_distance(ci[[j]], ci[[j-2]], consider_length_diff = TRUE)
         # temporarily extend results for neighbouring issues
         # by results from comparing issues one apart
@@ -94,7 +95,7 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
       }
       # SECOND, for each ad in previous issue,
       # determine potential reprint in issue AFTER current issue
-      if (j < length(issuedates)){
+      if (j < length(issuedates) & issuedates[j] > "1838-08-01"){
         s <- advert_distance(ci[[j+1]], ci[[j-1]], consider_length_diff = TRUE)
         r_previous <- cbind.data.frame(r_previous,
                                        as.matrix(apply(s, 2, function(x) {rownames(s)[which.min(x)]})),
@@ -233,6 +234,7 @@ rawdata_redo_tags <- function(AVIS_YEARS = 1729:1844,
   if(correct_final){
     message("\nStart fraternal twin detection.")
     meta_dt <- fraternaltwin_processing(meta_dt, path)
+    meta_dt$created <- Sys.time()
     
     startt <- Sys.time()
     message("\nUpdate metadata for final collections:")

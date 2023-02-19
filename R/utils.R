@@ -221,7 +221,7 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   # One token plus 5% of combined token number is okay,
   # any larger difference rules out reprint
   if (consider_length_diff){
-    m_length_diff_above_threshold <- (abs(m_a-m_b)-1)/(m_a+m_b) > 0.05
+    m_length_diff_above_threshold <- (abs(m_a-m_b)-1)/(m_a+m_b) > 0.2
     # multiplying logical matrix with numeric value turns FALSE into 0, TRUE into 1:
     dist <- dist + 100 * m_length_diff_above_threshold
   }

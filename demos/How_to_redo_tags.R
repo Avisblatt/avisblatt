@@ -19,6 +19,7 @@ tf_integrity()
 
 start <- Sys.time()
 rawdata_redo_tags(1729:1844)
+
 message(sprintf("\nOverall, the process took %s minutes", 
                 round(difftime(Sys.time(), start, units = "min"),2)))
 
@@ -32,9 +33,9 @@ message(sprintf("\nOverall, the process took %s minutes",
 #
 # You can skip any of these 
 # by using the parameters
-# correct_final = FALSE,
 # correct_no_rp = FALSE,
 # correct_no_ft = FALSE
+# correct_final = FALSE,
 # 
 # But note that if not all data
 # is brought up-to-date, 

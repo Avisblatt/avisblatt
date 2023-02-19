@@ -28,10 +28,95 @@
 NULL
 
 
+#' Filter Quanteda Corpus: Transaction type - sale in sale sections
+#' @author Alexander Engel, ORCID 0000-0002-8592-3124
+#' @note Last changed 2023-02-16
+#' @name tagfilter_transactiontype
+#' @export
+tagfilter_transactiontype_sale1 <- function(){
+  dict <- list()
+  dict$applicable <- list("saledemand", "saleoffer", "auctions", "propertysaleoffer")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Transaction type - lend in lend sections
+#' @author Alexander Engel, ORCID 0000-0002-8592-3124
+#' @note Last changed 2023-02-16
+#' @name tagfilter_transactiontype
+#' @export
+tagfilter_transactiontype_lend1 <- function(){
+  dict <- list()
+  dict$applicable <- list("lendoffer", "lenddemand", "lend", "auctions", "exchange")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Transaction type - auction in auction sections
+#' @author Alexander Engel, ORCID 0000-0002-8592-3124
+#' @note Last changed 2023-02-16
+#' @name tagfilter_transactiontype
+#' @export
+tagfilter_transactiontype_auction1 <- function(){
+  dict <- list()
+  dict$applicable <- list("auctions")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Transaction type - auction in other sections
+#' @author Alexander Engel, ORCID 0000-0002-8592-3124
+#' @note Last changed 2023-02-16
+#' @name tagfilter_transactiontype
+#' @export
+tagfilter_transactiontype_auction2 <- function(){
+  dict <- list()
+  dict$applicable <- list("saleoffer", "offering", "labourinfo", "othernews", "bookstore", "ps")
+  dict$pos <- list(
+    auctioning = "ver(steig|gant)|meistbieten",
+    auctionevent = "Gant[|e|en]\\b|Versteiger"
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
+#' Filter Quanteda Corpus: Transaction type - Swap in exchange sections
+#' @author Alexander Engel, ORCID 0000-0002-8592-3124
+#' @note Last changed 2023-02-16
+#' @name tagfilter_transactiontype
+#' @export
+tagfilter_transactiontype_swap1 <- function(){
+  dict <- list()
+  dict$applicable <- list("exchange")
+  dict$pos <- list(
+    all = "."
+  )
+  dict$neg <- list(
+    yyy = "yyyyy"
+  )
+  create_filter_output(dict)
+}
+
 #' Filter Quanteda Corpus: Transaction type - offers in offer sections
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-11-03
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_offer1 <- function(){
@@ -49,7 +134,6 @@ tagfilter_transactiontype_offer1 <- function(){
 #' Filter Quanteda Corpus: Transaction type - requests in request/seek/demand sections
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-11-03
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_request1 <- function(){
@@ -68,7 +152,6 @@ tagfilter_transactiontype_request1 <- function(){
 #' Filter Quanteda Corpus: Transaction type - offers in other sections
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-11-03
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_offer2 <- function(){
@@ -90,7 +173,6 @@ tagfilter_transactiontype_offer2 <- function(){
 #' Filter Quanteda Corpus: Transaction type - requests in other sections
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2023-02-01
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_request2 <- function(){
@@ -113,7 +195,6 @@ tagfilter_transactiontype_request2 <- function(){
 #' Filter Quanteda Corpus: Transaction type - offers of found items
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124; most regex by Lars Dickmann
 #' @note Last changed 2021-11-03
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_offer3 <- function(){
@@ -142,7 +223,6 @@ tagfilter_transactiontype_offer3 <- function(){
 #' Filter Quanteda Corpus: Transaction type - requests for lost items
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124; most regex by Lars Dickmann
 #' @note Last changed 2021-11-03
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_transactiontype
 #' @export
 tagfilter_transactiontype_request3 <- function(){
