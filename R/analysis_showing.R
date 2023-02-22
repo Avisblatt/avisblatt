@@ -1,5 +1,5 @@
 #' @export
-show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = FALSE, show_header = FALSE, show_edit = FALSE, show_position = FALSE){
+show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = FALSE, show_header = FALSE, show_position = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
@@ -7,21 +7,23 @@ show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
     stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")}
   invalid_ids <- setdiff(ids, coll$meta$id)
   ids <- setdiff(ids, invalid_ids)
-  if (show_date){p_date <- paste0("[", coll$corpus[ids]$date, "] ")}
-    else {p_date <-""}
-  if (show_text){p_text <- as.vector(as.character(coll$corpus)[ids])}
-    else {p_text <-""}
-  if (show_id){p_id <- paste0(" (", names(coll$corpus[ids]), ")")}
-    else {p_id <-""}
-  if (show_tags){p_tags <- paste0("\n Tags: ", coll$meta$tags[coll$meta$id %in% ids])}
-    else {p_tags <-""}
-  if (show_header){p_header <- paste0("\n Header: ", coll$meta$tags_section[coll$meta$id %in% ids])}
-    else {p_header <-""}
-  if (show_edit){p_edit <- paste0("\nbrowseURL('https://avisblatt.freizo.org/iiif/anno/", names(coll$corpus[ids]), "/edit')")}
-    else {p_edit <-""}
-  if (show_position){p_pos <- paste0(" issue ", coll$corpus[ids]$issue, ", page ", coll$corpus[ids]$pageno, ", readingorder ", coll$corpus[ids]$readingorder)}
-    else {p_pos <-""}
-  output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_edit, p_pos, "\n\n")
+  dt_c <- convert(coll$corpus[sort(ids)], to = "data.frame", pretty = FALSE)
+  dt_m <- coll$meta[coll$meta$id %in% ids]
+  dt <- merge(dt_c, dt_m, by.x = "doc_id", by.y = "id")
+  setorder(dt, date.x, pageno, readingorder)
+  if (show_date){p_date <- paste0("[", dt$date.x, "] ")} else 
+  {p_date <-""}
+  if (show_text){p_text <- dt$text} else 
+  {p_text <-""}
+  if (show_id){p_id <- paste0(" (", dt$doc_id, ")")}  else 
+  {p_id <-""}
+  if (show_tags){p_tags <- paste0("\n Tags: ", dt$tags)} else 
+  {p_tags <-""}
+  if (show_header){p_header <- paste0("\n Header: ", dt$tags_section)} else 
+  {p_header <-""}
+  if (show_position){p_pos <- paste0(" issue ", dt$issue, ", page ", dt$pageno, ", readingorder ", dt$readingorder)} else 
+  {p_pos <-""}
+  output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_pos, "\n\n")
   cat(output)
   if (length(invalid_ids)>0){
     message("Records with the following IDs could not be shown, as they were not found in the collection: \n")
