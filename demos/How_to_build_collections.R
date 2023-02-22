@@ -35,50 +35,18 @@ devtools::load_all()
 # (1) Get data
 #-------------------------------
 
-# Either from Freizo, or by importing Transkribus page-xml directly.
-#
-# Independent of how procured, 
-# the data is brought into a specific format
-# (some columns carried in Freizo are dropped,
-#  as they are no longer of interest), and
+# The data is brought into a specific format, and
 # purged from any HTML code and s p a c i n g.
 
 
-# Freizo
-# Data in Freizo has been imported by DataFutures
-# from Transkribus page xml. DataFutures adds IDs
+# Data in Hasdai has been imported by DataFutures
+# from Transkribus page xml via Freizo. DataFutures adds IDs
 # and creates iiif links for the image(s) of the record
 
-# already imported T -> F, but not free of bugs
-AVIS_YEARS <- c(1733, 1740, 1741, 1746, 1747, 
-                1778, 1787, 1808, 1812, 1813, 
-                1816, 1820, 1821, 1822, 1823, 
-                1825, 1826, 1827, 1828, 1830, 
-                1831, 1837, 1838)
-
-# necessary to redo T -> F at least for
-AVIS_YEARS <- c(1738, 1741, 1746)
-
-# final package, still to be imported  T -> F
-AVIS_YEARS <- c(1835, 1836, 1840, 1841, 1842, 1843)
-
-AVIS_YEARS <- 1729:1844
+AVIS_YEARS <- 1729
 dest_path = "../avis-databuffer/raw_data_uncorrected"
-fetch_from_freizo(AVIS_YEARS, dest_path = dest_path)
-
-# XDI from Transkribus
-# You can create collections by making a xml direct ingest
-# from Freizo. Data then contains a temporary ID and no iiif links.
-#
-# First, download xml for desired years from Transkribus.
-# Store them to the avis-databuffer repo, folder xml/years.
-# Preserve the folder structure in the download,
-# i.e. the page XMLs for, say, 1729 should be in folder
-# xml/years/1729/1729/pages
-
-AVIS_YEARS <- 1729:1844
 start <- Sys.time()
-xml_direct_import(AVIS_YEARS)
+fetch_from_hasdai(AVIS_YEARS, dest_path = dest_path)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 # Last time took 48 minutes

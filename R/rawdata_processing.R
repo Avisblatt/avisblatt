@@ -15,7 +15,8 @@ rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
 #' @export
 rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                            source_path = "../avis-databuffer/raw_data_OCRed",
-                                           dest_path = "../avis-data/raw_data"){
+                                           dest_path = "../avis-data/raw_data",
+                                  mapping = FALSE){
   id_mapping <- fread(file.path("../avis-databuffer/xml/id_mapping.tsv"))
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   for (i in AVIS_YEARS){
@@ -96,11 +97,13 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
     }
     
     # ID mapping
-    id_i <- id_mapping[year == i]
-    id_i$year <- NULL
-    data <- merge(data, id_i, by.x = "id", by.y = "id_Transkribus", all.x = TRUE, all.y = FALSE)
-    data$id[!is.na(data$id_Freizo)] <- data$id_Freizo[!is.na(data$id_Freizo)]
-    data$id_Freizo <- NULL
+    if(mapping){
+      id_i <- id_mapping[year == i]
+      id_i$year <- NULL
+      data <- merge(data, id_i, by.x = "id", by.y = "id_Transkribus", all.x = TRUE, all.y = FALSE)
+      data$id[!is.na(data$id_Freizo)] <- data$id_Freizo[!is.na(data$id_Freizo)]
+      data$id_Freizo <- NULL  
+    }
     
     fwrite(data, file.path(dest_path, fn))
     message(sprintf("Header_tags created and IDs mapped for %d.", i))
