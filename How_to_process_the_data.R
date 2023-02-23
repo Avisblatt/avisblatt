@@ -1,55 +1,62 @@
 setwd("~/GitHub/avisblatt")
 devtools::load_all()
+library(jsonlite)
 
 # This script describes the different steps
-# of importing Avisblatt data from outside sources
-# and processing it to receive the basic yearly
-# collections on which all analysis is build.
+# of importing Avisblatt data from Hasdai,
+# processing it to receive the basic yearly
+# collections on which all analysis is build,
+# and the generation of JSON to transfer 
+# the main metadata added for transfer to Hasdai.
+#
+# The scripts provided here are an extract 
+# from a larger R-package of the Avisblatt project.
+# The extract contains all functionality and information
+# to replicate the processing of the tsv data
+# from Hasdai and the creation of the JSON output.
 #
 # Each of the following steps
 # grabs the files from the previous step, 
 # transforms it, and stores it 
-# in a different avis-databuffer folder
-# (in the case of raw data and
-#  final collections, to the 
-#  avis-data repo).
+# in a different folder.
 #
-# Each step is given as a function;
-# the path names of the source and destination folder
-# are set as their default parameters.
+# Each step is given as a function.
+# The default path names of the source and 
+# destination folder reflect the working
+# environment in which this was originally
+# done; in replicating the process, 
+# they can of course be adapted as needed.
 #
 # The range of years to be treated
-# in a step can be given as a parameter,
-# default is AVIS_YEARS = 1729:1844.
+# in a step can be given as a parameter.
 
+# all years: 
+AVIS_YEARS = 1729:1844
 
-# IMPORTANT: 
-# Make sure that you operate on the same
-# branch in avis-data and avis-databuffer repo,
-# e.g. "XDI" in both cases. 
-# Otherwise data from different processing stages
-# of different branches gets mixed up!
+# for now, just use the sample year: 
+AVIS_YEARS = 1729
 
 
 #-------------------------------
 # (1) Get data
 #-------------------------------
 
-# The data is brought into a specific format, and
-# purged from any HTML code and s p a c i n g.
+# Data is downloaded from Hasdai. 
+# Data in Hasdai has been imported 
+# by DataFutures from Transkribus
+# page xml via Freizo. DataFutures
+# added IDs and created iiif links
+# for the image(s) of the record.
+#
+# Here, this data is brought into
+# a specific format, and purged from any 
+# HTML code and s p a c i n g.
 
-
-# Data in Hasdai has been imported by DataFutures
-# from Transkribus page xml via Freizo. DataFutures adds IDs
-# and creates iiif links for the image(s) of the record
-
-AVIS_YEARS <- 1729
 dest_path = "../avis-databuffer/raw_data_uncorrected"
 start <- Sys.time()
 fetch_from_hasdai(AVIS_YEARS, dest_path = dest_path)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 48 minutes
 
 
 
@@ -57,7 +64,7 @@ message(sprintf("Took %s minutes",
 # (2) Processing data: OCR
 #-------------------------------
 
-# In avisblatt/ocr_corrections.R there is a list
+# In R/ocr_corrections.R there is a list
 # of typical OCR mistakes that are to be corrected
 # throughout all records.
 
@@ -65,7 +72,6 @@ start <- Sys.time()
 rawdata_apply_ocr(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 218 minutes
 
 
 
@@ -79,15 +85,11 @@ message(sprintf("Took %s minutes",
 # the type of any such header is determined here
 # ("Zu verkaufen", "Verkauf" etc. -> type "for sale").
 # Each record inherits the section header above it.
-# Also, Freizo's record IDs are mapped 
-# to the records imported from Transkribus,
-# replacing temp IDs as far as possible.
 
 start <- Sys.time()
 rawdata_header_and_id(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-# Last time took 1.74 minutes
 
 
 
@@ -110,14 +112,12 @@ message(sprintf("Took %s minutes",
 
 tf_integrity()
 
-
 # If all is correct, proceed to create yearly collections:
 start <- Sys.time()
 rawdata_coll_creation(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-t4 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 308 minutes
+
 
 
 #-------------------------------
@@ -139,15 +139,12 @@ t4 <- round(difftime(Sys.time(),start, units = "min"),2)
 # *(In the final years, reprints sometimes happened 
 # not in the next issue, but issue after that, 
 # because the paper appeared with such high frequency.)
-#
-AVIS_YEARS <- 1729:1844
+
 start <- Sys.time()
 rawdata_reprint_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                round(difftime(Sys.time(),start, units = "min"),2)))
-t5 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 208.9 minutes.
- 
+
 
 
 #-------------------------------
@@ -170,8 +167,32 @@ start <- Sys.time()
 rawdata_fraternaltwin_detection(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
-t6 <- round(difftime(Sys.time(),start, units = "min"),2)
-# Last time took 52.0 minutes.
 
-# The resulting collections are the final yearly collections 
-# and put on the avis-data repo.
+
+
+#-------------------------------
+# (7) Extracting main added metadata for transfer to Hasdai
+#-------------------------------
+
+# Newly generated information for each as such as 
+# - header under which it is printed
+# - detected language
+# - tags predicting if pertinent for a specific topic/aspect
+# - being an original or reprint, and potential siblings of the ad
+#   (the whole chain of original and its consequent reprints)
+# will be composed into metadata JSON to be provided in Hasdai
+#
+# First, a table of siblings for each ads is generated
+
+start <- Sys.time()
+build_siblings_table(AVIS_YEARS)
+message(sprintf("Took %s minutes", 
+                round(difftime(Sys.time(),start, units = "min"),2)))
+
+
+# Then, the JSONs are build:
+
+start <- Sys.time()
+create_hasdai_annotations(AVIS_YEARS)
+message(sprintf("Took %s minutes", 
+                round(difftime(Sys.time(),start, units = "min"),2)))
