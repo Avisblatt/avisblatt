@@ -17,7 +17,7 @@ write_collection <- function(x,
 
   # meta information and data are treated separately
   # following the swissdata idea (github.com/swissdata/demo)
-  # Meta information to JSON 
+  # Meta information to JSON
   # turn all environments to lists
   # environments work with reference and thus better than lists
   # for in memory updates. lists are easier to handle when writing
@@ -125,8 +125,8 @@ clean_manual_tags <- function(x){
 # convenience function to read & merge multiple years to one working collection
 gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections"){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
-  AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(path, pattern = "csv") %>% 
+  AVIS_YEARS <- intersect(AVIS_YEARS,
+                          list.files(path, pattern = "csv") %>%
                             substr(8, 11) %>% as.numeric)
   path <- paste0(path, "/yearly_")
   # meta information
@@ -230,8 +230,8 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 
 
 
-available_years <- function(){
- list.files("../avis-data/collections", pattern=".json") %>%
+available_years <- function(collection_root){
+ list.files(collection_root, pattern=".json") %>%
     substr(8, 11) %>%
     as.numeric
 }

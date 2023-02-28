@@ -6,8 +6,8 @@ devtools::load_all()
 #-----------------------------------------
 
 
-# those are all the years for which there are collections
-available_years()
+# those are all "the years for which there are collections
+available_years("../avisdata/collections/")
 
 # ...but let's just pick four for this demo,
 # not to have too many results
@@ -15,7 +15,7 @@ AVIS_YEARS <- c(1729, 1730, 1734, 1836)
 
 # The following function loads yearly collections for given years
 # and merges them into one collection to work with.
-# just_meta = TRUE implies that the texts, iiif links etc. 
+# just_meta = TRUE implies that the texts, iiif links etc.
 # of the ads are not loaded, speeding things up.
 # Sometimes though you might need the texts,
 # as in many cases down below. So here:
@@ -29,7 +29,7 @@ c_all <- gather_yearly_collections(AVIS_YEARS, just_meta = FALSE)
 # is to pick out interesting sub-sections of the collection
 # by making use of a number of functions ("select_by_...") that do that,
 # and deliver all the IDs of the ads in that subsection.
-# If you do not specifiy a collection in any of the 
+# If you do not specifiy a collection in any of the
 # subsequent functions, it is assumed that there is a
 # collection named "c_all" to which it refers.
 #
@@ -93,12 +93,12 @@ show_records(ids, c_all, show_tags = T, show_header = T, show_edit = T)
 write_records(ids, c_all, show_tags = T, show_header = T, show_edit = T, fn = "../testoutput.tsv")
 
 # Not sure if the text of your ad contains weird OCR errors?
-# Have a look at the image(s) of the ad, i.e. the iiif. 
+# Have a look at the image(s) of the ad, i.e. the iiif.
 # The following function prints iiifs for up to 10 ads
 # (you can raise that ceiling using the max.plot parameter).
 show_iiif(ids, c_all)
 
-# Very long records with multiple fragments 
+# Very long records with multiple fragments
 # can take a minute (or more) to compile and to load.
 # Here is one with seven (!) columns:
 show_iiif("temp-1836-394-000", c_all)
@@ -281,7 +281,7 @@ show_metadatafields(c_all)
 # Try funny stuff and the function won't let you:
 select_by_meta("all", c_all, search = "nope", fields = c("tags", "flags", "bags"))
 
-# Per default, the function looks for a match within a metadata field, 
+# Per default, the function looks for a match within a metadata field,
 # i.e., a search for "6" in the ntokens field delivers ads
 # with six tokens, but also with sixteen or sixty-one, etc.
 # if you want to match the complete metadata field exactly
@@ -416,7 +416,7 @@ ids <- select_by_tags(universe, c_all, tagslist = "ut_household", headerlist = "
 
 count_records_by_date(ids, c_all, level = "month", colnames = "Household items")
 
-# As you noticed from the warnings, 
+# As you noticed from the warnings,
 # you can also pass on a list of sets of records,
 # to count them concurrently
 cats <- select_by_text("all", searchlist = "Katz")
@@ -426,14 +426,14 @@ count_records_by_date(list(cats, dogs), c_all, "year", c("cats", "dogs"))
 # If you do not give a column title, columns or automatically numbered
 count_records_by_date(list(cats, dogs), c_all, "year")
 
-# By default, the resulting table is trimmed at the beginning and end, i.e., 
+# By default, the resulting table is trimmed at the beginning and end, i.e.,
 # it start with the first period with an observation and concludes with the last one.
 # if you want a table for the whole period of the Avisblatt, set trim = FALSE
 tiger <- select_by_text("all", searchlist = "Tiger")
 count_records_by_date(tiger, c_all, "quarter", "tiger")
 count_records_by_date(tiger, c_all, "quarter", "tiger", trim = FALSE)
 
-# You can also limit the table yourself 
+# You can also limit the table yourself
 # by specifying a start date (min) and/or end date (max)
 # This can be combined both with trim = TRUE and trim = FALSE
 birds <- select_by_text("all", searchlist = "Vögel")
@@ -442,7 +442,7 @@ count_records_by_date(birds, c_all, "month", "birds", min = "1734-01-01", max = 
 count_records_by_date(birds, c_all, "month", "birds", min = "1734-01-01", max = "1734-12-31", trim = FALSE)
 
 
-# Per default, the number of ads in the period is returned. 
+# Per default, the number of ads in the period is returned.
 # If you want to normalize those numbers
 # by returning ads per 1000 inhabitants, # set per1k = TRUE
 count_records_by_date(list(cats, dogs), c_all, "year", c("cats", "dogs"))
@@ -463,7 +463,7 @@ count_records_by_date(list(cats, dogs), c_all, "issue", c("cats", "dogs"), per1k
 count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"))
 count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"), bundle_periods = 4)
 
-# Using trim = FALSE and setting a start date 
+# Using trim = FALSE and setting a start date
 # helps to get a nicer sequence of bundled periods:
 count_records_by_date(list(cats, dogs), c_all, "month", c("cats", "dogs"), bundle_periods = 4, trim = F, min = "1730-01-01")
 
