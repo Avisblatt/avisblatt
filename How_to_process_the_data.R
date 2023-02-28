@@ -34,7 +34,7 @@ library(jsonlite)
 AVIS_YEARS = 1729:1844
 
 # for now, just use the sample year: 
-AVIS_YEARS = 1729
+AVIS_YEARS = 1731:1760
 
 
 #-------------------------------
@@ -54,7 +54,7 @@ AVIS_YEARS = 1729
 
 dest_path = "../avis-databuffer/raw_data_uncorrected"
 start <- Sys.time()
-fetch_from_hasdai(AVIS_YEARS, dest_path = dest_path)
+fetch_from_hasdai(AVIS_YEARS, dest_path)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 
