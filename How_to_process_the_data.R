@@ -30,11 +30,7 @@ library(jsonlite)
 # The range of years to be treated
 # in a step can be given as a parameter.
 
-# all years: 
 AVIS_YEARS = 1729:1844
-
-# for now, just use the sample year: 
-AVIS_YEARS = 1731:1760
 
 
 #-------------------------------

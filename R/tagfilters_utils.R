@@ -48,14 +48,14 @@ create_filter <- function(dict){
     # If there is a list of IDs to include
     # under dict$include, add them IF they are in the corpus
     if(!is.null(dict$include)){
-      include <- intersect(dict$include, names(corp))
+      include <- intersect(unlist(dict$include), names(corp))
       ids <- union(ids, include)
     }
 
     # If there is a list of IDs to exclude
     # under dict$exclude, remove them
     if(!is.null(dict$exclude)){
-      exclude <- dict$exclude
+      exclude <- unlist(dict$exclude)
       ids <- setdiff(ids, exclude)
     }
 
