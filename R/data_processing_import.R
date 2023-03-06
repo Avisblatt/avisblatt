@@ -1,5 +1,5 @@
 #' @export
-fetch_from_hasdai <- function(AVIS_YEARS = 1729,
+fetch_from_hasdai <- function(AVIS_YEARS = 1729:1844,
                               dest_path = "../avis-databuffer/raw_data_uncorrected"){
   handles <- fread("hasdai_handles.csv")
   for (i in AVIS_YEARS){

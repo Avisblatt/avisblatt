@@ -144,9 +144,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
     # Create Collection
     message(sprintf("Starting to create collection for %d ...", i))
     tryCatch({
-      if(i %in% gt_years){
-        coll <- Collection$new(file.path(source_path, fn))
-      }
+      coll <- Collection$new(file.path(source_path, fn))
       message("Data read and collection initialized.")
       
       coll$meta[, language := "de"]
