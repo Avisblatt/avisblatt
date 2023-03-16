@@ -31,7 +31,17 @@ library(jsonlite)
 # in a step can be given as a parameter.
 
 AVIS_YEARS = 1729:1844
-AVIS_YEARS = c(1734, 1749, 1759, 1764, 1774, 1784, 1787, 1790, 1794, 1801, 1809, 1810, 1812, 1816, 1820, 1837, 1839, 1844)
+
+# Currently, data for 17 years is not condistent/correct:
+AVIS_YEARS = c(1734, 1749, 1759, 1764, 1774, 1784, 1787, 1794, 1801, 1809, 1810, 1812, 1816, 1820, 1837, 1839, 1844)
+
+#records from pages which are not part of any issue (but mostly of type AVISMETA)
+c(1749, 1759, 1784, 1787, 1794, 1801, 1809, 1810, 1816, 1844)
+
+# Missing records in
+c(1734, 1764, 1774, 1809, 1812, 1816, 1820, 1839)
+
+# 1837:	all 281 records in issue 6 have a wrong date (1738-02-09 instead of 1837-02-09) and wrong book number (23202 instead of 69338), although the records seem otherwise correct
 
 
 #-------------------------------

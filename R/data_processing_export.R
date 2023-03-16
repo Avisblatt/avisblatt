@@ -47,17 +47,14 @@ build_siblings_table <- function(AVIS_YEARS = 1729:1844,
 
 
 create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
-                                      path_rawdata = "../avis-data/raw_data/",
+                                      path_rawdata = "../avis-databuffer/raw_data_uncorrected/",
                                       path_collections = "../avis-data/collections/",
                                       path_output = "../avis-for-hasdai/annotations/"){
-  handles <- fread("hasdai_handles.csv")
+  handles <- fread("hasdai_handles.csv", encoding = "UTF-8")
   siblings <- fread(file = paste0(path_collections, "siblings.tsv.gz"), encoding = "UTF-8")
   siblings$siblings <- strsplit(siblings$siblings, "\\|")
   
   dir.create(path_output, showWarnings = FALSE)
-  
-  
-
   
   for (i in AVIS_YEARS){
     # get metadata from collection JSON
@@ -107,6 +104,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     
     # prepare transcription element  
     dt_x <- subset(dt, select = c(id, original, corrected))
+    dt_x[corrected == original]$corrected <- NA
     dtcols <- setdiff(names(dt_x),"id")
     dt$transcription <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
                                function(row) as.list(row))
@@ -133,7 +131,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_x[noadvert == F]$tags <- lapply(dt_x[noadvert == F]$tag, function(x){c(x, "advert")})
     dt_x[noadvert == T & is_header == F]$tags <- lapply(dt_x[noadvert == T & is_header == F]$tag, function(x){c(x, "notice")})
     dt$tags <- lapply(dt_x$tags, function(x){list(tags = x, 
-                                                  scheme = "http://schemata.hasdai.org/avisblatt_tags")})
+                                                  scheme = "http://schemata.hasdai.org/avisblatt_tags.json")})
     
     # prepare source element (first prepare selector sub element)
     dt_x <- subset(dt, select = c(id, pageno, readingorder, canvas, fragment))
@@ -145,38 +143,32 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                          as.factor(1:nrow(dt))) 
     dt$selector <- lapply(dt$selector, setNames, c("page", "readingorder", "canvas", "fragment"))
     #-----
-    dt$source <- lapply(dt$issue, function(x){list(collection = handles[year == i]$tsv,
-                                                   title = "___Avisblatt_title_of_that_year___",
+    dt$source <- lapply(dt$issue, function(x){list(collection = handles[year == i]$handle,
+                                                   title = handles[year == i]$title,
                                                    issue = x)})
     dt$source <- lapply(seq_len(nrow(dt)), function(k) c(dt$source[[k]], selector = dt$selector[k]))
     
     
     # prepare meta element
-    collection_creation <- format(max(file.info(paste0(path_collections, "yearly_", i, ".json"))$mtime,
-                                      file.info(paste0(path_collections, "yearly_", i, ".csv"))$mtime),
-                                  "%Y-%m-%dT%H:%M:%OS3Z")
-    meta <- list(version = 1,
-                 partOf = "___Avisblatt R package data collection creation___",
+    meta <- list(version = 2,
                  generated =  format(Sys.time(), "%Y-%m-%dT%H:%M:%OS3Z"),
-                 actions = list(actor = list(list(id = "0000-0001-8225-7851",
-                                                  scheme = "ORCID",
-                                                  name = "Anna Reimann"),
-                                             list(id = "0000-0002-8592-3124",
-                                                  scheme = "ORCID",
-                                                  name = "Alexander Engel"),
-                                             list(id = "0000-0003-2419-4252",
-                                                  scheme = "ORCID",
-                                                  name = "Ina Serif"),
-                                             list(id = "0000-0002-4511-1017",
-                                                  scheme = "ORCID",
-                                                  name = "Lars Dickmann"),
-                                             list(id = "0000-0000-0000-0000",
-                                                  scheme = "ORCID",
-                                                  name = "Matthias Bannert")
+                 actions = list(actors = list(list(id = "0000-0001-8225-7851",
+                                                   scheme = "ORCID",
+                                                   name = "Anna Reimann"),
+                                              list(id = "0000-0002-8592-3124",
+                                                   scheme = "ORCID",
+                                                   name = "Alexander Engel"),
+                                              list(id = "0000-0003-2419-4252",
+                                                   scheme = "ORCID",
+                                                   name = "Ina Serif"),
+                                              list(id = "0000-0002-4511-1017",
+                                                   scheme = "ORCID",
+                                                   name = "Lars Dickmann"),
+                                              list(id = "0000-0000-0000-0000",
+                                                   scheme = "ORCID",
+                                                   name = "Matthias Bannert")
                  ),
-                 date = collection_creation,
-                 summary = "___OCR correction, attribute section/headertag, reprint detection/siblings, tagging___",
-                 classifiedAction = "__ACTION_ID__"
+                 summary = "OCR correction, attribute section/headertag, reprint detection/siblings, tagging"
                  )
     )
     dt$meta <- rep(list(meta), nrow(dt_x))
@@ -193,16 +185,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dir.create(paste0(path_output, i), showWarnings = F)
     
     # write annotations for each issue in a file
-    #for (j in issues){
-    #  fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
-    #  writeLines(
-    #    toJSON(subset(dt_x[issue == j], select = -issue), 
-    #           pretty = TRUE,
-    #           auto_unbox = TRUE),
-    #    fn,
-    #    useBytes=T
-    #  )
-    #}
+    for (j in issues){
+      fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
+      writeLines(
+        toJSON(subset(dt_x[issue == j], select = -issue), 
+               pretty = TRUE,
+               auto_unbox = TRUE),
+        fn,
+        useBytes=T
+      )
+    }
     
     # write all annotations for one year in one file
     fn <- paste0(path_output, i, ".json")
