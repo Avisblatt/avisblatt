@@ -106,12 +106,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_x <- subset(dt, select = c(id, original, corrected))
     dt_x[corrected == original]$corrected <- NA
     dtcols <- setdiff(names(dt_x),"id")
-    dt$transcription <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
+    ls <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
                                function(row) as.list(row))
+    ls <- lapply(ls, function(x) x[!is.na(x)])
+    dt$transcription <- ls
     dt <- subset(dt, select = -c(original, corrected))
     
     # prepare type element (first get sibling info)
     dt_s <- siblings
+    dt_s[lengths(siblings) == 0]$siblings <- NA
+    dt_s[original == ""]$original <- NA
     dt_s$date <- year(dt_s$date)
     dt_s <- dt_s[date == i] 
     dt_s <- subset(dt_s, select = c(id, original, siblings))
@@ -125,11 +129,18 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt$type <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
                       function(row) as.list(row))
     dt$type <- lapply(seq_len(nrow(dt)), function(k) c(dt$type[[k]], siblings = dt$siblings[k]))
-   
+    ls <- dt$type
+    ls <- lapply(ls, function(x) x[!is.na(x)])
+    dt$type <- ls
+    
+    
     # prepare tags element  
     dt_x <- subset(dt, select = c(id, tags, is_header, noadvert))
+    #first, look for records with empty tags and retag them differently then the following
     dt_x[noadvert == F]$tags <- lapply(dt_x[noadvert == F]$tag, function(x){c(x, "advert")})
     dt_x[noadvert == T & is_header == F]$tags <- lapply(dt_x[noadvert == T & is_header == F]$tag, function(x){c(x, "notice")})
+    #dt_x$tag <- gsub("null, ", "", dt_x$tag)
+    
     dt$tags <- lapply(dt_x$tags, function(x){list(tags = x, 
                                                   scheme = "http://schemata.hasdai.org/avisblatt_tags.json")})
     
