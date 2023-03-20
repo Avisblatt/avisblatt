@@ -175,7 +175,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                               list(id = "0000-0002-4511-1017",
                                                    scheme = "ORCID",
                                                    name = "Lars Dickmann"),
-                                              list(id = "0000-0000-0000-0000",
+                                              list(id = "0000-0001-7901-9254",
                                                    scheme = "ORCID",
                                                    name = "Matthias Bannert")
                  ),
