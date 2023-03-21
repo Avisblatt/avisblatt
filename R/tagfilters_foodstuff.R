@@ -4,12 +4,12 @@
 #' to classify ads based on their content. The avisblatt R package comes with
 #' curated filters to search for food and drink related ads and finds ad content from spices,
 #' chocolate and nuts to alcohol, milk and meat.
-#' 
-#' Tagfilters can only predict if an ad is pertinent to a given topic. 
-#' Depending on the complexity of the topic and the development stage of a 
-#' tagfilter, there can be a considerable number of false positives and false 
-#' negatives. 
-#' 
+#'
+#' Tagfilters can only predict if an ad is pertinent to a given topic.
+#' Depending on the complexity of the topic and the development stage of a
+#' tagfilter, there can be a considerable number of false positives and false
+#' negatives.
+#'
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
 #'
@@ -354,7 +354,7 @@ tagfilter_chocolate <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    chocolate_general = "(Ch|Sch)o(c|k|ck)ola(t|d)",
+    chocolate_general = "(Ch|Sch)o(c|k|ck)ola(t|d)e?n?",
     chocolate_cocoa = "(C|K)(u|a)(c|cc|k)(a|n)o"
   )
   dict$neg <- list(
