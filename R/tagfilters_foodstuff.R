@@ -487,8 +487,7 @@ tagfilter_tea <- function(){
     tea_general = "(?<!für\\s)\\bTh?(é|e)e?\\b(?![üéöäàèe])(?!\\-)(?!\\-\\,?\\sund)",
     tea_choice = "(?<!für\\s)Th?(é|e)e?s?\\s?\\-?\\s?((G|g)att|(S|s)or|(C|K|k|c)rum)",
     tea_herbal = "(Kräuter|Glarner|Schwei(tz|z)er|Blumen)\\-?\\s?(T|t)h?(e|é)e?s?\\b(?![üéöäàè])|Th?(e|é)e?\\-?\\s?(E|e)ssen(z|\\;|tz)",
-    tea_type = "(P(e|o)rle?|Ka(i|y)ser|Caravanen|(B|P)l(o|oo)(m|mm)b?)\\s?\\-?\\s?(T|t)h?(e|é)e?s?\\b(?![üéöäàè])|Th?(e|é)e?s?\\s?\\-?\\s?(S|s)taub",
-    tea_origin = "Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|(P|p)oudre\\s(a|à)\\s(C|c)anon|(C|c)arava(nn|n)s?er|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)|(S|s)o(a|u)(tsch|ch|l)ong?|(?<!O)(B|b)o(é|e|ey|éy|uy|ui)\\b(?![üéöäàè])(?!\\-)|(P|p|B|b)e(c|cc|k|kk)o\\b(?![üéöäàè])(?!\\-)|(C|c)hion|(t|T)ongo"
+    tea_type = "(P(e|o)rle?|Ka(i|y)ser|Caravanen|(B|P)l(o|oo)(m|mm)b?)\\s?\\-?\\s?(T|t)h?(e|é)e?s?\\b(?![üéöäàè])|Th?(e|é)e?s?\\s?\\-?\\s?(S|s)taub|Pe(c|lt)ao|Songlo|Pelioe|Chausson|Téhy|(P|p)oudre\\s(a|à)\\s(C|c)anon|(C|c)arava(nn|n)s?er|(H|h)a(y|i)(s|ss|g|f)(a|o)(n|r|m)|(S|s)o(a|u)(tsch|ch|l)ong?|(?<!O)(B|b)o(é|e|ey|éy|uy|ui)\\b(?![üéöäàè])(?!\\-)|(P|p|B|b)e(c|cc|k|kk)o\\b(?![üéöäàè])(?!\\-)|(C|c)hion|(t|T)ongo"
   )
   dict$neg <- list(
     other = "Téophraste|Télescope|Thesium|Theo\\sodor|The(ss|s)al", # other things/words containing "The"
