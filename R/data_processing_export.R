@@ -85,6 +85,9 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_c <- subset(dt_c, select = -c(rev, book, rnotes, expert_text, lang, fragment2, fragment3, fragment4, fragment5, fragment6, fragment7, fragment8, fragment9, fragment10))
     dt_c <- rename(dt_c, corrected = text, canvas = fragment1, is_header = isheader)
     dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 51), "full/full/0/default.jpg")
+    #class(dt_c$issue) <- "character"
+    class(dt_c$pageno) <- "character"
+    #class(dt_c$readingorder) <- "character"
     
     # get rawdata
     dt_r <- fread(file = paste0(path_rawdata, "orig_", i, ".csv"), encoding = "UTF-8")
@@ -94,13 +97,11 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt <- merge(dt, dt_j, by = "id", all = T)
     
     # prepare date element
-    dt_x <- subset(dt, select = c(id, date))
+    dt_x <- subset(dt, select = date)
     dt_x <- rename(dt_x, ref = date)
-    dtcols <- setdiff(names(dt_x),"id")
+    dtcols <- "ref"
     dt$date <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
                       function(row) as.list(row))
-    
-    
     
     # prepare transcription element  
     dt_x <- subset(dt, select = c(id, original, corrected))
@@ -146,13 +147,13 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     
     # prepare source element (first prepare selector sub element)
     dt_x <- subset(dt, select = c(id, pageno, readingorder, canvas, fragment))
-    dtcols <- setdiff(names(dt_x),"id")
-    dt$selector <- split(c(dt$pageno,
+    dt$selector <- split(c(dt$id,
+                           dt$pageno,
                            dt$readingorder,
                            dt$canvas,
                            dt$fragment),
                          as.factor(1:nrow(dt))) 
-    dt$selector <- lapply(dt$selector, setNames, c("page", "readingorder", "canvas", "fragment"))
+    dt$selector <- lapply(dt$selector, setNames, c("id", "page", "readingorder", "canvas", "fragment"))
     #-----
     dt$source <- lapply(dt$issue, function(x){list(collection = handles[year == i]$handle,
                                                    title = handles[year == i]$title,
@@ -190,7 +191,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     
     
     # generate output
-    dt_x <- subset(dt, select = c(issue, schema, id, date, transcription, type, tags, source, meta))
+    dt_x <- subset(dt, select = c(issue, schema, date, transcription, type, tags, source, meta))
     
     issues <- unique(dt_x$issue)
     dir.create(paste0(path_output, i), showWarnings = F)
