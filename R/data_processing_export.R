@@ -197,16 +197,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dir.create(paste0(path_output, i), showWarnings = F)
     
     # write annotations for each issue in a file
-    for (j in issues){
-      fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
-      writeLines(
-        toJSON(subset(dt_x[issue == j], select = -issue), 
-               pretty = TRUE,
-               auto_unbox = TRUE),
-        fn,
-        useBytes=T
-      )
-    }
+    #for (j in issues){
+    #  fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
+    #  writeLines(
+    #    toJSON(subset(dt_x[issue == j], select = -issue), 
+    #           pretty = TRUE,
+    #           auto_unbox = TRUE),
+    #    fn,
+    #    useBytes=T
+    #  )
+    #}
     
     # write all annotations for one year in one file
     fn <- paste0(path_output, i, ".json")

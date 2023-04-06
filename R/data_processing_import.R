@@ -35,3 +35,27 @@ fetch_from_hasdai <- function(AVIS_YEARS = 1729:1844,
     message("\n\n")
   }
 }
+
+fetch_tsv_local <- function(AVIS_YEARS = 1729:1844,
+                              dest_path = "../avis-databuffer/raw_data_uncorrected"){
+  for (i in AVIS_YEARS){
+    fn <- sprintf("../avis-databuffer/tsv/%d.tsv", i)
+    raw_data <- RawData$new(i, URL = fn, local = TRUE)
+    raw_data$booleanize(c("isheader","noadvert"))
+    raw_data$process_data(ocr_correction = FALSE, drop_na_cols = FALSE)
+    drop_cols <- c("at","set","withincat","year","month","date",
+                   "canvas","name","avistable", "wrkprofession",
+                   "wrkcompetence", "wrkcondition", "wrkmodality",
+                   "textyp", "texmod", "texatt", "texzus",
+                   "hautyp", "haumod", "hauatt", "hauzus", "hauort",
+                   "editlink")
+    drop_cols <- intersect(colnames(raw_data$data),
+                           drop_cols)
+    raw_data$drop_cols(col = drop_cols)
+    setnames(raw_data$data,old = "isodate", "date", skip_absent = TRUE)
+    raw_data$write_csv(fn = file.path(dest_path, sprintf("orig_%d.csv", i)))
+    message(
+      sprintf("%d processed and written to disc.", i)
+    )
+  }
+}

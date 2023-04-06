@@ -61,7 +61,10 @@ c(1734, 1764, 1774, 1809, 1812, 1816, 1820, 1839)
 
 dest_path = "../avis-databuffer/raw_data_uncorrected"
 start <- Sys.time()
-fetch_from_hasdai(AVIS_YEARS, dest_path)
+#fetch_from_hasdai(AVIS_YEARS, dest_path)
+fetch_tsv_local(AVIS_YEARS, dest_path)
+
+
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 
