@@ -48,14 +48,16 @@ build_siblings_table <- function(AVIS_YEARS = 1729:1844,
 
 create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                       path_rawdata = "../avis-databuffer/raw_data_uncorrected/",
-                                      path_collections = "../avis-data/collections/",
-                                      path_output = "../avis-for-hasdai/annotations/"){
+                                      path_collections = "../avis-data/collections_flaired/",
+                                      path_output = "../avis-for-hasdai/annotations/",
+                                      output_years = TRUE,
+                                      output_issues = FALSE){
   handles <- fread("hasdai_handles.csv", encoding = "UTF-8")
   siblings <- fread(file = paste0(path_collections, "siblings.tsv.gz"), encoding = "UTF-8")
   siblings$siblings <- strsplit(siblings$siblings, "\\|")
   
   dir.create(path_output, showWarnings = FALSE)
-  
+
   for (i in AVIS_YEARS){
     # get metadata from collection JSON
     mi <- fromJSON(paste0(path_collections, "yearly_", i, ".json"))
@@ -63,6 +65,14 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_j$is_original <- grepl("orig", dt_j$reprint_status)
     dt_j <- subset(dt_j, select = -c(isheader, date, tags_manual, ntokens, nchar, reprint_status, potential_original, p_o_distance, potential_reprint, p_r_distance))
     dt_j[, id := names(mi)]
+    
+    for (j in 1:nrow(dt_j)){
+      dt_j$tags[j][[1]] <- unique(gsub("\\d", "", dt_j$tags[j][[1]]))
+    }
+    #dt_j <- do.call(rbind, apply(dt_j, 1, function(x){
+    #  x$tags[[1]] <- unique(gsub("\\d", "", x$tags[[1]]))
+    #  return(x)
+    #}))
     
     # get data from collection CSV
     dt_c <- fread(file = paste0(path_collections, "yearly_", i, ".csv"), encoding = "UTF-8")
@@ -136,14 +146,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     
     
     # prepare tags element  
-    dt_x <- subset(dt, select = c(id, tags, is_header, noadvert))
-    #first, look for records with empty tags and retag them differently then the following
+    dt_x <- subset(dt, select = c(id, tags, is_header, noadvert, people, locations))
+    #first, look for records with empty tags and retag them differently than the following
     dt_x[noadvert == F]$tags <- lapply(dt_x[noadvert == F]$tag, function(x){c(x, "advert")})
     dt_x[noadvert == T & is_header == F]$tags <- lapply(dt_x[noadvert == T & is_header == F]$tag, function(x){c(x, "notice")})
     #dt_x$tag <- gsub("null, ", "", dt_x$tag)
-    
     dt$tags <- lapply(dt_x$tags, function(x){list(tags = x, 
                                                   scheme = "http://schemata.hasdai.org/avisblatt_tags.json")})
+    
+    #dt$people <- lapply(dt_x$people, function(x){list(people = x)})
+    #dt$locations <- lapply(dt_x$locations, function(x){list(locations = x)})
     
     # prepare source element (first prepare selector sub element)
     dt_x <- subset(dt, select = c(id, pageno, readingorder, canvas, fragment))
@@ -196,27 +208,31 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     issues <- unique(dt_x$issue)
     dir.create(paste0(path_output, i), showWarnings = F)
     
-    # write annotations for each issue in a file
-    #for (j in issues){
-    #  fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
-    #  writeLines(
-    #    toJSON(subset(dt_x[issue == j], select = -issue), 
-    #           pretty = TRUE,
-    #           auto_unbox = TRUE),
-    #    fn,
-    #    useBytes=T
-    #  )
-    #}
+    if (output_issues){
+      # write annotations for each issue in a file
+      for (j in issues){
+        fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
+        writeLines(
+          toJSON(subset(dt_x[issue == j], select = -issue), 
+                 pretty = TRUE,
+                 auto_unbox = TRUE),
+          fn,
+          useBytes=T
+        )
+      }
+    }
     
-    # write all annotations for one year in one file
-    fn <- paste0(path_output, i, ".json")
-    writeLines(
-      toJSON(subset(dt_x, select = -issue), 
-             pretty = TRUE,
-             auto_unbox = TRUE),
-      fn,
-      useBytes=T
-    )
+    if (output_years){
+      # write all annotations for one year in one file
+      fn <- paste0(path_output, i, ".json")
+      writeLines(
+        toJSON(subset(dt_x, select = -issue), 
+               pretty = TRUE,
+               auto_unbox = TRUE),
+        fn,
+        useBytes=T
+      )
+    }
     
     message(paste0("Written JSONs for ", i))
   }

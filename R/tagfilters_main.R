@@ -147,5 +147,3 @@ tf_ignorecase <- function(prefix = F){
   if (prefix) {paste0("tagfilter_", l)}
   else {l}
 }
-
-show

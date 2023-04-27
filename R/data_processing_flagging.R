@@ -243,3 +243,60 @@ rawdata_redo_tags <- function(AVIS_YEARS = 1729:1844,
                     round(difftime(Sys.time(), startt, units = "min"),2)))
     }
 }
+
+
+
+add_flair_data <- function(AVIS_YEARS = 1729:1844,
+                           path_collections = "../avis-data/collections/",
+                           path_collections_flaired = "../avis-data/collections_flaired/",
+                           path_flair = "../avis-data/flair/"){
+  for (i in AVIS_YEARS){
+    mi <- fromJSON(paste0(path_collections, "yearly_", i, ".json"))
+    dt_j <- data.table::rbindlist(mi)
+    dt_j[, id := names(mi)]
+    dt_j[, date := as.Date(date)]
+    setcolorder(dt_j, neworder = c("id",
+                                   setdiff(names(dt_j),"id")))
+    
+    dt_f_p <- fread(paste0(path_flair, "yearly_", i, "_ner.csv"), encoding = "UTF-8")
+    dt_f_l <- dt_f_p
+    dt_f_l$people <- NULL
+    dt_f_p$locations <- NULL
+
+    dt_f_l <- do.call(rbind, apply(dt_f_l, 1, function(x){
+      x["locations"] <- strsplit(x["locations"], "; ")
+      return(x)
+    }))
+    dt_f_p <- do.call(rbind, apply(dt_f_p, 1, function(x){
+      x["people"] <- strsplit(x["people"], "; ")
+      return(x)
+    }))
+    
+    cn <- c(names(dt_j), "people", "locations")
+    dt_f_p <-as.data.table(dt_f_p)
+    dt_f_l <-as.data.table(dt_f_l)
+    dt_j <- cbind(dt_j, dt_f_p$people)
+    dt_j <- cbind(dt_j, dt_f_l$locations)
+    colnames(dt_j) <- cn
+        dt_j$people[lengths(dt_j$people) == 0] <- NA
+    dt_j$locations[lengths(dt_j$locations) == 0] <- NA
+    
+    
+    meta_file <- paste0(path_collections_flaired, "yearly_", i, ".json")
+    
+    dtcols <- setdiff(names(dt_j),"id")
+    dt_chunks <- split(dt_j[, ..dtcols], as.factor(1:nrow(dt_j)))
+    names(dt_chunks) <- dt_j$id
+    
+    writeLines(
+      toJSON(dt_chunks, pretty = TRUE,
+             auto_unbox = TRUE,
+             null = "null",
+             na = "string"),
+      meta_file
+    )
+    #check output file encoding, could be necessary to convert to UTF-8 when doing this on Windows...
+    message(sprintf("Added flair metadata for %d.", i))
+  }
+}
+
