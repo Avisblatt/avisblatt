@@ -24,21 +24,28 @@ tagfilter_spices <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    spices_general = "Spe(z|c)ere(y|i|j)\\-?\\s?(waa?ren|arti(k|c|ck|kk)el)",
-    spices_cinammon = "Zi(m|mm|me|mme|nm)(t|et)(?!(farb|braun|wasser))",
+    spices_general = "Spe(z|c)ere(y|i|j)\\-?\\s?(waa?ren|arti(k|c)k?el)",
+    spices_cinammon = "Zin?mm?e?t(?!(farb|braun|wasser))",
     spices_saffron = "(?<!(zum|be(i|y|j))\\s)(?<!bem(i|y|j)\\s)(?<!zu\\s)Saff?ran",
     spices_cloves = "Nägelein(?!(farb|braun))",
-    spices_nutmeg = "Muscatn(u|ü)ss",
+    spices_nutmeg = "Mus(c|k)atn(u|ü)ss",
     spices_salt = "\\bSalz(es|e|)\\b(?![üéöäàè])(?!\\-)",
-    spices_mustard = "Senf(?!(farb|braun))|Mou(st|t)ard"
+    spices_mustard = "Senft?\\-?(k(o|ö)rn|mehl)?|Mous?tard"
   )
   dict$neg <- list(
-    name = "Isenflam", # name contains "senf"
+    name = "(I|Ei)senflam", # name contains "senf"
     river = "Wiesenf", # name of river, contains "senf,
-    sedan = "Senfte", # contains "senf"
+    sedan = "Senfte", # contains "senf", also house name
     meat = "Ochsenfl", # contains "senf"
-    legumes = "Hulsenfr", # contains "senf"
-    other = "Eisenf" # contains "senf"
+    colour = "senf(farb|braun)",
+    legumes = "H(u|ü)lsenfr" # contains "senf"
+  )
+  dict$include <- c(
+    "35710b39-9caf-50c7-ac30-080ceb2cf53d/t4" # Seuf (ocr mistake)
+  )
+  dict$exclude <- c(
+    "8cc6411a-52a3-50c1-a846-162cd056e6df/t16", # "nägeleinbrannes" (brown colour)
+    "c2a797b3-a9d0-55cd-b2c6-36086d8ecf38/t4" # "überlassenf" (ocr mistake)
   )
   create_filter_output(dict)
 }
