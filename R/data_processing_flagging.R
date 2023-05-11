@@ -244,38 +244,76 @@ add_flair_data <- function(AVIS_YEARS = 1729:1844,
     dt_j <- data.table::rbindlist(mi)
     dt_j[, id := names(mi)]
     dt_j[, date := as.Date(date)]
-    setcolorder(dt_j, neworder = c("id",
-                                   setdiff(names(dt_j),"id")))
+    setcolorder(dt_j, neworder = c("id", setdiff(names(dt_j), "id")))
     
-    dt_f_p <- fread(paste0(path_flair, "yearly_", i, "_ner.csv"), encoding = "UTF-8")
-    dt_f_l <- dt_f_p
-    dt_f_l$people <- NULL
-    dt_f_p$locations <- NULL
-
-    dt_f_l <- do.call(rbind, apply(dt_f_l, 1, function(x){
-      x["locations"] <- strsplit(x["locations"], "; ")
-      return(x)
-    }))
-    dt_f_p <- do.call(rbind, apply(dt_f_p, 1, function(x){
-      x["people"] <- strsplit(x["people"], "; ")
-      return(x)
-    }))
+    dt_f <- fread(paste0(path_flair, "yearly_", i, "_ner.csv"), encoding = "UTF-8")
+    dt <- merge(dt_j, dt_f, all.x = TRUE)
+    #----------
+    dt_location <- list()
+    dt_people <- list()
     
-    cn <- c(names(dt_j), "people", "locations")
-    dt_f_p <-as.data.table(dt_f_p)
-    dt_f_l <-as.data.table(dt_f_l)
-    dt_j <- cbind(dt_j, dt_f_p$people)
-    dt_j <- cbind(dt_j, dt_f_l$locations)
-    colnames(dt_j) <- cn
-        dt_j$people[lengths(dt_j$people) == 0] <- NA
-    dt_j$locations[lengths(dt_j$locations) == 0] <- NA
+    for (j in 1:nrow(dt)){
+      dt_location <- rbind(dt_location, strsplit(dt$location[j], "; "))
+      dt_people <- rbind(dt_people, strsplit(dt$people[j], "; "))
+    }
     
+    dt$locations <- dt_location
+    dt$people <- dt_people
+    #----------
+    dt$people[lengths(dt$people) == 0] <- NA
+    dt$locations[lengths(dt$locations) == 0] <- NA
     
     meta_file <- paste0(path_collections_flaired, "yearly_", i, ".json")
     
-    dtcols <- setdiff(names(dt_j),"id")
-    dt_chunks <- split(dt_j[, ..dtcols], as.factor(1:nrow(dt_j)))
-    names(dt_chunks) <- dt_j$id
+    dtcols <- setdiff(names(dt), "id")
+    dt_chunks <- split(dt[, ..dtcols], as.factor(1:nrow(dt)))
+    names(dt_chunks) <- dt$id
+    
+    write_json(dt_chunks, meta_file, pretty = TRUE, auto_unbox = TRUE, null = "null", na = "string")
+    # or
+    #fwrite(dt_chunks, meta_file)
+    
+    message(sprintf("Added flair metadata for %d.", i))
+  }
+}
+
+add_flair_data2 <- function(AVIS_YEARS = 1729:1844,
+                           path_collections = "../avis-data/collections/",
+                           path_collections_flaired = "../avis-data/collections_flaired/",
+                           path_flair = "../avis-data/flair/"){
+  for (i in AVIS_YEARS){
+    mi <- fromJSON(paste0(path_collections, "yearly_", i, ".json"))
+    dt_j <- data.table::rbindlist(mi)
+    dt_j[, id := names(mi)]
+    dt_j[, date := as.Date(date)]
+    setcolorder(dt_j, neworder = c("id",
+                                   setdiff(names(dt_j),"id")))
+    
+    dt_f <- fread(paste0(path_flair, "yearly_", i, "_ner.csv"), encoding = "UTF-8")
+    dt <- merge(dt_j, dt_f, all.x = T)
+  #----------
+    dt_location <- list()
+    dt_people <- list()
+    
+    for (j in 1:nrow(dt)){
+      dt_location <- rbind(dt_location, strsplit(dt$location[j], "; "))
+      dt_people <- rbind(dt_people, strsplit(dt$people[j], "; "))
+    }
+    
+    dt$locations <- dt_location
+    dt$people <- dt_people
+  #----------
+    dt$people[lengths(dt$people) == 0] <- NA
+    dt$locations[lengths(dt$locations) == 0] <- NA
+    
+    meta_file <- paste0(path_collections_flaired, "yearly_", i, ".json")
+    
+    
+    
+    
+    dtcols <- setdiff(names(dt),"id")
+    dt_chunks <- split(dt[, ..dtcols], as.factor(1:nrow(dt_j)))
+    names(dt_chunks) <- dt$id
     
     writeLines(
       toJSON(dt_chunks, pretty = TRUE,
