@@ -2,6 +2,11 @@
 % Please edit documentation in R/tagfilters_transactiontype.R
 \name{tagfilter_transactiontype}
 \alias{tagfilter_transactiontype}
+\alias{tagfilter_transactiontype_sale1}
+\alias{tagfilter_transactiontype_lend1}
+\alias{tagfilter_transactiontype_auction1}
+\alias{tagfilter_transactiontype_auction2}
+\alias{tagfilter_transactiontype_swap1}
 \alias{tagfilter_transactiontype_offer1}
 \alias{tagfilter_transactiontype_request1}
 \alias{tagfilter_transactiontype_offer2}
@@ -10,29 +15,64 @@
 \alias{tagfilter_transactiontype_request3}
 \title{Tagfilter Transactiontype}
 \usage{
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_sale1()
 
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_lend1()
 
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_auction1()
 
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_auction2()
 
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_swap1()
 
-Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+tagfilter_transactiontype_offer1()
+
+tagfilter_transactiontype_request1()
+
+tagfilter_transactiontype_offer2()
+
+tagfilter_transactiontype_request2()
+
+tagfilter_transactiontype_offer3()
+
+tagfilter_transactiontype_request3()
 }
 \description{
-#' Tagfilters are regular expression based filters designed to tag ads in 
+Tagfilters are regular expression based filters designed to tag ads in 
 order to classify ads based on their content. The avisblatt R package comes 
 with curated filters to search for ads according to the type of the proposed 
 transaction: Is it an offer or a request?
 }
 \details{
+Tagfilters can only predict if an ad is pertinent to a given topic. 
+Depending on the complexity of the topic and the development stage of a 
+tagfilter, there can be a considerable number of false positives and false 
+negatives. 
+
+The precision and sensitivity of some (families of) tagfilters can be 
+measured by comparison to a manual classification for four sample years 
+(1734, 1754, 1774 and 1834) from an early stage of the Avisblatt project.
+Since the manual classification does often only roughly match the scope of 
+the tagfilters, their true precision and sensitivity are underestimated.
+
+Calculated that way, the family of tagfilters concerning offers 
+shows a precision >80% and a sensitivity >87%, those concerning requests a 
+precision >75% and a sensitivity >66%. 
+
 The tagfilters help site provides you with a list of available tagfilters
 families.
 }
 \note{
+Last changed 2023-02-16
+
+Last changed 2023-02-16
+
+Last changed 2023-02-16
+
+Last changed 2023-02-16
+
+Last changed 2023-02-16
+
 Last changed 2021-11-03
 
 Last changed 2021-11-03
@@ -50,14 +90,6 @@ tagfilters
 }
 \author{
 Alexander Engel, ORCID 0000-0002-8592-3124
-
-Alexander Engel, ORCID 0000-0002-8592-3124
-
-Alexander Engel, ORCID 0000-0002-8592-3124
-
-Alexander Engel, ORCID 0000-0002-8592-3124
-
-Alexander Engel, ORCID 0000-0002-8592-3124; most regex by Lars Dickmann
 
 Alexander Engel, ORCID 0000-0002-8592-3124; most regex by Lars Dickmann
 }

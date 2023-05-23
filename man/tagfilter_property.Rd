@@ -41,6 +41,21 @@ curated filters to search for ads concerning the housing and property market,
 and the (tradable) entitlement to fixed seats in churches.
 }
 \details{
+Tagfilters can only predict if an ad is pertinent to a given topic. 
+Depending on the complexity of the topic and the development stage of a 
+tagfilter, there can be a considerable number of false positives and false 
+negatives. 
+
+The precision and sensitivity of some (families of) tagfilters can be 
+measured by comparison to a manual classification for four sample years 
+(1734, 1754, 1774 and 1834) from an early stage of the Avisblatt project.
+Since the manual classification does often only roughly match the scope of 
+the tagfilters, their true precision and sensitivity are underestimated.
+
+Calculated that way, the family of tagfilters concerning housing and property 
+shows a precision >94% and a sensitivity >90%. The churchseat tagfilter shows 
+a precision >96% and a sensitivity >96%. 
+
 The tagfilters help site provides you with a list of available tagfilters
 families.
 }

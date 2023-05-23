@@ -12,7 +12,12 @@ Imports:
     data.table,
     quanteda (>= 2.0),
     quanteda.textstats,
-    textcat
+    quanteda.textplots,
+    textcat,
+    textutils,
+    dplyr, 
+    magick,
+    XML
 Suggests:
     knitr,
     testthat

@@ -1,0 +1,209 @@
+# -----------------------------------------------------------
+# CITATION file created with {cffr} R package, v0.4.1
+# See also: https://docs.ropensci.org/cffr/
+# -----------------------------------------------------------
+ 
+cff-version: 1.2.0
+message: 'To cite package "avisblatt" in publications use:'
+type: software
+license: GPL-2.0-only
+title: 'avisblatt: Process Avisblatt Data'
+version: '0.3'
+abstract: Processing ads level data from the Basler Avisblatt.
+authors:
+- family-names: Bannert'
+  given-names: '''Matthias'
+  email: matthias.bannert@gmail.com
+- family-names: Bannert
+  given-names: '"Matthias'
+  email: matthias.bannert@gmail.com
+- family-names: Engel
+  given-names: Alexander
+- family-names: Reimann
+  given-names: Anna
+- family-names: Serif"
+  given-names: Ina
+repository-code: https://github.com/mbannert/avisblatt
+url: https://github.com/mbannert/avisblatt
+date-released: '2020-06-03'
+contact:
+- family-names: Bannert'
+  given-names: '''Matthias'
+  email: matthias.bannert@gmail.com
+- family-names: Bannert
+  given-names: '"Matthias'
+  email: matthias.bannert@gmail.com
+references:
+- type: software
+  title: 'R: A Language and Environment for Statistical Computing'
+  notes: Depends
+  url: https://www.R-project.org/
+  authors:
+  - name: R Core Team
+  location:
+    name: Vienna, Austria
+  year: '2023'
+  institution:
+    name: R Foundation for Statistical Computing
+  version: '>= 3.5'
+- type: software
+  title: jsonlite
+  abstract: 'jsonlite: A Simple and Robust JSON Parser and Generator for R'
+  notes: Imports
+  url: https://arxiv.org/abs/1403.2805
+  repository: https://CRAN.R-project.org/package=jsonlite
+  authors:
+  - family-names: Ooms
+    given-names: Jeroen
+    email: jeroen@berkeley.edu
+    orcid: https://orcid.org/0000-0002-4035-0289
+  year: '2023'
+  version: '>= 1.1'
+- type: software
+  title: R6
+  abstract: 'R6: Encapsulated Classes with Reference Semantics'
+  notes: Imports
+  url: https://r6.r-lib.org
+  repository: https://CRAN.R-project.org/package=R6
+  authors:
+  - family-names: Chang
+    given-names: Winston
+    email: winston@stdout.org
+  year: '2023'
+- type: software
+  title: data.table
+  abstract: 'data.table: Extension of `data.frame`'
+  notes: Imports
+  url: https://r-datatable.com
+  repository: https://CRAN.R-project.org/package=data.table
+  authors:
+  - family-names: Dowle
+    given-names: Matt
+    email: mattjdowle@gmail.com
+  - family-names: Srinivasan
+    given-names: Arun
+    email: asrini@pm.me
+  year: '2023'
+- type: software
+  title: quanteda
+  abstract: 'quanteda: Quantitative Analysis of Textual Data'
+  notes: Imports
+  url: https://quanteda.io
+  repository: https://CRAN.R-project.org/package=quanteda
+  authors:
+  - family-names: Benoit
+    given-names: Kenneth
+    email: kbenoit@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-0797-564X
+  - family-names: Watanabe
+    given-names: Kohei
+    email: watanabe.kohei@gmail.com
+    orcid: https://orcid.org/0000-0001-6519-5265
+  - family-names: Wang
+    given-names: Haiyan
+    email: whyinsa@yahoo.com
+    orcid: https://orcid.org/0000-0003-4992-4311
+  - family-names: Nulty
+    given-names: Paul
+    email: paul.nulty@gmail.com
+    orcid: https://orcid.org/0000-0002-7214-4666
+  - family-names: Obeng
+    given-names: Adam
+    email: quanteda@binaryeagle.com
+    orcid: https://orcid.org/0000-0002-2906-4775
+  - family-names: Müller
+    given-names: Stefan
+    email: mullers@tcd.ie
+    orcid: https://orcid.org/0000-0002-6315-4125
+  - family-names: Matsuo
+    given-names: Akitaka
+    email: a.matsuo@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-3323-6330
+  - family-names: Lowe
+    given-names: William
+    email: wlowe@princeton.edu
+    orcid: https://orcid.org/0000-0002-1549-6163
+  year: '2023'
+  version: '>= 2.0'
+- type: software
+  title: quanteda.textstats
+  abstract: 'quanteda.textstats: Textual Statistics for the Quantitative Analysis
+    of Textual Data'
+  notes: Imports
+  url: https://quanteda.io
+  repository: https://CRAN.R-project.org/package=quanteda.textstats
+  authors:
+  - family-names: Benoit
+    given-names: Kenneth
+    email: kbenoit@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-0797-564X
+  - family-names: Watanabe
+    given-names: Kohei
+    email: watanabe.kohei@gmail.com
+    orcid: https://orcid.org/0000-0001-6519-5265
+  - family-names: Wang
+    given-names: Haiyan
+    email: whyinsa@yahoo.com
+    orcid: https://orcid.org/0000-0003-4992-4311
+  - family-names: Lua
+    given-names: Jiong Wei
+    email: J.W.Lua@lse.ac.uk
+  - family-names: Kuha
+    given-names: Jouni
+    email: j.kuha@lse.ac.uk
+    orcid: https://orcid.org/0000-0002-1156-8465
+  year: '2023'
+- type: software
+  title: textcat
+  abstract: 'textcat: N-Gram Based Text Categorization'
+  notes: Imports
+  repository: https://CRAN.R-project.org/package=textcat
+  authors:
+  - family-names: Hornik
+    given-names: Kurt
+    email: Kurt.Hornik@R-project.org
+    orcid: https://orcid.org/0000-0003-4198-9911
+  - family-names: Rauch
+    given-names: Johannes
+  - family-names: Buchta
+    given-names: Christian
+    email: christian.buchta@wu.ac.at
+  - family-names: Feinerer
+    given-names: Ingo
+    email: feinerer@logic.at
+  year: '2023'
+- type: software
+  title: textutils
+  abstract: 'textutils: Utilities for Handling Strings and Text'
+  notes: Imports
+  url: http://enricoschumann.net/R/packages/textutils/
+  repository: https://CRAN.R-project.org/package=textutils
+  authors:
+  - family-names: Schumann
+    given-names: Enrico
+    email: es@enricoschumann.net
+    orcid: https://orcid.org/0000-0001-7601-6576
+  year: '2023'
+- type: software
+  title: knitr
+  abstract: 'knitr: A General-Purpose Package for Dynamic Report Generation in R'
+  notes: Suggests
+  url: https://yihui.org/knitr/
+  repository: https://CRAN.R-project.org/package=knitr
+  authors:
+  - family-names: Xie
+    given-names: Yihui
+    email: xie@yihui.name
+    orcid: https://orcid.org/0000-0003-0645-5666
+  year: '2023'
+- type: software
+  title: testthat
+  abstract: 'testthat: Unit Testing for R'
+  notes: Suggests
+  url: https://testthat.r-lib.org
+  repository: https://CRAN.R-project.org/package=testthat
+  authors:
+  - family-names: Wickham
+    given-names: Hadley
+    email: hadley@rstudio.com
+  year: '2023'
