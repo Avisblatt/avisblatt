@@ -100,6 +100,41 @@ table(year(m$meta$date))
 
 ### Data Analysis
 
+This section shows a simple data analysis and visualization example. 
+
+```r
+library(avisblatt)
+library(ggplot2)
+# select a few years start, middle end of sample
+ay <- c(1730, 1800, 1840)
+yc <- gather_yearly_collections(ay, path = "../avisdata/collections")
+total_count_by_m <- count_records_by_date(coll = yc, level = "month",
+                                          colnames = "N")
+
+
+# compare ad count during the course of a year 
+gg <- ggplot(total_count_by_m)
+gg + geom_line(aes(x = as.factor(month),
+                   y = N, group = year,
+                   col = as.factor(year))) +
+  scale_color_viridis_d() +
+  theme_minimal() +
+  theme(axis.title.x = element_blank(),
+        panel.grid.major.x = element_blank()
+  ) +
+  labs(col = "Year") +
+  ggtitle("Number of ads over the course of a year")
+
+```
+
+The resulting plot compares the total nummer of ads during the course of
+three different years. Albeit the volume increased substantially over time the course of the season seems relatively similar. 
+
+![](seasons.png)
+
+
+
+
 
 
 
