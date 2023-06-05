@@ -45,7 +45,7 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
   AVIS_YEARS <- intersect(AVIS_YEARS,
                           list.files(path, pattern = "csv") |>
-                            substr(8, 11) %>% as.numeric)
+                            substr(8, 11) |> as.numeric)
   path <- file.path(path, "yearly_")
   # meta information
   meta_dt <- data.table()
@@ -106,10 +106,10 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   # STEP 1
   # Use quanteda's textstat_dist to measure distance
   # -> lower values, smaller distance / greater similarity
-  dfm_a <- tokens(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm() %>% dfm_weight("prop")
-  dfm_b <- tokens(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm() %>% dfm_weight("prop")
+  dfm_a <- tokens(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) |>
+    dfm() |> dfm_weight("prop")
+  dfm_b <- tokens(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) |>
+    dfm() |> dfm_weight("prop")
   dist <- as.matrix(textstat_dist(dfm_a, dfm_b))
 
   # measure is not independent of ad length, correcting for length.
@@ -149,8 +149,8 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 
 
 available_years <- function(collection_root){
- list.files(collection_root, pattern=".json") %>%
-    substr(8, 11) %>%
+ list.files(collection_root, pattern=".json") |>
+    substr(8, 11) |>
     as.numeric
 }
 

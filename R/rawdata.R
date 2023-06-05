@@ -179,7 +179,7 @@ RawData <- R6Class("RawData", list(
       #renumber the reading order, as those are stored as integers,
       #but we have something like "24.5" in the tsv for several years
       #(for an ad later added between ads #24 and #25)
-      self$data <- self$data %>% group_by(pageno) %>% mutate(readingorder = 1:n()) %>% as.data.table()
+      self$data <- self$data |> group_by(pageno) |> mutate(readingorder = 1:n()) |> as.data.table()
       self$status <- "SUCCESS"
       self$message <- "Step 2 of 2 (processing) ok."
     }, error = function(e){

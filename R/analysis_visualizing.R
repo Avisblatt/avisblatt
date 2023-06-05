@@ -9,8 +9,8 @@ show_wordcloud <- function(ids = NULL, coll = c_all, remove = "", max_words = 20
   } else{
     corp <- corpus_subset(c_all$corpus, names(c_all$corpus) %in% ids)
     removal <- c(avis_stop(), remove)
-    corp <- corp %>%
-      tokens(remove_punct = TRUE, remove_numbers = TRUE) %>%
+    corp <- corp |>
+      tokens(remove_punct = TRUE, remove_numbers = TRUE) |>
       tokens_remove(removal, min_nchar = 3)
     textplot_wordcloud(dfm(corp), max_words = max_words)
   }

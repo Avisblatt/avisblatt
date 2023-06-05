@@ -3,8 +3,8 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
                                     source_path = "../avis-databuffer/collections_unflagged",
                                     dest_path = "../avis-databuffer/collections_reprint_detected"){
   AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(source_path, pattern = "csv") %>% 
-                            substr(8, 11) %>% as.numeric)
+                          list.files(source_path, pattern = "csv") |> 
+                            substr(8, 11) |> as.numeric)
 
   message("Loading collection(s).")
   c_all <- gather_yearly_collections(AVIS_YEARS, 
