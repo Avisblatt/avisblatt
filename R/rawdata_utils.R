@@ -1,8 +1,9 @@
 load_metadata <- function(AVIS_YEARS = 1729:1844, path){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
-  AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(path, pattern = "json") |> 
-                            substr(8, 11) |> as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS,
+                          list.files(path, pattern = "json") |>
+                            substr(8, 11) |>
+                            as.numeric())
   meta_dt <- data.table()
   for (i in AVIS_YEARS){
     meta_file <- paste0(path, "/yearly_", i, ".json")
@@ -42,7 +43,7 @@ write_metadata <- function(meta_dt, path){
 
 
 
-fraternaltwin_processing <- function(meta_dt = meta_dt, 
+fraternaltwin_processing <- function(meta_dt = meta_dt,
                                      path = "../avis-data/collections"){
   message(sprintf("\nBuilding a lookup table for pairs of originals+reprints, depending on number of years this can take several minutes."))
   startt <- Sys.time()
@@ -50,7 +51,7 @@ fraternaltwin_processing <- function(meta_dt = meta_dt,
   n <- cbind(n, apply(n, 1, function(x) {meta_dt[id == meta_dt$potential_original[x], which = T]}), NA)
   dtime <- round(difftime(Sys.time(), startt, units = "min"),2)
   message(sprintf("Took %s minutes", dtime))
-  
+
   fraternal_twins <- data.table(id_orig=character(), tags_orig=character(), id_reprint=character(), tags_reprint=character())
   new_tags <- data.table(row_no=integer(), tags=character())
   startt <- Sys.time()
@@ -63,7 +64,7 @@ fraternaltwin_processing <- function(meta_dt = meta_dt,
     if(!identical(r_tags, o_tags)){
       joint_tags <- o_tags
       joint_tags[1,1] <- c(na.omit(unique(c(unlist(r_tags), unlist(o_tags), "fraternal_twin"))))
-      new_tags <- rbind(new_tags, 
+      new_tags <- rbind(new_tags,
                         cbind(n[i,1], as.list(joint_tags)),
                         cbind(n[i,2], as.list(joint_tags)))
       fraternal_twins <- rbind(fraternal_twins,
@@ -78,12 +79,12 @@ fraternaltwin_processing <- function(meta_dt = meta_dt,
   }
   # update tags of fraternal twins
   meta_dt$tags[new_tags$row_no] <- new_tags$tags
-  
+
   dtime <- round(difftime(Sys.time(), startt, units = "min"),2)
   message(sprintf("Took %s minutes", dtime))
-  
+
   # document the cases, to study for tagfilter enhancements
   fwrite(fraternal_twins, file.path(path, "fraternal_twins.tsv"), sep = "\t")
-  
+
   meta_dt
 }

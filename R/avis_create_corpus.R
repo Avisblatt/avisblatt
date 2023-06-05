@@ -1,6 +1,6 @@
 #' Reads Avisblatt Input CSV into Quantedata Corpus
 #'
-#' Covenience function to read avisblatt input .csvs into
+#' Convenience function to read avisblatt input .csvs into
 #' quanteda 2.0 corpuses.
 #'
 #' @importFrom data.table fread
