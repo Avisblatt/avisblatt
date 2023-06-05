@@ -2,22 +2,22 @@
 
 “Printed Markets” is a Swiss research project (see also [avisblatt.ch](https://avisblatt.ch)) on a new form of marketplace that emerged in Europe during the seventeenth and, for the most part, in the eighteenth century: the printed advertising market of the so-called “Intelligenzblätter” (intelligencers). Using the example of the Basel Avisblatt (published 1729-1844/45), “Printed Markets” employs digital history and data science methods to systematically open up an extensive serial source, to shine a light on the socioeconomic transformations of the “Sattelzeit”: The Avisblatt reflects myriads of ways to organise economic exchange, to interlink persons of complementary interests, to spin the socioeconomic web of a town in transition, from early modernity to the industrial age.
 
-“Printed Markets” is a project of the Department of History at the University of Basel and is financed by the Swiss National Science Foundation SNSF. The project is led by Prof. Dr. Susanna Burghartz.
+“Printed Markets” is a project of the Department of History at the University of Basel. It was financed by the Swiss National Science Foundation SNSF ([grant  182156](https://data.snf.ch/grants/grant/182156), 2018-2023) and led by Prof. Dr. Susanna Burghartz.
 
 
 ## Getting Started 
 
-The Avisblatt project makes over 116 years of ads accessible in machine friendly
-fashion. The proejct does not stop at scanning and images, but provides far more 
-than 100'000 text recognized (OCR) ads and enhances these ads with a wide range
-of meta information. This additional information categorizes ads, adds 
+The Avisblatt project makes over 116 years of classified ads accessible in machine friendly fashion. 
+The project does not stop at scanning and images, but provides far more 
+than 100'000 text recognized (HTR, using the software [Transkribus](transkribus.eu/)) ads and enhances these ads with a wide range
+of meta information, using our R package. This additional information categorizes ads, adds 
 information obtained through digital text processing methods as well as relations
 to other ads. 
 
 
-### Installation of from GitHub
+### Installation from GitHub
 
-Assuming you have a working installation of R and state-of-the-art IDE such 
+Assuming you have a working installation of R and a state-of-the-art IDE such 
 as RStudio or Visual Studio Code going, use `install_github` from the 
 {devtools} R package to install the latest, bleeding-edge version of the
 {avisblatt} R package. 
@@ -36,7 +36,7 @@ package updates), the below R commands in 'Reading Data' to load the library
 are necessary every time you intend to use the package.
 
 
-### Installation of from CRAN (not available yet)
+### Installation from CRAN (not available yet)
 
 
 ```
@@ -48,7 +48,7 @@ remotes::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
 
 The Avisblatt project does not only provide the {avisblatt} R package but also 
 the [avisdata](https://github.com/avisblatt/avisdata) data repository. The
-data repository contains cleaned data that went through the OCR process, OCR
+data repository contains cleaned data that went through the HTR process, HTR
 corrections and enrichment with meta information. While the package allows 
 to reproduce all of these steps, the most common use case is to read in the
 latest release of cleaned data from the avisdata repository. First, clone the 
