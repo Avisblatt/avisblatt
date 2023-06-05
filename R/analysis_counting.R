@@ -1,18 +1,38 @@
-
-
+#' Records by Length
+#'
+#' Count the number of ads by length bins. Bins can be character or token
+#' based
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param boundaries numeric boundaries of length bins
+#' @param character dennoting 'tokens' or 'character'
 #' @export
-count_records_by_length <- function(ids = NULL, coll = c_all, boundaries = c(0, 10, 20, 40, 80, 160, 1000), unit = "tokens"){
+count_records_by_length <- function(coll,
+                                    ids = NULL,
+                                    boundaries = c(0, 10, 20, 40, 80, 160, 1000),
+                                    unit = "tokens"){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  if(length(boundaries)<2|!is.numeric(boundaries)){stop("The boundaries argument needs to be a list of at leats two non-negative numbers - default is c(0, 100000).")}
-  if(!all(diff(boundaries)>0)){stop("The boundaries need to ascending numbers.")}
-  if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
+  if(length(boundaries) < 2 | !is.numeric(boundaries)){
+    stop("The boundaries argument needs to be a list of at least two non-negative numbers.")
+    }
+  if(!all(diff(boundaries) > 0)){
+    stop("The boundaries need to ascending numbers.")
+    }
+  if(length(ids) == 1){
+    if(ids == "all"){
+      ids <- coll$meta$id
+      }
+    }
   dt <- coll$meta
-  if(!is.null(ids)){dt <- dt[id %in% ids,]}
+  if(!is.null(ids)){
+    dt <- dt[id %in% ids,]
+    }
   if(unit == "tokens"){
-    dt[, .N, keyby = .(interval=cut(dt$ntoken, boundaries, dig.lab = 4))]
+    dt[, .N, keyby = .(interval = cut(dt$ntoken, boundaries, dig.lab = 4))]
   } else if(unit == "char"){
-    dt[, .N, keyby = .(interval=cut(dt$nchar, boundaries, dig.lab = 4))]
+    dt[, .N, keyby = .(interval = cut(dt$nchar, boundaries, dig.lab = 4))]
   } else{
     message("Unit must be 'tokens' (default) or 'char' for characters")
   }
