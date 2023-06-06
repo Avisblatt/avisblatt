@@ -1,6 +1,21 @@
+#' Convenience Function to Create Quanteda Wordclouds
+#'
+#' @description This function creates a wordcloud from a corpus of text.
+#' @param coll A collection object containing the corpus.
+#' @param ids A vector of document ids to include in the wordcloud.
+#' @param remove A vector of words to remove from the corpus.
+#' @param max_words The maximum number of words to include in the wordcloud.
+#' @return A wordcloud plot.
+#'
+#' @examples
+#' show_wordcloud(ids = "all", coll = c_all, remove = "", max_words = 200)
+#'
 #' @import quanteda.textplots
 #' @export
-show_wordcloud <- function(ids = NULL, coll = c_all, remove = "", max_words = 200){
+show_wordcloud <- function(coll,
+                           ids = NULL,
+                           remove = "",
+                           max_words = 200){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
