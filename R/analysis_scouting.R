@@ -1,5 +1,8 @@
+#' @param coll object of class Collection
+#' @param text boolean. Defaults to FALSE.
 #' @export
-get_headers <- function(coll = c_all, text = FALSE){
+get_headers <- function(coll,
+                        text = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(text){
@@ -12,14 +15,29 @@ get_headers <- function(coll = c_all, text = FALSE){
   }
 }
 
-
+#' Get noadvert records from a Collection object
+#'
+#' This function returns the noadvert records from a Collection object.
+#'
+#' @param coll A Collection object.
+#' @param text A logical value indicating whether to return the text of the noadvert records or their names.
+#' @return If text is TRUE, the text of the noadvert records; otherwise, their names.
 #' @export
-get_noadverts <- function(coll = c_all, text = FALSE){
+#' @importFrom R6 inherits stopifnot
+#' @examples
+#' coll <- read_collection("path/to/collection")
+#' get_noadverts(coll)
+#'
+#' @seealso \code{\link{read_collection}}, \code{\link{gather_collections}}
+#' @keywords collection
+#' @export
+get_noadverts <- function(coll,
+                          text = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(coll$corpus)){
     stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to get the noadvert records.")}
-  
+
   if(text){
     as.character(corpus_subset(coll$corpus, noadvert == TRUE))
     } else {
@@ -28,8 +46,43 @@ get_noadverts <- function(coll = c_all, text = FALSE){
 }
 
 
+
+#' List similar ads
+#'
+#' This function calculates the distance between two collections of ad texts and returns the N most similar ads.
+#'
+#' @param coll A collection object.
+#' @param ids1 A vector of ad IDs from the first collection.
+#' @param ids2 A vector of ad IDs from the second collection.
+#' @param N The number of most similar ads to return.
+#' @param min_dist The minimum distance between ads to consider.
+#' @param max_dist The maximum distance between ads to consider.
+#' @param matrix_limit The maximum number of elements in the distance matrix.
+#'
+#' @return A matrix with the N most similar ads and their distances.
+#'
+#' @examples
+#' \dontrun{
+#' list_similar(coll = coll,
+#'              ids1 = c("ad1", "ad2", "ad3"),
+#'              ids2 = c("ad4", "ad5", "ad6"),
+#'              N = 5,
+#'              min_dist = 0,
+#'              max_dist = 1000,
+#'              matrix_limit = 10000000)
+#' }
+#'
+#' @importFrom R6 R6Class
+#' @importFrom quanteda corpus_subset
+#'
 #' @export
-list_similar = function(ids1 = NULL, ids2 = NULL, coll = c_all, N = 5, min_dist = 0, max_dist = 1000, matrix_limit = 10000000){
+list_similar = function(coll,
+                        ids1 = NULL,
+                        ids2 = NULL,
+                        N = 5,
+                        min_dist = 0,
+                        max_dist = 1000,
+                        matrix_limit = 10000000){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   stopifnot(is.numeric(N) & is.numeric(min_dist) & is.numeric(max_dist))
@@ -63,7 +116,7 @@ list_similar = function(ids1 = NULL, ids2 = NULL, coll = c_all, N = 5, min_dist 
       dist <- dist[!(row.names(dist) %in% na_rows),]
       if(nrow(dist>0)){
         sim <- as.data.frame(apply(dist, 1, function(x) {colnames(dist)[which(rank(x, na.last = NA, ties.method = "first")<N+1)]}))
-        # Now transpose the matrix 
+        # Now transpose the matrix
         # if it has more than one column
         # (if it has one column by virtue of N = 1,
         # it seems to get transposed already in the previous line)
