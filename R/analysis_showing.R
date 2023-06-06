@@ -1,5 +1,23 @@
+#' Show Records
+#'
+#' @param coll Collection object
+#' @param ids NULL or numeric vector of document ids to show
+#' @param show_date logical; whether to show date
+#' @param show_text logical; whether to show text
+#' @param show_id logical; whether to show id
+#' @param show_tags logical; whether to show tags
+#' @param show_header logical; whether to show header
+#' @param show_position logical; whether to show position
+#'
 #' @export
-show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = FALSE, show_header = FALSE, show_position = FALSE){
+show_records <- function(coll,
+                         ids = NULL,
+                         show_date = TRUE,
+                         show_text = TRUE,
+                         show_id = TRUE,
+                         show_tags = FALSE,
+                         show_header = FALSE,
+                         show_position = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
@@ -32,8 +50,32 @@ show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
 }
 
 
+#' Write records to a file
+#'
+#' This function writes records to a file.
+#'
+#' @param ids A vector of record IDs to write.
+#' @param coll A Collection object.
+#' @param show_date Whether to show the date.
+#' @param show_text Whether to show the text.
+#' @param show_id Whether to show the ID.
+#' @param show_tags Whether to show the tags.
+#' @param show_header Whether to show the header.
+#' @param show_edit Whether to show the edit link.
+#' @param fn The output file name.
+#'
+#' @return Nothing is returned; the function writes records to a file.
+#'
 #' @export
-write_records = function(ids = NULL, coll = c_all, show_date = TRUE, show_text = TRUE, show_id = TRUE, show_tags = TRUE, show_header = TRUE, show_edit = TRUE, fn = "../output.tsv"){
+write_records = function(coll,
+                         ids = NULL,
+                         show_date = TRUE,
+                         show_text = TRUE,
+                         show_id = TRUE,
+                         show_tags = TRUE,
+                         show_header = TRUE,
+                         show_edit = TRUE,
+                         fn = "../output.tsv"){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
@@ -60,7 +102,19 @@ write_records = function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
   }
 }
 
-
+#' Show IIIF images for specified record IDs
+#'
+#' This function produces a plot of IIIF(s) for each record.
+#'
+#' @param ids A vector of record IDs to display.
+#' @param coll A Collection object.
+#' @param show_record A logical indicating whether to display record metadata.
+#' @param max.plot An integer indicating the maximum number of plots to display.
+#'
+#' @return A plot of IIIF(s) for each record.
+#'
+#' @examples
+#' show_iiif(ids = c("id1", "id2"), coll = my_collection)
 #' @import magick
 #' @export
 show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 10){
@@ -116,7 +170,7 @@ show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 1
         combined <- magick::image_append(imgs, stack=F)
       } else {
         combined <- magick::image_append(imgs, stack=T)
-        }
+      }
       plot(combined)
       counter <- counter+1
     }
@@ -125,16 +179,32 @@ show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 1
     message("\n1 plot created (might take a moment to load)")
   } else {
     message(sprintf("\n%d plot(s) created  (might take a moment to load)", counter))
-    }
+  }
 }
 
 
+#' Shows tags for a given set of document IDs
+#'
+#' This function shows the tags associated with a given set of document IDs.
+#'
+#' @param ids A vector of document IDs to show tags for.
+#' @param coll A collection object.
+#' @param manual A logical value indicating whether to show manual tags (TRUE) or automatic tags (FALSE).
+#'
+#' @return A vector of tags associated with the specified documents.
+#'
 #' @export
-show_tags <- function(ids, coll = c_all, manual = FALSE){
+show_tags <- function(coll,
+                      ids,
+                      manual = FALSE){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  if(length(ids)==1)
-  {if(ids=="all"){ids <- coll$meta$id}}
+  if(length(ids) == 1)
+  {
+    if(ids == "all"){
+      ids <- coll$meta$id
+    }
+  }
   if(manual){
     coll$meta$tags_manual[coll$meta$id %in% ids] |>
       unlist() |>
@@ -149,6 +219,14 @@ show_tags <- function(ids, coll = c_all, manual = FALSE){
 }
 
 
+#' Shows headers for all documents in a collection
+#'
+#' This function shows the headers associated with all documents in a collection.
+#'
+#' @param coll A collection object.
+#'
+#' @return A vector of headers associated with all documents in the collection.
+#'
 #' @export
 show_headers <- function(coll = c_all){
   stopifnot(inherits(coll, "Collection"))
@@ -157,8 +235,16 @@ show_headers <- function(coll = c_all){
 }
 
 
+#' Shows metadata fields for all documents in a collection
+#'
+#' This function shows the metadata fields associated with all documents in a collection.
+#'
+#' @param coll A collection object.
+#'
+#' @return A character vector of metadata fields associated with all documents in the collection.
+#'
 #' @export
-show_metadatafields <- function(coll = c_all){
+show_metadatafields <- function(coll){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   colnames(c_all$meta)
