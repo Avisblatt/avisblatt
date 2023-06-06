@@ -5,7 +5,7 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
   AVIS_YEARS <- intersect(AVIS_YEARS,
                           list.files(source_path, pattern = "csv") |>
                             substr(8, 11) |>
-                            as.numeric)
+                            as.numeric())
 
   message("Loading collection(s).")
   c_all <- gather_yearly_collections(AVIS_YEARS,

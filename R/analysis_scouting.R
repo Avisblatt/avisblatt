@@ -1,3 +1,5 @@
+#' Get Headers from Collection
+#'
 #' @param coll object of class Collection
 #' @param text boolean. Defaults to FALSE.
 #' @export

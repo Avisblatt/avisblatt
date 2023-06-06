@@ -13,6 +13,6 @@ avis_create_corpus(
 )
 }
 \description{
-Covenience function to read avisblatt input .csvs into
+Convenience function to read avisblatt input .csvs into
 quanteda 2.0 corpuses.
 }
