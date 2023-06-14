@@ -105,7 +105,7 @@ RawData <- R6Class("RawData", list(
         self$data[,id := gsub("https://avisblatt.freizo.org/iiif/anno/", "", id)]
         self$data[,text := gsub("<.*?>", "", text)]
         self$data[,rnotes := gsub("<.*?>", "", rnotes)]
-        
+                
         # remove redundant blanks (better BEFORE ocr correction)
         self$data[,text := purge_spacing(text)]
         self$data[,text := gsub(" {2,}", " ", text)]
@@ -123,12 +123,12 @@ RawData <- R6Class("RawData", list(
           message(nrow(updated_tags))
           # only use those updates that are still present to avoid problems with recycling
           updated_tags <- updated_tags[(id %in% self$data$id),]
-          # records in updated_tags are sorted differently than in self$data, 
+          # records in updated_tags are sorted differently than in self$data,  
           # so have to sort updated_tags in that same order first. Use merge:
           ids <- as.data.table(self$data[(id %in% updated_tags$id)]$id)
           colnames(ids) <- "id"
           updated_tags <- merge(ids, updated_tags, sort = F)
-          
+                    
           self$data[(id %in% updated_tags$id), adcontent := updated_tags$adcontent]
           self$data[(id %in% updated_tags$id), adtype := updated_tags$adtype]
           self$data[(id %in% updated_tags$id), finance := updated_tags$finance]
@@ -179,7 +179,7 @@ RawData <- R6Class("RawData", list(
       #renumber the reading order, as those are stored as integers,
       #but we have something like "24.5" in the tsv for several years
       #(for an ad later added between ads #24 and #25)
-      self$data <- self$data |> group_by(pageno) |> mutate(readingorder = 1:n()) |> as.data.table()
+      self$data <- self$data %>% group_by(pageno) %>% mutate(readingorder = 1:n()) %>% as.data.table()
       self$status <- "SUCCESS"
       self$message <- "Step 2 of 2 (processing) ok."
     }, error = function(e){

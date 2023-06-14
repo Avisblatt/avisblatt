@@ -11,17 +11,17 @@ show_records <- function(ids = NULL, coll = c_all, show_date = TRUE, show_text =
   dt_m <- coll$meta[coll$meta$id %in% ids]
   dt <- merge(dt_c, dt_m, by.x = "doc_id", by.y = "id")
   setorder(dt, date.x, pageno, readingorder)
-  if (show_date){p_date <- paste0("[", dt$date.x, "] ")} else 
+  if (show_date){p_date <- paste0("[", dt$date.x, "] ")} else  
   {p_date <-""}
-  if (show_text){p_text <- dt$text} else 
+  if (show_text){p_text <- dt$text} else  
   {p_text <-""}
-  if (show_id){p_id <- paste0(" (", dt$doc_id, ")")}  else 
+  if (show_id){p_id <- paste0(" (", dt$doc_id, ")")}  else  
   {p_id <-""}
-  if (show_tags){p_tags <- paste0("\n Tags: ", dt$tags)} else 
+  if (show_tags){p_tags <- paste0("\n Tags: ", dt$tags)} else  
   {p_tags <-""}
-  if (show_header){p_header <- paste0("\n Header: ", dt$tags_section)} else 
+  if (show_header){p_header <- paste0("\n Header: ", dt$tags_section)} else  
   {p_header <-""}
-  if (show_position){p_pos <- paste0(" issue ", dt$issue, ", page ", dt$pageno, ", readingorder ", dt$readingorder)} else 
+  if (show_position){p_pos <- paste0(" issue ", dt$issue, ", page ", dt$pageno, ", readingorder ", dt$readingorder)} else  
   {p_pos <-""}
   output <- paste0(p_date, p_text, p_id, p_tags, p_header, p_pos, "\n\n")
   cat(output)
@@ -72,7 +72,7 @@ show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 1
   ids <- intersect(ids, names(coll$corpus))
   if(length(ids)>max.plot){
     stop(sprintf("More than %d IDs provided. This function produces a plot of iiif(s) for each record, per default it handles no more than ten. If you want to plot more, set max.plot to a higher value.", max.plot))
-  } 
+  }  
   if(length(ids)==0){
     stop("Could not find any record with the specified ID(s) in this collection.")
   }
@@ -98,7 +98,7 @@ show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 1
     frags_list[8]  <- coll$corpus[id]$fragment8
     frags_list[9]  <- coll$corpus[id]$fragment9
     frags_list[10] <- coll$corpus[id]$fragment10
-    # if a fragment value does not contain iiif, it's not a iiif link, 
+    # if a fragment value does not contain iiif, it's not a iiif link,  
     # so set frag to NA for easier handling it below:
     frags_list[!grepl("iiif", frags_list, fixed = TRUE)] <- NA
     n <- 10-sum(is.na(frags_list))
@@ -136,9 +136,9 @@ show_tags <- function(ids, coll = c_all, manual = FALSE){
   if(length(ids)==1)
   {if(ids=="all"){ids <- coll$meta$id}}
   if(manual){
-    coll$meta$tags_manual[coll$meta$id %in% ids] |> unlist |> unique |> sort
+    coll$meta$tags_manual[coll$meta$id %in% ids] %>% unlist %>% unique %>% sort
   } else {
-    coll$meta$tags[coll$meta$id %in% ids]  |> unlist |> unique |> sort
+    coll$meta$tags[coll$meta$id %in% ids]  %>% unlist %>% unique %>% sort
   }
 }
 
