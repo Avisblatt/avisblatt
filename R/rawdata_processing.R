@@ -2,8 +2,7 @@
 rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
                               source_path = "../avis-databuffer/raw_data_uncorrected",
                               dest_path = "../avis-databuffer/raw_data_OCRed"){
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |>
-                            substr(6, 9) |> as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |> substr(6, 9) |> as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     dt <- fread(file.path(source_path, fn), encoding="UTF-8")
@@ -18,25 +17,23 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                            source_path = "../avis-databuffer/raw_data_OCRed",
                                            dest_path = "../avis-data/raw_data"){
   id_mapping <- fread(file.path("../avis-databuffer/xml/id_mapping.tsv"))
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |>
-                            substr(6, 9) |>
-                            as.numeric())
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |> substr(6, 9) |> as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
-    data <- fread(file.path(source_path, fn),
-                  encoding="UTF-8",
+    data <- fread(file.path(source_path, fn), 
+                  encoding="UTF-8", 
                   colClasses=list(character=c("fragment2",
-                                              "fragment3",
-                                              "fragment4",
+                                              "fragment3", 
+                                              "fragment4", 
                                               "fragment5",
                                               "fragment6",
                                               "fragment7",
                                               "fragment8",
                                               "fragment9",
-                                              "fragment10")))
-    # make sure all fragment cols are character, not logical,
+                                              "fragment10"))) 
+    # make sure all fragment cols are character, not logical, 
     # so that IIIFs can be shifted when merging two records
-
+    
     # Header creation
     dt <- data[isheader == TRUE]
     dt$text <- gsub("[[:punct:][:blank:]]+", "", dt$text)
@@ -61,7 +58,7 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                                  sep = " ")
       data <- data[!(id %in% hit_ids)]
     }
-
+      
     data[isheader == TRUE, "header_tag"] <- "unknown"
     for (tag in tf_header()){
       f <- get(sprintf("tagfilter_%s",tag))
@@ -75,7 +72,7 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
       x
     })
     data <- rbindlist(by_header)
-
+    
     # merging "bookstore" headers into the following ad,
     # as these headers are both the beginning of a new section
     # and the beginning of the only (very long) ads
@@ -97,14 +94,14 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                                  sep = " ")
       data <- data[!(id %in% hit_ids)]
     }
-
+    
     # ID mapping
     id_i <- id_mapping[year == i]
     id_i$year <- NULL
     data <- merge(data, id_i, by.x = "id", by.y = "id_Transkribus", all.x = TRUE, all.y = FALSE)
     data$id[!is.na(data$id_Freizo)] <- data$id_Freizo[!is.na(data$id_Freizo)]
     data$id_Freizo <- NULL
-
+    
     fwrite(data, file.path(dest_path, fn))
     message(sprintf("Header_tags created and IDs mapped for %d.", i))
   }
@@ -134,10 +131,10 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
   l_ic <- l[names(l) %in% tf_ignorecase(prefix = T)]
   l <- l[!(names(l) %in% tf_ignorecase(prefix = T))]
 
-  # Prepare language detection. For higher recognition rate,
+  # Prepare language detection. For higher recognition rate, 
   # limit recognition to the two languages occurring in the Avisblatt
   avis_profiles <- textcat::TC_byte_profiles[names(textcat::TC_byte_profiles) %in% c("german", "french")]
-
+  
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     chunk_out <- sprintf("yearly_%d", i)
@@ -149,12 +146,12 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
                                docvars_to_meta = c("adcontent", "adtype",
                                                    "finance", "keyword"),
                                transform_docvars = clean_manual_tags)
-
+        
       } else {
         coll <- Collection$new(file.path(source_path, fn))
       }
       message("Data read and collection initialized.")
-
+      
       coll$meta[, language := "de"]
       langs <- textcat::textcat(as.character(coll$corpus), p = avis_profiles)
       coll$meta[id %in% names(langs[langs == "french"]), language := "fr"]
@@ -169,7 +166,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
         coll$add_tags(ids, names(ut[j]))
       }
       message("Regular tag filters applied and umbrella terms added.")
-
+      
       # add a section header column
       ht <- data.table(id = names(coll$corpus),
                        tags_section = docvars(coll$corpus)[,"header_tag"])
@@ -188,7 +185,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
                               "tags_section","tags","tags_manual","language"))
       coll$meta <- coll$meta[order(match(coll$meta$id,org_sorting))]
       message("Records sorted.")
-
+      
       # write result to 2 files: json for meta, .csv for text data
       write_collection(coll, file.path(dest_path, chunk_out))
       message("Collection written.\n")
