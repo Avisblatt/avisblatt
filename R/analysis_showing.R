@@ -136,9 +136,9 @@ show_tags <- function(ids, coll = c_all, manual = FALSE){
   if(length(ids)==1)
   {if(ids=="all"){ids <- coll$meta$id}}
   if(manual){
-    coll$meta$tags_manual[coll$meta$id %in% ids] |> unlist |> unique |> sort
+    coll$meta$tags_manual[coll$meta$id %in% ids] %>% unlist %>% unique %>% sort
   } else {
-    coll$meta$tags[coll$meta$id %in% ids]  |> unlist |> unique |> sort
+    coll$meta$tags[coll$meta$id %in% ids]  %>% unlist %>% unique %>% sort
   }
 }
 

@@ -10,7 +10,7 @@ group_records_by_length = function(ids = NULL, coll = c_all, boundaries = c(0, 1
   if(unit == "tokens"){
     dt <- dt[dt$ntoken > boundaries[1]]
     dt <- dt[dt$ntoken < boundaries[length(boundaries)]+1]
-    dtgs <- group_by(dt, interval = cut(dt$ntoken, boundaries, dig.lab = 4)) |> group_split()
+    dtgs <- group_by(dt, interval = cut(dt$ntoken, boundaries, dig.lab = 4)) %>% group_split()
     results=list(list())
     for (i in 1:length(dtgs)){
       results[[i]] <- unlist(dtgs[[i]][1])
@@ -20,7 +20,7 @@ group_records_by_length = function(ids = NULL, coll = c_all, boundaries = c(0, 1
   } else if(unit == "char"){
     dt <- dt[dt$char > boundaries[1]]
     dt <- dt[dt$char < boundaries[length(boundaries)]+1]
-    dtgs <- group_by(dt, interval = cut(dt$nchar, boundaries, dig.lab = 4)) |> group_split()
+    dtgs <- group_by(dt, interval = cut(dt$nchar, boundaries, dig.lab = 4)) %>% group_split()
     results=list(list())
     for (i in 1:length(dtgs)){
       results[[i]] <- unlist(dtgs[[i]][1])

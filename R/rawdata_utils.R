@@ -1,8 +1,8 @@
 load_metadata <- function(AVIS_YEARS = 1729:1844, path){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
   AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(path, pattern = "json") |> 
-                            substr(8, 11) |> as.numeric)
+                          list.files(path, pattern = "json") %>% 
+                            substr(8, 11) %>% as.numeric)
   meta_dt <- data.table()
   for (i in AVIS_YEARS){
     meta_file <- paste0(path, "/yearly_", i, ".json")

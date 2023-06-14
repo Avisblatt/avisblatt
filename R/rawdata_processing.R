@@ -2,7 +2,7 @@
 rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
                               source_path = "../avis-databuffer/raw_data_uncorrected",
                               dest_path = "../avis-databuffer/raw_data_OCRed"){
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |> substr(6, 9) |> as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     dt <- fread(file.path(source_path, fn), encoding="UTF-8")
@@ -17,7 +17,7 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                            source_path = "../avis-databuffer/raw_data_OCRed",
                                            dest_path = "../avis-data/raw_data"){
   id_mapping <- fread(file.path("../avis-databuffer/xml/id_mapping.tsv"))
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |> substr(6, 9) |> as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   for (i in AVIS_YEARS){
     fn <- sprintf("orig_%d.csv", i)
     data <- fread(file.path(source_path, fn), 
@@ -112,7 +112,7 @@ rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
                                     source_path = "../avis-data/raw_data",
                                     dest_path = "../avis-databuffer/collections_unflagged",
                                     gt_years = c(1734, 1754, 1774, 1834)){
-  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |> substr(6, 9) |> as.numeric)
+  AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) %>% substr(6, 9) %>% as.numeric)
   # Prepare tagging:
   # find all function factories in the avisblatt package that follow
   # tagfilter_ naming conventions. Create functions dynamically and

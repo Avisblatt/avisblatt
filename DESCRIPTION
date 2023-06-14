@@ -5,7 +5,7 @@ Title: Process Avisblatt Data
 Description: Processing ads level data from the Basler Avisblatt. 
 Author: "Matthias Bannert <matthias.bannert@gmail.com> [aut, cre], Alexander Engel[aut], Anna Reimann [aut], Ina Serif[aut]"
 Depends:
-    R (>= 4.1),
+    R (>= 3.5),
 Imports:
     jsonlite (>= 1.1),
     R6,
@@ -20,7 +20,6 @@ Imports:
     XML
 Suggests:
     knitr,
-    rmarkdown,
     testthat
 VignetteBuilder: knitr
 Date: 2020-06-03
