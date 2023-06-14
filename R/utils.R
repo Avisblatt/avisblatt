@@ -45,8 +45,7 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
   AVIS_YEARS <- intersect(AVIS_YEARS,
                           list.files(path, pattern = "csv") |>
-                            substr(8, 11) |>
-                            as.numeric())
+                            substr(8, 11) |> as.numeric)
   path <- file.path(path, "yearly_")
   # meta information
   meta_dt <- data.table()
@@ -152,7 +151,7 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 available_years <- function(collection_root){
  list.files(collection_root, pattern=".json") |>
     substr(8, 11) |>
-    as.numeric()
+    as.numeric
 }
 
 
