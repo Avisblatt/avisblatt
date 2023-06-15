@@ -2,20 +2,23 @@
 count_records_by_date <- function(ids = NULL, coll = c_all, level = "year", colnames = NULL, per1k = FALSE, trim = TRUE, min = "1729-01-01", max = "1844-12-31", bundle_periods = 1){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
+  
   if(!(level %in% c("year", "quarter", "month", "week", "issue"))){stop("Only supports 'year', 'quarter', 'month', 'week' and 'issue' based counting.")}
   if(is.null(ids)){
     # if no ids is specified just use call ids for
     # collection
       ids <- coll$meta$id
   }
+  if(length(ids)==1){if(ids[1]=="all"){ids <- coll$meta$id}}
+  
   # ids can either be one set of ids or a list of sets of ids;
   # if it is only one set, turn it into a list
   if(class(ids) == "character"){
     message("Received one set of records.
     If you want to count several sets of records at once, you need to pass them as a list, e.g.
     ids = list(ids1, ids2, ids3)")
-    ids <- list(ids)}
-  if(length(ids)==1){if(ids[1]=="all"){ids[1] <- coll$meta$id}}
+    ids <- list(ids)
+    }
 
   if(length(ids)!=length(colnames)){
     message("No colnames given or number of colnames does not match dimension of ids. Colnames are created automatically")
