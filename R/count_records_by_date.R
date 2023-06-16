@@ -10,12 +10,13 @@ count_records_by_date <- function(ids = NULL, coll = c_all, level = "year", coln
   }
   # ids can either be one set of ids or a list of sets of ids;
   # if it is only one set, turn it into a list
+  if(length(ids)==1){if(ids[1]=="all"){ids <- coll$meta$id}}
   if(class(ids) == "character"){
     message("Received one set of records.
     If you want to count several sets of records at once, you need to pass them as a list, e.g.
     ids = list(ids1, ids2, ids3)")
     ids <- list(ids)}
-  if(length(ids)==1){if(ids[1]=="all"){ids[1] <- coll$meta$id}}
+
 
   if(length(ids)!=length(colnames)){
     message("No colnames given or number of colnames does not match dimension of ids. Colnames are created automatically")

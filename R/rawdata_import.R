@@ -71,7 +71,7 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
   mastheads <- cbind(mastheads, year= as.integer(substr(mastheads$date,1,4)))
 
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(file.path(source_path, "years")) |>
-                            as.numeric)
+                            as.numeric())
 
   # have some protocol dt for structure type problems
   stp_missingmulti <- data.table()
@@ -127,7 +127,8 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
               points <- xmlGetAttr(tr[[1]], name = "points")
               points <- strsplit(points, "\\s") |>
                 unlist()
-              points <- strsplit(points, ",") |> unlist |>
+              points <- strsplit(points, ",") |> 
+                unlist() |>
                 as.integer()
               # pick meta infos for dt entry compilation
               meta_p <- meta_i[meta_i$file_id == substr(p,1,nchar(p)-4)]
