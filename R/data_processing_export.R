@@ -46,18 +46,131 @@ build_siblings_table <- function(AVIS_YEARS = 1729:1844,
 
 
 
+#----------------
+
+# Helper function for create_hasdai_annotations:
+# Transform a TSV record into JSON structure
+transform_record <- function(record, dataversion = NA) {
+  
+  json <- list(
+    schema = "http://schemata.hasdai.org/historic-persons/historic-newspaper-snippet-v1.0.0.json",
+    date = list(ref = as.Date(record$date.ref, origin = "1970-01-01")),
+    transcription = filter_empty_values(list(
+      original = record["transcription.original"],
+      corrected = if(length(record["transcription.corrected"]) > 0) record["transcription.corrected"] else NULL
+    )),
+    type = filter_empty_values(list(
+      id = record["type.id"],
+      is_header = as.logical(record["type.is_header"]),
+      is_original = as.logical(record["type.is_original"]),
+      language = record["type.language"],
+      original = record["type.original"],
+      scheme = "http://schemata.hasdai.org/avisblatt_types.json",
+      siblings = record["type.siblings"]
+    )),    tags = if(is.na(record["tags.tags"])) NULL else list(
+      tags = record["tags.tags"],
+      scheme = "http://schemata.hasdai.org/avisblatt_tags.json"
+    ),
+    entities = filter_empty_entities(list(
+      list(value = record["entities.person"], type = "person"),
+      list(value = record["entities.location"], type = "location")
+    )),
+    source = list(
+      collection = record["source.collection"],
+      title = record["source.title"],
+      issue = as.integer(record["source.issue"]),
+      selector = list(
+        id = record["source.selector.id"],
+        page = record["source.selector.page"],
+        readingorder = as.integer(record["source.selector.readingorder"]),
+        canvas = record["source.selector.canvas"],
+        fragment = record["source.selector.fragment"]
+      )
+    ),
+    meta = list(
+      version = dataversion,
+      generated = format(Sys.time(), "%Y-%m-%dT%H:%M:%S.%OSZ"),
+      actions = list(
+        actors = list(
+          list(
+            id = "0000-0001-8225-7851",
+            scheme = "ORCID",
+            name = "Anna Reimann"
+          ),
+          list(
+            id = "0000-0002-8592-3124",
+            scheme = "ORCID",
+            name = "Alexander Engel"
+          ),
+          list(
+            id = "0000-0003-2419-4252",
+            scheme = "ORCID",
+            name = "Ina Serif"
+          ),
+          list(
+            id = "0000-0002-4511-1017",
+            scheme = "ORCID",
+            name = "Lars Dickmann"
+          ),
+          list(
+            id = "0000-0001-7901-9254",
+            scheme = "ORCID",
+            name = "Matthias Bannert"
+          )
+        ),
+        summary = "OCR correction, attribute section/headertag, reprint detection/siblings, tagging"
+      )
+    )
+  )
+  
+  if (length(json$tags) == 0) {
+    json$tags <- NULL
+  }
+  if (length(json$entities) == 0) {
+    json$entities <- NULL
+  }
+  return(json)
+}
+
+# Helper function for create_hasdai_annotations:
+# Filter empty values from a list
+filter_empty_values <- function(x) {
+  x <- Filter(Negate(is.null), x)
+  x <- Filter(Negate(function(val) is.character(val) && val == ""), x)
+  x <- Filter(Negate(function(val) is.na(val)), x)
+  x <- Filter(Negate(function(val) identical(val, as.name("list"))), x)
+  x <- Filter(Negate(function(val) is.list(val) && length(val) == 0), x)
+  x <- Filter(Negate(function(val) is.list(val) && all(sapply(val, is.null))), x)
+  x <- Filter(Negate(function(val) is.list(val) && all(sapply(val, function(x) is.character(x) && x == ""))), x)
+  lapply(x, function(val) if (is.list(val)) filter_empty_values(val) else val)
+}
+
+
+# Helper function for create_hasdai_annotations:
+# Filter empty entities from the entities list
+filter_empty_entities <- function(entities) {
+  entities <- Filter(function(entity) entity$value != "", entities)
+  if (length(entities) == 0) return(NULL)
+  lapply(entities, function(entity) {
+    if (length(entity) > 1)
+      entity
+    else
+      entity[[1]]
+  })
+}
+
+
 create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                       path_rawdata = "../avis-databuffer/raw_data_uncorrected/",
                                       path_collections = "../avis-data/collections_flaired/",
                                       path_output = "../avis-for-hasdai/annotations/",
-                                      output_years = TRUE,
-                                      output_issues = FALSE){
+                                      data_version = NA){
   handles <- fread("hasdai_handles.csv", encoding = "UTF-8")
   siblings <- fread(file = paste0(path_collections, "siblings.tsv.gz"), encoding = "UTF-8")
   siblings$siblings <- strsplit(siblings$siblings, "\\|")
   
   dir.create(path_output, showWarnings = FALSE)
-
+  
   for (i in AVIS_YEARS){
     # get metadata from collection JSON
     mi <- fromJSON(paste0(path_collections, "yearly_", i, ".json"))
@@ -69,10 +182,6 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     for (j in 1:nrow(dt_j)){
       dt_j$tags[j][[1]] <- unique(gsub("\\d", "", dt_j$tags[j][[1]]))
     }
-    #dt_j <- do.call(rbind, apply(dt_j, 1, function(x){
-    #  x$tags[[1]] <- unique(gsub("\\d", "", x$tags[[1]]))
-    #  return(x)
-    #}))
     
     # get data from collection CSV
     dt_c <- fread(file = paste0(path_collections, "yearly_", i, ".csv"), encoding = "UTF-8")
@@ -103,137 +212,94 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_r <- fread(file = paste0(path_rawdata, "orig_", i, ".csv"), encoding = "UTF-8")
     dt_r <- subset(dt_r, select = c(id, text))
     dt_r <- rename(dt_r, original = text)
-    dt <- merge(dt_c, dt_r, by = "id", all = T)
+    dt <- merge(dt_c, dt_r, by = "id", all = F) #some records from the raw data are merged in the collection, so all = F
     dt <- merge(dt, dt_j, by = "id", all = T)
     
-    # prepare date element
-    dt_x <- subset(dt, select = date)
-    dt_x <- rename(dt_x, ref = date)
-    dtcols <- "ref"
-    dt$date <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
-                      function(row) as.list(row))
+    dt <- subset(dt, select = -c(inscribed, adcontent, adtype, finance, keyword, tags_section))
     
-    # prepare transcription element  
-    dt_x <- subset(dt, select = c(id, original, corrected))
-    dt_x[corrected == original]$corrected <- NA
-    dtcols <- setdiff(names(dt_x),"id")
-    ls <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
-                               function(row) as.list(row))
-    ls <- lapply(ls, function(x) x[!is.na(x)])
-    dt$transcription <- ls
-    dt <- subset(dt, select = -c(original, corrected))
     
-    # prepare type element (first get sibling info)
+    dt[corrected == original]$corrected <- NA
+    
     dt_s <- siblings
-    dt_s[lengths(siblings) == 0]$siblings <- NA
-    dt_s[original == ""]$original <- NA
+    dt_s[lengths(siblings) == 0]$siblings <- ""
     dt_s$date <- year(dt_s$date)
     dt_s <- dt_s[date == i] 
     dt_s <- subset(dt_s, select = c(id, original, siblings))
+    
     dt <- merge(dt, dt_s, by = "id", all = T)
     dt <- dt[order(issue, pageno, readingorder), ]
-    #-----
-    dt_x <- subset(dt, select = c(id, header_tag, is_header, is_original, language, original))
-    dt_x <- rename(dt_x, id2 = id, id = header_tag)
-    dt_x$scheme <- "http://schemata.hasdai.org/avisblatt_types.json"
-    dtcols <- setdiff(names(dt_x),"id2")
-    dt$type <- lapply(split(dt_x[, ..dtcols], as.factor(1:nrow(dt_x))),
-                      function(row) as.list(row))
-    dt$type <- lapply(seq_len(nrow(dt)), function(k) c(dt$type[[k]], siblings = dt$siblings[k]))
-    ls <- dt$type
-    ls <- lapply(ls, function(x) x[!is.na(x)])
-    dt$type <- ls
     
     
-    # prepare tags element  
-    dt_x <- subset(dt, select = c(id, tags, is_header, noadvert, people, locations))
-    #first, look for records with empty tags and retag them differently than the following
-    dt_x[noadvert == F]$tags <- lapply(dt_x[noadvert == F]$tag, function(x){c(x, "advert")})
-    dt_x[noadvert == T & is_header == F]$tags <- lapply(dt_x[noadvert == T & is_header == F]$tag, function(x){c(x, "notice")})
-    #dt_x$tag <- gsub("null, ", "", dt_x$tag)
-    dt$tags <- lapply(dt_x$tags, function(x){list(tags = x, 
-                                                  scheme = "http://schemata.hasdai.org/avisblatt_tags.json")})
+    dt[!is.na(tags) & noadvert == F & is_header == F]$tags <- lapply(dt[!is.na(tags) & noadvert == F & is_header == F]$tags, function(x){c(x, "advert")})
+    dt[!is.na(tags) & noadvert == T & is_header == F]$tags <- lapply(dt[!is.na(tags) & noadvert == T & is_header == F]$tags, function(x){c(x, "notice")})
     
-    #dt$people <- lapply(dt_x$people, function(x){list(people = x)})
-    #dt$locations <- lapply(dt_x$locations, function(x){list(locations = x)})
+    dt[is.na(tags) & noadvert == F & is_header == F]$tags <- "advert"
+    dt[is.na(tags) & noadvert == T & is_header == F]$tags <- "notice"
     
-    # prepare source element (first prepare selector sub element)
-    dt_x <- subset(dt, select = c(id, pageno, readingorder, canvas, fragment))
-    dt$selector <- split(c(dt$id,
-                           dt$pageno,
-                           dt$readingorder,
-                           dt$canvas,
-                           dt$fragment),
-                         as.factor(1:nrow(dt))) 
-    dt$selector <- lapply(dt$selector, setNames, c("id", "page", "readingorder", "canvas", "fragment"))
-    #-----
-    dt$source <- lapply(dt$issue, function(x){list(collection = handles[year == i]$handle,
-                                                   title = handles[year == i]$title,
-                                                   issue = x)})
-    dt$source <- lapply(seq_len(nrow(dt)), function(k) c(dt$source[[k]], selector = dt$selector[k]))
+    dt[is_header == T]$tags <- NA
     
+    dt <- subset(dt, select = -c(noadvert))
+    colnames(dt) <- c("source.selector.id", 
+                      "transcription.corrected", 
+                      "source.issue", 
+                      "date.ref", 
+                      "source.selector.page", 
+                      "source.selector.readingorder", 
+                      "type.is_header", 
+                      "source.selector.canvas", 
+                      "type.id", 
+                      "source.selector.fragment", 
+                      "transcription.original", 
+                      "tags.tags", 
+                      "type.language", 
+                      "entities.person", 
+                      "entities.location", 
+                      "type.is_original", 
+                      "type.original", 
+                      "type.siblings")
     
-    # prepare meta element
-    meta <- list(version = 2,
-                 generated =  format(Sys.time(), "%Y-%m-%dT%H:%M:%OS3Z"),
-                 actions = list(actors = list(list(id = "0000-0001-8225-7851",
-                                                   scheme = "ORCID",
-                                                   name = "Anna Reimann"),
-                                              list(id = "0000-0002-8592-3124",
-                                                   scheme = "ORCID",
-                                                   name = "Alexander Engel"),
-                                              list(id = "0000-0003-2419-4252",
-                                                   scheme = "ORCID",
-                                                   name = "Ina Serif"),
-                                              list(id = "0000-0002-4511-1017",
-                                                   scheme = "ORCID",
-                                                   name = "Lars Dickmann"),
-                                              list(id = "0000-0001-7901-9254",
-                                                   scheme = "ORCID",
-                                                   name = "Matthias Bannert")
-                 ),
-                 summary = "OCR correction, attribute section/headertag, reprint detection/siblings, tagging"
-                 )
-    )
-    dt$meta <- rep(list(meta), nrow(dt_x))
+    dt$source.collection <- handles[year == i]$handle
+    dt$source.title <- handles[year == i]$title
     
-    # prepare schema element
-    dt$schema = "http://schemata.hasdai.org/historic-persons/historic-newspaper-snippet-v1.0.0.json"
+    setcolorder(dt, c("date.ref",
+                      "transcription.original", 
+                      "transcription.corrected", 
+                      "type.id", 
+                      "type.is_header", 
+                      "type.is_original", 
+                      "type.language", 
+                      "type.original", 
+                      "type.siblings", 
+                      "tags.tags", 
+                      "entities.person", 
+                      "entities.location", 
+                      "source.collection", 
+                      "source.title", 
+                      "source.issue", 
+                      "source.selector.id", 
+                      "source.selector.page", 
+                      "source.selector.readingorder", 
+                      "source.selector.canvas", 
+                      "source.selector.fragment"))
     
+    dt[entities.person == "NA"]$entities.person <- ""
+    dt[entities.location == "NA"]$entities.location <- ""
     
+    dt <- dt[type.id != ""] # remove leading record(s) without type.id, i.e.: records not placed under any header, like editor's poems
     
-    # generate output
-    dt_x <- subset(dt, select = c(issue, schema, date, transcription, type, tags, source, meta))
+    # Transform each record into JSON structure
+    json_data <- lapply(asplit(dt, 1), function(record) transform_record(record, dataversion = data_version))
     
-    issues <- unique(dt_x$issue)
+    # Convert list of JSON objects to JSON array
+    json_array <- toJSON(json_data, pretty = TRUE, auto_unbox = TRUE)
+    
+    # Remove rownames from the JSON array
+    json_array <- gsub('"\\d+": \\{', "{", json_array)
+    
+    # write all annotations for one year in one file
     dir.create(paste0(path_output, i), showWarnings = F)
-    
-    if (output_issues){
-      # write annotations for each issue in a file
-      for (j in issues){
-        fn <- paste0(path_output, i, "/anno_", i, "-", formatC(j, width = 2, flag = "0"), ".json")
-        writeLines(
-          toJSON(subset(dt_x[issue == j], select = -issue), 
-                 pretty = TRUE,
-                 auto_unbox = TRUE),
-          fn,
-          useBytes=T
-        )
-      }
-    }
-    
-    if (output_years){
-      # write all annotations for one year in one file
-      fn <- paste0(path_output, i, ".json")
-      writeLines(
-        toJSON(subset(dt_x, select = -issue), 
-               pretty = TRUE,
-               auto_unbox = TRUE),
-        fn,
-        useBytes=T
-      )
-    }
-    
+    fn <- paste0(path_output, i, ".json")
+    write(json_array, fn)
     message(paste0("Written JSONs for ", i))
   }
 }

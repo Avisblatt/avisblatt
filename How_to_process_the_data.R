@@ -206,8 +206,9 @@ build_siblings_table(AVIS_YEARS)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 
+
 # Then, the JSONs are build:
 start <- Sys.time()
-create_hasdai_annotations(AVIS_YEARS)
+create_hasdai_annotations(AVIS_YEARS, data_version = "2.1")
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
