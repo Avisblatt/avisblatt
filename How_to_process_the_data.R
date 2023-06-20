@@ -202,13 +202,13 @@ message(sprintf("Took %s minutes",
 #
 # First, a table of siblings for each ads is generated
 start <- Sys.time()
-build_siblings_table(AVIS_YEARS)
+build_siblings_table(AVIS_YEARS, path = "../avis-data/collections_flaired/")
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 
 
 # Then, the JSONs are build:
 start <- Sys.time()
-create_hasdai_annotations(AVIS_YEARS, data_version = "2.1")
+create_hasdai_annotations(1729:1844, data_version = 3)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
