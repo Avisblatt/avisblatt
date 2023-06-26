@@ -232,7 +232,6 @@ select_by_meta <- function(coll,
 #' select_by_text(coll, ids = NULL, searchlist = c("term1", "term2"))
 #'
 #' @importFrom R6 R6Class
-#' @importFrom assertthat stopifnot
 #' @importFrom utils read.csv
 #' @export
 select_by_text <- function(coll,
@@ -246,7 +245,7 @@ select_by_text <- function(coll,
     }
     }
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to search in texts")
   } else{
     if(length(searchlist) > 0){
       for (i in 1:length(searchlist)){

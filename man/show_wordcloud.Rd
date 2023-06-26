@@ -21,7 +21,3 @@ A wordcloud plot.
 \description{
 This function creates a wordcloud from a corpus of text.
 }
-\examples{
-show_wordcloud(ids = "all", coll = c_all, remove = "", max_words = 200)
-
-}

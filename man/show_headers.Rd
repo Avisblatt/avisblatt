@@ -4,7 +4,7 @@
 \alias{show_headers}
 \title{Shows headers for all documents in a collection}
 \usage{
-show_headers(coll = c_all)
+show_headers(coll)
 }
 \arguments{
 \item{coll}{A collection object.}

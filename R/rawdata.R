@@ -1,6 +1,7 @@
 #' @import quanteda
 #' @import data.table
 #' @importFrom R6 R6Class
+#' @importFrom textutils HTMLdecode
 #' @rawNamespace import(dplyr, except = c(first, last, between))
 #' @export
 RawData <- R6Class("RawData", list(
@@ -98,8 +99,8 @@ RawData <- R6Class("RawData", list(
         self$data[,text := gsub("\\\\n", " ", text)]
 
         # Decode HTML (stuff like &amp; -> &)
-        self$data[, text := textutils::HTMLdecode(text)]
-        self$data[, rnotes := textutils::HTMLdecode(rnotes)]
+        self$data[, text := HTMLdecode(text)]
+        self$data[, rnotes := HTMLdecode(rnotes)]
 
         # strip ids and HTML
         self$data[,id := gsub("https://avisblatt.freizo.org/iiif/anno/", "", id)]

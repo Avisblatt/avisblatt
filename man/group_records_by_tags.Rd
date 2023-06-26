@@ -10,6 +10,10 @@ group_records_by_tags(coll, ids = NULL, tagslist = NULL, namelist = NULL)
 \item{coll}{object of class Collection.}
 
 \item{ids}{character vector of ids to filter for. Defaults to NULL (all).}
+
+\item{tagslist}{list of tags}
+
+\item{namelist}{list of names}
 }
 \description{
 Group Records by Tags

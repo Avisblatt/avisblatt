@@ -9,7 +9,7 @@ get_headers <- function(coll,
   stopifnot(inherits(coll, "R6"))
   if(text){
     if(is.null(coll$corpus)){
-      stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to get header texts")
+      stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to get header texts")
     } else{
       as.character(corpus_subset(coll$corpus, isheader == TRUE))}
   } else{
@@ -18,19 +18,14 @@ get_headers <- function(coll,
 }
 
 #' Get noadvert records from a Collection object
-#'
 #' This function returns the noadvert records from a Collection object.
 #'
 #' @param coll A Collection object.
 #' @param text A logical value indicating whether to return the text of the noadvert records or their names.
 #' @return If text is TRUE, the text of the noadvert records; otherwise, their names.
-#' @export
-#' @importFrom R6 inherits stopifnot
-#' @examples
-#' coll <- read_collection("path/to/collection")
-#' get_noadverts(coll)
 #'
-#' @seealso \code{\link{read_collection}}, \code{\link{gather_collections}}
+#'
+#' @seealso \code{\link{read_collection}}
 #' @keywords collection
 #' @export
 get_noadverts <- function(coll,
@@ -38,7 +33,7 @@ get_noadverts <- function(coll,
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to get the noadvert records.")}
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to get the noadvert records.")}
 
   if(text){
     as.character(corpus_subset(coll$corpus, noadvert == TRUE))
@@ -89,13 +84,13 @@ list_similar = function(coll,
   stopifnot(inherits(coll, "R6"))
   stopifnot(is.numeric(N) & is.numeric(min_dist) & is.numeric(max_dist))
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to calculate distance between ad texts.")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to calculate distance between ad texts.")
   } else{
     if(length(ids1)==1){if(ids1=="all"){ids1 <- coll$meta$id}}
     if(length(ids2)==1){if(ids2=="all"){ids2 <- coll$meta$id}}
-    corp <- corpus_subset(c_all$corpus,
-                          !(c_all$corpus$isheader)
-                          &!(c_all$corpus$noadvert))
+    corp <- corpus_subset(coll$corpus,
+                          !(coll$corpus$isheader)
+                          &!(coll$corpus$noadvert))
     corp_a <- corpus_subset(corp, names(corp) %in% ids1)
     corp_b <- corpus_subset(corp, names(corp) %in% ids2)
     if (length(corp_a)*length(corp_b) == 0){

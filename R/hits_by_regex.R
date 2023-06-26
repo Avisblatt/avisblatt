@@ -94,7 +94,7 @@ hits_by_regex <- function(ids, coll, hits, name){
     }
   }
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to tag by regex")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to tag by regex")
   } else {
     lHits <- find_hits_corpus(ids, coll$corpus, hits)
     add_metadatum(lHits, coll, name)

@@ -2,23 +2,23 @@
 #'
 #' Tagfilters are regular expression based filters designed to tag ads in order
 #' to classify ads based on their content. The avisblatt R package comes with
-#' curated filters to search for ads concerning the housing and property market, 
+#' curated filters to search for ads concerning the housing and property market,
 #' and the (tradable) entitlement to fixed seats in churches.
 #'
-#' Tagfilters can only predict if an ad is pertinent to a given topic. 
-#' Depending on the complexity of the topic and the development stage of a 
-#' tagfilter, there can be a considerable number of false positives and false 
-#' negatives. 
-#' 
-#' The precision and sensitivity of some (families of) tagfilters can be 
-#' measured by comparison to a manual classification for four sample years 
+#' Tagfilters can only predict if an ad is pertinent to a given topic.
+#' Depending on the complexity of the topic and the development stage of a
+#' tagfilter, there can be a considerable number of false positives and false
+#' negatives.
+#'
+#' The precision and sensitivity of some (families of) tagfilters can be
+#' measured by comparison to a manual classification for four sample years
 #' (1734, 1754, 1774 and 1834) from an early stage of the Avisblatt project.
-#' Since the manual classification does often only roughly match the scope of 
+#' Since the manual classification does often only roughly match the scope of
 #' the tagfilters, their true precision and sensitivity are underestimated.
-#' 
-#' Calculated that way, the family of tagfilters concerning housing and property 
-#' shows a precision >94% and a sensitivity >90%. The churchseat tagfilter shows 
-#' a precision >96% and a sensitivity >96%. 
+#'
+#' Calculated that way, the family of tagfilters concerning housing and property
+#' shows a precision >94% and a sensitivity >90%. The churchseat tagfilter shows
+#' a precision >96% and a sensitivity >96%.
 #'
 #' The tagfilters help site provides you with a list of available tagfilters
 #' families.
@@ -31,23 +31,30 @@ NULL
 #' Filter Quanteda Corpus: Housing for rent in renting section
 #' @author Alexander Engel, ORCID 0000-0002-8592-3124
 #' @note Last changed 2021-09-29
-#' @usage Tagfilters are used internally in the creation of yearly collections of Avisblatt ads, to attribute tags to different ads.
+#' @usage Tagfilters are used internally in the creation of yearly collections
+#' of Avisblatt ads, to attribute tags to different ads.
 #' @name tagfilter_property
 #' @export
 tagfilter_housing_rent1 <- function(){
   dict <- list()
   dict$applicable <- list("lendoffer", "lenddemand", "lend")
   dict$pos <- list(
-    general = "(B|b)ehausung|(W|w)ohnung|Losament|\\bL(o|a)gi(s|\\s)\\b|(G|g)ebäud|(H|h)äu(s|ß)lein|(Land|Wohn)haus|Landg(ü|u)t|G(u|ü)tlein", # not "Haus" as this often used in contact references in all sorts of ads
+    # not "Haus" as this often used in contact references in all sorts of ads
+    general = "(B|b)ehausung|(W|w)ohnung|Losament|\\bL(o|a)gi(s|\\s)\\b|
+    (G|g)ebäud|(H|h)äu(s|ß)lein|(Land|Wohn)haus|Landg(ü|u)t|G(u|ü)tlein",
     a_house = "(\\b E|\\s e)in Haus",
     house_to_rent = "Haus( | zu )(verm|m)iet",
     date = "(F|f)roh?nfasten",
     spaces = "Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart",
-    buildings = "Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|B(e|ä|a)ckere(y|i)|W(ä|a)schere(y|i)|Wirthschaft|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|(Sommer|Bauch|Wasch)haus|Weichekammer",
+    buildings = paste0("Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|",
+    "Schmiede|Schreinerei|B(e|ä|a)ckere(y|i)|W(ä|a)schere(y|i)|Wirthschaft|",
+    "Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|(Sommer|Bauch|Wasch)haus|Weichekammer"),
     floor = "(D|d)er( ganze | )(1st|2te|erste|zwe(i|y)te|dritte|untere|mittlere|obere) Stock",
-    rooms = "\\bchambr(e|es)\\b|\\bZimmer|(S|s)tube|(S|s)t(ü|u)b(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven|Kostbett",
+    rooms = paste0("\\bchambr(e|es)\\b|\\bZimmer|(S|s)tube|(S|s)t(ü|u)b(lei|ch)",
+                   "|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Al(ek|k)oven|Kostbett"),
     storage = "Magazin|Keller\\b|Dachboden|Estri[ch|g]",
-    amenities = "m(ö|eu)blie?r|Abtritt|Abwasser|Altan|Bauchkessel|(B|b)runnen|Wasserleitung|Wasserstein",
+    amenities = paste0("m(ö|eu)blie?r|Abtritt|Abwasser|Altan|Bauchkessel|
+                       (B|b)runnen|Wasserleitung|Wasserstein"),
     location1 = "(gut|best)(e|er) Lage",
     location2 = "(gut|zentral|nah) gelegen"
   )
@@ -70,14 +77,29 @@ tagfilter_housing_rent2 <- function(){
   dict <- list()
   dict$applicable <- list("offering", "demanding", "exchange", "othernews")
   dict$pos <- list(
-    general_1   = "((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|Landgut|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    spaces_1    = "(Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Mattland|Juchart).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    buildings_1 = "(Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g]).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
-    general_2   = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Behausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)",
-    spaces_2    = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Juchart)",
-    buildings_2 = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)",
-    rooms_2     = "(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n).*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g])"
+    general_1   = paste0("((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|Landgut|",
+                         "(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)"),
+    spaces_1    = paste0("(Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Mattland|",
+                         "Juchart).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)"),
+    buildings_1 = paste0("(Comptoir|Hofstatt|\\bLokal\\b|Mühle|Remise|Scheuer|",
+                         "Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Laden\\b",
+                         "|\\Stand\\b|Lustgut|Laube|Sommerhaus|Bauchhaus|",
+                         "Waschhaus|Weichekammer).*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)"),
+    rooms_1     = paste0("(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|",
+    "(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g])",
+    ".*(?=mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)"),
+    general_2   = paste0("(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+                         ".*(?=Behausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)"),
+    spaces_2    = paste0("(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+    ".*(?=Rebacker|Garten|Gärtlein|Höfl[e|ei]n|Matten|Juchart)"),
+    buildings_2 = paste0("(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+                         ".*(?=Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|",
+                         "Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|",
+                         "Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)"),
+    rooms_2     = paste0("(mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n)",
+                         ".*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|",
+                         "(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|",
+                         "Keller\\b|Dachboden|Estri[ch|g])")
   )
   dict$neg <- list(
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
@@ -93,11 +115,15 @@ tagfilter_housing_rent3 <- function(){
   dict <- list()
   dict$applicable <- list("labourinfo")
   dict$pos <- list(
-    rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b).*(?=\\bKost\\b)",
-    rooms_2     = "\\bKost\\b.*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b)"
+    rooms_1     = paste0("(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|",
+                         "(G|g)emach\\b|(G|g)emächer\\b).*(?=\\bKost\\b)"),
+    rooms_2     = paste0("\\bKost\\b.*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|",
+                         "Kammer|(G|g)emach\\b|(G|g)emächer\\b)")
   )
   dict$neg <- list(
-    not_job = "\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen"
+    not_job = paste0("\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|",
+                     "Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|",
+                     "Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen")
   )
   dict$exclude <- housing_exclude()
   create_filter_output(dict)
@@ -116,7 +142,8 @@ tagfilter_housing_sale1 <- function(){
     object_pub = "^([0-9]+. )*(Das|Ein) (W(i|ü)r(t|th)s|Gast)(\\-H|h)au(s|ß)",
     object_mill = "^([0-9]+. )*(Die|Eine) ([PSM][a-zäöü\\-])*(m|M)(u|ü)h(l|le)", #PS = Papier or Säge or Mahl-Mühle
     object_cellar = "^([0-9]+. )*(Der|Ein) (Flaschen\\-)Keller",
-    object_misc = "^([0-9]+. )*(Der|Die|Das|Ei(n|ne)) ([A-ZÄÖÜ][a-zäöü])*((\\-]G|g)arten|(\\-]S|s)che(u|ü)(er|ren))",
+    object_misc = paste0("^([0-9]+. )*(Der|Die|Das|Ei(n|ne)) ([A-ZÄÖÜ][a-zäöü])",
+                         "*((\\-]G|g)arten|(\\-]S|s)che(u|ü)(er|ren))"),
     object_part = "St(u|ü)ck (Gu(t|th)\\b|Reben|Feld|Matten|Land)",
     furniture = "m(ö|eu)blie?r",
     sale = "Haus(\\-V|v)er(kauf|steigerung)|Hausgant",
@@ -124,9 +151,11 @@ tagfilter_housing_sale1 <- function(){
     measure = "Juchart|\\bTauen Matt|Matten"
   )
   dict$neg <- list(
-    location_auction1 = "in ((des)*(Hr|Herr|Mst)|(der)*(Fr|Wi))[a-zäöüß\\.]* ([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung",
+    location_auction1 = paste0("in ((des)*(Hr|Herr|Mst)|(der)*(Fr|Wi))[a-zäöüß\\.]*",
+                               "([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung"),
     location_auction2 = "in der ([A-Za-zäöü][a-zäöüß\\'\\-]+ )*(Wohnb|B)ehausung",
-    hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
+    hay = paste0("\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|",
+                 "\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)"),
     dung = "Kühbau|verwährter"
     )
   dict$exclude <- housing_exclude()
@@ -149,14 +178,30 @@ tagfilter_housing_sale2 <- function(){
   )
   dict$neg <- list(
     living_at = "wohnha(f|fft)",
-    location_auction1 = "in ((des)*(Hr|Herr|Mst)|(der)*(Fr|Wi))[a-zäöüß\\.]* ([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung",
+    location_auction1 = paste0("in ((des)*(Hr|Herr|Mst)|(der)*(Fr|Wi))[a-zäöüß\\.]",
+    "* ([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung"),
     location_auction2 = "in der ([A-Za-zäöü][a-zäöüß\\'\\-]+ )*(Wohnb|B)ehausung",
-    preposition_phrase1 = "((V|v)o(r|n)|(F|f)ür|(A|a)u(f|ff|s)|(a|A)(b|n)|(I|i|U|u)(n|m)|(Z|z)u|(B|b)e(y|i)) (die|das|de(r|n|m|s)|ei(n|ne|nem|ner)) (Hrn\\. |Mstr\\. |[A-Z]\\. |[a-zäöü\\-]+ )*(Wohnung\\b|Scheuer\\b|Scheuren\\b|Stallung\\b|(Sommerh|Bauchh|Waschh|H)au(s|ß)\\b|Garten\\b|Garten\\-H(ä|a)u|Kammer\\b|Zimmer\\b|Stub(e|en)\\b|Kelle(r|rn)\\b|Stall\\b|\\bSpe(y|i)cher\\bRebacker|\\bWerkstatt)",
-    preposition_phrase2 = "((V|v)o(r|n)|(F|f)ür|(A|a)u(f|ff|s)|(a|A)(b|n)|(I|i|U|u)(n|m)|(Z|z)u|(B|b)e(y|i)) (Fr(\\.|au) |(Hrn\\.|Her(r|rn|ren)) |(Mstr\\.|Meister) |([A-Z]\\. )+|([A-Za-zäöü][a-zäöüß\'\\-])+ )*(\\bGu(t|th)\\b|Landgut|Lustgut|Fabrik|Blaiche|Mühle)",
+    preposition_phrase1 = paste0("((V|v)o(r|n)|(F|f)ür|(A|a)u(f|ff|s)|(a|A)(b|n)|",
+                                 "(I|i|U|u)(n|m)|(Z|z)u|(B|b)e(y|i))",
+                                 "(die|das|de(r|n|m|s)|ei(n|ne|nem|ner))",
+                                 "(Hrn\\. |Mstr\\. |[A-Z]\\. |[a-zäöü\\-]+ )*",
+                                 "(Wohnung\\b|Scheuer\\b|Scheuren\\b|Stallung\\b|",
+                                 "(Sommerh|Bauchh|Waschh|H)au(s|ß)\\b|Garten\\b|",
+                                 "Garten\\-H(ä|a)u|Kammer\\b|Zimmer\\b|Stub(e|en)",
+                                 "\\b|Kelle(r|rn)\\b|Stall\\b|",
+                                 "\\bSpe(y|i)cher\\bRebacker|\\bWerkstatt)"),
+    preposition_phrase2 = paste0("((V|v)o(r|n)|(F|f)ür|(A|a)u(f|ff|s)|(a|A)(b|n)",
+                                 "|(I|i|U|u)(n|m)|(Z|z)u|(B|b)e(y|i)) (Fr(\\.|au)",
+                                 "|(Hrn\\.|Her(r|rn|ren)) |(Mstr\\.|Meister) |",
+                                 "([A-Z]\\. )+|([A-Za-zäöü][a-zäöüß\'\\-])+ )",
+                                 "*(\\bGu(t|th)\\b|Landgut|Lustgut|Fabrik|Blaiche|Mühle)"),
     preposition_phrase3 = "be(i|y) Haus\\b",
-    to_apply_to1 = "(für|in)* ei(n|ne) ([a-zäöüß]+ )*(Zimmer|Stube|Kammer|\\wäuslein|\\w*(H|h)aus|Garten) (zu |dienlich )*(!ver(mi|kau|le))[a-zäöüß]+en",
+    to_apply_to1 = paste0("(für|in)* ei(n|ne) ([a-zäöüß]+ )*(Zimmer|Stube|Kammer",
+                          "|\\wäuslein|\\w*(H|h)aus|Garten) (zu |dienlich )*",
+                          "(!ver(mi|kau|le))[a-zäöüß]+en"),
     to_apply_to2 = "damit zu heizen |ein Zimmer damit|Zimmer ka(n|nn)\\b|Zimmer einzufassen",
-    not_job = "\\bDiens(t|te|ten)\\b|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Zeugnis",
+    not_job = paste0("\\bDiens(t|te|ten)\\b|\\bLohn\\b|Entlohnung|recomm(a|e)",
+                     "nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Zeugnis"),
     compounds = "Hau(s|ß)\\-|Scheuren\\-|Garten\\-|Stall\\-|Keller\\-|Zimmer\\-|Stuben\\-|Kammer\\-",
     not_a_real_house_phrase1 = "Haus von Karton",
     not_a_real_house = "Fliegen(\\-H|h)(a|ä)us|Paar(\\-H|h)(a|ä)u(s|ß)",
@@ -164,7 +209,8 @@ tagfilter_housing_sale2 <- function(){
     sled = "Hau(s|ß) Schlitten",
     other_goods = "Stein\\-Gut",
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t",
-    hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
+    hay = paste0("\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|",
+                 "\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)"),
     dung = "Kühbau|verwährter",
     registry_offers = "Berichthaus ist zu haben"
   )
@@ -212,14 +258,44 @@ tagfilter_housing_sale5 <- function(){
   dict <- list()
   dict$applicable <- list("offering", "demanding", "exchange", "othernews")
   dict$pos <- list(
-    general_1   = "((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(Land|Lehen)gut|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b)",
-    spaces_1    = "(Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Mattland|Juchart).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b)",
-    buildings_1 = "(Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b)",
-    rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g]).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b)",
-    general_2   = "((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b).*(?=(B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)",
-    spaces_2    = "((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b).*(?=Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart)",
-    buildings_2 = "((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b).*(?=Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)",
-    rooms_2     = "((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b).*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g])"
+    general_1   = paste0("((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(Land|",
+                         "Lehen)gut|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=(V|v)erstei",
+                         "ger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|",
+                         "ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) ",
+                         "(Verk|K)au(f|ff)\\b)"),
+    spaces_1    = paste0("(Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Mattland|",
+                         "Juchart).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)",
+                         "ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|",
+                         "z(u|um) (Verk|K)au(f|ff)\\b)"),
+    buildings_1 = paste0("(Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|",
+                         "Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|",
+                         "Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)",
+                         ".*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)",
+                         "ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|",
+                         "z(u|um) (Verk|K)au(f|ff)\\b)"),
+    rooms_1     = paste0("(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach",
+                         "\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden",
+                         "|Estri[ch|g]).*(?=(V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|",
+                         "(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u",
+                         "(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b)"),
+    general_2   = paste0("((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)",
+                         "u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) ",
+                         "(Verk|K)au(f|ff)\\b).*(?=(B|b)ehausung|Wohnung|Losament|",
+                         "\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)"),
+    spaces_2    = paste0("((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u",
+                         "(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) ",
+                         "(Verk|K)au(f|ff)\\b).*(?=Rebacker|Garten|Gärtlein|Höfl",
+                         "(e|ei)n|Matten|Juchart)"),
+    buildings_2 = paste0("((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u",
+                         "(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) ",
+                         "(Verk|K)au(f|ff)\\b).*(?=Comptoir|Hofstatt|\bLokal\b|",
+                         "Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst",
+                         "(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)"),
+    rooms_2     = paste0("((V|v)ersteiger(t|ung)|(K|k)au(f|ff)en|(V|v)ver(ä|a)u",
+                         "(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) ",
+                         "(Verk|K)au(f|ff)\\b).*(?=\\bZimmer|(S|s)tube|(S|s)tüb",
+                         "(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein",
+                         "|Magazin|Keller\\b|Dachboden|Estri[ch|g])")
   )
   dict$neg <- list(
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
@@ -241,7 +317,8 @@ tagfilter_housing_other1 <- function(){
     object_pub = "^([0-9]+. )*(Das|Ein) (W(i|ü)r(t|th)s|Gast)(\\-H|h)au(s|ß)",
     object_mill = "^([0-9]+. )*(Die|Eine) ([PSM][a-zäöü\\-])*(m|M)(u|ü)h(l|le)", #PS = Papier or Säge or Mahl-Mühle
     object_cellar = "^([0-9]+. )*(Der|Ein) (Flaschen\\-)Keller",
-    object_misc = "^([0-9]+. )*(Der|Die|Das|Ei(n|ne)) ([A-ZÄÖÜ][a-zäöü])*((\\-]G|g)arten|(\\-]S|s)che(u|ü)(er|ren))",
+    object_misc = paste0("^([0-9]+. )*(Der|Die|Das|Ei(n|ne)) ([A-ZÄÖÜ][a-zäöü])",
+                         "*((\\-]G|g)arten|(\\-]S|s)che(u|ü)(er|ren))"),
     object_part = "St(u|ü)ck (Gu(t|th)\\b|Reben|Feld|Matten|Land)",
     sale = "Haus(\\-V|v)er(kauf|steigerung)|Hausgant",
     new_house = "neu( |ge|er)baute ([a-zäöüß\\-]+ )*Haus",
@@ -252,14 +329,23 @@ tagfilter_housing_other1 <- function(){
     living_at_phrase1 = "Wohnung No\\.",
     living_at_phrase2 = "(Wohnung|Behausung|Logis) (ver|ge)änd",
     living_at_phrase3 = "(ver|ge)änderte (Wohnung|Behausung)",
-    location_1 = "((I|i)n|(B|b)e(y|i)) (((des )*(Hr|Herr|Mst)|(der )*(Fr|Wi|Jg|Ju))[a-zäöüß\\.] )*([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung|Hau(s|ß)",
-    location_2 = "((I|i)n|(B|b)e(y|i)) (seine|ihre)(m|r)* (Behausung|Wohnung|Losament|\\bLogis\\b|Hau(s|ß)\\b|Kammer\\b|Zimmer\\b|Stub(e|en)\\b|Kelle(r|rn)\\b|Stall\\b|\\bWerkstatt)",
-    not_job = "\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen",
-    not_sale = "(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b",
+    location_1 = paste0("((I|i)n|(B|b)e(y|i)) (((des )*(Hr|Herr|Mst)|(der )*",
+                        "(Fr|Wi|Jg|Ju))[a-zäöüß\\.] )*([A-Za-zäöü][a-zäöüß",
+                        "\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung|Hau(s|ß)"),
+    location_2 = paste0("((I|i)n|(B|b)e(y|i)) (seine|ihre)(m|r)* ",
+                        "(Behausung|Wohnung|Losament|\\bLogis\\b|Hau(s|ß)\\b|",
+                        "Kammer\\b|Zimmer\\b|Stub(e|en)\\b|Kelle(r|rn)\\b|Stall",
+                        "\\b|\\bWerkstatt)"),
+    not_job = paste0("\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|",
+                     "Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen",
+                     "|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen"),
+    not_sale = paste0("(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)",
+                      "u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b"),
     not_rent = "mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n",
     not_a_real_house = "Fliegen(\\-H|h)(a|ä)us|Paar(\\-H|h)(a|ä)u(s|ß)",
     compounds = "Hau(s|ß)\\-|Scheuren\\-|Garten\\-|Stall\\-|Keller\\-|Zimmer\\-|Stuben\\-|Kammer\\-",
-    hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
+    hay = paste0("\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|",
+                 "\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)"),
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
   dict$exclude <- housing_exclude()
@@ -274,28 +360,61 @@ tagfilter_housing_other2 <- function(){
   dict <- list()
   dict$applicable <- list("offering", "demanding", "exchange", "othernews")
   dict$pos <- list(
-    general_1   = "((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein).*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden)",
-    spaces_1    = "(Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart).*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden)",
-    buildings_1 = "(Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer).*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden)",
-    rooms_1     = "(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g]).*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden)",
-    general_2   = "(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden).*(?=(B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)",
-    spaces_2    = "(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden).*(?=Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart)",
-    buildings_2 = "(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden).*(?=Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)",
-    rooms_2     = "(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden).*(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|Estri[ch|g])"
+    general_1   = paste0("((B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud",
+                         "|(H|h)äu(s|ß)lein).*(?=\\b(begehr|wünsch)(t|en)|offer",
+                         "(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu beziehen|",
+                         "bezogen werden)"),
+    spaces_1    = paste0("(Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart)",
+                         ".*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu",
+                         "haben|überlassen|tauschen|zu beziehen|bezogen werden)"),
+    buildings_1 = paste0("(Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|Schmiede|",
+                         "Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|Sommerhaus|",
+                         "Bauchhaus|Waschhaus|Weichekammer).*(?=\\b(begehr|wünsch)",
+                         "(t|en)|offer(i|ie)r(t|en)|zu haben|überlassen|tauschen|zu",
+                         "beziehen|bezogen werden)"),
+    rooms_1     = paste0("(\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)emach\\",
+                         "b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|Dachboden|",
+                         "Estri[ch|g]).*(?=\\b(begehr|wünsch)(t|en)|offer(i|ie)",
+                         "r(t|en)|zu haben|überlassen|tauschen|zu beziehen|bezogen werden)"),
+    general_2   = paste0("(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|",
+                         "überlassen|tauschen|zu beziehen|bezogen werden).*(?=(",
+                         "B|b)ehausung|Wohnung|Losament|\\bLogis\\b|(G|g)ebäud|(H|h)äu(s|ß)lein)"),
+    spaces_2    = paste0("(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben",
+                         "|überlassen|tauschen|zu beziehen|bezogen werden).*",
+                         "(?=Rebacker|Garten|Gärtlein|Höfl(e|ei)n|Matten|Juchart)"),
+    buildings_2 = paste0("(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben",
+                         "|überlassen|tauschen|zu beziehen|bezogen werden).*",
+                         "(?=Comptoir|Hofstatt|\bLokal\b|Mühle|Remise|Scheuer|",
+                         "Schmiede|Schreinerei|Stall|Werkst(a|ä)tt|Lustgut|Laube|",
+                         "Sommerhaus|Bauchhaus|Waschhaus|Weichekammer)"),
+    rooms_2     = paste0("(\\b(begehr|wünsch)(t|en)|offer(i|ie)r(t|en)|zu haben|",
+                         "überlassen|tauschen|zu beziehen|bezogen werden).*",
+                         "(?=\\bZimmer|(S|s)tube|(S|s)tüb(lei|ch)|Kammer|(G|g)",
+                         "emach\\b|(G|g)emächer\\b|Küchelein|Magazin|Keller\\b|",
+                         "Dachboden|Estri[ch|g])")
   )
   dict$neg <- list(
     living_at = "wohnha(f|ff)t|Wohnungs(verä|\\-Verä|ä|\\-Ä)nder",
     living_at_phrase1 = "Wohnung No\\.",
     living_at_phrase2 = "(Wohnung|Behausung|Logis) (ver|ge)änd",
     living_at_phrase3 = "(ver|ge)änderte (Wohnung|Behausung)",
-    location_1 = "((I|i)n|(B|b)e(y|i)) (((des )*(Hr|Herr|Mst)|(der )*(Fr|Wi|Jg|Ju))[a-zäöüß\\.] )*([A-Za-zäöü][a-zäöüß\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung|Hau(s|ß)",
-    location_2 = "((I|i)n|(B|b)e(y|i)) (seine|ihre)(m|r)* (Behausung|Wohnung|Losament|\\bLogis\\b|Hau(s|ß)\\b|Kammer\\b|Zimmer\\b|Stub(e|en)\\b|Kelle(r|rn)\\b|Stall\\b|\\bWerkstatt)",
-    not_job = "\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entlohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Aufträge|Arbeiten|Anstellung|Zeugnis|verdingen",
-    not_sale = "(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b",
+    location_1 = paste0("((I|i)n|(B|b)e(y|i)) (((des )*(Hr|Herr|Mst)|(der )*",
+                        "(Fr|Wi|Jg|Ju))[a-zäöüß\\.] )*([A-Za-zäöü][a-zäöüß",
+                        "\\'\\-\\.\\,]+ )*(Wohnb|B)ehausung|Hau(s|ß)"),
+    location_2 = paste0("((I|i)n|(B|b)e(y|i)) (seine|ihre)(m|r)*",
+                        "(Behausung|Wohnung|Losament|\\bLogis\\b|Hau(s|ß)\\b|",
+                        "Kammer\\b|Zimmer\\b|Stub(e|en)\\b|Kelle(r|rn)\\b|Stall",
+                        "\\b|\\bWerkstatt)"),
+    not_job = paste0("\\bDiens(t|te|ten)\\b|Lehr(\\-G|g)eld|\\bLohn\\b|Entl",
+                     "ohnung|recomm(a|e)nd(i|ie)r(en|t)|empfiehlt|empfehlen|Auftr",
+                     "äge|Arbeiten|Anstellung|Zeugnis|verdingen"),
+    not_sale = paste0("(K|k)au(f|ff)en|(V|v)ver(ä|a)u(ß|ss)er|au(f|ff)(ger|r)u",
+                      "(f|ff)en|ergan(t|th)|z(u|um) (Verk|K)au(f|ff)\\b"),
     not_rent = "mie(t|th)(e|u)n|le(ih|yh|hn)en|(P|p)acht(e|u)n",
     not_a_real_house = "Fliegen(\\-H|h)(a|ä)us|Paar(\\-H|h)(a|ä)u(s|ß)",
     compounds = "Hau(s|ß)\\-|Scheuren\\-|Garten\\-|Stall\\-|Keller\\-|Zimmer\\-|Stuben\\-|Kammer\\-",
-    hay = "\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)",
+    hay = paste0("\\bEm(d|bd|dt)\\b|\\bGra(s|ß)\\b!(\\-H(ä|a)u(ß|s)|\\-Garten)|",
+                 "\\bH(eu|eü|ew|öw)\\b!(\\-H(ä|a)u(ß|s))|Heugras|H(eu|eü|ew|öw)\\-Gra(s|ß)"),
     booksale = "Buchhandlung|\\B(u|ü)ch(er|lein)|Haus(-\\B|b)(u|ü)chTra(c|k)t(a|ä)t"
   )
   dict$exclude <- housing_exclude()
@@ -308,8 +427,8 @@ tagfilter_housing_other2 <- function(){
 #' @export
 tagfilter_churchseat <- function(){
   dict <- list()
-  dict$applicable <- list("saledemand", "saleoffer", "lendoffer", "lenddemand", 
-                          "lend", "labourinfo", "auctions", "othernews", 
+  dict$applicable <- list("saledemand", "saleoffer", "lendoffer", "lenddemand",
+                          "lend", "labourinfo", "auctions", "othernews",
                           "exchange", "demanding", "offering", "ps")
   dict$pos <- list(
     seat = "(K|k)irchen(.?(s|S)i?t?z|.?(s|S)t(ü|u)hl)",

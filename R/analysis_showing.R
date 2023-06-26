@@ -22,7 +22,7 @@ show_records <- function(coll,
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")}
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to search in texts")}
   invalid_ids <- setdiff(ids, coll$meta$id)
   ids <- setdiff(ids, invalid_ids)
   dt_c <- convert(coll$corpus[sort(ids)], to = "data.frame", pretty = FALSE)
@@ -80,7 +80,7 @@ write_records = function(coll,
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to search in texts")
   } else{
     if (show_date){p_date <- paste0("[", coll$corpus[ids]$date, "] ")}
     else {p_date <-""}
@@ -117,11 +117,14 @@ write_records = function(coll,
 #' show_iiif(ids = c("id1", "id2"), coll = my_collection)
 #' @import magick
 #' @export
-show_iiif <- function(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 10){
+show_iiif <- function(coll,
+                      ids = NULL,
+                      show_record = TRUE,
+                      max.plot = 10){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to display iiifs.")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to display iiifs.")
   }
   ids <- intersect(ids, names(coll$corpus))
   if(length(ids)>max.plot){
@@ -228,7 +231,7 @@ show_tags <- function(coll,
 #' @return A vector of headers associated with all documents in the collection.
 #'
 #' @export
-show_headers <- function(coll = c_all){
+show_headers <- function(coll){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   unique(unlist(coll$meta$tags_section))
@@ -247,7 +250,7 @@ show_headers <- function(coll = c_all){
 show_metadatafields <- function(coll){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  colnames(c_all$meta)
+  colnames(coll$meta)
 }
 
 

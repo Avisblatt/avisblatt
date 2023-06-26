@@ -11,5 +11,5 @@ a thorough collection of all sorts of regular expressions around dogs
 including different historic spelling options.
 }
 \seealso{
-\code{\link{tagfilter_animals}}
+\code{\link{tagfilters_animals}}
 }

@@ -102,7 +102,7 @@ tag_by_regex <- function(ids, collection, df_tags){
   stopifnot(inherits(collection, "Collection"))
   stopifnot(inherits(collection, "R6"))
   if(is.null(collection$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to tag")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to tag")
   }
   if(!setequal(names(df_tags),c("tag","reg"))){
     stop("df_tags must have two columns, one named tag, one named reg.")

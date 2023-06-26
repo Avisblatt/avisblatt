@@ -12,18 +12,7 @@
 #'
 #' @return A data.table with counts of records by date and id(s)
 #'
-#' @examples
-#' count_records_by_date(coll = my_collection,
-#'                       ids = c("id1", "id2"),
-#'                       level = "month",
-#'                       colnames = c("col1", "col2"),
-#'                       per1k = TRUE,
-#'                       trim = FALSE,
-#'                       min = "2019-01-01",
-#'                       max = "2020-12-31",
-#'                       bundle_periods = 3)
-#'
-#' @importFrom data.table data.table merge setkeyv unique year
+#' @import data.table
 #' @export
 count_records_by_date <- function(coll,
                                   ids = NULL,

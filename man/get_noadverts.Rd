@@ -2,7 +2,8 @@
 % Please edit documentation in R/analysis_scouting.R
 \name{get_noadverts}
 \alias{get_noadverts}
-\title{Get noadvert records from a Collection object}
+\title{Get noadvert records from a Collection object
+This function returns the noadvert records from a Collection object.}
 \usage{
 get_noadverts(coll, text = FALSE)
 }
@@ -15,14 +16,10 @@ get_noadverts(coll, text = FALSE)
 If text is TRUE, the text of the noadvert records; otherwise, their names.
 }
 \description{
+Get noadvert records from a Collection object
 This function returns the noadvert records from a Collection object.
 }
-\examples{
-coll <- read_collection("path/to/collection")
-get_noadverts(coll)
-
-}
 \seealso{
-\code{\link{read_collection}}, \code{\link{gather_collections}}
+\code{\link{read_collection}}
 }
 \keyword{collection}

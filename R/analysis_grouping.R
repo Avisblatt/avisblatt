@@ -55,8 +55,8 @@ group_records_by_length = function(coll,
 #'
 #' @param coll object of class Collection.
 #' @param ids character vector of ids to filter for. Defaults to NULL (all).
-#' @param tagslist
-#' @param namelist
+#' @param tagslist list of tags
+#' @param namelist list of names
 #' @export
 group_records_by_tags = function(coll,
                                  ids = NULL,
@@ -85,8 +85,8 @@ group_records_by_tags = function(coll,
 #'
 #' @param coll object of class Collection.
 #' @param ids character vector of ids to filter for. Defaults to NULL (all).
-#' @param headerlist
-#' @param namelist
+#' @param headerlist defaults to NULL.
+#' @param namelist defaults to NULL.
 #' @export
 group_records_by_header = function(coll, ids = NULL,
                                    headerlist = NULL,
@@ -110,18 +110,31 @@ group_records_by_header = function(coll, ids = NULL,
   }
 }
 
-
+#' Group Records by Text
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param searchlist character defaults to empty.
+#' @param namelist defaults to NULL.
 #' @export
-group_records_by_text = function(ids = null, coll = c_all, searchlist = "", namelist = NULL){
+group_records_by_text = function(coll,
+                                 ids = NULL,
+                                 searchlist = "",
+                                 namelist = NULL){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  if(is.null(namelist)){namelist<-searchlist}
-  if(!length(searchlist)==length(namelist)){
+  if(is.null(namelist)){
+    namelist <- searchlist
+    }
+  if(!length(searchlist) == length(namelist)){
     stop("The list of names does not have the same length as the list of search terms.")
   }
-  if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
+  if(length(ids) == 1){
+    if(ids=="all"){
+      ids <- coll$meta$id}
+    }
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to search in texts")
   } else if(length(searchlist) > 0){
     results=list(list())
     for (i in 1:length(searchlist)){

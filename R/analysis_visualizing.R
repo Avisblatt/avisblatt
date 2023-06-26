@@ -7,9 +7,6 @@
 #' @param max_words The maximum number of words to include in the wordcloud.
 #' @return A wordcloud plot.
 #'
-#' @examples
-#' show_wordcloud(ids = "all", coll = c_all, remove = "", max_words = 200)
-#'
 #' @import quanteda.textplots
 #' @export
 show_wordcloud <- function(coll,
@@ -20,7 +17,7 @@ show_wordcloud <- function(coll,
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = TRUE in read_collections/gather_collections to be able to search in texts")
+    stop("Collection has been read with meta info only. Use just_meta = TRUE in read_collections to be able to search in texts")
   } else{
     corp <- corpus_subset(c_all$corpus, names(c_all$corpus) %in% ids)
     removal <- c(avis_stop(), remove)

@@ -4,12 +4,12 @@
 \alias{show_iiif}
 \title{Show IIIF images for specified record IDs}
 \usage{
-show_iiif(ids = NULL, coll = c_all, show_record = TRUE, max.plot = 10)
+show_iiif(coll, ids = NULL, show_record = TRUE, max.plot = 10)
 }
 \arguments{
-\item{ids}{A vector of record IDs to display.}
-
 \item{coll}{A Collection object.}
+
+\item{ids}{A vector of record IDs to display.}
 
 \item{show_record}{A logical indicating whether to display record metadata.}
 
