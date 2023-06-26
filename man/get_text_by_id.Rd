@@ -2,10 +2,21 @@
 % Please edit documentation in R/utils.R
 \name{get_text_by_id}
 \alias{get_text_by_id}
-\title{Might want to deprecate this with quanteda 2.0}
+\title{Legacy Function to Get Text by Identifier}
 \usage{
 get_text_by_id(corp, ids, n = NULL, identifier = "id", txt = "texts")
 }
+\arguments{
+\item{corp}{quanteda corpus object}
+
+\item{ids}{character text ids}
+
+\item{n}{numeric number of hits, defaults to NULL.}
+
+\item{identifier}{character name of id column.}
+
+\item{txt}{character column identifiert. Defaults to 'texts'.}
+}
 \description{
-Might want to deprecate this with quanteda 2.0
+Legacy Function to Get Text by Identifier
 }

@@ -10,6 +10,3 @@ classify ads based on their content. E.g., a dogs tagfilter would contain
 a thorough collection of all sorts of regular expressions around dogs
 including different historic spelling options.
 }
-\seealso{
-\code{\link{tagfilters_animals}}
-}

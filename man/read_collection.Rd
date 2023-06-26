@@ -6,6 +6,11 @@
 \usage{
 read_collection(name_on_disk, just_meta = FALSE)
 }
+\arguments{
+\item{name_on_disk}{character path to collection folder}
+
+\item{just_meta}{boolean only use meta information? Defaults to FALSE.}
+}
 \description{
 In a separation of concerns approach the avisblatt project splits data and
 data descriptions into two files best suited for the different nature of the

@@ -19,8 +19,3 @@ A vector of document ids that match the search terms.
 \description{
 Selects documents from a collection based on a search list.
 }
-\examples{
-coll <- read.csv("my_collection.csv")
-select_by_text(coll, ids = NULL, searchlist = c("term1", "term2"))
-
-}

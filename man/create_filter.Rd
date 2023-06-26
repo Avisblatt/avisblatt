@@ -2,12 +2,16 @@
 % Please edit documentation in R/tagfilters_utils.R
 \name{create_filter}
 \alias{create_filter}
-\title{https://adv-r.hadley.nz/function-factories.html
-Create a function that contains the filter and returns
-a function that applies the filter on a corpus object passed
-to the function.}
+\title{Create a Function That Contains the Filter}
 \usage{
 create_filter(dict)
+}
+\arguments{
+\item{dict}{a dictionary.}
+
+\item{return_corp}{boolean should function return a corpus? Defaults to TRUE.}
+
+\item{ignore.case}{boolean should case by ignored? Defaults to TRUE}
 }
 \description{
 https://adv-r.hadley.nz/function-factories.html

@@ -21,6 +21,3 @@ A plot of IIIF(s) for each record.
 \description{
 This function produces a plot of IIIF(s) for each record.
 }
-\examples{
-show_iiif(ids = c("id1", "id2"), coll = my_collection)
-}

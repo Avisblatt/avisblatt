@@ -14,8 +14,7 @@
 \alias{tagfilter_churchseat}
 \title{Tagfilter Property}
 \usage{
-Tagfilters are used internally in the creation of yearly collections
-of Avisblatt ads, to attribute tags to different ads.
+tagfilter_housing_rent1()
 
 tagfilter_housing_rent2()
 
@@ -40,6 +39,9 @@ Tagfilters are regular expression based filters designed to tag ads in order
 to classify ads based on their content. The avisblatt R package comes with
 curated filters to search for ads concerning the housing and property market,
 and the (tradable) entitlement to fixed seats in churches.
+
+Tagfilters are used internally in the creation of yearly collections
+of Avisblatt ads, to attribute tags to different ads.
 }
 \details{
 Tagfilters can only predict if an ad is pertinent to a given topic.
@@ -60,12 +62,6 @@ a precision >96% and a sensitivity >96%.
 The tagfilters help site provides you with a list of available tagfilters
 families.
 }
-\note{
-Last changed 2021-09-29
-}
 \seealso{
 tagfilters
-}
-\author{
-Alexander Engel, ORCID 0000-0002-8592-3124
 }

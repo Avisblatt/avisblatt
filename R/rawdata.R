@@ -3,11 +3,18 @@
 #' @description
 #' Avisblatt raw data as pulled from FREIZO archive where OCR'ed
 #' avisblatt information is.
+#' @field data two dimensional dataset
+#' @field year numeric year
+#' @field status character status description
+#' @field message character message
 RawData <- R6Class("RawData", list(
   data = NULL,
   year = NULL,
   status = NULL,
   message = NULL,
+  #' @param year numeric year
+  #' @param URL character URL to FREIZO archive
+  #' @param local boolean
   #' @import quanteda
   #' @import data.table
   #' @importFrom R6 R6Class
@@ -36,18 +43,30 @@ RawData <- R6Class("RawData", list(
       self$message <- "Step 1 of 2 failed (download)."
     })
   },
+  #' @param cols character names of coiumns to put into booleans
   booleanize = function(cols){
     for(i in cols){
       self$data[is.na(get(i)), (i) := 0]
       self$data[, (i) := as.logical(get(i))]
     }
   },
+  #' @param col column to drop based on a condition
+  #' @param value conditional value
   drop_on_condition = function(col, value){
     self$data <- self$data[!get(col) %in% value,]
   },
+  #' @param col columns to drop
   drop_cols = function(col){
     self$data[, (col) := NULL]
   },
+  #' @param clean_formatting boolean clean formatting?
+  #' @param ocr_correction boolean ocr correction?
+  #' @param remove_test_data boolean remove test data?
+  #' @param remove_invalid_data boolean remove invalid data ?
+  #' @param remove_duplicates boolean remove duplicates?
+  #' @param drop_na_cols boolean NA columns, defaults to TRUE
+  #' @param gt_years numeric vector of ground truth years
+  #' @param test_users character vector of test user names
   process_data = function(clean_formatting = TRUE,
                           ocr_correction = TRUE,
                           remove_test_data = TRUE,
@@ -195,6 +214,9 @@ RawData <- R6Class("RawData", list(
       self$message <- "Step 2 of 2 (processing) failed."
     })
   },
+  #' @param log_file character file log entry destination
+  #' @param mark_down_table_log_format boolean
+  #' @param line_end character to determine line endings.
   write_log_status = function(
     log_file = "README.md",
     mark_down_table_log_format = TRUE,
@@ -211,6 +233,7 @@ RawData <- R6Class("RawData", list(
     cat(msg)
     sink()
   },
+  #' @param fn character file name
   write_csv = function(fn = NULL){
     if(is.null(fn)){
       filename <- file.path("raw_data", sprintf("orig_%s.csv", self$year))
@@ -219,6 +242,7 @@ RawData <- R6Class("RawData", list(
     }
     fwrite(self$data, file = filename)
   },
+  #'@description Create Tags Based on Section Headers
   create_header_tags = function(){
     # re-written this to ignore spaces and punctuation here,
     # as that drives recognition rates up quite a lot

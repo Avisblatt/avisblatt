@@ -4,7 +4,10 @@
 \alias{tf_ignorecase}
 \title{Some tagfilters were build to be case sensitive, some were not. This gives the ones that are not sensitive}
 \usage{
-tf_ignorecase(prefix = F)
+tf_ignorecase(prefix = FALSE)
+}
+\arguments{
+\item{prefix}{boolean should prefix be added? Defaults to FALSE.}
 }
 \description{
 Some tagfilters were build to be case sensitive, some were not. This gives the ones that are not sensitive

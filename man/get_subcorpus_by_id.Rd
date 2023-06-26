@@ -2,10 +2,17 @@
 % Please edit documentation in R/utils.R
 \name{get_subcorpus_by_id}
 \alias{get_subcorpus_by_id}
-\title{Might want to deprecate this with quanteda 2.0}
+\title{Get Subsets of a Corpus by Ids}
 \usage{
 get_subcorpus_by_id(corp, ids, idvar = "id")
 }
+\arguments{
+\item{corp}{quanteda corpus object}
+
+\item{ids}{character text ids}
+
+\item{idvar}{character name of the id column. Defaults to id.}
+}
 \description{
-Might want to deprecate this with quanteda 2.0
+Get Subsets of a Corpus by Ids
 }
