@@ -1,3 +1,8 @@
+#' Apply OCR to Raw Data
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param source_path character path to collection
+#' @param dest_path character path to destination
 #' @export
 rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
                               source_path = "../avis-databuffer/raw_data_uncorrected",
@@ -14,6 +19,14 @@ rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
   }
 }
 
+
+
+#' Rawdata Header and ID
+#'
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param source_path character path to collection
+#' @param dest_path character path to destination
 #' @export
 rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                   source_path = "../avis-databuffer/raw_data_OCRed",
@@ -111,6 +124,12 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
   }
 }
 
+#' Create Raw Data Collection
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param source_path character path to collection
+#' @param dest_path character path to destination
+#' @param gt_years numeric vector of ground truth years.
 #' @export
 rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
                                   source_path = "../avis-data/raw_data",

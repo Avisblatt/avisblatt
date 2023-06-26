@@ -1,14 +1,18 @@
-#' @import quanteda
-#' @import data.table
-#' @importFrom R6 R6Class
-#' @importFrom textutils HTMLdecode
-#' @rawNamespace import(dplyr, except = c(first, last, between))
-#' @export
+#' R6 Class Representing Raw Data
+#'
+#' @description
+#' Avisblatt raw data as pulled from FREIZO archive where OCR'ed
+#' avisblatt information is.
 RawData <- R6Class("RawData", list(
   data = NULL,
   year = NULL,
   status = NULL,
   message = NULL,
+  #' @import quanteda
+  #' @import data.table
+  #' @importFrom R6 R6Class
+  #' @importFrom textutils HTMLdecode
+  #' @rawNamespace import(dplyr, except = c(first, last, between))
   initialize = function(year,
                         URL = "https://avisblatt.freizo.org/curator/annotsv.cgi?year=",
                         local = FALSE){

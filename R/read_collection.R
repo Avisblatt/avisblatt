@@ -6,11 +6,14 @@
 #' friendly as the split allows to use standard read/write functions for .csv
 #' and .json file formats.
 #'
+#' @param name_on_disk character path to collection folder
+#' @param just_meta boolean only use meta information? Defaults to FALSE.
 #' @import data.table
 #' @importFrom jsonlite fromJSON
 #' @importFrom quanteda corpus
 #' @export
-read_collection <- function(name_on_disk, just_meta = FALSE){
+read_collection <- function(name_on_disk,
+                            just_meta = FALSE){
   data_file <- paste0(name_on_disk, ".csv")
   meta_file <- paste0(name_on_disk, ".json")
 

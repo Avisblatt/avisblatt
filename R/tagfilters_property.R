@@ -29,10 +29,10 @@ NULL
 
 
 #' Filter Quanteda Corpus: Housing for rent in renting section
-#' @author Alexander Engel, ORCID 0000-0002-8592-3124
-#' @note Last changed 2021-09-29
-#' @usage Tagfilters are used internally in the creation of yearly collections
+#'
+#' Tagfilters are used internally in the creation of yearly collections
 #' of Avisblatt ads, to attribute tags to different ads.
+#'
 #' @name tagfilter_property
 #' @export
 tagfilter_housing_rent1 <- function(){

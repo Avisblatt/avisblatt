@@ -1,3 +1,8 @@
+#' Detect Reprint
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param source_path character path to collection
+#' @param dest_path character path to destination
 #' @export
 rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
                                     source_path = "../avis-databuffer/collections_unflagged",
@@ -149,7 +154,12 @@ rawdata_reprint_detection <- function(AVIS_YEARS = 1729:1844,
 }
 
 
-
+#' Find Fraternal Twins
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param source_path_csv character path to csv
+#' @param source_path_json character path to json
+#' @param dest_path character path to destination
 #' @export
 rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
                                             source_path_csv  = "../avis-databuffer/collections_unflagged",
@@ -173,7 +183,15 @@ rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
 }
 
 
-
+#' Redo Tags
+#'
+#' @param AVIS_YEARS numeric vector of selected years.
+#' @param path character path to collections
+#' @param path_no_ft character path no_ft
+#' @param path_no_rp character path no_rp
+#' @param correct_final boolean should final correction be applied, defaults to TRUE.
+#' @param correct_no_ft boolean final no ft correction? defaults to TRUE.
+#' @param correct_no_rp boolean final no rp correction? defaults to TRUE.
 #' @export
 rawdata_redo_tags <- function(AVIS_YEARS = 1729:1844,
                       path = "../avis-data/collections",

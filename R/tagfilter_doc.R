@@ -6,5 +6,4 @@
 #' a thorough collection of all sorts of regular expressions around dogs
 #' including different historic spelling options.
 #' @name tagfilters
-#' @seealso \code{\link{tagfilters_animals}}
 NULL

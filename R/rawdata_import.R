@@ -1,3 +1,13 @@
+#' Fetch Raw Data from FREIZO
+#'
+#' The FREIZO archive contains raw, scanned data. This information does not account
+#' for OCR errors. Most users will rather want to work with cleaned, collection data
+#' which can be pulled from the avisdata GitHub repository.
+#'
+#' @param AVIS_YEARS numeric vector indicating selected years.
+#' @param dest_path character path to write the data files to.
+#' @param gt_years numeric vector indicating ground truth years, i.e., that were
+#' manually inspected.
 #' @export
 fetch_from_freizo <- function(AVIS_YEARS = 1729:1844,
                               dest_path = "../avis-databuffer/raw_data_uncorrected",
@@ -48,6 +58,13 @@ fetch_from_freizo <- function(AVIS_YEARS = 1729:1844,
 }
 
 
+#' Read Transkribus XML Files
+#'
+#' @param AVIS_YEARS numeric vector indicating selected years.
+#' @param source_path character location of the input file.
+#' @param dest_path character path to write the data files to.
+#' @param gt_years numeric vector indicating ground truth years, i.e., that were
+#' manually inspected.
 #' @import XML
 #' @export
 xml_direct_import <- function(AVIS_YEARS = 1729:1844,

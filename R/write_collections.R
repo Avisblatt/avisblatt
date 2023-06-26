@@ -1,3 +1,14 @@
+#' Write collection to Disk
+#'
+#' Write a collection to disk using two separate files: a .csv file for the data
+#' and a .json file for the metainformation. Objects are linked across files using
+#' ids.
+#'
+#' @param x object of class Collection.
+#' @param name_on_disk character name of the file on disk
+#' @param pretty_json boolean should json be prettified? Defaults to TRUE.
+#' @param zip boolean should data and data description be put together in one zip archive?
+#' Defaults to FALSE.
 #' @importFrom jsonlite fromJSON toJSON
 #' @importFrom quanteda corpus docvars texts
 #' @importFrom quanteda.textstats textstat_dist

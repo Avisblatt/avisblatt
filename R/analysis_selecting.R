@@ -171,6 +171,15 @@ select_by_tags <- function(coll,
 }
 
 
+#' Select Ad by Meta Information
+#'
+#'
+#' @param coll an object of class Collection.
+#' @param ids character vector of ids to be searched. Defaults to NULL, searching all
+#' available character.
+#' @param search character what look for
+#' @param fields character where to search
+#' @param exact boolean should matches be exact? Defaults to FALSE.
 #' @export
 select_by_meta <- function(coll,
                            ids = NULL,
@@ -226,10 +235,6 @@ select_by_meta <- function(coll,
 #' @param searchlist A character vector of search terms.
 #'
 #' @return A vector of document ids that match the search terms.
-#'
-#' @examples
-#' coll <- read.csv("my_collection.csv")
-#' select_by_text(coll, ids = NULL, searchlist = c("term1", "term2"))
 #'
 #' @importFrom R6 R6Class
 #' @importFrom utils read.csv

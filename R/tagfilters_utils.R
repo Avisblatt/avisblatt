@@ -1,7 +1,13 @@
+#' Create a Function That Contains the Filter
+#'
 #' https://adv-r.hadley.nz/function-factories.html
 #' Create a function that contains the filter and returns
 #' a function that applies the filter on a corpus object passed
 #' to the function.
+#' @param dict a dictionary.
+#' @param return_corp boolean should function return a corpus? Defaults to TRUE.
+#' @param ignore.case boolean should case by ignored? Defaults to TRUE
+#' @export
 create_filter <- function(dict){
   function(corp,
            return_corp = TRUE,

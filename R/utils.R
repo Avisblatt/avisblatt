@@ -1,6 +1,16 @@
-#' Might want to deprecate this with quanteda 2.0
+#' Legacy Function to Get Text by Identifier
+#'
+#'
+#' @param corp quanteda corpus object
+#' @param ids character text ids
+#' @param n numeric number of hits, defaults to NULL.
+#' @param identifier character name of id column.
+#' @param txt character column identifiert. Defaults to 'texts'.
+#'
 #' @export
-get_text_by_id <- function(corp, ids, n = NULL,
+get_text_by_id <- function(corp,
+                           ids,
+                           n = NULL,
                            identifier = "id",
                            txt = "texts"){
   tf <- docvars(corp, identifier) %in%
@@ -15,10 +25,16 @@ get_text_by_id <- function(corp, ids, n = NULL,
 
 }
 
-
-#' Might want to deprecate this with quanteda 2.0
+#' Get Subsets of a Corpus by Ids
+#'
+#' @param corp quanteda corpus object
+#' @param ids character text ids
+#' @param idvar character name of the id column. Defaults to id.
+#' @importFrom quanteda corpus_subset docvars
 #' @export
-get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
+get_subcorpus_by_id <- function(corp,
+                                ids,
+                                idvar = "id"){
   corpus_subset(corp,
                 (docvars(corp, idvar) %in% ids)
   )
@@ -38,10 +54,17 @@ clean_manual_tags <- function(x){
 
 
 
-# convenience function to read & merge multiple years to one working collection
+#' Convenience Function to Read & Merge Multiple Years
+#'
+#' @param AVIS_YEARS numeric vectors of selected years.
+#' @param just_meta boolean should meta be used w/o reading in the actual text?
+#' Defaults to TRUE.
+#' @param path character location of the collection files.
 #' @export
 #' @import data.table
-gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections"){
+gather_yearly_collections <- function(AVIS_YEARS,
+                                      just_meta = TRUE,
+                                      path = "../avis-data/collections"){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
   AVIS_YEARS <- intersect(AVIS_YEARS,
                           list.files(path, pattern = "csv") |>

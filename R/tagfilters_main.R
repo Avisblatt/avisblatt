@@ -19,8 +19,9 @@ umbrella_terms <- function(){
 }
 
 #' Some tagfilters were build to be case sensitive, some were not. This gives the ones that are not sensitive
+#' @param prefix boolean should prefix be added? Defaults to FALSE.
 #' @export
-tf_ignorecase <- function(prefix = F){
+tf_ignorecase <- function(prefix = FALSE){
   l <- c("agriculturalobjects",
          "alcohol",
          "animalobjects",

@@ -113,8 +113,6 @@ write_records = function(coll,
 #'
 #' @return A plot of IIIF(s) for each record.
 #'
-#' @examples
-#' show_iiif(ids = c("id1", "id2"), coll = my_collection)
 #' @import magick
 #' @export
 show_iiif <- function(coll,
