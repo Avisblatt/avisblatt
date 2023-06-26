@@ -8,10 +8,6 @@ create_filter(dict)
 }
 \arguments{
 \item{dict}{a dictionary.}
-
-\item{return_corp}{boolean should function return a corpus? Defaults to TRUE.}
-
-\item{ignore.case}{boolean should case by ignored? Defaults to TRUE}
 }
 \description{
 https://adv-r.hadley.nz/function-factories.html
