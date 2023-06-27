@@ -1,3 +1,7 @@
+# TODO bring this back to R/ folder
+# escape non-ascii characters
+# remove non-function part at the beginning.
+
 # test collection
 bTestCollection <- file.exists("../avis-data/test_collection.csv") & file.exists("../avis-data/test_collection.json")
 if(bTestCollection){
