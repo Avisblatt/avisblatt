@@ -17,6 +17,7 @@ Imports:
     textutils,
     dplyr, 
     magick,
+    stringi,
     XML
 Suggests:
     knitr,

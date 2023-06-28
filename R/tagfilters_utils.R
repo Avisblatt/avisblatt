@@ -7,6 +7,8 @@
 #' @param dict a dictionary.
 #' @export
 create_filter <- function(dict){
+  dict$pos <- lapply(dict$pos, stri_unescape_unicode)
+  dict$neg <- lapply(dict$neg, stri_unescape_unicode)
   function(corp,
            return_corp = TRUE,
            ignore.case = TRUE){
