@@ -68,11 +68,8 @@ tagfilter_birds<- function(){
     flew = "verflogen"
   )
 
-  dict$neg <- list(
-    name = "Freyvogel ", #exclude family name
-    animal = "(S|s)t(a|ä)uber" #exclude "Stäuberhund"
-
-  )
+  dict$neg <- list(name = "Freyvogel ",
+                   animal = "(S|s)t(a|\\u00e4)uber")
   create_filter_output(dict)
 }
 
@@ -96,11 +93,8 @@ tagfilter_cats<- function(){
 #' @export
 tagfilter_otherpets<- function(){
   dict <- list()
-  dict$pos <- list(
-    squirrel= "Eichh(o|ö)rn",
-    fox="\\bFuchs\\b"
-
-  )
+  dict$pos <- list(squirrel = "Eichh(o|\\u00f6)rn",
+                   fox = "\\\\bFuchs\\\\b")
 
   list(
     dog = "(D|d)achsh(u|\\u00fc)nd|(D|d)achs(farbig|artig|f\\u00fcssen)|(F|f)uchsfarbner"

@@ -24,21 +24,21 @@ tagfilter_spices <- function(){
   dict <- list()
   dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    spices_general = "Spe(z|c)ere(y|i|j)\\-?\\s?(waa?ren|arti(k|c)k?el)",
+    spices_general = "Spe(z|c)ere(y|i|j)\\\\-?\\\\s?(waa?ren|arti(k|c)k?el)",
     spices_cinammon = "Zin?mm?e?t(?!(farb|braun|wasser))",
-    spices_saffron = "(?<!(zum|be(i|y|j))\\s)(?<!bem(i|y|j)\\s)(?<!zu\\s)Saff?ran",
-    spices_cloves = "Nägelein(?!(farb|braun))",
-    spices_nutmeg = "Mus(c|k)atn(u|ü)ss",
-    spices_salt = "\\bSalz(es|e|)\\b(?![üéöäàè])(?!\\-)",
-    spices_mustard = "Senft?\\-?(k(o|ö)rn|mehl)?|Mous?tard"
+    spices_saffron = "(?<!(zum|be(i|y|j))\\\\s)(?<!bem(i|y|j)\\\\s)(?<!zu\\\\s)Saff?ran",
+    spices_cloves = "N\\u00e4gelein(?!(farb|braun))",
+    spices_nutmeg = "Mus(c|k)atn(u|\\u00fc)ss",
+    spices_salt = "\\\\bSalz(es|e|)\\\\b(?![\\u00fc\\u00e9\\u00f6\\u00e4\\u00e0\\u00e8])(?!\\\\-)",
+    spices_mustard = "Senft?\\\\-?(k(o|\\u00f6)rn|mehl)?|Mous?tard"
   )
   dict$neg <- list(
-    name = "(I|Ei)senflam", # name contains "senf"
-    river = "Wiesenf", # name of river, contains "senf,
-    sedan = "Senfte", # contains "senf", also house name
-    meat = "Ochsenfl", # contains "senf"
+    name = "(I|Ei)senflam",
+    river = "Wiesenf",
+    sedan = "Senfte",
+    meat = "Ochsenfl",
     colour = "senf(farb|braun)",
-    legumes = "H(u|ü)lsenfr" # contains "senf"
+    legumes = "H(u|\\u00fc)lsenfr"
   )
   dict$include <- c(
     "35710b39-9caf-50c7-ac30-080ceb2cf53d/t4" # Seuf (ocr mistake)
@@ -54,7 +54,8 @@ tagfilter_spices <- function(){
 #' @export
 tagfilter_meat <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
+  dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange",
+                          "othernews", "ps", "auctions")
   dict$pos <- list(
     meat_general = "Fleisch",
     meat_sucklingpig = "Spa(n|nn)fer(k|ck)",
@@ -64,24 +65,24 @@ tagfilter_meat <- function(){
     meat_lard = "Schmalz",
     meat_gelatine = "Gelatine",
     meat_bacon = "Speck",
-    meat_sausage = "(W|w)(ü|u)rst|(C|s)ervelat",
+    meat_sausage = "(W|w)(\\u00fc|u)rst|(C|s)ervelat",
     meat_ham = "Schinken|Chargouterie",
     meat_salami = "Salami",
-    meat_frog = "Fr(ö|o)schenschenkel",
+    meat_frog = "Fr(\\u00f6|o)schenschenkel",
     meat_rabbit = "Hasen"
   )
   dict$neg <- list(
-    manure = "dung\\b|bau\\b(?![üéöäàè])", # manure from certain animals
-    teeth = "Zahnfleisch|Zähne", # includes "fleisch"
-    names = "Ramspeck|Würsteisen|Menzunge|Specker|Schmalzried", # family names
-    tongue = "Zungenwerck|Versatzung|sturtzung|setzung|Bestzung|sitzung|zungebund", # tongue not as food
-    description = "Schnecken-Steg|Heuschneck|Schneckensteg|Meerschneck|Schneckentritt|Schneckenzug", # "schnecke" as description, not as food
-    job = "Lehrgeld", # catches ocr mistake: "zungen/jungen"
-    speck = "Prospeckt", # contains "speck" but no food
-    house = "hinter(n|m)\\sHase|zum\\sHase", # house names containing "hase"
-    kitchen = "bütte", # kitchen utensils related to meat (contains "fleisch")
-    colour = "fleischfarb", # colour description
-    instrument = "Clarinett" # "zunge" for instruments
+    manure = "dung\\\\b|bau\\\\b(?![\\u00fc\\u00e9\\u00f6\\u00e4\\u00e0\\u00e8])",
+    teeth = "Zahnfleisch|Z\\u00e4hne",
+    names = "Ramspeck|W\\u00fcrsteisen|Menzunge|Specker|Schmalzried",
+    tongue = "Zungenwerck|Versatzung|sturtzung|setzung|Bestzung|sitzung|zungebund",
+    description = "Schnecken-Steg|Heuschneck|Schneckensteg|Meerschneck|Schneckentritt|Schneckenzug",
+    job = "Lehrgeld",
+    speck = "Prospeckt",
+    house = "hinter(n|m)\\\\sHase|zum\\\\sHase",
+    kitchen = "b\\u00fctte",
+    colour = "fleischfarb",
+    instrument = "Clarinett"
   )
   create_filter_output(dict)
 }
@@ -90,20 +91,21 @@ tagfilter_meat <- function(){
 #' @export
 tagfilter_poultry <- function(){
   dict <- list()
-  dict$applicable <- list("saleoffer", "saledemand", "demand", "offer", "exchange", "othernews", "ps", "auctions")
+  dict$applicable <- list("saleoffer", "saledemand", "demand", "offer",
+                          "exchange", "othernews", "ps", "auctions")
   dict$pos <- list(
-    poultry_duck = "\\bEnten",
+    poultry_duck = "\\\\bEnten",
     poultry_capon = "(C|K)apaun",
-    poultry_goose = "Gänse",
-    poultry_chicken = "Hahnen|Hühner(?!\\-?\\s?(h(u|ü)nd|e(i|y)|h(a|ä)us|stall|gitter|hof|kampf|aug|feder))|(P|B)oularde|Schepfen",
+    poultry_goose = "G\\u00e4nse",
+    poultry_chicken = "Hahnen|H\\u00fchner(?!\\\\-?\\\\s?(h(u|\\u00fc)nd|e(i|y)|h(a|\\u00e4)us|stall|gitter|hof|kampf|aug|feder))|(P|B)oularde|Schepfen",
     poultry_pheasant = "Fasan",
     poultry_other = "Welschehahn"
   )
   dict$neg <- list(
-    name = "Hühners|Hühnerwadel", # family name
-    objects = "Probhahn|Schlangenhahn|Weinhahn|Schlüssel-Hahn|Faßhahn|messing", # objects containing "hahn" and messingener "hahnen"
-    french = "entendre|entedu", # french words containing "ente"
-    weapon = "Entenflinte" # weapons for shooting poultry
+    name = "H\\u00fchners|H\\u00fchnerwadel",
+    objects = "Probhahn|Schlangenhahn|Weinhahn|Schl\\u00fcssel-Hahn|Fa\\u00dfhahn|messing",
+    french = "entendre|entedu",
+    weapon = "Entenflinte"
   )
   create_filter_output(dict)
 }
