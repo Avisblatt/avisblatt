@@ -25,7 +25,7 @@ tagfilter_animalobjects()
 \description{
 Tagfilters are regular expression based filters designed to tag ads in order
 to classify ads based on their content. The avisblatt R package comes with
-curated filters to search for ads concerning animals, pets (mostly dogs, 
+curated filters to search for ads concerning animals, pets (mostly dogs,
 cats, and birds) as well as livestock, and related objects.
 }
 \details{

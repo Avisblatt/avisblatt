@@ -12,7 +12,9 @@
 #'
 #' @return A data.table with counts of records by date and id(s)
 #'
+#' @importFrom stats aggregate
 #' @import data.table
+#' @importFrom utils head tail
 #' @export
 count_records_by_date <- function(coll,
                                   ids = NULL,
@@ -23,6 +25,9 @@ count_records_by_date <- function(coll,
                                   min = "1729-01-01",
                                   max = "1844-12-31",
                                   bundle_periods = 1){
+  # account for visible binding NOTE from CRAN check.
+  . <- NULL
+  z <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(!(level %in% c("year", "quarter", "month", "week", "issue"))){stop("Only supports 'year', 'quarter', 'month', 'week' and 'issue' based counting.")}
@@ -185,6 +190,7 @@ count_records_by_length <- function(coll,
                                     ids = NULL,
                                     boundaries = c(0, 10, 20, 40, 80, 160, 1000),
                                     unit = "tokens"){
+  . <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(boundaries) < 2 | !is.numeric(boundaries)){
@@ -217,11 +223,13 @@ count_records_by_length <- function(coll,
 #' @param ids character vector of ids to filter for. Defaults to NULL (all).
 #' @param level character year, quarter, month, week. Defaults to NULL (average).
 #' @param unit character denoting 'tokens' or 'character'
+#' @import data.table
 #' @export
 average_length_by_date <- function(coll,
                                    ids = NULL,
                                    level = NULL,
                                    unit = "tokens"){
+  ntokens <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids) == 1){

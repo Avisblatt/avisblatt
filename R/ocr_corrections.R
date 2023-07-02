@@ -2,10 +2,11 @@
 #'
 #' Regular expression based correction of scanning issues.
 #' @param x character vector to be corrected
+#' @importFrom stringi stri_unescape_unicode
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
-  r_pairs <- list(
+  esc <- list(
     c("\\\\-Tosen", "-Dosen"),
     c("\\\\-B\\u00fcr\\\\b", "-B\\u00fcx"),
     c("\\\\-Bur\\\\b", "-Bux"),
@@ -752,7 +753,6 @@ correct_ocr <- function(x){
     c("Wtt(ib|hl)", "Wittib")
   )
 
-  esc <- lapply(r_pairs,stri_escape_unicode)
   for(i in length(esc)){
     x <- gsub(stri_unescape_unicode(esc[[i]][1]),
               stri_unescape_unicode(esc[[i]][2]), x)
