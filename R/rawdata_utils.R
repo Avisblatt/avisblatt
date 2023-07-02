@@ -20,6 +20,7 @@ load_metadata <- function(AVIS_YEARS = 1729:1844, path){
 
 
 write_metadata <- function(meta_dt, path){
+  ..dtcols <- NULL
   AVIS_YEARS <- sort(unique(year(meta_dt$date)))
   for (i in AVIS_YEARS){
     start_date <- as.Date(sprintf("%d-01-01", i))
@@ -42,9 +43,10 @@ write_metadata <- function(meta_dt, path){
 }
 
 
-
+#' @importFrom stats na.omit
 fraternaltwin_processing <- function(meta_dt = meta_dt,
                                      path = "../avis-data/collections"){
+  reprint_status <- NULL
   message(sprintf("\nBuilding a lookup table for pairs of originals+reprints, depending on number of years this can take several minutes."))
   startt <- Sys.time()
   n <- as.matrix(meta_dt[reprint_status=="reprint", which = T])

@@ -165,6 +165,7 @@ rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
                                             source_path_csv  = "../avis-databuffer/collections_unflagged",
                                             source_path_json = "../avis-databuffer/collections_reprint_detected",
                                             dest_path = "../avis-data/collections"){
+  reprint_status <- NULL
   message("Loading data.")
   meta_dt <- load_metadata(AVIS_YEARS, source_path_json)
 
@@ -192,6 +193,7 @@ rawdata_fraternaltwin_detection <- function(AVIS_YEARS = 1729:1844,
 #' @param correct_final boolean should final correction be applied, defaults to TRUE.
 #' @param correct_no_ft boolean final no ft correction? defaults to TRUE.
 #' @param correct_no_rp boolean final no rp correction? defaults to TRUE.
+#' @importFrom utils getFromNamespace
 #' @export
 rawdata_redo_tags <- function(AVIS_YEARS = 1729:1844,
                       path = "../avis-data/collections",

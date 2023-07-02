@@ -19,7 +19,7 @@ show_wordcloud <- function(coll,
   if(is.null(coll$corpus)){
     stop("Collection has been read with meta info only. Use just_meta = TRUE in read_collections to be able to search in texts")
   } else{
-    corp <- corpus_subset(c_all$corpus, names(c_all$corpus) %in% ids)
+    corp <- corpus_subset(coll$corpus, names(coll$corpus) %in% ids)
     removal <- c(avis_stop(), remove)
     corp <- corp |>
       tokens(remove_punct = TRUE, remove_numbers = TRUE) |>

@@ -18,6 +18,9 @@ show_records <- function(coll,
                          show_tags = FALSE,
                          show_header = FALSE,
                          show_position = FALSE){
+  pageno <- NULL
+  readingorder <- NULL
+  date.x <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}

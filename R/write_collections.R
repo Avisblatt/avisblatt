@@ -18,6 +18,7 @@ write_collection <- function(x,
                              name_on_disk,
                              pretty_json = TRUE,
                              zip = FALSE){
+  ..dtcols <- NULL
   # sanity checks
   stopifnot(inherits(x, "Collection"))
   stopifnot(inherits(x, "R6"))

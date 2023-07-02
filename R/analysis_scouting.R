@@ -5,6 +5,7 @@
 #' @export
 get_headers <- function(coll,
                         text = FALSE){
+  isheader <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(text){
@@ -30,6 +31,7 @@ get_headers <- function(coll,
 #' @export
 get_noadverts <- function(coll,
                           text = FALSE){
+  noadvert <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(coll$corpus)){

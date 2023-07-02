@@ -72,6 +72,12 @@ xml_direct_import <- function(AVIS_YEARS = 1729:1844,
                               source_path = "../avis-databuffer/xml",
                               dest_path = "../avis-databuffer/raw_data_uncorrected",
                               gt_years = c(1734, 1754, 1774, 1834)){
+  text <- NULL
+  ave <- NULL
+  structuretype <- NULL
+  issue <- NULL
+  type <- NULL
+
   # Before running the script,
   # download xml for desired years from Transkribus.
   # Store them to the avis-data repo, foldr xml/years.

@@ -109,6 +109,7 @@ select_by_length <- function(coll,
                              min = 0,
                              max = 1000000,
                              unit = "tokens"){
+  ntokens <- NULL
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}

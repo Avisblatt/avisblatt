@@ -31,6 +31,8 @@ rawdata_apply_ocr <- function(AVIS_YEARS = 1729:1844,
 rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
                                   source_path = "../avis-databuffer/raw_data_OCRed",
                                   dest_path = "../avis-data/raw_data"){
+  isheader <- NULL
+  header_tag <- NULL
   id_mapping <- fread(file.path("../avis-databuffer/xml/id_mapping.tsv"))
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |>
                             substr(6, 9) |>
@@ -130,11 +132,13 @@ rawdata_header_and_id <- function(AVIS_YEARS = 1729:1844,
 #' @param source_path character path to collection
 #' @param dest_path character path to destination
 #' @param gt_years numeric vector of ground truth years.
+#' @importFrom utils getFromNamespace
 #' @export
 rawdata_coll_creation <- function(AVIS_YEARS = 1729:1844,
                                   source_path = "../avis-data/raw_data",
                                   dest_path = "../avis-databuffer/collections_unflagged",
                                   gt_years = c(1734, 1754, 1774, 1834)){
+  language <- NULL
   AVIS_YEARS <- intersect(AVIS_YEARS, list.files(source_path) |>
                             substr(6, 9) |>
                             as.numeric())

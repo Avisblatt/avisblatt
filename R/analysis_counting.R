@@ -38,7 +38,7 @@ count_records_by_date <- function(coll,
   }
   # ids can either be one set of ids or a list of sets of ids;
   # if it is only one set, turn it into a list
-  if(class(ids) == "character"){
+  if(is.character(ids)){
     message("Received one set of records.
     If you want to count several sets of records at once, you need to pass them as a list, e.g.
     ids = list(ids1, ids2, ids3)")

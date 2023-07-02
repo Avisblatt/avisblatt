@@ -103,7 +103,7 @@ gather_yearly_collections <- function(AVIS_YEARS,
 }
 
 
-
+#' @importFrom utils head
 purge_spacing <- function(txtlist){
   splits <- strsplit(txtlist, "\\s")
   more_than_1 <- lapply(splits, grepl, pattern = "\\S{2,}")
@@ -182,6 +182,7 @@ available_years <- function(collection_root){
 
 
 
+#' @importFrom utils getFromNamespace
 tf_integrity <- function(){
   ns <- ls(envir = asNamespace("avisblatt"))
   tfs <- ns[grepl("tagfilter_",ns)]
