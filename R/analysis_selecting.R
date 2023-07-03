@@ -1,4 +1,4 @@
-#' Selects data from a Collection object based on date range.
+#' Selects data from a collection object based on date range
 #'
 #' @param coll A Collection object.
 #' @param ids A character vector of ids to select from. If NULL, all ids are selected.
@@ -29,7 +29,7 @@ select_by_date <- function(coll,
   }
 }
 
-#' Selects documents from a collection based on their publication date.
+#' Selects documents from a collection based on their publication date
 #'
 #' @param coll A Collection object.
 #' @param ids A vector of document IDs to select. If NULL, all documents are selected.
@@ -93,7 +93,7 @@ select_by_season <- function(coll,
 }
 
 
-#' Select documents from a collection based on their length
+#' Selects documents from a collection based on their length
 #'
 #' @param coll A collection object
 #' @param ids A vector of document ids to select from. If NULL, all documents are selected.
@@ -125,7 +125,7 @@ select_by_length <- function(coll,
 }
 
 
-#' Select records from a collection by tags.
+#' Selects records from a collection by tags
 #'
 #' This function selects records from a collection based on the tags associated with each record.
 #'
@@ -172,7 +172,7 @@ select_by_tags <- function(coll,
 }
 
 
-#' Select Ad by Meta Information
+#' Selects ad by meta information
 #'
 #'
 #' @param coll an object of class Collection.
@@ -229,7 +229,7 @@ select_by_meta <- function(coll,
 #' select_by_text
 #'
 #' @description
-#' Selects documents from a collection based on a search list.
+#' Selects documents from a collection based on a search list
 #'
 #' @param coll A collection object.
 #' @param ids A vector of document ids to search in. If NULL, all documents in the collection are searched.
@@ -263,7 +263,7 @@ select_by_text <- function(coll,
 }
 
 
-#' Selects records from a collection based on reprint status.
+#' Selects records from a collection based on reprint status
 #'
 #' This function selects records from a collection based on their reprint status.
 #' It can select records that are reprinted originals, unreprinted originals,
