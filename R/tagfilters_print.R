@@ -237,7 +237,7 @@ tagfilter_print6 <- function(){
 #' @export
 tagfilter_print7 <- function(){
   dict <- list()
-  dict$applicable <- list('lostandfoundheader', 'ps', 'lendoffer', 'demanding', 'othernews')
+  dict$applicable <- list('lostandfoundheader', 'ps', 'lendoffer', 'lend', 'demanding', 'othernews')
   dict$pos <- list(
     institutions = 'Leih(b|-B)ibl.|Leseanstalt'
     #book = '\\\\bBuch|\\\\bB\u00fcchlein|\\\\bB\u00fccher(|n)',
