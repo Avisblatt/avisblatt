@@ -31,17 +31,14 @@ devtools::install_github("avisblatt/avisblatt")
 >Note 1: If you have trouble installing {devtools} or are not an {avisblatt} package developer you can use the {remotes} package which has fewer dependencies and is easy to install. 
 
 
->Note 2: The above installation only needs to be performed once (and for 
-package updates), the below R commands in 'Reading Data' to load the library
-are necessary every time you intend to use the package.
-
-
-### Installation from CRAN (not available yet)
-
-
 ```
 remotes::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
 ```
+
+
+>Note 2: The above installation only needs to be performed once (and for 
+package updates), the below R commands in 'Reading Data' to load the library
+are necessary every time you intend to use the package.
 
 
 ### Reading Data (Single Years)
