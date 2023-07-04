@@ -5,14 +5,23 @@ Title: Process Avisblatt Data
 Description: Processing ads level data from the Basler Avisblatt. 
 Author: "Matthias Bannert <matthias.bannert@gmail.com> [aut, cre], Alexander Engel[aut], Anna Reimann [aut], Ina Serif[aut]"
 Depends:
-    R (>= 3.5),
+    R (>= 4.1),
 Imports:
     jsonlite (>= 1.1),
     R6,
     data.table,
-    quanteda (>= 2.0)
+    quanteda (>= 2.0),
+    quanteda.textstats,
+    quanteda.textplots,
+    textcat,
+    textutils,
+    dplyr, 
+    magick,
+    stringi,
+    XML
 Suggests:
     knitr,
+    rmarkdown,
     testthat
 VignetteBuilder: knitr
 Date: 2020-06-03
@@ -21,5 +30,5 @@ URL: https://github.com/mbannert/avisblatt
 BugReports: https://github.com/mbannert/avisblatt/issues
 LazyData: true
 Maintainer: 'Matthias Bannert' <matthias.bannert@gmail.com>
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8

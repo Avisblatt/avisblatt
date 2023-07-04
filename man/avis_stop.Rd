@@ -4,7 +4,12 @@
 \alias{avis_stop}
 \title{Avisblatt Specific Stopword Dictionary}
 \usage{
-avis_stop()
+avis_stop(s = NULL, keep_standard = TRUE)
+}
+\arguments{
+\item{s}{character vector of stopwords}
+
+\item{keep_standard}{boolean should default stopwords be kept when new stopwords are provided? Defaulst to TRUE.}
 }
 \value{
 list containing vectors of stopwords.

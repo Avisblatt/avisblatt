@@ -1,16 +1,33 @@
+#' Group Records by Length
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param boundaries numeric boundaries of length bins
+#' @param unit character denoting 'tokens' or 'character'
 #' @export
-group_records_by_length = function(ids = NULL, coll = c_all, boundaries = c(0, 10, 20, 40, 80, 160, 1000), unit = "tokens"){
+group_records_by_length = function(coll,
+                                   ids = NULL,
+                                   boundaries = c(0, 10, 20, 40, 80, 160, 1000),
+                                   unit = "tokens"){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  if(length(boundaries)<2|!is.numeric(boundaries)){stop("The boundaries argument needs to be a list of at leats two non-negative numbers - default is c(0, 100000).")}
-  if(!all(diff(boundaries)>0)){stop("The boundaries need to ascending numbers.")}
-  if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
+  if(length(boundaries) < 2| !is.numeric(boundaries)){
+    stop("The boundaries argument needs to be a list of at leats two non-negative numbers.")}
+  if(!all(diff(boundaries) > 0)){
+    stop("The boundaries need to ascending numbers.")
+    }
+  if(length(ids) == 1){
+    if(ids == "all"){
+      ids <- coll$meta$id
+    }
+    }
   dt <- coll$meta
   if(!is.null(ids)){dt <- dt[id %in% ids,]}
   if(unit == "tokens"){
     dt <- dt[dt$ntoken > boundaries[1]]
     dt <- dt[dt$ntoken < boundaries[length(boundaries)]+1]
-    dtgs <- group_by(dt, interval = cut(dt$ntoken, boundaries, dig.lab = 4)) %>% group_split()
+    dtgs <- group_by(dt, interval = cut(dt$ntoken, boundaries, dig.lab = 4)) |>
+      group_split()
     results=list(list())
     for (i in 1:length(dtgs)){
       results[[i]] <- unlist(dtgs[[i]][1])
@@ -20,7 +37,8 @@ group_records_by_length = function(ids = NULL, coll = c_all, boundaries = c(0, 1
   } else if(unit == "char"){
     dt <- dt[dt$char > boundaries[1]]
     dt <- dt[dt$char < boundaries[length(boundaries)]+1]
-    dtgs <- group_by(dt, interval = cut(dt$nchar, boundaries, dig.lab = 4)) %>% group_split()
+    dtgs <- group_by(dt, interval = cut(dt$nchar, boundaries, dig.lab = 4)) |>
+      group_split()
     results=list(list())
     for (i in 1:length(dtgs)){
       results[[i]] <- unlist(dtgs[[i]][1])
@@ -33,8 +51,17 @@ group_records_by_length = function(ids = NULL, coll = c_all, boundaries = c(0, 1
 }
 
 
+#' Group Records by Tags
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param tagslist list of tags
+#' @param namelist list of names
 #' @export
-group_records_by_tags = function(ids = NULL, coll = c_all, tagslist = NULL, namelist = NULL){
+group_records_by_tags = function(coll,
+                                 ids = NULL,
+                                 tagslist = NULL,
+                                 namelist = NULL){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(namelist)){namelist<-tagslist}
@@ -54,9 +81,16 @@ group_records_by_tags = function(ids = NULL, coll = c_all, tagslist = NULL, name
   }
 }
 
-
+#' Group Records by Header
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param headerlist defaults to NULL.
+#' @param namelist defaults to NULL.
 #' @export
-group_records_by_header = function(ids = NULL, coll = c_all, headerlist = NULL, namelist = NULL){
+group_records_by_header = function(coll, ids = NULL,
+                                   headerlist = NULL,
+                                   namelist = NULL){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
   if(is.null(namelist)){namelist<-headerlist}
@@ -76,18 +110,31 @@ group_records_by_header = function(ids = NULL, coll = c_all, headerlist = NULL, 
   }
 }
 
-
+#' Group Records by Text
+#'
+#' @param coll object of class Collection.
+#' @param ids character vector of ids to filter for. Defaults to NULL (all).
+#' @param searchlist character defaults to empty.
+#' @param namelist defaults to NULL.
 #' @export
-group_records_by_text = function(ids = null, coll = c_all, searchlist = "", namelist = NULL){
+group_records_by_text = function(coll,
+                                 ids = NULL,
+                                 searchlist = "",
+                                 namelist = NULL){
   stopifnot(inherits(coll, "Collection"))
   stopifnot(inherits(coll, "R6"))
-  if(is.null(namelist)){namelist<-searchlist}
-  if(!length(searchlist)==length(namelist)){
+  if(is.null(namelist)){
+    namelist <- searchlist
+    }
+  if(!length(searchlist) == length(namelist)){
     stop("The list of names does not have the same length as the list of search terms.")
   }
-  if(length(ids)==1){if(ids=="all"){ids <- coll$meta$id}}
+  if(length(ids) == 1){
+    if(ids=="all"){
+      ids <- coll$meta$id}
+    }
   if(is.null(coll$corpus)){
-    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections/gather_collections to be able to search in texts")
+    stop("Collection has been read with meta info only. Use just_meta = FALSE in read_collections to be able to search in texts")
   } else if(length(searchlist) > 0){
     results=list(list())
     for (i in 1:length(searchlist)){

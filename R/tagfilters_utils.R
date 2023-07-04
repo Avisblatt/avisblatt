@@ -1,8 +1,14 @@
+#' Create a Function That Contains the Filter
+#'
 #' https://adv-r.hadley.nz/function-factories.html
 #' Create a function that contains the filter and returns
 #' a function that applies the filter on a corpus object passed
 #' to the function.
+#' @param dict a dictionary.
+#' @export
 create_filter <- function(dict){
+  dict$pos <- lapply(dict$pos, stri_unescape_unicode)
+  dict$neg <- lapply(dict$neg, stri_unescape_unicode)
   function(corp,
            return_corp = TRUE,
            ignore.case = TRUE){

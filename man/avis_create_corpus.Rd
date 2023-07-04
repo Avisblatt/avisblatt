@@ -12,7 +12,18 @@ avis_create_corpus(
   apply_ocr_correct = FALSE
 )
 }
+\arguments{
+\item{f}{character location of the file to read.}
+
+\item{text_field}{name of the text column.}
+
+\item{docid_field}{name of the document id field.}
+
+\item{encoding}{character defaults to UTF-8.}
+
+\item{apply_ocr_correct}{boolean Defaults to FALSE.}
+}
 \description{
-Covenience function to read avisblatt input .csvs into
+Convenience function to read avisblatt input .csvs into
 quanteda 2.0 corpuses.
 }

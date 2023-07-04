@@ -16,6 +16,6 @@ demo("echo", package="avisblatt")
 
 }
 \author{
-Matthias Bannert \email{matthias.bannert@gmail.com}
+Matthias Bannert \email{bunny@hey.com}
 }
 \keyword{package}

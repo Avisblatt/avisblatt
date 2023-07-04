@@ -9,6 +9,8 @@ merge_collections(c_list, merge_corpus = TRUE)
 \arguments{
 \item{c_list}{list of collections. Every element needs to be a 'collection'
 object from the avisblatt R package.}
+
+\item{merge_corpus}{boolean should corpora be merged? Defaults to TRUE.}
 }
 \description{
 Merge One or More Collections Into a One Large Collection

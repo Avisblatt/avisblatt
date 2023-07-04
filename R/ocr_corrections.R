@@ -2,758 +2,760 @@
 #'
 #' Regular expression based correction of scanning issues.
 #' @param x character vector to be corrected
+#' @importFrom stringi stri_unescape_unicode
 #' @return character vector
 #' @export
 correct_ocr <- function(x){
-  x <- gsub("\\-Tosen","-Dosen",x)
-  x <- gsub("\\-Bür\\b","-Büx",x)
-  x <- gsub("\\-Bur\\b","-Bux",x)
-  x <- gsub("\\-Büren\\b","-Büxen",x)
-  x <- gsub("\\-Buren\\b","-Buxen",x)
-  x <- gsub("Rtet","Rhtlr",x)
-  x <- gsub("Louiscors","Louis d'or",x)
-  x <- gsub("Louiacfor","Louis d'or",x)
-  x <- gsub("Schnipfrcher","Schnupftücher",x)
-  x <- gsub("Schnupftich","Schnupftuch",x)
-  x <- gsub("Schunpf","Schnupf",x)
-  x <- gsub("NachtLock","Nachtrock",x)
-  x <- gsub("Offlzier","Offizier",x)
-  x <- gsub("Unis(ö|o)rm","Uniform",x)
-  x <- gsub("znisorm","Uniform",x)
-  x <- gsub("Unfform","Uniform",x)
-  x <- gsub("Umform","Uniform",x)
-  x <- gsub("Unifarm","Uniform",x)
-  x <- gsub("Untform","Uniform",x)
-  x <- gsub("Aniform","Uniform",x)
-  x <- gsub("Unia\\sform","Uniform",x)
-  x <- gsub("Uni\\sform","Uniform",x)
-  x <- gsub("Unifokm","Uniform",x)
-  x <- gsub("Uniforin","Uniform",x)
-  x <- gsub("sischbein","fischbein",x)
-  x <- gsub("Wähstuhl","Wäbstuhl",x)
-  x <- gsub("Strumpfwber","Strumpfweber",x)
-  x <- gsub("Corseis","Corsets",x)
-  x <- gsub("Peiz","Pelz",x)
-  x <- gsub("erfrazen","erfragen",x)
-  x <- gsub("Abbrücke","Abdrücke",x)
-  x <- gsub("Fastor","Pastor",x)
-  x <- gsub("Ptstorius","Pistorius",x)
-  x <- gsub("Schweiahaus","Schweighaus",x)
-  x <- gsub("Burtorf","Buxtorf",x)
-  x <- gsub("Lortorie","Lotterie",x)
-  x <- gsub("Buchbruck","Buchdruck",x)
-  x <- gsub("Brhausung","Behausung",x)
-  x <- gsub("Adstattung","Erstattung",x)
-  x <- gsub("Rnetor","Rhetor",x)
-  x <- gsub("allhter","allhier",x)
-  x <- gsub("Churneysen","Thurneysen",x)
-  x <- gsub("Churneysens","Thurneysens",x)
-  x <- gsub("ehristliche","christliche",x)
-  x <- gsub("Lottorie","Lotterie",x)
-  x <- gsub("nIntoresse","Interesse",x)
-  x <- gsub("Intoressent","Interessent",x)
-  x <- gsub("Intoressenten","Interessenten",x)
-  x <- gsub("Intoresse","Interesse",x)
-  x <- gsub("Missenschafften","Wissenschafften",x)
-  x <- gsub("Pissenschafften","Wissenschafften",x)
-  x <- gsub("Mgaß","Maas",x)
-  x <- gsub("Mgas","Maas",x)
-  x <- gsub("Bläfinthor","Bläsinthor",x)
-  x <- gsub("Erpeditor","Expeditor",x)
-  x <- gsub("Eypeditor","Expeditor",x)
-  x <- gsub("Hanbelshaus","Handelshaus",x)
-  x <- gsub("Rhengas","Rheingas",x)
-  x <- gsub("Leonbardskirch","Leonhardskirch",x)
-  x <- gsub("Resivenzstadt","Residenzstadt",x)
-  x <- gsub("Aéschenvorstadt","Aeschenvorstadt",x)
-  x <- gsub("Pnstor","Pastor",x)
-  x <- gsub("Drichthaus","Berichthaus",x)
-  x <- gsub("Adeiberg","Adelberg",x)
-  x <- gsub("Creoitor","Creditor",x)
-  x <- gsub("Greisfengaß","Greiffengaß",x)
-  x <- gsub("Baurfüßerplatz","Baarfüßerplatz",x)
-  x <- gsub("Schützonhaus","Schützenhaus",x)
-  x <- gsub("Aoschenvorstadt","Aeschenvorstadt",x)
-  x <- gsub("Kutielgäß","Kuttelgäß",x)
-  x <- gsub("Oönabruck","Osnabruck",x)
-  x <- gsub("Kheinbrück","Rheinbrück",x)
-  x <- gsub("Leonhaodsberg","Leonhardsberg",x)
-  x <- gsub("Martinstirchhof","Martinskirchhof",x)
-  x <- gsub("Handlüngshaus","Handlungshaus",x)
-  x <- gsub("Marigkirch","Mariakirch",x)
-  x <- gsub("Koramarkt","Kornmarkt",x)
-  x <- gsub("Séhrotberg","Schrotberg",x)
-  x <- gsub("Jshannthor","Johannthor",x)
-  x <- gsub("Aescherporstadt","Aeschenvorstadt",x)
-  x <- gsub("Berichshaus","Berichthaus",x)
-  x <- gsub("Kiybeckstras","Klybeckstras",x)
-  x <- gsub("Aeschekthor","Aeschenthor",x)
-  x <- gsub("Aescherverstadt","Aeschenvorstadt",x)
-  x <- gsub("Diredtor","Director",x)
-  x <- gsub("Piarrhaus","Pfarrhaus",x)
-  x <- gsub("Louisdtor","Louis d'Or",x)
-  x <- gsub("Beriehthaus","Berichthaus",x)
-  x <- gsub("Berachthaus","Berichthaus",x)
-  x <- gsub("Berlchthaus","Berichthaus",x)
-  x <- gsub("Prceptor","Präceptor",x)
-  x <- gsub("IJmhof","Imhof",x)
-  x <- gsub("Wirthsöhaus","Wirthshaus",x)
-  x <- gsub("Karnmarckt","Kornmarckt",x)
-  x <- gsub("Leonhardslkirch","Leonhardskirch",x)
-  x <- gsub("Stenenberg","Sternenberg",x)
-  x <- gsub("Zerichthaus","Berichthaus",x)
-  x <- gsub("MWürkenberg","Würtenberg",x)
-  x <- gsub("Soriptor","Scriptor",x)
-  x <- gsub("BVerichthaus","Berichthaus",x)
-  x <- gsub("Greiffsengaß","Greiffengaß",x)
-  x <- gsub("Greisengaß","Greifengaß",x)
-  x <- gsub("Berichehaus","Berichthaus",x)
-  x <- gsub("Barichthaus","Berichthaus",x)
-  x <- gsub("Frschgaß","Fröschgaß",x)
-  x <- gsub("Pelerskirch","Peterskirch",x)
-  x <- gsub("Prcrceptor","Preceptor",x)
-  x <- gsub("Wirthähaus","Wirthshaus",x)
-  x <- gsub("Wrtemberg","Würtemberg",x)
-  x <- gsub("Verichthaus","Berichthaus",x)
-  x <- gsub("Jerichthaus","Berichthaus",x)
-  x <- gsub("Fronfgstenmarkt","Fronfastenmarkt",x)
-  x <- gsub("Juformator","Informator",x)
-  x <- gsub("Vostadt","Vorstadt",x)
-  x <- gsub("Bläispthor","Bläisythor",x)
-  x <- gsub("RRebgaß","Rebgaß",x)
-  x <- gsub("Werekstatt","Werckstatt",x)
-  x <- gsub("Teillengäß","Trillengäß",x)
-  x <- gsub("Pfaerhaus","Pfarrhaus",x)
-  x <- gsub("Berichhaus","Berichthaus",x)
-  x <- gsub("Drector","Director",x)
-  x <- gsub("Berichihaus","Berichthaus",x)
-  x <- gsub("Ferichthaus","Berichthaus",x)
-  x <- gsub("Peteroplatz","Petersplatz",x)
-  x <- gsub("Imvergäß","Imbergäß",x)
-  x <- gsub("Freyonstraß","Freyenstraß",x)
-  x <- gsub("Bertchthaus","Berichthaus",x)
-  x <- gsub("Beuichthaus","Berichthaus",x)
-  x <- gsub("Berichrhaus","Berichthaus",x)
-  x <- gsub("Borstatt","Vorstatt",x)
-  x <- gsub("Bevichthaus","Berichthaus",x)
-  x <- gsub("Gerbeagaß","Gerbergaß",x)
-  x <- gsub("Korumarkt","Kornmarkt",x)
-  x <- gsub("Birichthaus","Berichthaus",x)
-  x <- gsub("Paisenhaus","Waisenhaus",x)
-  x <- gsub("Berchthaus","Berichthaus",x)
-  x <- gsub("Berschthaus","Berichthaus",x)
-  x <- gsub("Rhemsprung","Rheinsprung",x)
-  x <- gsub("Daisenhaus","Waisenhaus",x)
-  x <- gsub("Nünsterplatz","Münsterplatz",x)
-  x <- gsub("Herichthaus","Berichthaus",x)
-  x <- gsub("Zerichthaus","Berichthaus",x)
-  x <- gsub("Schneibergas","Schneidergas",x)
-  x <- gsub("Gothof","Guthof",x)
-  x <- gsub("berschiedene","verschiedene",x)
-  x <- gsub("Kopnmarckt","Kornmarckt",x)
-  x <- gsub("Berichlhaus","Berichthaus",x)
-  x <- gsub("Matkinsgaß","Martinsgaß",x)
-  x <- gsub("Korumarckt","Kornmarckt",x)
-  x <- gsub("Herüberg","Heüberg",x)
-  x <- gsub("Spittablsprung","Spittahlsprung",x)
-  x <- gsub("Köngsberg","Königsberg",x)
-  x <- gsub("Nenstatt","Neustatt",x)
-  x <- gsub("Beunngäß","Brunngäß",x)
-  x <- gsub("Praaeptor","Praeceptor",x)
-  x <- gsub("Compofitor","Compositor",x)
-  x <- gsub("Riudermarckt","Rindermarckt",x)
-  x <- gsub("Rludermarckt","Rindermarckt",x)
-  x <- gsub("Klrchhof","Kirchhof",x)
-  x <- gsub("KHutgaß","Hutgaß",x)
-  x <- gsub("Verstadt","Vorstadt",x)
-  x <- gsub("Vodstadt","Vorstadt",x)
-  x <- gsub("Epahlenberg","Spahlenberg",x)
-  x <- gsub("Streilgaß","Streitgaß",x)
-  x <- gsub("Rhrinsprung","Rheinsprung",x)
-  x <- gsub("Scklüsselberg","Schlüsselberg",x)
-  x <- gsub("Kllchgäß","Kilchgäß",x)
-  x <- gsub("Pfarthof","Pfarrhof",x)
-  x <- gsub("Hntgaß","Hutgaß",x)
-  x <- gsub("Gerwergaß","Gerbergaß",x)
-  x <- gsub("Frofastenmarckt","Fronfastenmarckt",x)
-  x <- gsub("Gerwergäß","Gerbergäß",x)
-  x <- gsub("Todtentan;","Todtentanz",x)
-  x <- gsub("Ehsengaß","Eisengaß",x)
-  x <- gsub("Jorstatt","Vorstatt",x)
-  x <- gsub("Pfarchof","Pfarrhof",x)
-  x <- gsub("Pfarihof","Pfarrhof",x)
-  x <- gsub("Pfarahof","Pfarrhof",x)
-  x <- gsub("Rheilgaß","Rheingaß",x)
-  x <- gsub("CAdelberg","Adelberg",x)
-  x <- gsub("Albanvopstadt","Albanvorstadt",x)
-  x <- gsub("Froufastenmarkt","Fronfastenmarkt",x)
-  x <- gsub("Geeberberg","Gerberberg",x)
-  x <- gsub("Gemöberg","Gemsberg",x)
-  x <- gsub("Lpahlenberg","Spahlenberg",x)
-  x <- gsub("Aescheyvorstadt","Aeschenvorstadt",x)
-  x <- gsub("Arschenvorstadt","Aeschenvorstadt",x)
-  x <- gsub("Pfingstfroufastenmarkt","Pfingstfronfastenmarkt",x)
-  x <- gsub("Johannorstadt","Johannvorstadt",x)
-  x <- gsub("Berlchthaus","Berichthaus",x)
-  x <- gsub("Albanporstadt","Albanvorstadt",x)
-  x <- gsub("Rhelngaß","Rheingaß",x)
-  x <- gsub("Fohannvorstadt","Johannvorstadt",x)
-  x <- gsub("Vor8stadt","Vorstadt",x)
-  x <- gsub("Bnarfusserplatz","Barfusserplatz",x)
-  x <- gsub("Berschthaus","Berichthaus",x)
-  x <- gsub("Berickthaus","Berichthaus",x)
-  x <- gsub("Pfarthof","Pfarrhof",x)
-  x <- gsub("Brchthaus","Berichthaus",x)
-  x <- gsub("Spahleuberg","Spalenberg",x)
-  x <- gsub("Eifengas","Eisengas",x)
-  x <- gsub("Berschthaus","Berichthaus",x)
-  x <- gsub("Rerichthaus","Berichthaus",x)
-  x <- gsub("Affortment","Assortiment",x)
-  x <- gsub("Geismlilch","Geismilch",x)
-  x <- gsub("Spanserckel","Spanferckel",x)
-  x <- gsub("Kirfzwasser","Kirschwasser",x)
-  x <- gsub("Bnchbender","Buchbender",x)
-  x <- gsub("Stocksich","Stockfisch",x)
-  x <- gsub("Margräferwen","Margräferwein",x)
-  x <- gsub("Geschirt","Geschirr",x)
-  x <- gsub("Rußwasser","Nußwasser",x)
-  x <- gsub("Eigarren","Cigarren",x)
-  x <- gsub("Fakob","Jakob",x)
-  x <- gsub("Jakoh","Jakob",x)
-  x <- gsub("nndeln","nudeln",x)
-  x <- gsub("Moufarde","Moustarde",x)
-  x <- gsub("Saurtraut","Saurkraut",x)
-  x <- gsub("Chnocolade","Chocolade",x)
-  x <- gsub("Geismlilch","Geismilch",x)
-  x <- gsub("Mollisisch","Mollifisch",x)
-  x <- gsub("Stocksisch","Stockfisch",x)
-  x <- gsub("Meextrauben","Meertrauben",x)
-  x <- gsub("Feler-spritzen","Feuer-spritzen",x)
-  x <- gsub("Korn\\smesser","Kornmesser",x)
-  x <- gsub("Schnei\\sder","Schneider",x)
-  x <- gsub("Vei\\b","Bei\\b",x)
-  x <- gsub("Melster","Meister",x)
-  x <- gsub("Monhieur","Monsieur",x)
-  x <- gsub("Lndenmeyers","Lindenmeyers",x)
-  x <- gsub("Zerr","Herr",x)
-  x <- gsub("Ifelin","Iselin",x)
-  x <- gsub("Hermn","Herrn",x)
-  x <- gsub("fungfer","Jungfer",x)
-  x <- gsub("be\\sstens","bestens",x)
-  x <- gsub("Bhilosophische","Philosophische",x)
-  x <- gsub("latemisch","lateinisch",x)
-  x <- gsub("latemnisches","lateinisches",x)
-  x <- gsub("Weiberßtz","Weibersitz",x)
-  x <- gsub("Josepl","Joseph",x)
-  x <- gsub("fungfer","Jungfer",x)
-  x <- gsub("Emauuel","Emanuel",x)
-  x <- gsub("Ikaliänisch","Italiänisch",x)
-  x <- gsub("leder gehunden","leder gebunden",x)
-  x <- gsub("Leder gehunden","Leder gebunden",x)
-  x <- gsub("Frmu\\b","Frau\\b",x)
-  x <- gsub("Fral\\b","Frau\\b",x)
-  x <- gsub("Hern","Herrn",x)
-  x <- gsub("Franu\\b","Frau\\b",x)
-  x <- gsub("Fran\\b","Frau\\b",x)
-  x <- gsub("ekwas","etwas",x)
-  x <- gsub("Axx sols","xxx sols",x)
-  x <- gsub("RRx sols","xxx sols",x)
-  x <- gsub("Rxx sols","xxx sols",x)
-  x <- gsub("RxKsols","xxx sols",x)
-  x <- gsub("Miinsteri","Münsteri",x)
-  x <- gsub("Ikaliänisch","Italiänisch",x)
-  x <- gsub("Artzneh-Buch","Artzney-Buch",x)
-  x <- gsub("4trlas","Attlas",x)
-  x <- gsub("Atrlas","Attlas",x)
-  x <- gsub("Artlas","Attlas",x)
-  x <- gsub("Milck-Kuhe","Milch-Kuhe",x)
-  x <- gsub("Tert\\b","Text\\b",x)
-  x <- gsub("Gualiter","Qualitet",x)
-  x <- gsub("Erlguterung","Erläuterung",x)
-  x <- gsub("Staliänischer","Italiänischer",x)
-  x <- gsub("Dictionanium","Dictionarium",x)
-  x <- gsub("3tem\\b","Item\\b",x)
-  x <- gsub("Cafsa","Cassa",x)
-  x <- gsub("Adresse-Contot","Adresse-Contor",x)
-  x <- gsub("Testamenri","Testamenti",x)
-  x <- gsub("darmnen","darinnen",x)
-  x <- gsub("Frannösischen","Französischen",x)
-  x <- gsub("Latemischen"," Lateinischen",x)
-  x <- gsub("Endiaung","Endigung",x)
-  x <- gsub("Hermn","Herrn",x)
-  x <- gsub("Herin","Herrn",x)
-  x <- gsub("Chee\\b","Chez\\b",x)
-  x <- gsub("Blnmen","Blumen",x)
-  x <- gsub("Zerr\\b","Herr\\b",x)
-  x <- gsub("Madlame","Madame",x)
-  x <- gsub("Mfr\\.","Mstr\\.",x)
-  x <- gsub("Relariones","Relationes",x)
-  x <- gsub("Relariones","Relationes",x)
-  x <- gsub("Architestur","Architectur",x)
-  x <- gsub("lnsormation","Information",x)
-  x <- gsub("Rechenkunt","Rechenkunst",x)
-  x <- gsub("dielenigen","diejenigen",x)
-  x <- gsub("Drucktischan","Drucktischen",x)
-  x <- gsub("Bonteille","Bouteille",x)
-  x <- gsub("Hril","Heil",x)
-  x <- gsub("Schuit","Schutt",x)
-  x <- gsub("Gelosäck","Geldsäck",x)
-  x <- gsub("Uis","bis",x)
-  x <- gsub("Orvonnanz","Ordonnanz",x)
-  x <- gsub("GedanLen","Gedanken",x)
-  x <- gsub("Magnetlsmus","Magnetismus",x)
-  x <- gsub("Ehaise","Chaise",x)
-  x <- gsub("Pfalmbuch","Psalmbuch",x)
-  x <- gsub("Büchbinder","Buchbinder",x)
-  x <- gsub("Johl Jal\\. Flick","Joh\\. Jak\\. Flick",x)
-  x <- gsub("J\\. Jal\\. Flick","J\\. Jak\\. Flick",x)
-  x <- gsub("Plalm-Buch","Psalm-Buch",x)
-  x <- gsub("Psaln buch","Psalm-Buch",x)
-  x <- gsub("\\& alm-Buch","Psalm-Buch",x)
-  x <- gsub("Psatmenbuch","Psalmenbuch",x)
-  x <- gsub("Pfalmenbuch","Psalmenbuch",x)
-  x <- gsub("Rorrerdam","Rotterdam",x)
-  x <- gsub("gutspnrechen","gutsprechen",x)
-  x <- gsub("Freyeompagnie","Freycompagnie",x)
-  x <- gsub("9oo","900",x)
-  x <- gsub("Antiquiteren","Antiquiteten",x)
-  x <- gsub("Anriquiteten","Antiquiteten",x)
-  x <- gsub("ertra","extra",x)
-  x <- gsub("Miinsters","Münsters",x)
-  x <- gsub("Hobelbant","Hobelbank",x)
-  x <- gsub("Kirschwaffer","Kirschwasser",x)
-  x <- gsub("Mitteltos","Mittellos",x)
-  x <- gsub("mitteltos","mittellos",x)
-  x <- gsub("Blbli","Biblio",x)
-  x <- gsub("Grld","Geld",x)
-  x <- gsub("stemern","steinern",x)
-  x <- gsub("Ausleihem","Ausleihen",x)
-  x <- gsub("zu rauffen","zu kauffen",x)
-  x <- gsub("Verfauf","Verkauf",x)
-  x <- gsub("zurauffen","zu kauffen",x)
-  x <- gsub("zukaufsen","zu kauffen",x)
-  x <- gsub("Insormation","Information",x)
-  x <- gsub("Zingegen","Hingegen",x)
-  x <- gsub("Veustorben","Verstorben",x)
-  x <- gsub("VBerlorne","Verlorne",x)
-  x <- gsub("Bedlenung","Bedienung",x)
-  x <- gsub("\\btost","Kost",x)
-  x <- gsub("Informakion","Information",x)
-  x <- gsub("Bebienung","Bedienung",x)
-  x <- gsub("Perstorben","Verstorben",x)
-  x <- gsub("Per st or ben","Verstorben",x)
-  x <- gsub("Informagtion","Information",x)
-  x <- gsub("Merkwürdigkelt","Merkwürdigkeit",x)
-  x <- gsub("Merckmürdigkeit","Merckwürdigkeit",x)
-  x <- gsub("Merkwüirdigkett","Merkwürdigkeit",x)
-  x <- gsub("Merkwüirdigkelt","Merkwürdigkeit",x)
-  x <- gsub("Merkwüirdigkeit","Merkwürdigkeit",x)
-  x <- gsub("Merkwirdlgklelt","Merkwürdigkeit",x)
-  x <- gsub("Lerlorne","Verlorne",x)
-  x <- gsub("Ktost","Kost",x)
-  x <- gsub("Inormation","Information",x)
-  x <- gsub("Juformation","Information",x)
-  x <- gsub("Jnsormgtion","Information",x)
-  x <- gsub("Jnsormatkion","Information",x)
-  x <- gsub("Iuformation","Information",x)
-  x <- gsub("Informgtion","Information",x)
-  x <- gsub("Insormation","Information",x)
-  x <- gsub("Informaton","Information",x)
-  x <- gsub("Informatien","Information",x)
-  x <- gsub("Infonmation","Information",x)
-  x <- gsub("Bedienun gen","Bedienungen",x)
-  x <- gsub("Jnformation","Information",x)
-  x <- gsub("Informatton","Information",x)
-  x <- gsub("Bediemngen","Bedienung",x)
-  x <- gsub("Imsormation","Information",x)
-  x <- gsub("Buchhandlun\\b","Buchhandlung",x)
-  x <- gsub("Buchhandlnng","Buchhandlung",x)
-  x <- gsub("Büchhandlung","Buchhandlung",x)
-  x <- gsub("Buchhandilung","Buchhandlung",x)
-  x <- gsub("Buchhaudlung","Buchhandlung",x)
-  x <- gsub("Buchhäudler","Buchhändler",x)
-  x <- gsub("Buchhändier","Buchhändler",x)
-  x <- gsub("Buchbändler","Buchhändler",x)
-  x <- gsub("Buchbin\\. der","Buchbinder",x)
-  x <- gsub("Bnchhandlung","Buchhandlung",x)
-  x <- gsub("Heineich Haag","Heinrich Haag",x)
-  x <- gsub("Joh\\. Jgkob Freyler","Joh\\. Jakob Freyler",x)
-  x <- gsub("Buchenhol3","Buchenholz",x)
-  x <- gsub("Lerikon","Lexikon",x)
-  x <- gsub("E\\. A\\. Serint","C\\. A\\. Serini",x)
-  x <- gsub("E\\. A\\. Serini","C\\. A\\. Serini",x)
-  x <- gsub("C\\. A\\. Serint","C\\. A\\. Serini",x)
-  x <- gsub("Buchhändlet","Buchhändler",x)
-  x <- gsub("Merlanischen Kupfern","Merianischen Kupfern",x)
-  x <- gsub("Merlanische Kupfer","Merianische Kupfer",x)
-  x <- gsub("Buchb inder","Buchbinder",x)
-  x <- gsub("Buch\\. binder","Buchbinder",x)
-  x <- gsub("Joh\\. Jak\\. Frehler","Joh\\. Jak\\. Freyler",x)
-  x <- gsub("Conror","Contor",x)
-  x <- gsub("zu rauffenbe","zu rauffen be",x)
-  x <- gsub("entkehnen","entlehnen",x)
-  x <- gsub("Pegehrt","begehrt",x)
-  x <- gsub("entkehnen","entlehnen",x)
-  x <- gsub("ftoft","Kost",x)
-  x <- gsub("fost","Kost",x)
-  x <- gsub("foft","Kost",x)
-  x <- gsub("KKost","Kost",x)
-  x <- gsub("Koft","Kost",x)
-  x <- gsub("Informgtkion","Information",x)
-  x <- gsub("Informatkion","Information",x)
-  x <- gsub("Insormation","Information",x)
-  x <- gsub("Fingegen","Hingegen",x)
-  x <- gsub("zugentlehnen","zu entlehnen",x)
-  x <- gsub("angetr agen","angetragen",x)
-  x <- gsub("angeragen","angetragen",x)
-  x <- gsub("angekragen","angetragen",x)
-  x <- gsub("Verkäuf","Verkauf",x)
-  x <- gsub("Perkauf","Verkauf",x)
-  x <- gsub("zum erkauf","zum Verkauf",x)
-  x <- gsub("Derkauf","Verkauf",x)
-  x <- gsub("Berkauf","Verkauf",x)
-  x <- gsub("Austeiben","Ausleihen",x)
-  x <- gsub("offerierti","offeriert",x)
-  x <- gsub("öfferiert","offeriert",x)
-  x <- gsub("offerierk","offeriert",x)
-  x <- gsub("Ausleiten","Ausleihen",x)
-  x <- gsub("Ausieihen","Ausleihen",x)
-  x <- gsub("Ansleihen","Ausleihen",x)
-  x <- gsub("Derstorbe","Verstorbe",x)
-  x <- gsub("Derlorne","Verlorne",x)
-  x <- gsub("Der storbe","Verstorbe",x)
-  x <- gsub("Der stor be","Verstorbe",x)
-  x <- gsub("Der st or be","Verstorbe",x)
-  x <- gsub("ynformation","Information",x)
-  x <- gsub("Berlorne","Verlorne",x)
-  x <- gsub("Belegenheit","Gelegenheit",x)
-  x <- gsub("Landschast","Landschaft",x)
-  x <- gsub("ehelch","ehelich",x)
-  x <- gsub("chelich","ehelich",x)
-  x <- gsub("eelich","ehelich",x)
-  x <- gsub("Armie und","Arme und",x)
-  x <- gsub("Branke","Kranke",x)
-  x <- gsub("Nachrihten","Nachrichten",x)
-  x <- gsub("Allerhand achrichten","Allerhand Nachrichten",x)
-  x <- gsub("Allerhänd","Allerhand",x)
-  x <- gsub("Alerhand","Allerhand",x)
-  x <- gsub("Rachrichten","Nachrichten",x)
-  x <- gsub("Aerhand","Allerhand",x)
-  x <- gsub("zuberläßig","zuverläßig",x)
-  x <- gsub("Rechenhunst","Rechenkunst",x)
-  x <- gsub("Jonesessel","Joncsessel",x)
-  x <- gsub("Revetir","Repetir",x)
-  x <- gsub("zweysitziees","zweysitziges",x)
-  x <- gsub("Mabratze","Madratze",x)
-  x <- gsub("Fortepians","Fortepiano",x)
-  x <- gsub("Elnabeth","Elisabeth",x)
-  x <- gsub("Finder-Bett","Kinder-Bett",x)
-  x <- gsub("Gefindobett","Gesindsbett",x)
-  x <- gsub("minder Vasel","minder Basel",x)
-  x <- gsub("Jone-Sessel","Jonc-Sessel",x)
-  x <- gsub("Serdier","Servier",x)
-  x <- gsub("kosmopsltische","kosmopolitische",x)
-  x <- gsub("vatriotisch","patriotisch",x)
-  x <- gsub("vraktisch","praktisch",x)
-  x <- gsub("heldetische","helvetische",x)
-  x <- gsub("belvetisch","helvetisch",x)
-  x <- gsub("helbetisch","helvetisch",x)
-  x <- gsub("Veiber","Weiber",x)
-  x <- gsub("Tatack","Taback",x)
-  x <- gsub("Tatack","Taback",x)
-  x <- gsub("Kinchensitz","Kirchensitz",x)
-  x <- gsub("Gestndsbett","Gesindsbett",x)
-  x <- gsub("Drckbett","Deckbett",x)
-  x <- gsub("Eltsabeth","Elisabeth",x)
-  x <- gsub("Daonds-Harfe","Davids-Harfe",x)
-  x <- gsub("Dapids-Harfe","Davids-Harfe",x)
-  x <- gsub("Favence","Fayence",x)
-  x <- gsub("Fayenee","Fayence",x)
-  x <- gsub("Maiorica","Maiolica",x)
-  x <- gsub("Ercellentz","Excellentz",x)
-  x <- gsub("ercellent","excellent",x)
-  x <- gsub("excellenr","excellent",x)
-  x <- gsub("Klerder","Kleider",x)
-  x <- gsub("Matraaen","Matratzen",x)
-  x <- gsub("Strumypff","Strumpff",x)
-  x <- gsub("albeiter","arbeiter",x)
-  x <- gsub("floretsetdene","floretseidene",x)
-  x <- gsub("sloretseide","floretseide",x)
-  x <- gsub("Nglige","Neglige",x)
-  x <- gsub("Frarzenzimmer","Frauenzimmer",x)
-  x <- gsub("Hanshaltung","Haushaltung",x)
-  x <- gsub("Gottschalt","Gottschalk",x)
-  x <- gsub("Haushaltnng","Haushaltung",x)
-  x <- gsub("Welberschuh","Weiberschuh",x)
-  x <- gsub("Schuhschnadle","Schuhschnalle",x)
-  x <- gsub("Lald-Mant","Laid-Mant",x)
-  x <- gsub("Geldbentel","Geldbeutel",x)
-  x <- gsub("Laldstrümpf","Laidstrümpf",x)
-  x <- gsub("Franen-Strümpf","Frauen-Strümpf",x)
-  x <- gsub("füchener","tüchener",x)
-  x <- gsub("offtzier","offizier",x)
-  x <- gsub("Mlode","Mode",x)
-  x <- gsub("Rotenpapier","Notenpapier|Milchbrentl",x)
-  x <- gsub("Gattersea","Battersea",x)
-  x <- gsub("nutliche","nutzliche",x)
-  x <- gsub("\\bBatter\\b","Gatter",x)
-  x <- gsub("Strumpfwäber\\. Stuhl","Strumpfwäber-Stuhl",x)
-  x <- gsub("Verkorne","Verlorne",x)
-  x <- gsub("Stupanns","Stupanus",x)
-  x <- gsub("I\\. Jakob Freyler","J\\. Jakob Freyler",x)
-  x <- gsub("J\\. Jal\\. Freyler","J\\. Jak\\. Freyler",x)
-  x <- gsub("Hemnrich Haag","Heinrich Haag",x)
-  x <- gsub("Wilhelm Häas","Wilhelm Haas",x)
-  x <- gsub("Wilheim Haas","Wilhelm Haas",x)
-  x <- gsub("Johl Jal\\. Flick","Joh\\. Jak\\. Flick",x)
-  x <- gsub("Bey Hry.","Bey Hrn.",x)
-  x <- gsub("Jahnpulver","Zahnpulver",x)
-  x <- gsub("Werckleug","Werckzeug",x)
-  x <- gsub("unsehlbar","unfehlbar",x)
-  x <- gsub("Parsumerie","Parfumerie",x)
-  x <- gsub("Familie-Wasen","Familie-Wagen",x)
-  x <- gsub("Frauenzimmer-Lebern","Frauenzimmer-Leibern",x)
-  x <- gsub("käsicht","käficht",x)
-  x <- gsub("Gutarre","Guitarre",x)
-  x <- gsub("Steingnt","Steingut",x)
-  x <- gsub("Nakulatur","Makulatur",x)
-  x <- gsub("Zentner Ende","Zentner Erde",x)
-  x <- gsub("\\bEnd\\b","Emd",x)
-  x <- gsub("Eilsen","Eisen",x)
-  x <- gsub("Einsat\\b","Einsatz",x)
-  x <- gsub("Wachstertze","Wachskertze",x)
-  x <- gsub("sichbein","fischbein",x)
-  x <- gsub("Blaßhalb","Blaßbalg",x)
-  x <- gsub("\\bBur\\b","Bux",x)
-  x <- gsub("Tabartiere","Tabattiere",x)
-  x <- gsub("Bauholt","Bauholz",x)
-  x <- gsub("Leltfass","Leitfass",x)
-  x <- gsub("Bauchosen","Bauchofen",x)
-  x <- gsub("slehend","stehend",x)
-  x <- gsub("Anwelsung","Anweisung",x)
-  x <- gsub("Sternenmuhl","Sternenmehl",x)
-  x <- gsub("Salffen","Saiffen",x)
-  x <- gsub("Ramens","Namens",x)
-  x <- gsub("Kesich","Kefich",x)
-  x <- gsub("Elute","Flute",x)
-  x <- gsub("Geitstock","Geldstock",x)
-  x <- gsub("Elutes","Flutes",x)
-  x <- gsub("Peister","Meister",x)
-  x <- gsub("Urtzney","Artzney",x)
-  x <- gsub("Wafften","Wafflen",x)
-  x <- gsub("Marulatur","Makulatur",x)
-  x <- gsub("Mannensauel","Mannensattel",x)
-  x <- gsub("Weibersatte\\b","Weibersattel",x)
-  x <- gsub("Wousseline","Mousseline",x)
-  x <- gsub("Kutchen","Kutschen",x)
-  x <- gsub("Eind\\b","Emd\\b",x)
-  x <- gsub("Runst-Feuerwerk","Kunst-Feurwerk",x)
-  x <- gsub("Fenereimer","Feuereimer",x)
-  x <- gsub("NRußbaum","Nußbaum",x)
-  x <- gsub("Dablien-Wurzeln","Dahlien-Wurzeln",x)
-  x <- gsub("Blumenplaß","Blumenplatz",x)
-  x <- gsub("Rußbaumholz","Nußbaumholz",x)
-  x <- gsub("verkanffen","verkauffen",x)
-  x <- gsub("Rüße","Nüße",x)
-  x <- gsub("Rußbaum","Nußbaum",x)
-  x <- gsub("Rußbäumern","Nußbäumern",x)
-  x <- gsub("Ziertzig","Viertzig",x)
-  x <- gsub("Gane-Bänd","Gaze-Bänd",x)
-  x <- gsub("Kutchen-Kasten","Kutschen-Kasten",x)
-  x <- gsub("Welbsbild","Weibsbild",x)
-  x <- gsub("Brufstein","Brunstein",x)
-  x <- gsub("Brun4","Brunn",x)
-  x <- gsub("Buchlaven","Buchladen",x)
-  x <- gsub("4tö","4tò",x)
-  x <- gsub("4t0","4to",x)
-  x <- gsub("4t6","4tò",x)
-  x <- gsub("Schreib-Pull","Schreib-Pult",x)
-  x <- gsub("keuchter","Leuchter",x)
-  x <- gsub("Sratue","Statue",x)
-  x <- gsub("Rähfaden","Nähfaden",x)
-  x <- gsub("Groche","Broche",x)
-  x <- gsub("Mirtur","Mixtur",x)
-  x <- gsub("verohren","verloren",x)
-  x <- gsub("Gare-Band","Gaze-Band",x)
-  x <- gsub("verohren","verloren",x)
-  x <- gsub("Gcosse","Grösse",x)
-  x <- gsub("Lericon","Lexicon",x)
-  x <- gsub("sleinerner","steinerner",x)
-  x <- gsub("Cririca","Critica",x)
-  x <- gsub("Ersindung","Erfindung",x)
-  x <- gsub("Maugoldische","Mangoldische",x)
-  x <- gsub("Käsich","Käfig",x)
-  x <- gsub("Boureillen","Bouteillen",x)
-  x <- gsub("Rinderspiel","Kinderspiel",x)
-  x <- gsub("Bifouterie","Bijouterie",x)
-  x <- gsub("Cafino","Casino",x)
-  x <- gsub("Arrikel","Artikel",x)
-  x <- gsub("Raffee","Kaffee",x)
-  x <- gsub("kannerner","tannerner",x)
-  x <- gsub("Museateller","Muscateller",x)
-  x <- gsub("Musiepapier","Musicpapier",x)
-  x <- gsub("lngenieur","Ingenieur",x)
-  x <- gsub("Pelescop","Telescop",x)
-  x <- gsub("AlckHosen","Alckhofen",x)
-  x <- gsub("Nopembrit","Novembris",x)
-  x <- gsub("Sistum","Bistum",x)
-  x <- gsub("Weibersit","Weibersitz",x)
-  x <- gsub("Welbersitz","Weibersitz",x)
-  x <- gsub("Weidersitz","Weibersitz",x)
-  x <- gsub("Eramine","Etamine",x)
-  x <- gsub("besindlich","befindlich",x)
-  x <- gsub("enedecke","entdecke",x)
-  x <- gsub("Klydick","Klybeck",x)
-  x <- gsub("Dictionaite","Dictionaire",x)
-  x <- gsub("Persteigerung","Versteigerung",x)
-  x <- gsub("oktapiges","oktaviges",x)
-  x <- gsub("enidecke","entdecke",x)
-  x <- gsub("8v0","8vo",x)
-  x <- gsub("Haberfack","Habersack",x)
-  x <- gsub("Rajonet","Bajonet",x)
-  x <- gsub("Garnirure","Garniture",x)
-  x <- gsub("Pretz","Preß",x)
-  x <- gsub("Geuff","Genff",x)
-  x <- gsub("Fabvik","Fabrik",x)
-  x <- gsub("Wellbersack","Weibersack",x)
-  x <- gsub("Hellbalsam","Heilbalsam",x)
-  x <- gsub("Beselle","Geselle",x)
-  x <- gsub("Veriug","Verzug",x)
-  x <- gsub("FeloAnstalt","FeldAnstalt",x)
-  x <- gsub("Rutzen","Nutzen",x)
-  x <- gsub("Narschall","Marschall",x)
-  x <- gsub("Chalse","Chaise",x)
-  x <- gsub("vercalener","percalener",x)
-  x <- gsub("besindlicher","befindlicher",x)
-  x <- gsub("exrra","extra",x)
-  x <- gsub("Zeuanuß","Zeugniß",x)
-  x <- gsub("selner","seiner",x)
-  x <- gsub("Zeuenuß","Zeugniß",x)
-  x <- gsub("senaben","Knaben",x)
-  x <- gsub("condirionirt","conditionirt",x)
-  x <- gsub("Schuhladen","Schubladen",x)
-  x <- gsub("Strumpffweder","Strumpffweber",x)
-  x <- gsub("Setlinge","Setzlinge",x)
-  x <- gsub("Strümpffweher","Strümpffweber",x)
-  x <- gsub("weder-Stuhl","weber-Stuhl",x)
-  x <- gsub("Weiver","Weiber",x, ignore.case = TRUE)
-  x <- gsub("berzustellen","herzustellen",x)
-  x <- gsub("anerblethet","anerbiethet",x)
-  x <- gsub("alUirhand","allerhand",x)
-  x <- gsub("Allerhans","Allerhand",x)
-  x <- gsub("Srock","Stuck",x)
-  x <- gsub("Eißbethen","Elisabethen",x)
-  x <- gsub("AlickHosen","Alckofen",x)
-  x <- gsub("AlckHosen","Alckofen",x)
-  x <- gsub("Wifsenschafft","Wissenschaft",x)
-  x <- gsub("wohlfenle","wohlfeine",x)
-  x <- gsub("Ceniner","Centner",x)
-  x <- gsub("Romaiiie","Romaine",x)
-  x <- gsub("Comagnie","Compagnie",x)
-  x <- gsub("Pialz","Platz",x)
-  x <- gsub("Rochbuch","Kochbuch",x)
-  x <- gsub("Rummer","Nummer",x)
-  x <- gsub("Medieinischen", "Medicinischen",x)
-  x <- gsub("Lebrling","Lehrling",x)
-  x <- gsub("büte","hüte",x, ignore.case = TRUE)
-  x <- gsub("Mer;","Merz",x, ignore.case = TRUE)
-  x <- gsub("Hofen","Hosen",x, ignore.case = TRUE)
-  x <- gsub("fust","fast",x)
-  x <- gsub("fäst","fast",x)
-  x <- gsub("Zeug nisse","Zeugnisse",x)
-  x <- gsub("Elifabet", "Elisabet",x)
-  x <- gsub("Seeretär", "Secretär", x)
-  x <- gsub("Nahagoni", "Mahagoni", x)
-  x <- gsub("Käsig", "Käfig", x)
-  x <- gsub("Cortrait", "Portrait", x)
-  x <- gsub("Beschirr", "Geschirr", x)
-  x <- gsub("Korbwäelein", "Korbwägelein", x)
-  x <- gsub("Mesung-Mörser", "Messing-Mörser", x)
-  x <- gsub("Messtas", "Messias", x)
-  x <- gsub("Srumpfii", "Stumpfii", x)
-  x <- gsub("Meisibietenden", "Meistbietenden", x)
-  x <- gsub("Raspar", "Kaspar", x)
-  x <- gsub("Zurückgabel", "Zurückgabe", x)
-  x <- gsub("Ghar-à-banc", "Char-à-banc", x)
-  x <- gsub("Bögeleisen", "Bügeleisen", x)
-  x <- gsub("Rothfall", "Notfall", x)
-  x <- gsub("Rovität", "Novität", x)
-  x <- gsub("Moskan", "Moskau", x)
-  x <- gsub("Trumoau", "Trumeau", x)
-  x <- gsub("BlecHosen", "Blechofen", x)
-  x <- gsub("Jalousre-Läden", "Jalousie-Läden", x)
-  x <- gsub("Rupfer", "Kupfer", x)
-  x <- gsub("Ganeband", "Gazeband", x)
-  x <- gsub("Gane-band", "Gaze-band", x)
-  x <- gsub("Gane-Bänder", "Gaze-Bänder", x)
-  x <- gsub("Gane-Band", "Gaze-Band", x)
-  x <- gsub("Iidiennes", "Indiennes", x)
-  x <- gsub("Gefinde", "Gesinde", x)
-  x <- gsub("Vapolitain", "Napolitain", x)
-  x <- gsub("Rode", "Mode", x)
-  x <- gsub("Goldsisch", "Goldfisch", x)
-  x <- gsub("Napolikames", "Napolitaines", x)
-  x <- gsub("Rinder-Röck", "Kinder-Röck", x)
-  x <- gsub("Rinder-Rock", "Kinder-Rock", x)
-  x <- gsub("Rinderröck", "Kinderröck", x)
-  x <- gsub("Rinderrock", "Kinderrock", x)
-  x <- gsub("Höbe", "Höhe", x)
-  x <- gsub("gleichalls", "gleichfalls", x)
-  x <- gsub("Gefundheit", "Gesundheit", x)
-  x <- gsub("Mareeline", "Marceline", x)
-  x <- gsub("Cemnture", "Ceinture", x)
-  x <- gsub("Cemture", "Ceinture", x)
-  x <- gsub("Alspin", "Alépin", x)
-  x <- gsub("Cor et", "Corset", x)
-  x <- gsub("Uthr", "Uhr", x)
-  x <- gsub("bUhr", "6Uhr", x)
-  x <- gsub("Felir", "Felix", x)
-  x <- gsub("Siegfrind", "Siegfried", x)
-  # c and e seem to be mixed at times
-  x <- gsub("ubseript","ubscript",x)
-  # V and P seem to be mixed at times
-  x <- gsub("Peränd","Veränd",x)
-  x <- gsub("sauderm","sauberm",x)
-  x <- gsub("Merckwürdigkelt","Merckwürdigkeit",x)
-  x <- gsub("Ausleiben","Ausleihen",x)
-  x <- gsub("Naehtrag","Nachtrag",x)
-  x <- gsub("Merckwürdigkelten","Merckwürdigkeiten",x)
-  x <- gsub("Kaussen","Kauffen",x)
-  x <- gsub("Kaufsen","Kauffen",x)
-  x <- gsub("kausen","kaufen",x)
-  x <- gsub("kaufsen","kaufen",x)
-  x <- gsub("Koft","Kost",x)
-  x <- gsub("Verkoren","Verloren",x)
-  x <- gsub("Getrante","Getraute",x)
-  x <- gsub("Derloren","Verloren",x)
-  x <- gsub("Perloren","Verloren",x)
-  x <- gsub("Gaut","Gant",x)
-  x <- gsub("Fervanf","Verkauf",x)
-  x <- gsub("eidgenössiche","eidgenössische",x)
-  x <- gsub("Freischiesten","Freischießen",x)
-  x <- gsub("wird zu entlohnen begehrt","wird zu entlehnen begehrt",x)
-  x <- gsub("Nachrichteu","Nachrichten",x)
-  x <- gsub("\\befundenes","Gefundenes",x)
-  x <- gsub("Gaenten","Ganten",x)
-  x <- gsub("entiehnen","entlehnen",x)
-  x <- gsub("Rachtrag","Nachtrag",x)
-  x <- gsub("Raehtrag","Nachtrag",x)
-  x <- gsub("Veerkauf","Verkauf",x)
-  x <- gsub("Verkäuf\\b","Verkauf\\b",x)
-  x <- gsub("Verlvrenes","Verlorenes",x)
-  x <- gsub("Vierkauf","Verkauf",x)
-  x <- gsub("Vorvanf","Verkauf",x)
-  x <- gsub("Getrante","Getraute",x)
-  x <- gsub("A(l|L|1)(l|L|1)e","Alle",x)
-  x <- gsub("fremhd","frembd",x)
-  x <- gsub("Nachträg\\b","Nachtrag",x)
-  x <- gsub("kosament","Losament",x)
-  x <- gsub("Seribenten","Scribenten",x)
-  x <- gsub("Scbeuchaeridas","Scheuchaeridas",x)
-  x <- gsub("Sebeuchaeri","Scheuchaeri",x)
-  x <- gsub("Helverica","Helvetica",x)
-  x <- gsub("Wi(tt|t|tr|tl|lt|nt|n)i(b|h|l|t|th)","Wittib",x)
-  x <- gsub("Wit(ttb|uib)","Wittib",x)
-  x <- gsub("Wtt(ib|hl)","Wittib",x)
-  x
+  esc <- list(
+    c("\\\\-Tosen", "-Dosen"),
+    c("\\\\-B\\u00fcr\\\\b", "-B\\u00fcx"),
+    c("\\\\-Bur\\\\b", "-Bux"),
+    c("\\\\-B\\u00fcren\\\\b", "-B\\u00fcxen"),
+    c("\\\\-Buren\\\\b", "-Buxen"),
+    c("Rtet", "Rhtlr"),
+    c("Louiscors", "Louis d\\'or"),
+    c("Louiacfor", "Louis d\\'or"),
+    c("Schnipfrcher", "Schnupft\\u00fccher"),
+    c("Schnupftich", "Schnupftuch"),
+    c("Schunpf", "Schnupf"),
+    c("NachtLock", "Nachtrock"),
+    c("Offlzier", "Offizier"),
+    c("Unis(\\u00f6|o)rm", "Uniform"),
+    c("znisorm", "Uniform"),
+    c("Unfform", "Uniform"),
+    c("Umform", "Uniform"),
+    c("Unifarm", "Uniform"),
+    c("Untform", "Uniform"),
+    c("Aniform", "Uniform"),
+    c("Unia\\\\sform", "Uniform"),
+    c("Uni\\\\sform", "Uniform"),
+    c("Unifokm", "Uniform"),
+    c("Uniforin", "Uniform"),
+    c("sischbein", "fischbein"),
+    c("W\\u00e4hstuhl", "W\\u00e4bstuhl"),
+    c("Strumpfwber", "Strumpfweber"),
+    c("Corseis", "Corsets"),
+    c("Peiz", "Pelz"),
+    c("erfrazen", "erfragen"),
+    c("Abbr\\u00fccke", "Abdr\\u00fccke"),
+    c("Fastor", "Pastor"),
+    c("Ptstorius", "Pistorius"),
+    c("Schweiahaus", "Schweighaus"),
+    c("Burtorf", "Buxtorf"),
+    c("Lortorie", "Lotterie"),
+    c("Buchbruck", "Buchdruck"),
+    c("Brhausung", "Behausung"),
+    c("Adstattung", "Erstattung"),
+    c("Rnetor", "Rhetor"),
+    c("allhter", "allhier"),
+    c("Churneysen", "Thurneysen"),
+    c("Churneysens", "Thurneysens"),
+    c("ehristliche", "christliche"),
+    c("Lottorie", "Lotterie"),
+    c("nIntoresse", "Interesse"),
+    c("Intoressent", "Interessent"),
+    c("Intoressenten", "Interessenten"),
+    c("Intoresse", "Interesse"),
+    c("Missenschafften", "Wissenschafften"),
+    c("Pissenschafften", "Wissenschafften"),
+    c("Mga\\u00df", "Maas"),
+    c("Mgas", "Maas"),
+    c("Bl\\u00e4finthor", "Bl\\u00e4sinthor"),
+    c("Erpeditor", "Expeditor"),
+    c("Eypeditor", "Expeditor"),
+    c("Hanbelshaus", "Handelshaus"),
+    c("Rhengas", "Rheingas"),
+    c("Leonbardskirch", "Leonhardskirch"),
+    c("Resivenzstadt", "Residenzstadt"),
+    c("A\\u00e9schenvorstadt", "Aeschenvorstadt"),
+    c("Pnstor", "Pastor"),
+    c("Drichthaus", "Berichthaus"),
+    c("Adeiberg", "Adelberg"),
+    c("Creoitor", "Creditor"),
+    c("Greisfenga\\u00df", "Greiffenga\\u00df"),
+    c("Baurf\\u00fc\\u00dferplatz", "Baarf\\u00fc\\u00dferplatz"),
+    c("Sch\\u00fctzonhaus", "Sch\\u00fctzenhaus"),
+    c("Aoschenvorstadt", "Aeschenvorstadt"),
+    c("Kutielg\\u00e4\\u00df", "Kuttelg\\u00e4\\u00df"),
+    c("O\\u00f6nabruck", "Osnabruck"),
+    c("Kheinbr\\u00fcck", "Rheinbr\\u00fcck"),
+    c("Leonhaodsberg", "Leonhardsberg"),
+    c("Martinstirchhof", "Martinskirchhof"),
+    c("Handl\\u00fcngshaus", "Handlungshaus"),
+    c("Marigkirch", "Mariakirch"),
+    c("Koramarkt", "Kornmarkt"),
+    c("S\\u00e9hrotberg", "Schrotberg"),
+    c("Jshannthor", "Johannthor"),
+    c("Aescherporstadt", "Aeschenvorstadt"),
+    c("Berichshaus", "Berichthaus"),
+    c("Kiybeckstras", "Klybeckstras"),
+    c("Aeschekthor", "Aeschenthor"),
+    c("Aescherverstadt", "Aeschenvorstadt"),
+    c("Diredtor", "Director"),
+    c("Piarrhaus", "Pfarrhaus"),
+    c("Louisdtor", "Louis d\\'Or"),
+    c("Beriehthaus", "Berichthaus"),
+    c("Berachthaus", "Berichthaus"),
+    c("Berlchthaus", "Berichthaus"),
+    c("Prceptor", "Pr\\u00e4ceptor"),
+    c("IJmhof", "Imhof"),
+    c("Wirths\\u00f6haus", "Wirthshaus"),
+    c("Karnmarckt", "Kornmarckt"),
+    c("Leonhardslkirch", "Leonhardskirch"),
+    c("Stenenberg", "Sternenberg"),
+    c("Zerichthaus", "Berichthaus"),
+    c("MW\\u00fcrkenberg", "W\\u00fcrtenberg"),
+    c("Soriptor", "Scriptor"),
+    c("BVerichthaus", "Berichthaus"),
+    c("Greiffsenga\\u00df", "Greiffenga\\u00df"),
+    c("Greisenga\\u00df", "Greifenga\\u00df"),
+    c("Berichehaus", "Berichthaus"),
+    c("Barichthaus", "Berichthaus"),
+    c("Frschga\\u00df", "Fr\\u00f6schga\\u00df"),
+    c("Pelerskirch", "Peterskirch"),
+    c("Prcrceptor", "Preceptor"),
+    c("Wirth\\u00e4haus", "Wirthshaus"),
+    c("Wrtemberg", "W\\u00fcrtemberg"),
+    c("Verichthaus", "Berichthaus"),
+    c("Jerichthaus", "Berichthaus"),
+    c("Fronfgstenmarkt", "Fronfastenmarkt"),
+    c("Juformator", "Informator"),
+    c("Vostadt", "Vorstadt"),
+    c("Bl\\u00e4ispthor", "Bl\\u00e4isythor"),
+    c("RRebga\\u00df", "Rebga\\u00df"),
+    c("Werekstatt", "Werckstatt"),
+    c("Teilleng\\u00e4\\u00df", "Trilleng\\u00e4\\u00df"),
+    c("Pfaerhaus", "Pfarrhaus"),
+    c("Berichhaus", "Berichthaus"),
+    c("Drector", "Director"),
+    c("Berichihaus", "Berichthaus"),
+    c("Ferichthaus", "Berichthaus"),
+    c("Peteroplatz", "Petersplatz"),
+    c("Imverg\\u00e4\\u00df", "Imberg\\u00e4\\u00df"),
+    c("Freyonstra\\u00df", "Freyenstra\\u00df"),
+    c("Bertchthaus", "Berichthaus"),
+    c("Beuichthaus", "Berichthaus"),
+    c("Berichrhaus", "Berichthaus"),
+    c("Borstatt", "Vorstatt"),
+    c("Bevichthaus", "Berichthaus"),
+    c("Gerbeaga\\u00df", "Gerberga\\u00df"),
+    c("Korumarkt", "Kornmarkt"),
+    c("Birichthaus", "Berichthaus"),
+    c("Paisenhaus", "Waisenhaus"),
+    c("Berchthaus", "Berichthaus"),
+    c("Berschthaus", "Berichthaus"),
+    c("Rhemsprung", "Rheinsprung"),
+    c("Daisenhaus", "Waisenhaus"),
+    c("N\\u00fcnsterplatz", "M\\u00fcnsterplatz"),
+    c("Herichthaus", "Berichthaus"),
+    c("Zerichthaus", "Berichthaus"),
+    c("Schneibergas", "Schneidergas"),
+    c("Gothof", "Guthof"),
+    c("berschiedene", "verschiedene"),
+    c("Kopnmarckt", "Kornmarckt"),
+    c("Berichlhaus", "Berichthaus"),
+    c("Matkinsga\\u00df", "Martinsga\\u00df"),
+    c("Korumarckt", "Kornmarckt"),
+    c("Her\\u00fcberg", "He\\u00fcberg"),
+    c("Spittablsprung", "Spittahlsprung"),
+    c("K\\u00f6ngsberg", "K\\u00f6nigsberg"),
+    c("Nenstatt", "Neustatt"),
+    c("Beunng\\u00e4\\u00df", "Brunng\\u00e4\\u00df"),
+    c("Praaeptor", "Praeceptor"),
+    c("Compofitor", "Compositor"),
+    c("Riudermarckt", "Rindermarckt"),
+    c("Rludermarckt", "Rindermarckt"),
+    c("Klrchhof", "Kirchhof"),
+    c("KHutga\\u00df", "Hutga\\u00df"),
+    c("Verstadt", "Vorstadt"),
+    c("Vodstadt", "Vorstadt"),
+    c("Epahlenberg", "Spahlenberg"),
+    c("Streilga\\u00df", "Streitga\\u00df"),
+    c("Rhrinsprung", "Rheinsprung"),
+    c("Sckl\\u00fcsselberg", "Schl\\u00fcsselberg"),
+    c("Kllchg\\u00e4\\u00df", "Kilchg\\u00e4\\u00df"),
+    c("Pfarthof", "Pfarrhof"),
+    c("Hntga\\u00df", "Hutga\\u00df"),
+    c("Gerwerga\\u00df", "Gerberga\\u00df"),
+    c("Frofastenmarckt", "Fronfastenmarckt"),
+    c("Gerwerg\\u00e4\\u00df", "Gerberg\\u00e4\\u00df"),
+    c("Todtentan;", "Todtentanz"),
+    c("Ehsenga\\u00df", "Eisenga\\u00df"),
+    c("Jorstatt", "Vorstatt"),
+    c("Pfarchof", "Pfarrhof"),
+    c("Pfarihof", "Pfarrhof"),
+    c("Pfarahof", "Pfarrhof"),
+    c("Rheilga\\u00df", "Rheinga\\u00df"),
+    c("CAdelberg", "Adelberg"),
+    c("Albanvopstadt", "Albanvorstadt"),
+    c("Froufastenmarkt", "Fronfastenmarkt"),
+    c("Geeberberg", "Gerberberg"),
+    c("Gem\\u00f6berg", "Gemsberg"),
+    c("Lpahlenberg", "Spahlenberg"),
+    c("Aescheyvorstadt", "Aeschenvorstadt"),
+    c("Arschenvorstadt", "Aeschenvorstadt"),
+    c("Pfingstfroufastenmarkt", "Pfingstfronfastenmarkt"),
+    c("Johannorstadt", "Johannvorstadt"),
+    c("Berlchthaus", "Berichthaus"),
+    c("Albanporstadt", "Albanvorstadt"),
+    c("Rhelnga\\u00df", "Rheinga\\u00df"),
+    c("Fohannvorstadt", "Johannvorstadt"),
+    c("Vor8stadt", "Vorstadt"),
+    c("Bnarfusserplatz", "Barfusserplatz"),
+    c("Berschthaus", "Berichthaus"),
+    c("Berickthaus", "Berichthaus"),
+    c("Pfarthof", "Pfarrhof"),
+    c("Brchthaus", "Berichthaus"),
+    c("Spahleuberg", "Spalenberg"),
+    c("Eifengas", "Eisengas"),
+    c("Berschthaus", "Berichthaus"),
+    c("Rerichthaus", "Berichthaus"),
+    c("Affortment", "Assortiment"),
+    c("Geismlilch", "Geismilch"),
+    c("Spanserckel", "Spanferckel"),
+    c("Kirfzwasser", "Kirschwasser"),
+    c("Bnchbender", "Buchbender"),
+    c("Stocksich", "Stockfisch"),
+    c("Margr\\u00e4ferwen", "Margr\\u00e4ferwein"),
+    c("Geschirt", "Geschirr"),
+    c("Ru\\u00dfwasser", "Nu\\u00dfwasser"),
+    c("Eigarren", "Cigarren"),
+    c("Fakob", "Jakob"),
+    c("Jakoh", "Jakob"),
+    c("nndeln", "nudeln"),
+    c("Moufarde", "Moustarde"),
+    c("Saurtraut", "Saurkraut"),
+    c("Chnocolade", "Chocolade"),
+    c("Geismlilch", "Geismilch"),
+    c("Mollisisch", "Mollifisch"),
+    c("Stocksisch", "Stockfisch"),
+    c("Meextrauben", "Meertrauben"),
+    c("Feler-spritzen", "Feuer-spritzen"),
+    c("Korn\\\\smesser", "Kornmesser"),
+    c("Schnei\\\\sder", "Schneider"),
+    c("Vei\\\\b", "Bei\\\\b"),
+    c("Melster", "Meister"),
+    c("Monhieur", "Monsieur"),
+    c("Lndenmeyers", "Lindenmeyers"),
+    c("Zerr", "Herr"),
+    c("Ifelin", "Iselin"),
+    c("Hermn", "Herrn"),
+    c("fungfer", "Jungfer"),
+    c("be\\\\sstens", "bestens"),
+    c("Bhilosophische", "Philosophische"),
+    c("latemisch", "lateinisch"),
+    c("latemnisches", "lateinisches"),
+    c("Weiber\\u00dftz", "Weibersitz"),
+    c("Josepl", "Joseph"),
+    c("fungfer", "Jungfer"),
+    c("Emauuel", "Emanuel"),
+    c("Ikali\\u00e4nisch", "Itali\\u00e4nisch"),
+    c("leder gehunden", "leder gebunden"),
+    c("Leder gehunden", "Leder gebunden"),
+    c("Frmu\\\\b", "Frau\\\\b"),
+    c("Fral\\\\b", "Frau\\\\b"),
+    c("Hern", "Herrn"),
+    c("Franu\\\\b", "Frau\\\\b"),
+    c("Fran\\\\b", "Frau\\\\b"),
+    c("ekwas", "etwas"),
+    c("Axx sols", "xxx sols"),
+    c("RRx sols", "xxx sols"),
+    c("Rxx sols", "xxx sols"),
+    c("RxKsols", "xxx sols"),
+    c("Miinsteri", "M\\u00fcnsteri"),
+    c("Ikali\\u00e4nisch", "Itali\\u00e4nisch"),
+    c("Artzneh-Buch", "Artzney-Buch"),
+    c("4trlas", "Attlas"),
+    c("Atrlas", "Attlas"),
+    c("Artlas", "Attlas"),
+    c("Milck-Kuhe", "Milch-Kuhe"),
+    c("Tert\\\\b", "Text\\\\b"),
+    c("Gualiter", "Qualitet"),
+    c("Erlguterung", "Erl\\u00e4uterung"),
+    c("Stali\\u00e4nischer", "Itali\\u00e4nischer"),
+    c("Dictionanium", "Dictionarium"),
+    c("3tem\\\\b", "Item\\\\b"),
+    c("Cafsa", "Cassa"),
+    c("Adresse-Contot", "Adresse-Contor"),
+    c("Testamenri", "Testamenti"),
+    c("darmnen", "darinnen"),
+    c("Frann\\u00f6sischen", "Franz\\u00f6sischen"),
+    c("Latemischen", " Lateinischen"),
+    c("Endiaung", "Endigung"),
+    c("Hermn", "Herrn"),
+    c("Herin", "Herrn"),
+    c("Chee\\\\b", "Chez\\\\b"),
+    c("Blnmen", "Blumen"),
+    c("Zerr\\\\b", "Herr\\\\b"),
+    c("Madlame", "Madame"),
+    c("Mfr\\\\.", "Mstr\\\\."),
+    c("Relariones", "Relationes"),
+    c("Relariones", "Relationes"),
+    c("Architestur", "Architectur"),
+    c("lnsormation", "Information"),
+    c("Rechenkunt", "Rechenkunst"),
+    c("dielenigen", "diejenigen"),
+    c("Drucktischan", "Drucktischen"),
+    c("Bonteille", "Bouteille"),
+    c("Hril", "Heil"),
+    c("Schuit", "Schutt"),
+    c("Gelos\\u00e4ck", "Gelds\\u00e4ck"),
+    c("Uis", "bis"),
+    c("Orvonnanz", "Ordonnanz"),
+    c("GedanLen", "Gedanken"),
+    c("Magnetlsmus", "Magnetismus"),
+    c("Ehaise", "Chaise"),
+    c("Pfalmbuch", "Psalmbuch"),
+    c("B\\u00fcchbinder", "Buchbinder"),
+    c("Johl Jal\\\\. Flick", "Joh\\\\. Jak\\\\. Flick"),
+    c("J\\\\. Jal\\\\. Flick", "J\\\\. Jak\\\\. Flick"),
+    c("Plalm-Buch", "Psalm-Buch"),
+    c("Psaln buch", "Psalm-Buch"),
+    c("\\\\& alm-Buch", "Psalm-Buch"),
+    c("Psatmenbuch", "Psalmenbuch"),
+    c("Pfalmenbuch", "Psalmenbuch"),
+    c("Rorrerdam", "Rotterdam"),
+    c("gutspnrechen", "gutsprechen"),
+    c("Freyeompagnie", "Freycompagnie"),
+    c("9oo", "900"),
+    c("Antiquiteren", "Antiquiteten"),
+    c("Anriquiteten", "Antiquiteten"),
+    c("ertra", "extra"),
+    c("Miinsters", "M\\u00fcnsters"),
+    c("Hobelbant", "Hobelbank"),
+    c("Kirschwaffer", "Kirschwasser"),
+    c("Mitteltos", "Mittellos"),
+    c("mitteltos", "mittellos"),
+    c("Blbli", "Biblio"),
+    c("Grld", "Geld"),
+    c("stemern", "steinern"),
+    c("Ausleihem", "Ausleihen"),
+    c("zu rauffen", "zu kauffen"),
+    c("Verfauf", "Verkauf"),
+    c("zurauffen", "zu kauffen"),
+    c("zukaufsen", "zu kauffen"),
+    c("Insormation", "Information"),
+    c("Zingegen", "Hingegen"),
+    c("Veustorben", "Verstorben"),
+    c("VBerlorne", "Verlorne"),
+    c("Bedlenung", "Bedienung"),
+    c("\\\\btost", "Kost"),
+    c("Informakion", "Information"),
+    c("Bebienung", "Bedienung"),
+    c("Perstorben", "Verstorben"),
+    c("Per st or ben", "Verstorben"),
+    c("Informagtion", "Information"),
+    c("Merkw\\u00fcrdigkelt", "Merkw\\u00fcrdigkeit"),
+    c("Merckm\\u00fcrdigkeit", "Merckw\\u00fcrdigkeit"),
+    c("Merkw\\u00fcirdigkett", "Merkw\\u00fcrdigkeit"),
+    c("Merkw\\u00fcirdigkelt", "Merkw\\u00fcrdigkeit"),
+    c("Merkw\\u00fcirdigkeit", "Merkw\\u00fcrdigkeit"),
+    c("Merkwirdlgklelt", "Merkw\\u00fcrdigkeit"),
+    c("Lerlorne", "Verlorne"),
+    c("Ktost", "Kost"),
+    c("Inormation", "Information"),
+    c("Juformation", "Information"),
+    c("Jnsormgtion", "Information"),
+    c("Jnsormatkion", "Information"),
+    c("Iuformation", "Information"),
+    c("Informgtion", "Information"),
+    c("Insormation", "Information"),
+    c("Informaton", "Information"),
+    c("Informatien", "Information"),
+    c("Infonmation", "Information"),
+    c("Bedienun gen", "Bedienungen"),
+    c("Jnformation", "Information"),
+    c("Informatton", "Information"),
+    c("Bediemngen", "Bedienung"),
+    c("Imsormation", "Information"),
+    c("Buchhandlun\\\\b", "Buchhandlung"),
+    c("Buchhandlnng", "Buchhandlung"),
+    c("B\\u00fcchhandlung", "Buchhandlung"),
+    c("Buchhandilung", "Buchhandlung"),
+    c("Buchhaudlung", "Buchhandlung"),
+    c("Buchh\\u00e4udler", "Buchh\\u00e4ndler"),
+    c("Buchh\\u00e4ndier", "Buchh\\u00e4ndler"),
+    c("Buchb\\u00e4ndler", "Buchh\\u00e4ndler"),
+    c("Buchbin\\\\. der", "Buchbinder"),
+    c("Bnchhandlung", "Buchhandlung"),
+    c("Heineich Haag", "Heinrich Haag"),
+    c("Joh\\\\. Jgkob Freyler", "Joh\\\\. Jakob Freyler"),
+    c("Buchenhol3", "Buchenholz"),
+    c("Lerikon", "Lexikon"),
+    c("E\\\\. A\\\\. Serint", "C\\\\. A\\\\. Serini"),
+    c("E\\\\. A\\\\. Serini", "C\\\\. A\\\\. Serini"),
+    c("C\\\\. A\\\\. Serint", "C\\\\. A\\\\. Serini"),
+    c("Buchh\\u00e4ndlet", "Buchh\\u00e4ndler"),
+    c("Merlanischen Kupfern", "Merianischen Kupfern"),
+    c("Merlanische Kupfer", "Merianische Kupfer"),
+    c("Buchb inder", "Buchbinder"),
+    c("Buch\\\\. binder", "Buchbinder"),
+    c("Joh\\\\. Jak\\\\. Frehler", "Joh\\\\. Jak\\\\. Freyler"),
+    c("Conror", "Contor"),
+    c("zu rauffenbe", "zu rauffen be"),
+    c("entkehnen", "entlehnen"),
+    c("Pegehrt", "begehrt"),
+    c("entkehnen", "entlehnen"),
+    c("ftoft", "Kost"),
+    c("fost", "Kost"),
+    c("foft", "Kost"),
+    c("KKost", "Kost"),
+    c("Koft", "Kost"),
+    c("Informgtkion", "Information"),
+    c("Informatkion", "Information"),
+    c("Insormation", "Information"),
+    c("Fingegen", "Hingegen"),
+    c("zugentlehnen", "zu entlehnen"),
+    c("angetr agen", "angetragen"),
+    c("angeragen", "angetragen"),
+    c("angekragen", "angetragen"),
+    c("Verk\\u00e4uf", "Verkauf"),
+    c("Perkauf", "Verkauf"),
+    c("zum erkauf", "zum Verkauf"),
+    c("Derkauf", "Verkauf"),
+    c("Berkauf", "Verkauf"),
+    c("Austeiben", "Ausleihen"),
+    c("offerierti", "offeriert"),
+    c("\\u00f6fferiert", "offeriert"),
+    c("offerierk", "offeriert"),
+    c("Ausleiten", "Ausleihen"),
+    c("Ausieihen", "Ausleihen"),
+    c("Ansleihen", "Ausleihen"),
+    c("Derstorbe", "Verstorbe"),
+    c("Derlorne", "Verlorne"),
+    c("Der storbe", "Verstorbe"),
+    c("Der stor be", "Verstorbe"),
+    c("Der st or be", "Verstorbe"),
+    c("ynformation", "Information"),
+    c("Berlorne", "Verlorne"),
+    c("Belegenheit", "Gelegenheit"),
+    c("Landschast", "Landschaft"),
+    c("ehelch", "ehelich"),
+    c("chelich", "ehelich"),
+    c("eelich", "ehelich"),
+    c("Armie und", "Arme und"),
+    c("Branke", "Kranke"),
+    c("Nachrihten", "Nachrichten"),
+    c("Allerhand achrichten", "Allerhand Nachrichten"),
+    c("Allerh\\u00e4nd", "Allerhand"),
+    c("Alerhand", "Allerhand"),
+    c("Rachrichten", "Nachrichten"),
+    c("Aerhand", "Allerhand"),
+    c("zuberl\\u00e4\\u00dfig", "zuverl\\u00e4\\u00dfig"),
+    c("Rechenhunst", "Rechenkunst"),
+    c("Jonesessel", "Joncsessel"),
+    c("Revetir", "Repetir"),
+    c("zweysitziees", "zweysitziges"),
+    c("Mabratze", "Madratze"),
+    c("Fortepians", "Fortepiano"),
+    c("Elnabeth", "Elisabeth"),
+    c("Finder-Bett", "Kinder-Bett"),
+    c("Gefindobett", "Gesindsbett"),
+    c("minder Vasel", "minder Basel"),
+    c("Jone-Sessel", "Jonc-Sessel"),
+    c("Serdier", "Servier"),
+    c("kosmopsltische", "kosmopolitische"),
+    c("vatriotisch", "patriotisch"),
+    c("vraktisch", "praktisch"),
+    c("heldetische", "helvetische"),
+    c("belvetisch", "helvetisch"),
+    c("helbetisch", "helvetisch"),
+    c("Veiber", "Weiber"),
+    c("Tatack", "Taback"),
+    c("Tatack", "Taback"),
+    c("Kinchensitz", "Kirchensitz"),
+    c("Gestndsbett", "Gesindsbett"),
+    c("Drckbett", "Deckbett"),
+    c("Eltsabeth", "Elisabeth"),
+    c("Daonds-Harfe", "Davids-Harfe"),
+    c("Dapids-Harfe", "Davids-Harfe"),
+    c("Favence", "Fayence"),
+    c("Fayenee", "Fayence"),
+    c("Maiorica", "Maiolica"),
+    c("Ercellentz", "Excellentz"),
+    c("ercellent", "excellent"),
+    c("excellenr", "excellent"),
+    c("Klerder", "Kleider"),
+    c("Matraaen", "Matratzen"),
+    c("Strumypff", "Strumpff"),
+    c("albeiter", "arbeiter"),
+    c("floretsetdene", "floretseidene"),
+    c("sloretseide", "floretseide"),
+    c("Nglige", "Neglige"),
+    c("Frarzenzimmer", "Frauenzimmer"),
+    c("Hanshaltung", "Haushaltung"),
+    c("Gottschalt", "Gottschalk"),
+    c("Haushaltnng", "Haushaltung"),
+    c("Welberschuh", "Weiberschuh"),
+    c("Schuhschnadle", "Schuhschnalle"),
+    c("Lald-Mant", "Laid-Mant"),
+    c("Geldbentel", "Geldbeutel"),
+    c("Laldstr\\u00fcmpf", "Laidstr\\u00fcmpf"),
+    c("Franen-Str\\u00fcmpf", "Frauen-Str\\u00fcmpf"),
+    c("f\\u00fcchener", "t\\u00fcchener"),
+    c("offtzier", "offizier"),
+    c("Mlode", "Mode"),
+    c("Rotenpapier", "Notenpapier|Milchbrentl"),
+    c("Gattersea", "Battersea"),
+    c("nutliche", "nutzliche"),
+    c("\\\\bBatter\\\\b", "Gatter"),
+    c("Strumpfw\\u00e4ber\\\\. Stuhl", "Strumpfw\\u00e4ber-Stuhl"),
+    c("Verkorne", "Verlorne"),
+    c("Stupanns", "Stupanus"),
+    c("I\\\\. Jakob Freyler", "J\\\\. Jakob Freyler"),
+    c("J\\\\. Jal\\\\. Freyler", "J\\\\. Jak\\\\. Freyler"),
+    c("Hemnrich Haag", "Heinrich Haag"),
+    c("Wilhelm H\\u00e4as", "Wilhelm Haas"),
+    c("Wilheim Haas", "Wilhelm Haas"),
+    c("Johl Jal\\\\. Flick", "Joh\\\\. Jak\\\\. Flick"),
+    c("Bey Hry.", "Bey Hrn."),
+    c("Jahnpulver", "Zahnpulver"),
+    c("Werckleug", "Werckzeug"),
+    c("unsehlbar", "unfehlbar"),
+    c("Parsumerie", "Parfumerie"),
+    c("Familie-Wasen", "Familie-Wagen"),
+    c("Frauenzimmer-Lebern", "Frauenzimmer-Leibern"),
+    c("k\\u00e4sicht", "k\\u00e4ficht"),
+    c("Gutarre", "Guitarre"),
+    c("Steingnt", "Steingut"),
+    c("Nakulatur", "Makulatur"),
+    c("Zentner Ende", "Zentner Erde"),
+    c("\\\\bEnd\\\\b", "Emd"),
+    c("Eilsen", "Eisen"),
+    c("Einsat\\\\b", "Einsatz"),
+    c("Wachstertze", "Wachskertze"),
+    c("sichbein", "fischbein"),
+    c("Bla\\u00dfhalb", "Bla\\u00dfbalg"),
+    c("\\\\bBur\\\\b", "Bux"),
+    c("Tabartiere", "Tabattiere"),
+    c("Bauholt", "Bauholz"),
+    c("Leltfass", "Leitfass"),
+    c("Bauchosen", "Bauchofen"),
+    c("slehend", "stehend"),
+    c("Anwelsung", "Anweisung"),
+    c("Sternenmuhl", "Sternenmehl"),
+    c("Salffen", "Saiffen"),
+    c("Ramens", "Namens"),
+    c("Kesich", "Kefich"),
+    c("Elute", "Flute"),
+    c("Geitstock", "Geldstock"),
+    c("Elutes", "Flutes"),
+    c("Peister", "Meister"),
+    c("Urtzney", "Artzney"),
+    c("Wafften", "Wafflen"),
+    c("Marulatur", "Makulatur"),
+    c("Mannensauel", "Mannensattel"),
+    c("Weibersatte\\\\b", "Weibersattel"),
+    c("Wousseline", "Mousseline"),
+    c("Kutchen", "Kutschen"),
+    c("Eind\\\\b", "Emd\\\\b"),
+    c("Runst-Feuerwerk", "Kunst-Feurwerk"),
+    c("Fenereimer", "Feuereimer"),
+    c("NRu\\u00dfbaum", "Nu\\u00dfbaum"),
+    c("Dablien-Wurzeln", "Dahlien-Wurzeln"),
+    c("Blumenpla\\u00df", "Blumenplatz"),
+    c("Ru\\u00dfbaumholz", "Nu\\u00dfbaumholz"),
+    c("verkanffen", "verkauffen"),
+    c("R\\u00fc\\u00dfe", "N\\u00fc\\u00dfe"),
+    c("Ru\\u00dfbaum", "Nu\\u00dfbaum"),
+    c("Ru\\u00dfb\\u00e4umern", "Nu\\u00dfb\\u00e4umern"),
+    c("Ziertzig", "Viertzig"),
+    c("Gane-B\\u00e4nd", "Gaze-B\\u00e4nd"),
+    c("Kutchen-Kasten", "Kutschen-Kasten"),
+    c("Welbsbild", "Weibsbild"),
+    c("Brufstein", "Brunstein"),
+    c("Brun4", "Brunn"),
+    c("Buchlaven", "Buchladen"),
+    c("4t\\u00f6", "4t\\u00f2"),
+    c("4t0", "4to"),
+    c("4t6", "4t\\u00f2"),
+    c("Schreib-Pull", "Schreib-Pult"),
+    c("keuchter", "Leuchter"),
+    c("Sratue", "Statue"),
+    c("R\\u00e4hfaden", "N\\u00e4hfaden"),
+    c("Groche", "Broche"),
+    c("Mirtur", "Mixtur"),
+    c("verohren", "verloren"),
+    c("Gare-Band", "Gaze-Band"),
+    c("verohren", "verloren"),
+    c("Gcosse", "Gr\\u00f6sse"),
+    c("Lericon", "Lexicon"),
+    c("sleinerner", "steinerner"),
+    c("Cririca", "Critica"),
+    c("Ersindung", "Erfindung"),
+    c("Maugoldische", "Mangoldische"),
+    c("K\\u00e4sich", "K\\u00e4fig"),
+    c("Boureillen", "Bouteillen"),
+    c("Rinderspiel", "Kinderspiel"),
+    c("Bifouterie", "Bijouterie"),
+    c("Cafino", "Casino"),
+    c("Arrikel", "Artikel"),
+    c("Raffee", "Kaffee"),
+    c("kannerner", "tannerner"),
+    c("Museateller", "Muscateller"),
+    c("Musiepapier", "Musicpapier"),
+    c("lngenieur", "Ingenieur"),
+    c("Pelescop", "Telescop"),
+    c("AlckHosen", "Alckhofen"),
+    c("Nopembrit", "Novembris"),
+    c("Sistum", "Bistum"),
+    c("Weibersit", "Weibersitz"),
+    c("Welbersitz", "Weibersitz"),
+    c("Weidersitz", "Weibersitz"),
+    c("Eramine", "Etamine"),
+    c("besindlich", "befindlich"),
+    c("enedecke", "entdecke"),
+    c("Klydick", "Klybeck"),
+    c("Dictionaite", "Dictionaire"),
+    c("Persteigerung", "Versteigerung"),
+    c("oktapiges", "oktaviges"),
+    c("enidecke", "entdecke"),
+    c("8v0", "8vo"),
+    c("Haberfack", "Habersack"),
+    c("Rajonet", "Bajonet"),
+    c("Garnirure", "Garniture"),
+    c("Pretz", "Pre\\u00df"),
+    c("Geuff", "Genff"),
+    c("Fabvik", "Fabrik"),
+    c("Wellbersack", "Weibersack"),
+    c("Hellbalsam", "Heilbalsam"),
+    c("Beselle", "Geselle"),
+    c("Veriug", "Verzug"),
+    c("FeloAnstalt", "FeldAnstalt"),
+    c("Rutzen", "Nutzen"),
+    c("Narschall", "Marschall"),
+    c("Chalse", "Chaise"),
+    c("vercalener", "percalener"),
+    c("besindlicher", "befindlicher"),
+    c("exrra", "extra"),
+    c("Zeuanu\\u00df", "Zeugni\\u00df"),
+    c("selner", "seiner"),
+    c("Zeuenu\\u00df", "Zeugni\\u00df"),
+    c("senaben", "Knaben"),
+    c("condirionirt", "conditionirt"),
+    c("Schuhladen", "Schubladen"),
+    c("Strumpffweder", "Strumpffweber"),
+    c("Setlinge", "Setzlinge"),
+    c("Str\\u00fcmpffweher", "Str\\u00fcmpffweber"),
+    c("weder-Stuhl", "weber-Stuhl"),
+    c("berzustellen", "herzustellen"),
+    c("anerblethet", "anerbiethet"),
+    c("alUirhand", "allerhand"),
+    c("Allerhans", "Allerhand"),
+    c("Srock", "Stuck"),
+    c("Ei\\u00dfbethen", "Elisabethen"),
+    c("AlickHosen", "Alckofen"),
+    c("AlckHosen", "Alckofen"),
+    c("Wifsenschafft", "Wissenschaft"),
+    c("wohlfenle", "wohlfeine"),
+    c("Ceniner", "Centner"),
+    c("Romaiiie", "Romaine"),
+    c("Comagnie", "Compagnie"),
+    c("Pialz", "Platz"),
+    c("Rochbuch", "Kochbuch"),
+    c("Rummer", "Nummer"),
+    c("Medieinischen", "Medicinischen"),
+    c("Lebrling", "Lehrling"),
+    c("fust", "fast"),
+    c("f\\u00e4st", "fast"),
+    c("Zeug nisse", "Zeugnisse"),
+    c("Elifabet", "Elisabet"),
+    c("Seeret\\u00e4r", "Secret\\u00e4r"),
+    c("Nahagoni", "Mahagoni"),
+    c("K\\u00e4sig", "K\\u00e4fig"),
+    c("Cortrait", "Portrait"),
+    c("Beschirr", "Geschirr"),
+    c("Korbw\\u00e4elein", "Korbw\\u00e4gelein"),
+    c("Mesung-M\\u00f6rser", "Messing-M\\u00f6rser"),
+    c("Messtas", "Messias"),
+    c("Srumpfii", "Stumpfii"),
+    c("Meisibietenden", "Meistbietenden"),
+    c("Raspar", "Kaspar"),
+    c("Zur\\u00fcckgabel", "Zur\\u00fcckgabe"),
+    c("Ghar-\\u00e0-banc", "Char-\\u00e0-banc"),
+    c("B\\u00f6geleisen", "B\\u00fcgeleisen"),
+    c("Rothfall", "Notfall"),
+    c("Rovit\\u00e4t", "Novit\\u00e4t"),
+    c("Moskan", "Moskau"),
+    c("Trumoau", "Trumeau"),
+    c("BlecHosen", "Blechofen"),
+    c("Jalousre-L\\u00e4den", "Jalousie-L\\u00e4den"),
+    c("Rupfer", "Kupfer"),
+    c("Ganeband", "Gazeband"),
+    c("Gane-band", "Gaze-band"),
+    c("Gane-B\\u00e4nder", "Gaze-B\\u00e4nder"),
+    c("Gane-Band", "Gaze-Band"),
+    c("Iidiennes", "Indiennes"),
+    c("Gefinde", "Gesinde"),
+    c("Vapolitain", "Napolitain"),
+    c("Rode", "Mode"),
+    c("Goldsisch", "Goldfisch"),
+    c("Napolikames", "Napolitaines"),
+    c("Rinder-R\\u00f6ck", "Kinder-R\\u00f6ck"),
+    c("Rinder-Rock", "Kinder-Rock"),
+    c("Rinderr\\u00f6ck", "Kinderr\\u00f6ck"),
+    c("Rinderrock", "Kinderrock"),
+    c("H\\u00f6be", "H\\u00f6he"),
+    c("gleichalls", "gleichfalls"),
+    c("Gefundheit", "Gesundheit"),
+    c("Mareeline", "Marceline"),
+    c("Cemnture", "Ceinture"),
+    c("Cemture", "Ceinture"),
+    c("Alspin", "Al\\u00e9pin"),
+    c("Cor et", "Corset"),
+    c("Uthr", "Uhr"),
+    c("bUhr", "6Uhr"),
+    c("Felir", "Felix"),
+    c("Siegfrind", "Siegfried"),
+    c("ubseript", "ubscript"),
+    c("Per\\u00e4nd", "Ver\\u00e4nd"),
+    c("sauderm", "sauberm"),
+    c("Merckw\\u00fcrdigkelt", "Merckw\\u00fcrdigkeit"),
+    c("Ausleiben", "Ausleihen"),
+    c("Naehtrag", "Nachtrag"),
+    c("Merckw\\u00fcrdigkelten", "Merckw\\u00fcrdigkeiten"),
+    c("Kaussen", "Kauffen"),
+    c("Kaufsen", "Kauffen"),
+    c("kausen", "kaufen"),
+    c("kaufsen", "kaufen"),
+    c("Koft", "Kost"),
+    c("Verkoren", "Verloren"),
+    c("Getrante", "Getraute"),
+    c("Derloren", "Verloren"),
+    c("Perloren", "Verloren"),
+    c("Gaut", "Gant"),
+    c("Fervanf", "Verkauf"),
+    c("eidgen\\u00f6ssiche", "eidgen\\u00f6ssische"),
+    c("Freischiesten", "Freischie\\u00dfen"),
+    c("wird zu entlohnen begehrt", "wird zu entlehnen begehrt"),
+    c("Nachrichteu", "Nachrichten"),
+    c("\\\\befundenes", "Gefundenes"),
+    c("Gaenten", "Ganten"),
+    c("entiehnen", "entlehnen"),
+    c("Rachtrag", "Nachtrag"),
+    c("Raehtrag", "Nachtrag"),
+    c("Veerkauf", "Verkauf"),
+    c("Verk\\u00e4uf\\\\b", "Verkauf\\\\b"),
+    c("Verlvrenes", "Verlorenes"),
+    c("Vierkauf", "Verkauf"),
+    c("Vorvanf", "Verkauf"),
+    c("Getrante", "Getraute"),
+    c("A(l|L|1)(l|L|1)e", "Alle"),
+    c("fremhd", "frembd"),
+    c("Nachtr\\u00e4g\\\\b", "Nachtrag"),
+    c("kosament", "Losament"),
+    c("Seribenten", "Scribenten"),
+    c("Scbeuchaeridas", "Scheuchaeridas"),
+    c("Sebeuchaeri", "Scheuchaeri"),
+    c("Helverica", "Helvetica"),
+    c("Wi(tt|t|tr|tl|lt|nt|n)i(b|h|l|t|th)", "Wittib"),
+    c("Wit(ttb|uib)", "Wittib"),
+    c("Wtt(ib|hl)", "Wittib")
+  )
+
+  for(i in length(esc)){
+    x <- gsub(stri_unescape_unicode(esc[[i]][1]),
+              stri_unescape_unicode(esc[[i]][2]), x)
+  }
+    x
   }

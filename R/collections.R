@@ -1,10 +1,23 @@
-#' @importFrom quanteda docvars
-#' @import data.table
-#' @importFrom R6 R6Class
-#' @export
+#' R6 Class Representing a Collection
+#'
+#' @description
+#' Avisblatt collection of data and meta data.
+#'
+#' @details
+#' Collections can be written to disk in two linked files: csv and json.
+#' @field corpus object of class Corpus
+#' @field meta object of class meta
 Collection <- R6Class("Collection", list(
   corpus = NULL,
   meta = NULL,
+  #' @param crps object of class quanteda corpus.
+  #' @param meta_table meta information data.table
+  #' @param preprocess_docvars docvars
+  #' @param docvars_to_meta docvars to meta
+  #' @param transform_docvars transform docvars
+  #' @importFrom quanteda docvars
+  #' @import data.table
+  #' @importFrom R6 R6Class
   initialize = function(crps,
                         meta_table = NULL,
                         preprocess_docvars = NULL,
@@ -89,7 +102,12 @@ Collection <- R6Class("Collection", list(
     }
     self$meta <- meta_table
   },
-  add_tags = function(ids = NULL, tags_vec, overwrite = FALSE){
+  #' @param ids character vector of document ids
+  #' @param tags_vec add vector of tags
+  #' @param overwrite boolean should existing tags be overwritten. Defaults to FALSE
+  add_tags = function(ids = NULL,
+                      tags_vec,
+                      overwrite = FALSE){
     if(is.null(ids)){
       current_tag <- self$meta[, tags]
     } else{
@@ -122,16 +140,24 @@ Collection <- R6Class("Collection", list(
       return(self$meta[id %in% ids, tags := current_tag])
     }
   },
+  #' @param ids character vector of ids
+  #' @param lang character 2-digit ISO language
   add_language = function(ids = NULL, lang){
     if(is.null(ids)) return(self$meta[, language := lang])
     self$meta[id %in% ids, language := lang]
 
   },
+  #' @param ids character vector of ids. Defaults to NULL, selecting all.
   list_records = function(ids = NULL){
     if(is.null(ids)) return(self$meta)
     self$meta[id %in% ids,]
   },
-  apply_tagfilters = function(flist, nms = NULL, ignore_case = F){
+  #' @param flist list of filters
+  #' @param nms character names
+  #' @param ignore_case boolean Should case be ignored? Defaults to FALSE.
+  apply_tagfilters = function(flist,
+                              nms = NULL,
+                              ignore_case = FALSE){
     if(is.null(names(flist))) stop("List of filter functions needs to be named (using the names of the function).")
     if(!is.null(nms) & length(nms) != length(flist)) stop("There have to be as many tag labels as tags.")
     if(is.null(nms)){
@@ -149,13 +175,17 @@ Collection <- R6Class("Collection", list(
     })
     invisible(self)
   },
+  #' @param ids character list of ids
   subset_collect = function(ids){
     # this should be used with deep clone
     # otherwise the current collection instance is subsetted!
     self$corpus <- self$corpus[ids]
     self$meta <- self$meta[id %in% ids,]
   },
-  remove_records = function(ids, verbose = TRUE){
+  #' @param ids character vector of ids
+  #' @param verbose boolean should things be verbose? Defaults to TRUE.
+  remove_records = function(ids,
+                            verbose = TRUE){
     # very similar to subset, but just a negative selection
     prev_l <- length(self$corpus)
     keep_tf <- names(self$corpus)[!(names(self$corpus) %in% ids)]

@@ -1,90 +1,16 @@
-#' @importFrom jsonlite fromJSON toJSON
-#' @importFrom quanteda corpus docvars texts
-#' @importFrom quanteda.textstats textstat_dist
-#' @import data.table
+#' Legacy Function to Get Text by Identifier
+#'
+#'
+#' @param corp quanteda corpus object
+#' @param ids character text ids
+#' @param n numeric number of hits, defaults to NULL.
+#' @param identifier character name of id column.
+#' @param txt character column identifiert. Defaults to 'texts'.
+#'
 #' @export
-write_collection <- function(x,
-                             name_on_disk,
-                             pretty_json = TRUE,
-                             zip = FALSE){
-  # sanity checks
-  stopifnot(inherits(x, "Collection"))
-  stopifnot(inherits(x, "R6"))
-
-  # name of the two files
-  data_file <- paste0(name_on_disk, ".csv")
-  meta_file <- paste0(name_on_disk, ".json")
-
-  # meta information and data are treated separately
-  # following the swissdata idea (github.com/swissdata/demo)
-  # Meta information to JSON 
-  # turn all environments to lists
-  # environments work with reference and thus better than lists
-  # for in memory updates. lists are easier to handle when writing
-  # to a JSON string.
-  message("Processing data description...")
-  dtcols <- setdiff(names(x$meta),"id")
-  dt_chunks <- split(x$meta[, ..dtcols], as.factor(1:nrow(x$meta)))
-  names(dt_chunks) <- x$meta$id
-  writeLines(
-    toJSON(dt_chunks, pretty = pretty_json,
-           auto_unbox = TRUE,
-           null = "null",
-           na = "string"),
-    meta_file
-  )
-  message(sprintf("Meta information written to %s",meta_file))
-
-  dt <- data.table(
-    id = names(x$corpus),
-    text = as.character(x$corpus),
-    docvars(x$corpus))
-  fwrite(dt, file = data_file, quote = TRUE)
-  message(sprintf("Data written to %s",data_file))
-
-  if(zip){
-    zip_file <- paste0(name_on_disk,".zip")
-    zip(zip_file, c(data_file, meta_file))
-    file.remove(data_file)
-    file.remove(meta_file)
-    message("Zip archive containing data and meta data created.")
-  }
-}
-
-#' @import data.table
-#' @importFrom jsonlite fromJSON
-#' @importFrom quanteda corpus
-#' @export
-read_collection <- function(name_on_disk, just_meta = FALSE){
-  data_file <- paste0(name_on_disk, ".csv")
-  meta_file <- paste0(name_on_disk, ".json")
-
-  if(!just_meta){
-    dt <- fread(data_file, encoding="UTF-8")
-    crps <- corpus(dt, docid_field = "id",
-                   text_field = "text")
-  }
-
-  mi <- fromJSON(meta_file)
-  d <- data.table::rbindlist(mi)
-  d[, id := names(mi)]
-  d[, date := as.Date(date)]
-  setcolorder(d, neworder = c("id",
-                              setdiff(names(d),"id")))
-  if(just_meta){
-    collect <- Collection$new(NULL, d)
-  } else {
-    collect <- Collection$new(crps, d)
-  }
-
-  collect
-}
-
-
-
-#' Might want to deprecate this with quanteda 2.0
-#' @export
-get_text_by_id <- function(corp, ids, n = NULL,
+get_text_by_id <- function(corp,
+                           ids,
+                           n = NULL,
                            identifier = "id",
                            txt = "texts"){
   tf <- docvars(corp, identifier) %in%
@@ -99,10 +25,16 @@ get_text_by_id <- function(corp, ids, n = NULL,
 
 }
 
-
-#' Might want to deprecate this with quanteda 2.0
+#' Get Subsets of a Corpus by Ids
+#'
+#' @param corp quanteda corpus object
+#' @param ids character text ids
+#' @param idvar character name of the id column. Defaults to id.
+#' @importFrom quanteda corpus_subset docvars
 #' @export
-get_subcorpus_by_id <- function(corp, ids, idvar = "id"){
+get_subcorpus_by_id <- function(corp,
+                                ids,
+                                idvar = "id"){
   corpus_subset(corp,
                 (docvars(corp, idvar) %in% ids)
   )
@@ -122,13 +54,23 @@ clean_manual_tags <- function(x){
 
 
 
-# convenience function to read & merge multiple years to one working collection
-gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../avis-data/collections"){
+#' Convenience Function to Read & Merge Multiple Years
+#'
+#' @param AVIS_YEARS numeric vectors of selected years.
+#' @param just_meta boolean should meta be used w/o reading in the actual text?
+#' Defaults to TRUE.
+#' @param path character location of the collection files.
+#' @export
+#' @import data.table
+gather_yearly_collections <- function(AVIS_YEARS,
+                                      just_meta = TRUE,
+                                      path = "../avis-data/collections"){
   AVIS_YEARS <- sort(as.numeric(AVIS_YEARS))
-  AVIS_YEARS <- intersect(AVIS_YEARS, 
-                          list.files(path, pattern = "csv") %>% 
-                            substr(8, 11) %>% as.numeric)
-  path <- paste0(path, "/yearly_")
+  AVIS_YEARS <- intersect(AVIS_YEARS,
+                          list.files(path, pattern = "csv") |>
+                            substr(8, 11) |>
+                            as.numeric())
+  path <- file.path(path, "yearly_")
   # meta information
   meta_dt <- data.table()
   for (i in AVIS_YEARS){
@@ -161,7 +103,7 @@ gather_yearly_collections <- function(AVIS_YEARS, just_meta = TRUE, path = "../a
 }
 
 
-
+#' @importFrom utils head
 purge_spacing <- function(txtlist){
   splits <- strsplit(txtlist, "\\s")
   more_than_1 <- lapply(splits, grepl, pattern = "\\S{2,}")
@@ -188,10 +130,12 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   # STEP 1
   # Use quanteda's textstat_dist to measure distance
   # -> lower values, smaller distance / greater similarity
-  dfm_a <- tokens(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm() %>% dfm_weight("prop")
-  dfm_b <- tokens(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) %>%
-    dfm() %>% dfm_weight("prop")
+  dfm_a <- tokens(corpus_a, remove_punct = TRUE, remove_numbers = TRUE) |>
+    dfm() |>
+    dfm_weight("prop")
+  dfm_b <- tokens(corpus_b, remove_punct = TRUE, remove_numbers = TRUE) |>
+    dfm() |>
+    dfm_weight("prop")
   dist <- as.matrix(textstat_dist(dfm_a, dfm_b))
 
   # measure is not independent of ad length, correcting for length.
@@ -221,7 +165,7 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
   # One token plus 5% of combined token number is okay,
   # any larger difference rules out reprint
   if (consider_length_diff){
-    m_length_diff_above_threshold <- (abs(m_a-m_b)-1)/(m_a+m_b) > 0.05
+    m_length_diff_above_threshold <- (abs(m_a-m_b)-1)/(m_a+m_b) > 0.2
     # multiplying logical matrix with numeric value turns FALSE into 0, TRUE into 1:
     dist <- dist + 100 * m_length_diff_above_threshold
   }
@@ -230,14 +174,15 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 
 
 
-available_years <- function(){
- list.files("../avis-data/collections", pattern=".json") %>%
-    substr(8, 11) %>%
-    as.numeric
+available_years <- function(collection_root){
+ list.files(collection_root, pattern=".json") |>
+    substr(8, 11) |>
+    as.numeric()
 }
 
 
 
+#' @importFrom utils getFromNamespace
 tf_integrity <- function(){
   ns <- ls(envir = asNamespace("avisblatt"))
   tfs <- ns[grepl("tagfilter_",ns)]

@@ -12,6 +12,6 @@
 #' @aliases avisblatt
 #' @docType package
 #' @title Process Text from Early Modern Source Avisblatt
-#' @author Matthias Bannert \email{matthias.bannert@gmail.com}
+#' @author Matthias Bannert \email{bunny@hey.com}
 #' @keywords package
 NULL

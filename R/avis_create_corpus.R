@@ -1,8 +1,13 @@
 #' Reads Avisblatt Input CSV into Quantedata Corpus
 #'
-#' Covenience function to read avisblatt input .csvs into
+#' Convenience function to read avisblatt input .csvs into
 #' quanteda 2.0 corpuses.
 #'
+#' @param f character location of the file to read.
+#' @param text_field name of the text column.
+#' @param docid_field name of the document id field.
+#' @param encoding character defaults to UTF-8.
+#' @param apply_ocr_correct boolean Defaults to FALSE.
 #' @importFrom data.table fread
 #' @importFrom quanteda corpus
 #' @export

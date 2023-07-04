@@ -44,3 +44,4 @@ dontcommit/
 .Rproj.user
 *.Rproj
 .RDataTmp
+docs
