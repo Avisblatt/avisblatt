@@ -32,7 +32,7 @@ devtools::install_github("avisblatt/avisblatt")
 
 
 ```
-remotes::install_github("Avisblatt/avisblatt", auth_token = "YOUR_TOKEN")
+remotes::install_github("Avisblatt/avisblatt")
 ```
 
 
