@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_reprint_status}
 \alias{select_by_reprint_status}
-\title{Selects records from a collection based on reprint status.}
+\title{Selects records from a collection based on reprint status}
 \usage{
 select_by_reprint_status(
   coll,

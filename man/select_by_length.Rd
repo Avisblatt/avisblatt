@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_length}
 \alias{select_by_length}
-\title{Select documents from a collection based on their length}
+\title{Selects documents from a collection based on their length}
 \usage{
 select_by_length(coll, ids = NULL, min = 0, max = 1e+06, unit = "tokens")
 }
@@ -21,5 +21,5 @@ select_by_length(coll, ids = NULL, min = 0, max = 1e+06, unit = "tokens")
 A vector of document ids that meet the length criteria.
 }
 \description{
-Select documents from a collection based on their length
+Selects documents from a collection based on their length
 }

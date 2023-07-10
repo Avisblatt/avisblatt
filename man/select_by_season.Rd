@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_season}
 \alias{select_by_season}
-\title{Selects documents from a collection based on their publication date.}
+\title{Selects documents from a collection based on their publication date}
 \usage{
 select_by_season(
   coll,
@@ -27,5 +27,5 @@ select_by_season(
 A Collection object containing only the selected documents.
 }
 \description{
-Selects documents from a collection based on their publication date.
+Selects documents from a collection based on their publication date
 }

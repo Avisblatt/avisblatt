@@ -17,5 +17,5 @@ select_by_text(coll, ids = NULL, searchlist = "")
 A vector of document ids that match the search terms.
 }
 \description{
-Selects documents from a collection based on a search list.
+Selects documents from a collection based on a search list
 }

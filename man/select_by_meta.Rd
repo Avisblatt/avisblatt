@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_meta}
 \alias{select_by_meta}
-\title{Select Ad by Meta Information}
+\title{Selects ad by meta information}
 \usage{
 select_by_meta(coll, ids = NULL, search = NULL, fields = NULL, exact = FALSE)
 }
@@ -19,5 +19,5 @@ available character.}
 \item{exact}{boolean should matches be exact? Defaults to FALSE.}
 }
 \description{
-Select Ad by Meta Information
+Selects ad by meta information
 }

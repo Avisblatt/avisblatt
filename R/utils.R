@@ -173,7 +173,13 @@ advert_distance <- function(corpus_a, corpus_b, consider_length_diff = FALSE){
 }
 
 
-
+#' List Avialable Years Based on Meta Information
+#'
+#' Checks which yearly collections are available based on
+#' meta information file names.
+#'
+#' @param collection_root character file path to collection.
+#' @export
 available_years <- function(collection_root){
  list.files(collection_root, pattern=".json") |>
     substr(8, 11) |>

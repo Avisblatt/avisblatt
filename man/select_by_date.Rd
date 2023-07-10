@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_date}
 \alias{select_by_date}
-\title{Selects data from a Collection object based on date range.}
+\title{Selects data from a collection object based on date range}
 \usage{
 select_by_date(coll, ids = NULL, min = "1729-01-01", max = "1844-12-31")
 }
@@ -19,5 +19,5 @@ select_by_date(coll, ids = NULL, min = "1729-01-01", max = "1844-12-31")
 A character vector of ids that meet the date range criteria.
 }
 \description{
-Selects data from a Collection object based on date range.
+Selects data from a collection object based on date range
 }

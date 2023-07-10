@@ -2,7 +2,7 @@
 % Please edit documentation in R/analysis_selecting.R
 \name{select_by_tags}
 \alias{select_by_tags}
-\title{Select records from a collection by tags.}
+\title{Selects records from a collection by tags}
 \usage{
 select_by_tags(
   coll,
