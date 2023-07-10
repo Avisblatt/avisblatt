@@ -7,7 +7,7 @@
 read_collection(name_on_disk, just_meta = FALSE)
 }
 \arguments{
-\item{name_on_disk}{character path to collection folder}
+\item{name_on_disk}{character path to collection w/o file extension.}
 
 \item{just_meta}{boolean only use meta information? Defaults to FALSE.}
 }

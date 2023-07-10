@@ -6,7 +6,7 @@
 #' friendly as the split allows to use standard read/write functions for .csv
 #' and .json file formats.
 #'
-#' @param name_on_disk character path to collection folder
+#' @param name_on_disk character path to collection w/o file extension.
 #' @param just_meta boolean only use meta information? Defaults to FALSE.
 #' @import data.table
 #' @importFrom jsonlite fromJSON
