@@ -73,6 +73,7 @@ data description and a `corpus` slot for the ad text itself.
 
 ```r
 library(avisblatt)
+library(data.table)
 ay <- 1730:1740
 # path to data *without* trailing '/'
 m <- gather_yearly_collections(ay, path = "../avisdata/collections")
