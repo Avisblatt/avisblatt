@@ -70,6 +70,7 @@ gather_yearly_collections <- function(AVIS_YEARS,
                           list.files(path, pattern = "csv") |>
                             substr(8, 11) |>
                             as.numeric())
+  path_in <- path
   path <- file.path(path, "yearly_")
   # meta information
   meta_dt <- data.table()
@@ -80,7 +81,16 @@ gather_yearly_collections <- function(AVIS_YEARS,
     d[, id := names(mi)]
     meta_dt <- rbind(meta_dt, d)
   }
-  meta_dt[, date := as.Date(date)]
+  tryCatch({
+    meta_dt[, date := as.Date(date)]
+  }, error = function(e) {
+    message(
+      sprintf("Are you sure the path to your data is correct?\nAvisblatt data cannot be found at %s\n\n",
+              path_in)
+    )
+    stop("Execution stopped.")
+  }
+  )
   setcolorder(meta_dt, neworder = c("id",
                               setdiff(names(meta_dt),"id")))
   # corpus
