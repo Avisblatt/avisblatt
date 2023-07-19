@@ -26,7 +26,18 @@ read_collection <- function(name_on_disk,
   mi <- fromJSON(meta_file)
   d <- data.table::rbindlist(mi)
   d[, id := names(mi)]
-  d[, date := as.Date(date)]
+
+  tryCatch({
+    d[, date := as.Date(date)]
+  }, error = function(e) {
+    message(
+      sprintf("Are you sure the path to your data is correct?\nAvisblatt data cannot be found at %s\n\n",
+              path_in)
+    )
+    stop("Execution stopped.")
+  }
+  )
+
   setcolorder(d, neworder = c("id",
                               setdiff(names(d),"id")))
   if(just_meta){
