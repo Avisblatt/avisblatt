@@ -31,8 +31,8 @@ read_collection <- function(name_on_disk,
     d[, date := as.Date(date)]
   }, error = function(e) {
     message(
-      sprintf("Are you sure the path to your data is correct?\nAvisblatt data cannot be found at %s\n\n",
-              path_in)
+      sprintf("Are you sure the path to your data is correct?\nAvisblatt data cannot be found in %s\n\n",
+              meta_file)
     )
     stop("Execution stopped.")
   }
