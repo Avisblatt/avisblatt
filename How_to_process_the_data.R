@@ -35,7 +35,7 @@ AVIS_YEARS = 1729:1844
 # Due to changes to page metadata (leads to new IDs)
 # and # re-processing of  pageXML for three years,
 # the following years will ultimately 
-# need to be processes again:
+# need to be processed again:
 AVIS_YEARS = c(1816, 1839)
 
 
