@@ -63,7 +63,8 @@ tagfilter_ps <- function(){
     other = "Folgendesistnachzuholen"
   )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    specific_PS_1 = "offer|begehr|kau|verk|le(y|i)h|lehn|erl(o|oh)r",
+    specific_PS_1 = "Gant|Kost|(D|d)ien|Contor|Mit|Nachrich|würdig|copul|getrau|gestor|Buchh|Chronik" 
   )
   create_filter_output(dict)
 }
@@ -109,7 +110,8 @@ tagfilter_saleoffer <- function(){
   dict$pos <- list(
     saleoffer_1 = "Verkauf",
     saleoffer_2 = "umVerkauf",
-    saleoffer_3 = "verkau(ff|f)en",
+    saleoffer_3 = "(v|G)erkau(ff|f|ss)en",
+    saleoffer_4 = "umVe(r|rr)k",
     meta_header1 = "NeueArt|neuenArt",
     meta_header2 = "AlteArt" #Alte Artikel and Neue Artikel is used for some years as meta-segments for reprinted and new sales ads. It is always followed by a 'proper' header, almost(?) always sale_offer.
     )
@@ -126,7 +128,8 @@ tagfilter_saledemand <- function(){
   dict <- list()
   dict$pos <- list(
     saledemand_1 = "\\b(k|K)au(f|ff)en|zuk(au|u)(f|ff)en",
-    saledemand_2 = "um(K|k)auf"
+    saledemand_2 = "um(K|k)auf",
+    saledemand_3 = "Kaufenbegehr"
     )
   dict$neg <- list(
     double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
@@ -140,7 +143,7 @@ tagfilter_saledemand <- function(){
 tagfilter_lendoffer <- function(){
   dict <- list()
   dict$pos <- list(
-    lendoffer = "((A|a)u(s|ß)|ver|ent)le(i|y)(b|h|ch)en"
+    lendoffer = "((A|a)u(s|ß)|ver|ent)(l|ll)e(i|y)(b|h|ch)en"
     )
   dict$neg <- list(
     double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
@@ -169,7 +172,7 @@ tagfilter_lenddemand <- function(){
 tagfilter_lend <- function(){
   dict <- list()
   dict$pos <- list(
-    offer_or_request = "usleihen(.*)lehnen"
+    offer_or_request = "usle(i|ii)hen(.*)lehnen"
   )
   dict$neg <- list(
     double = "zu(kau(ff|f)en|entlehnen)oderzu(entlehnen|kau(f|ff)en)" # both sale- and lendoffer
@@ -200,7 +203,7 @@ tagfilter_lostandfoundheader <- function(){
 tagfilter_lostheader <- function(){
   dict <- list()
   dict$pos <- list(
-    lost = "Verlorenes"
+    lost = "Verlore(n|ss)es"
     )
   dict$neg <- list(
     found = "(G|g)efund(en|ne)"
@@ -216,7 +219,8 @@ tagfilter_foundheader <- function(){
     lost = "Gefundenes"
   )
   dict$neg <- list(
-    lost = "(V|v)erl(o|oh)r(ne|en)"
+    lost = "(V|v)erl(o|oh)r(ne|en)",
+    lostandfound = "(e|n)undgefund|erlo" 
   )
   create_filter_output(dict)
 }
@@ -257,7 +261,7 @@ tagfilter_labourinfo <- function(){
   dict <- list()
   dict$pos <- list(
     labourinfo_1 = "(I|l)nformation|Bedienung|Bediente|Jungen|KostundTausch",
-    jobseekandoffer1 = "offerirenundDienste",
+    jobseekandoffer1 = "offerirenundDienste|ihreDienste",
     jobseekandoffer2 = "gebenseindundbegehr"
   )
   dict$neg <- list(
@@ -320,7 +324,8 @@ tagfilter_auctions <- function(){
     auctions_2 = "Versteiger"
     )
   dict$neg <- list(
-    placeholder = "bibedibabediboo" # placeholder
+    not_job_1 = "Underweisung", # UnderweisunGANTragen
+    not_job_2 = "gantz"
   )
   create_filter_output(dict)
 }
