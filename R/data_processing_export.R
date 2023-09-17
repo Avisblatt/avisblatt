@@ -79,8 +79,8 @@ transform_record <- function(record, dataversion = NA) {
       language = as.character(record["type.language"]),
       is_reprint = as.logical(record["type.is_reprint"])
     ),
-    tags = if(is.na(record["tags.tags"])) NULL else list(
-      tags = record["tags.tags"],
+    tags = if(record["tags.tags"] == "") NULL else list(
+      tags = unlist(record["tags.tags"]),
       scheme = "http://schemata.hasdai.org/avisblatt_tags.json"
     ),
     entities = entities,
@@ -157,17 +157,18 @@ transform_record <- function(record, dataversion = NA) {
   return(json)
 }
 
-
 create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                       path_rawdata = "../avis-databuffer/raw_data_uncorrected/",
                                       path_collections = "../avis-data/collections_flaired/",
                                       path_output = "../avis-for-hasdai/annotations/",
-                                      data_version = NA){
+                                      data_version = NA,
+                                      all_in_one = FALSE){
   handles <- fread("hasdai_handles.csv", encoding = "UTF-8")
   siblings <- fread(file = paste0(path_collections, "siblings.tsv.gz"), encoding = "UTF-8")
   siblings$siblings <- strsplit(siblings$siblings, "\\|")
   
   dir.create(path_output, showWarnings = FALSE)
+  json_data_all <- list()
   
   for (i in AVIS_YEARS){
     # get metadata from collection JSON
@@ -177,9 +178,19 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_j <- subset(dt_j, select = -c(isheader, date, tags_manual, ntokens, nchar, reprint_status, potential_original, p_o_distance, potential_reprint, p_r_distance))
     dt_j[, id := names(mi)]
     
-    for (j in 1:nrow(dt_j)){
-      dt_j$tags[j][[1]] <- unique(gsub("\\d", "", dt_j$tags[j][[1]]))
+    # add umbrella terms 2.0
+    ut <- umbrella_terms2()
+    for (k in 1:length(ut)){
+      dt_j[grepl(ut[k], dt_j$tags)]$tags <- lapply(dt_j[grepl(ut[k], dt_j$tags)]$tags, function(sublist) {c(sublist, names(ut[k]))})
     }
+    
+    # remove variants of the same tag (so, print instead of print1, print2, ...)
+    remove_variants <- function(tag_list) {
+      unique(sapply(tag_list, function(tag) {
+        gsub("\\d+\\b", "", tag)
+      }))
+    }
+    dt_j$tags <- lapply(dt_j$tags, remove_variants)
     
     # get data from collection CSV
     dt_c <- fread(file = paste0(path_collections, "yearly_", i, ".csv"), encoding = "UTF-8")
@@ -193,12 +204,23 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                                              "fragment8", 
                                                              "fragment9", 
                                                              "fragment10")]
-    for (k in 1:nrow(dt_c)){
-      frags <- dt_c$fragment[[k]]
-      frags <- frags[frags != ""]
-      frags <- frags[!is.na(frags)]
-      dt_c$fragment[[k]] <- frags
+
+    clean_fragments <- function(fragment_list) {
+      cleaned_frags <- lapply(fragment_list, function(frags) {
+        frags <- frags[!(frags == "" | is.na(frags))]
+        return(frags)
+      })
+      
+      # Combine the non-empty fragments into a character vector
+      combined_frags <- unlist(cleaned_frags)
+      
+      if (length(combined_frags) > 0) {
+        return(combined_frags)
+      } else {
+        return(NULL)
+      }
     }
+    
     dt_c <- subset(dt_c, select = -c(rev, book, rnotes, expert_text, lang, fragment2, fragment3, fragment4, fragment5, fragment6, fragment7, fragment8, fragment9, fragment10))
     dt_c <- rename(dt_c, corrected = text, canvas = fragment1, is_header = isheader)
     dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 51), "full/full/0/default.jpg")
@@ -208,7 +230,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_r <- subset(dt_r, select = c(id, text))
     dt_r <- rename(dt_r, original = text)
     dt <- merge(dt_c, dt_r, by = "id", all = F) #some records from the raw data were merged in the collection creation, so all = F
-    dt <- merge(dt, dt_j, by = "id", all = T)
+    dt <- merge(dt, dt_j, by = "id", all = F)
     
     dt <- subset(dt, select = -c(inscribed, adcontent, adtype, finance, keyword, tags_section))
     
@@ -280,19 +302,41 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     
     dt[entities.person == "NA"]$entities.person <- ""
     dt[entities.location == "NA"]$entities.location <- ""
+    dt[tags.tags == "NA"]$tags.tags <- ""
+    dt[is.na(tags.tags)]$tags.tags <- ""
     
     # Transform each record into JSON structure
     json_data <- lapply(asplit(dt, 1), function(record) transform_record(record, dataversion = data_version))
     
+    if(all_in_one){
+      json_data_all <- c(json_data_all, json_data)} else {
+        # Convert list of JSON objects to JSON array
+        json_array <- toJSON(json_data, pretty = TRUE, auto_unbox = TRUE, encoding = "UTF-8")
+        
+        # Remove rownames from the JSON array
+        json_array <- gsub('"\\d+": \\{', "{", json_array)
+        
+        # write all annotations for one year in one file
+        fn <- paste0(path_output, i, ".json")
+        writeLines(enc2utf8(json_array), fn, useBytes = TRUE)
+      }
+    message(paste0("Finished ", i))
+  }
+  
+  if(all_in_one){
+    message("Writing all years into one JSON. This will take a while!")
+    
     # Convert list of JSON objects to JSON array
-    json_array <- toJSON(json_data, pretty = TRUE, auto_unbox = TRUE)
+    json_array <- toJSON(json_data_all, pretty = TRUE, auto_unbox = TRUE, encoding = "UTF-8")
+    message("Converted lists to JSON array")
     
     # Remove rownames from the JSON array
     json_array <- gsub('"\\d+": \\{', "{", json_array)
+    message("Removed rownames from JSON array")
     
     # write all annotations for one year in one file
-    fn <- paste0(path_output, i, ".json")
-    write(json_array, fn)
-    message(paste0("Written JSONs for ", i))
+    fn <- paste0(path_output, "avisblatt_", min(AVIS_YEARS), "-", max(AVIS_YEARS), ".json")
+    writeLines(enc2utf8(json_array), fn, useBytes = TRUE)
+    message(paste0("\nWritten one JSON for all years."))
   }
 }

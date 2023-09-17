@@ -201,6 +201,7 @@ message(sprintf("Took %s minutes",
 # will be composed into metadata JSON to be provided in Hasdai
 #
 # First, a table of siblings for each ads is generated
+AVIS_YEARS <- 1729:1844
 start <- Sys.time()
 build_siblings_table(AVIS_YEARS, path = "../avis-data/collections_flaired/")
 message(sprintf("Took %s minutes", 
@@ -209,6 +210,13 @@ message(sprintf("Took %s minutes",
 
 # Then, the JSONs are build:
 start <- Sys.time()
-create_hasdai_annotations(1729:1844, data_version = 3)
+create_hasdai_annotations(1729:1790, data_version = 4.1, all_in_one = TRUE)
+create_hasdai_annotations(1791:1820, data_version = 4.1, all_in_one = TRUE)
+create_hasdai_annotations(1821:1844, data_version = 4.1, all_in_one = TRUE)
+message(sprintf("Took %s minutes", 
+                round(difftime(Sys.time(),start, units = "min"),2)))
+
+start <- Sys.time()
+create_hasdai_annotations(1729:1844, data_version = 4.1, all_in_one = FALSE)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))

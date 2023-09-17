@@ -18,6 +18,27 @@ umbrella_terms <- function(){
   umbrella_stand
 }
 
+umbrella_terms2 <- function(){
+  umbrella_stand <- list(
+    ut2_accessories = "\\bhand|handkerchief|bag|mercery|jewellery|glasses|cane|umbrella|tobaccoobjects",
+    ut2_clothing = "clothing|costume|headdress|neck|outerwear|shows|underwear|uniform",
+    #ut2_food = "butter|cheese|driedfruit|eggs|broth|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|\\boil|pasta|pastry|poultry|preserves|spices|sugar|tropicalfruit|vegetable", #\\boil otherwise will include tagfilter soil
+    #ut2_drink = "alcohol|chocolate|coffee|milk|mineralwater|tea|syrup",
+    #ut2_drugs = "tobaccoproducts|mineralwater",
+    ut2_consumables = "butter|cheese|driedfruit|eggs|broth|fish|fruit|grain|honey|legumes|meat|mushrooms|nuts|\\boil|pasta|pastry|poultry|preserves|spices|sugar|tropicalfruit|vegetable|alcohol|chocolate|coffee|milk|mineralwater|tea|syrup|tobaccoproducts",
+    ut2_household_goods = "bathobject|cutlery|domestic|game|homedeco|kitchen|lighting|mirror|mischousehold|tableware|container|storage",
+    ut2_household_furniture = "bed|bureau|cabinet|chair|divider|stove|table|timepiece|upholstery|wallpaper",
+    ut2_household_textiles = "bedding|carpet|tablelinen",
+    ut2_materials_textile = "cloth\\b|texmaterial|yarn",
+    ut2_materials_agricultural = "plant|naturalia|feed|hay|dung|soil",
+    ut2_materials_industrial = "animalraw|plantraw|wood|buildingcomponents",
+    ut2_animals = "dogs|birds|cats|otherpets|livestock",
+    ut2_other_objects = "art|antique|garden|petobject|instrument|toy|carriage|pushchair|suitcase|trolley|container|barrel|key|weapon|riding|woodobjekt|shopequip|tavernobject|rope|well|agriculturalobjects|measure|stationary|tool|firestart|extinguisher|wineobject|miscobject"
+  )
+  umbrella_stand
+}
+
+
 #' Some tagfilters were build to be case sensitive, some were not. This gives the ones that are not sensitive
 #' @export
 tf_ignorecase <- function(prefix = F){
