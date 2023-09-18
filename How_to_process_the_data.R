@@ -210,13 +210,13 @@ message(sprintf("Took %s minutes",
 
 # Then, the JSONs are build:
 start <- Sys.time()
-create_hasdai_annotations(1729:1790, data_version = 4.1, all_in_one = TRUE)
-create_hasdai_annotations(1791:1820, data_version = 4.1, all_in_one = TRUE)
-create_hasdai_annotations(1821:1844, data_version = 4.1, all_in_one = TRUE)
+create_hasdai_annotations(1729:1844, data_version = 4.1, all_in_one = FALSE)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))
 
 start <- Sys.time()
-create_hasdai_annotations(1729:1844, data_version = 4.1, all_in_one = FALSE)
+create_hasdai_annotations(1729:1790, data_version = 4.1, all_in_one = TRUE)
+create_hasdai_annotations(1791:1820, data_version = 4.1, all_in_one = TRUE)
+create_hasdai_annotations(1821:1844, data_version = 4.1, all_in_one = TRUE)
 message(sprintf("Took %s minutes", 
                 round(difftime(Sys.time(),start, units = "min"),2)))

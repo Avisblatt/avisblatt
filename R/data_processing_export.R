@@ -58,6 +58,23 @@ filter_empty_values <- function(x) {
   lapply(x, function(val) if (is.list(val)) filter_empty_values(val) else val)
 }
 
+# clean up fragment list (removing, NA; null, "")
+clean_fragments <- function(fragment_list) {
+  cleaned_frags <- lapply(fragment_list, function(frags) {
+    frags <- frags[!(frags == "" | is.na(frags) | is.null(frags))]
+    return(frags)
+  })
+  
+  # Combine the non-empty fragments into a character vector
+  combined_frags <- unlist(cleaned_frags)
+  
+  if (length(combined_frags) > 0) {
+    return(combined_frags)
+  } else {
+    return(NULL)
+  }
+}
+
 # Helper function for create_hasdai_annotations:
 # Transform a TSV record into JSON structure
 transform_record <- function(record, dataversion = NA) {
@@ -204,26 +221,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                                                              "fragment8", 
                                                              "fragment9", 
                                                              "fragment10")]
-
-    clean_fragments <- function(fragment_list) {
-      cleaned_frags <- lapply(fragment_list, function(frags) {
-        frags <- frags[!(frags == "" | is.na(frags))]
-        return(frags)
-      })
-      
-      # Combine the non-empty fragments into a character vector
-      combined_frags <- unlist(cleaned_frags)
-      
-      if (length(combined_frags) > 0) {
-        return(combined_frags)
-      } else {
-        return(NULL)
-      }
-    }
+    dt_c$fragment <- lapply(dt_c$fragment, clean_fragments)
     
     dt_c <- subset(dt_c, select = -c(rev, book, rnotes, expert_text, lang, fragment2, fragment3, fragment4, fragment5, fragment6, fragment7, fragment8, fragment9, fragment10))
     dt_c <- rename(dt_c, corrected = text, canvas = fragment1, is_header = isheader)
-    dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 51), "full/full/0/default.jpg")
+
+    # Turn
+    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990:BAU_1_000178572_1729_0007.tif/full/full/0/default.png
+    # into
+    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990/canvas/BAU_1_000178572_1729_0007.tif",
+    dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 65), "/canvas/", substr(dt_c$canvas, 67, 95))
     
     # get rawdata
     dt_r <- fread(file = paste0(path_rawdata, "orig_", i, ".csv"), encoding = "UTF-8")
