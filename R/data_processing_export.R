@@ -107,7 +107,8 @@ transform_record <- function(record, dataversion = NA) {
       title = as.character(record["source.title"]),
       issue = as.integer(record["source.issue"]),
       selector = list(
-        page = as.character(record["source.selector.page"]),
+        issue_page = as.character(record["source.selector.issue_page"]),
+        volume_page = as.character(record["source.selector.volume_page"]),
         readingorder = as.integer(record["source.selector.readingorder"]),
         canvas = as.character(record["source.selector.canvas"]),
         fragment = unlist(record["source.selector.fragment"])
@@ -226,11 +227,16 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt_c <- subset(dt_c, select = -c(rev, book, rnotes, expert_text, lang, fragment2, fragment3, fragment4, fragment5, fragment6, fragment7, fragment8, fragment9, fragment10))
     dt_c <- rename(dt_c, corrected = text, canvas = fragment1, is_header = isheader)
 
-    # Turn
-    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990:BAU_1_000178572_1729_0007.tif/full/full/0/default.png
-    # into
-    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990/canvas/BAU_1_000178572_1729_0007.tif",
-    dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 65), "/canvas/", substr(dt_c$canvas, 67, 95))
+    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990/canvas/BAU_1_000178572_1729_0007.tif
+    # dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 65), "/canvas/", substr(dt_c$canvas, 67, 95))
+    # or
+    # https://avisblatt.dg-basel.hasdai.org/api/iiif/record:3bk8p-4e990:BAU_1_000178572_1729_0019.tif/full/full/0/default.png,
+    if (i %in% c(1801, 1844)){
+      dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 97), "/full/full/0/default.png")
+    } else {
+      dt_c$canvas <- paste0(substr(dt_c$canvas, 1, 95), "/full/full/0/default.png")  
+    }
+    
     
     # get rawdata
     dt_r <- fread(file = paste0(path_rawdata, "orig_", i, ".csv"), encoding = "UTF-8")
@@ -253,12 +259,17 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt <- merge(dt, dt_s, by = "id", all = T)
     dt <- dt[order(issue, pageno, readingorder), ]
     dt[is_header == TRUE]$tags <- NA
-    
+
+    dt <- dt %>% 
+      group_by(issue) %>%  # Group the data by 'issue' column
+      mutate(issuepage = cumsum(c(1, diff(pageno) != 0)))  # Create 'issuepage' column using cumsum and diff functions
+    dt <- as.data.table(dt)
+
     colnames(dt) <- c("source.id", 
                       "transcription.corrected", 
                       "source.issue", 
                       "date.ref", 
-                      "source.selector.page", 
+                      "source.selector.volume_page", 
                       "source.selector.readingorder", 
                       "type.is_header",
                       "type.is_notice",
@@ -272,7 +283,8 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                       "entities.location", 
                       "type.is_reprint", 
                       "type.original", 
-                      "type.siblings")
+                      "type.siblings",
+                      "source.selector.issue_page")
     
     dt <- dt[type.id != ""] # remove leading record(s) without type.id, i.e.: records not placed under any header, like editor's poems
     dt$source.collection <- handles[year == i]$handle
@@ -302,7 +314,8 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                       "source.collection", 
                       "source.title", 
                       "source.issue", 
-                      "source.selector.page", 
+                      "source.selector.issue_page", 
+                      "source.selector.volume_page", 
                       "source.selector.readingorder", 
                       "source.selector.canvas", 
                       "source.selector.fragment"))
