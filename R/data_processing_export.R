@@ -88,13 +88,14 @@ transform_record <- function(record, dataversion = NA) {
     schema = "http://schemata.hasdai.org/historic-persons/historic-newspaper-snippet-v1.0.0.json",
     date = list(ref = as.Date(record$date.ref, origin = "1970-01-01")),
     transcription = filter_empty_values(list(
-      original = unlist(record["transcription.original"]),
+      original = if(length(record["transcription.original"]) > 0) unlist(record["transcription.original"]) else NULL,
       corrected = if(length(record["transcription.corrected"]) > 0) unlist(record["transcription.corrected"]) else NULL
     )),
     snippet_type = list(
       id = as.character(record["type.id"]),
       language = as.character(record["type.language"]),
-      is_reprint = as.logical(record["type.is_reprint"])
+      is_reprint = as.logical(record["type.is_reprint"]),
+      originality = as.character(record["type.originality"])# temp
     ),
     tags = if(record["tags.tags"] == "") NULL else list(
       tags = unlist(record["tags.tags"]),
@@ -166,9 +167,10 @@ transform_record <- function(record, dataversion = NA) {
   if (!(is.character(ts) && ts == "")) json$snippet_type$siblings = ts
   if (record["type.original"] != "") json$snippet_type$original = as.character(record["type.original"])
   json$snippet_type$additional_data = list(
-                                        is_header = as.logical(record["type.is_header"]),
+                                        is_header = as.logical(record["type.is_heading"]),
                                         is_advert = as.logical(record["type.is_advert"]),
-                                        is_notice = as.logical(record["type.is_notice"])
+                                        is_notice = as.logical(record["type.is_notice"]),
+                                        class = as.character(record["type.class"]) #temp
   )
   json$snippet_type$scheme = "http://schemata.hasdai.org/avisblatt_types.json"
 
@@ -248,7 +250,9 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt <- subset(dt, select = -c(inscribed, adcontent, adtype, finance, keyword, tags_section))
     
     
-    dt[corrected == original]$corrected <- NA
+    #dt[corrected == original]$corrected <- NA
+    # Turned this around for now, because we prefer to display corrected text where available, so "corrected" should always contain the 'right' text:
+    dt[corrected == original]$original <- NA
     
     dt_s <- siblings
     dt_s[lengths(siblings) == 0]$siblings <- ""
@@ -271,7 +275,7 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
                       "date.ref", 
                       "source.selector.volume_page", 
                       "source.selector.readingorder", 
-                      "type.is_header",
+                      "type.is_heading",
                       "type.is_notice",
                       "source.selector.canvas", 
                       "type.id", 
@@ -291,20 +295,31 @@ create_hasdai_annotations <- function(AVIS_YEARS = 1729:1844,
     dt$source.title <- handles[year == i]$title
     dt$type.is_advert <- TRUE
     dt[type.is_notice == TRUE]$type.is_advert <- FALSE
-    dt[type.is_header == TRUE]$type.is_advert <- FALSE
+    dt[type.is_heading == TRUE]$type.is_advert <- FALSE
+    
 
     dt[type.original == ""]$type.is_reprint <- FALSE # reminder: this modification of reprint status should also be reflected in the collections themselves...
     
+    # The following maybe just temporary, just to facilitate multiselection search form elements
+    dt$type.class <- "advert"
+    dt[type.is_notice == TRUE]$type.class <- "notice"
+    dt[type.is_heading == TRUE]$type.class <- "heading"
+    
+    dt$type.originality <- "original"
+    dt[type.is_reprint == TRUE]$type.originality <- "reprint"
+    # end 
     
     setcolorder(dt, c("date.ref",
                       "transcription.original", 
                       "transcription.corrected", 
                       "type.id", 
                       "type.language", 
+                      "type.originality",
                       "type.is_reprint",
                       "type.original", 
-                      "type.siblings", 
-                      "type.is_header", 
+                      "type.siblings",
+                      "type.class",
+                      "type.is_heading", 
                       "type.is_advert",
                       "type.is_notice",
                       "tags.tags", 
