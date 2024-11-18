@@ -45,7 +45,7 @@ terminal via ssh:
 
 
 ```
-git clone git@github.co0m:Avisblatt/avisdata.git
+git clone https://github.com/Avisblatt/avisdata.git
 ```
 
 or simply download the a zipfile from GitHub if you are not familiar with git. 
